@@ -5,23 +5,37 @@
 @section('content')
 
 <!-- HERO -->
-<header class="relative py-28 text-white text-center overflow-hidden">
+<header class="relative py-28 bg-white/20 text-white text-center overflow-hidden">
 
-    <!-- Background image -->
+    <!-- Background Slider -->
     <div class="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f" class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-blue-900/80"></div>
+
+        <!-- Slide 1 -->
+        <img src="https://i.pinimg.com/736x/3f/3e/e6/3f3ee63d36c5938d1744264288d3c1cd.jpg"
+            class="hero-slide absolute inset-0 w-full h-full object-cover active" />
+
+        <!-- Slide 2 -->
+        <img src="https://i.pinimg.com/1200x/e4/5f/a5/e45fa598385b82780c59d7fc382b709c.jpg"
+            class="hero-slide absolute inset-0 w-full h-full object-cover" />
+
+        <!-- Slide 3 -->
+        <img src="https://i.pinimg.com/1200x/91/92/ec/9192ec49cbcbc1edf414963da9361909.jpg"
+            class=" hero-slide absolute inset-0 w-full h-full object-cover" />
+
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-blue-950/75"></div>
     </div>
 
+    <!-- Content -->
     <div class="relative z-10 max-w-4xl mx-auto px-4">
 
         <!-- TITLE -->
-        <h2 class="text-4xl md:text-5xl font-extrabold mb-4">
+        <h2 class="text-white drop-shadow-lg text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
             Khám phá kho tri thức học tập
         </h2>
 
         <!-- SUBTITLE -->
-        <p class="text-blue-100 mb-10 text-lg opacity-90">
+        <p class="text-slate-200 mb-10 text-lg opacity-95">
             Tìm kiếm giáo trình, slide, đề thi và bài tập từ hàng nghìn môn học khác nhau.
         </p>
 
@@ -48,7 +62,7 @@
 
             <!-- Button -->
             <button
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 text-sm uppercase tracking-widest">
+                class="bg-blue-600 hover:bg-blue-700 transition text-white font-bold px-8 py-4 text-sm uppercase tracking-widest">
                 Tìm kiếm
             </button>
 
@@ -67,7 +81,36 @@
 
 </header>
 
+<!-- STYLE -->
+<style>
+.hero-slide {
+    opacity: 0;
+    transition: opacity 1.0s ease-in-out, transform 8s ease;
+    transform: scale(1.05);
+}
+
+.hero-slide.active {
+    opacity: 1;
+    transform: scale(1);
+}
+</style>
+
+<!-- SCRIPT -->
+<script>
+const slides = document.querySelectorAll('.hero-slide');
+let current = 0;
+
+setInterval(() => {
+    slides[current].classList.remove('active');
+
+    current = (current + 1) % slides.length;
+
+    slides[current].classList.add('active');
+}, 5000);
+</script>
+
 <main class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
+    <!-- Phần khách vãng lai -->
     @guest
     <div class="relative py-20 my-10 overflow-hidden rounded-[3rem] bg-slate-50 border border-slate-100 shadow-inner">
 
@@ -217,10 +260,10 @@
         </div>
     </div>
     @endguest
-
+    <!-- Phần Tài liệu sẽ chia quyền giảng viên và sinh viên -->
     @auth
     @if(auth()->user()->role_id !=1)
-    <!--DANH MỤC MÔN HỌC-->
+    <!--DANH MỤC MÔN HỌC (SINH VIÊN xem đc tất cả các file, giảng viên xem đc tất cả các file)-->
     <div class="mb-12 py-15 my-10">
         <div class="flex  items-center mb-6">
             <div
@@ -235,7 +278,7 @@
         </div>
 
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div
+            <a href="{{ route('subjects.show', ['id' => 1]) }}"
                 class="group bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer">
                 <div
                     class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -244,9 +287,9 @@
                 <h6 class="font-bold text-slate-800 mb-1 group-hover:text-blue-600 transition-colors">Lập trình Web
                 </h6>
                 <p class="text-xs text-slate-400 font-medium">120 tài liệu</p>
-            </div>
+            </a>
 
-            <div
+            <a
                 class="group bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer">
                 <div
                     class="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -255,9 +298,9 @@
                 <h6 class="font-bold text-slate-800 mb-1 group-hover:text-green-600 transition-colors">Cơ sở dữ liệu
                 </h6>
                 <p class="text-xs text-slate-400 font-medium">85 tài liệu</p>
-            </div>
+            </a>
 
-            <div
+            <a
                 class="group bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer">
                 <div
                     class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -266,9 +309,9 @@
                 <h6 class="font-bold text-slate-800 mb-1 group-hover:text-cyan-600 transition-colors">Mạng máy tính
                 </h6>
                 <p class="text-xs text-slate-400 font-medium">64 tài liệu</p>
-            </div>
+            </a>
 
-            <div
+            <a
                 class="group bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-center cursor-pointer">
                 <div
                     class="w-16 h-16 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -278,11 +321,11 @@
                     liệu
                 </h6>
                 <p class="text-xs text-slate-400 font-medium">150 tài liệu</p>
-            </div>
+            </a>
         </div>
     </div>
-    <!-- Phần Tài liệu sẽ chia quyền sinh viên -->
 
+    <!-- Phần Tài liệu sẽ chia quyền sinh viên -->
     @if(auth()->user()->role_id==3)
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <!--SV TÀI LIỆU MỚI NHẤT -->
