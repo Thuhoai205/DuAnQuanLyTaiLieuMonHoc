@@ -1,0 +1,42 @@
+<?php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+
+Route::get('/', function () {
+
+    if (!Auth::check()) {
+        return redirect()->route('home');
+    }
+
+    return match (Auth::user()->role_id) {
+        1 => redirect('/admin/dashboard'),
+        2, 3 => redirect()->route('home'),
+        default => redirect()->route('login')
+    };
+
+});
+Route::get('/home', function () {
+    return view('home');
+})->name('home');
+
+Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'postRegister'])->name('postRegister');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/subjects', function () {
+    return view('subjects.index');
+})->name('subjects.index');
+
+Route::get('/subjects/{id}', function ($id) {
+    return view('subjects.show', compact('id'));
+})->name('subjects.show');
+
+
+Route::get('/documents', function () {
+    return view('documents.index');
+})->name('documents.index');
