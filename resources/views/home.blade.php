@@ -40,34 +40,54 @@
         </p>
 
         <!-- SEARCH BOX -->
-        <div class="flex flex-col md:flex-row items-center bg-white rounded-2xl overflow-hidden shadow-2xl">
+        <form action="{{ route('documents.search') }}" method="GET" class="max-w-5xl mx-auto">
 
-            <!-- Input -->
-            <div class="flex items-center flex-1 px-4">
-                <i class="fas fa-search text-slate-400 mr-3"></i>
-                <input type="text" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
-                    class="w-full py-4 text-slate-800 outline-none text-sm">
+            <div class="bg-white rounded-full shadow-2xl border border-white/30 overflow-hidden flex items-center p-2">
+
+                <!-- Input -->
+                <div class="flex items-center flex-1 px-6">
+                    <i class="fas fa-search text-slate-400 mr-4 text-lg"></i>
+
+                    <input type="text" name="keyword" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
+                        class="w-full py-4 text-slate-700 placeholder-slate-400 bg-transparent outline-none text-sm font-medium">
+                </div>
+
+                <!-- RIGHT SIDE -->
+                <div class="flex items-center gap-2 pr-2">
+
+                    <!-- Divider -->
+                    <div class="hidden md:block w-px h-10 bg-slate-200"></div>
+
+                    <!-- Select -->
+                    <div class="flex items-center px-4">
+                        <i class="fas fa-book-open text-slate-400 mr-3 text-sm"></i>
+
+                        <select name="subject_id"
+                            class="bg-transparent text-slate-700 text-sm font-semibold border-none outline-none focus:ring-0 py-4 pr-8 cursor-pointer">
+
+                            <option value="">Tất cả môn học</option>
+                            <option value="1">Lập trình Web</option>
+                            <option value="2">Cơ sở dữ liệu</option>
+                            <option value="3">Mạng máy tính</option>
+
+                        </select>
+                    </div>
+
+
+                    <!-- BUTTON -->
+                    <button type="submit" class="w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-extrabold 
+    px-10 py-5 rounded-full transition-all duration-300 uppercase text-xs 
+    tracking-[0.2em] shadow-xl shadow-blue-600/30 hover:scale-[1.02] active:scale-95">
+
+                        TÌM KIẾM
+
+                    </button>
+
+                </div>
+
             </div>
 
-            <!-- Select -->
-            <div class="flex items-center px-4 bg-slate-50 border-l">
-                <i class="fas fa-book-open text-slate-400 mr-2"></i>
-                <select class="bg-transparent py-4 text-slate-600 text-sm outline-none cursor-pointer">
-                    <option>Tất cả môn học</option>
-                    <option>Lập trình Web</option>
-                    <option>Cơ sở dữ liệu</option>
-                    <option>Mạng máy tính</option>
-                </select>
-            </div>
-
-            <!-- Button -->
-            <button
-                class="bg-blue-600 hover:bg-blue-700 transition text-white font-bold px-8 py-4 text-sm uppercase tracking-widest">
-                Tìm kiếm
-            </button>
-
-        </div>
-
+        </form>
         <!-- TREND TAG -->
         <div class="mt-6 text-sm">
             <span class="opacity-70 mr-2">Xu hướng:</span>

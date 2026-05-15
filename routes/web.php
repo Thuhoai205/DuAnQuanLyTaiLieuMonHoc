@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
 
@@ -40,3 +41,10 @@ Route::get('/subjects/{id}', function ($id) {
 Route::get('/documents', function () {
     return view('documents.index');
 })->name('documents.index');
+
+
+Route::get('/search', function () {
+    return view('documents.search');
+})->name('documents.search');
+
+//Route::get('/search', [HomeController::class, 'search'])->name('documents.search');
