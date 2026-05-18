@@ -11,21 +11,36 @@ return new class extends Migration
      */
     public function up(): void
     {
-        
         Schema::create('users', function (Blueprint $table) {
-    $table->id('user_id');
-    $table->string('username', 50)->unique();
-    $table->string('password', 255);
-    $table->string('full_name', 100)->nullable();
-    $table->string('email', 100)->unique()->nullable();
-    $table->text('avatar')->nullable();
-    $table->foreignId('role_id')->constrained('roles', 'role_id');
-    $table->boolean('is_active')->default(true);
-    
-    // Xóa dòng này: $table->timestamp('created_at')->useCurrent(); 
-    
-    $table->timestamps(); // Lệnh này đã bao gồm cả created_at và updated_at rồi
-});
+
+            // Khóa chính
+            $table->id('user_id');
+
+            // Thông tin tài khoản
+            $table->string('username', 50)->unique();
+            $table->string('password');
+
+            // Thông tin cá nhân
+            $table->string('full_name', 100)->nullable();
+            $table->string('email', 100)->unique()->nullable();
+
+            // Ảnh đại diện
+            $table->text('avatar')->nullable();
+
+            // Vai trò
+            $table->foreignId('role_id')
+                ->constrained('roles', 'role_id')
+                ->onDelete('cascade');
+
+            // Trạng thái hoạt động
+            $table->boolean('is_active')->default(true);
+
+            // Ghi nhớ đăng nhập
+            $table->rememberToken();
+
+            // created_at + updated_at
+            $table->timestamps();
+        });
     }
 
     /**

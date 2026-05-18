@@ -13,7 +13,7 @@ return new class extends Migration
             // user_id tham chiếu đến users(user_id)
             $table->foreignId('user_id')->constrained('users', 'user_id')->cascadeOnDelete();
             // tai_lieu_id tham chiếu đến tai_lieu(tai_lieu_id)
-            $table->foreignId('tai_lieu_id')->constrained('tai_lieu', 'tai_lieu_id')->cascadeOnDelete();
+            $table->foreignId('tai_lieu_id')->constrained('tai_lieus', 'tai_lieu_id')->cascadeOnDelete();
             $table->timestamp('ngay_tai')->useCurrent();
         });
     }

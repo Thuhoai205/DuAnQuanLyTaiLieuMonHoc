@@ -3,28 +3,58 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class MonHoc extends Model
 {
-    protected $table = 'mon_hoc';
-    
-    // Khai báo khóa chính tùy chỉnh
+    protected $table = 'mon_hocs';
+
     protected $primaryKey = 'ma_mon';
 
-    // Bảng này không dùng timestamps (created_at/updated_at) trong migration của bạn
-    public $timestamps = false;
+    public $incrementing = false;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
+        'ma_mon',
         'ten_mon',
         'mo_ta',
-        'is_active'
+        'slug', 
     ];
 
     /**
-     * Quan hệ: Một môn học có nhiều tài liệu
+     * MÔN HỌC CÓ NHIỀU TÀI LIỆU
      */
     public function taiLieus()
     {
-        return $this->hasMany(TaiLieu::class, 'ma_mon', 'ma_mon');
+        return $this->hasMany(
+            TaiLieu::class,
+            'ma_mon',
+            'ma_mon'
+        );
     }
+
+    /**
+     * MÔN HỌC CÓ NHIỀU GIẢNG VIÊN
+     */
+    public function giangViens()
+    {
+        return $this->belongsToMany(
+            User::class,
+            'mon_hoc_giang_vien',
+            'ma_mon',
+            'user_id',
+            'ma_mon',
+            'user_id'
+        );
+    }
+
+protected static function boot()
+{
+    parent::boot();
+
+    static::creating(function ($model) {
+        $model->slug = Str::slug($model->ten_mon);
+    });
+}
 }

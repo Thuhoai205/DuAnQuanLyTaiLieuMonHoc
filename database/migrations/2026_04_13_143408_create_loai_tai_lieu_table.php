@@ -11,10 +11,40 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('loai_tai_lieu', function (Blueprint $table) {
-            $table->id('loai_id'); // khóa chính (theo ERD)
+        Schema::create('loai_tai_lieus', function (Blueprint $table) {
 
-            $table->string('ten_loai'); // tên loại (Slide, Bài tập, Đề thi...)
+            // PRIMARY KEY
+            $table->id('loai_id');
+
+            /*
+            |--------------------------------------------------------------------------
+            | THÔNG TIN LOẠI TÀI LIỆU
+            |--------------------------------------------------------------------------
+            */
+
+            // Tên loại
+            // VD: Slide bài giảng, Đề thi, Bài tập...
+            $table->string('ten_loai', 100);
+
+            // Mô tả
+            $table->text('mo_ta')->nullable();
+
+            // Icon frontend
+            // VD: fa-file-pdf
+            $table->string('icon')->nullable();
+
+            // Màu badge UI
+            // VD: blue / red / amber
+            $table->string('color', 30)->default('blue');
+
+            // Trạng thái
+            $table->boolean('is_active')->default(true);
+
+            /*
+            |--------------------------------------------------------------------------
+            | TIMESTAMPS
+            |--------------------------------------------------------------------------
+            */
 
             $table->timestamps();
         });
@@ -25,6 +55,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('loai_tai_lieu');
+        Schema::dropIfExists('loai_tai_lieus');
     }
 };

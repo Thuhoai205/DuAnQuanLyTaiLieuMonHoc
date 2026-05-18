@@ -3,16 +3,42 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use App\Models\MonHoc;
 
 class MonHocSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('mon_hoc')->insert([
-            ['ten_mon' => 'Lập trình PHP', 'mo_ta' => 'Học về ngôn ngữ PHP và Laravel Framework'],
-            ['ten_mon' => 'Cơ sở dữ liệu', 'mo_ta' => 'Thiết kế và quản trị SQL Server'],
-            ['ten_mon' => 'Lập trình di động', 'mo_ta' => 'Phát triển ứng dụng Android/iOS'],
+        MonHoc::insert([
+
+            [
+                'ma_mon' => 'WEB101',
+                'ten_mon' => 'Lập trình Web',
+                'mo_ta' => 'Môn học về phát triển website',
+                'slug' => Str::slug('Lập trình Web'),
+            ],
+
+            [
+                'ma_mon' => 'CTDL',
+                'ten_mon' => 'Cấu trúc dữ liệu',
+                'mo_ta' => 'Môn học về giải thuật và cấu trúc dữ liệu',
+                'slug' => Str::slug('Cấu trúc dữ liệu'),
+            ],
+
+            [
+                'ma_mon' => 'CSDL',
+                'ten_mon' => 'Cơ sở dữ liệu',
+                'mo_ta' => 'Môn học về SQL Server và quản trị dữ liệu',
+                'slug' => Str::slug('Cơ sở dữ liệu'),
+            ],
+
+            [
+                'ma_mon' => 'JAVA101',
+                'ten_mon' => 'Lập trình Java',
+                'mo_ta' => 'Môn học Java căn bản',
+                'slug' => Str::slug('Lập trình Java'),
+            ],
         ]);
     }
 }

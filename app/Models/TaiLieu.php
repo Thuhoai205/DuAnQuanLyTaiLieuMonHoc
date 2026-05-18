@@ -3,28 +3,75 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MonHoc;
+use App\Models\LoaiTaiLieu;
+use App\Models\User;
 
 class TaiLieu extends Model
 {
-    protected $table = 'tai_lieu';
+    protected $table = 'tai_lieus';
+
     protected $primaryKey = 'tai_lieu_id';
-    const CREATED_AT = 'ngay_upload'; // Ánh xạ cột của bạn vào Laravel
-    const UPDATED_AT = 'ngay_cap_nhat';
+
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
-        'ten_tai_lieu', 'file_path', 'kich_thuoc', 'dinh_dang', 
-        'ma_mon', 'loai_id', 'nguoi_upload', 'mo_ta', 'trang_thai'
+        'tieu_de',
+        'ten_file',
+        'duong_dan',
+        'kich_thuoc',
+        'luot_tai',
+        'ma_mon',
+        'loai_id',
+        'nguoi_upload',
+        'mo_ta',
     ];
 
-    public function monHoc() {
-        return $this->belongsTo(MonHoc::class, 'ma_mon', 'ma_mon');
+    protected $casts = [
+        'luot_tai' => 'integer',
+        'kich_thuoc' => 'integer',
+    ];
+
+    /*
+    |---------------------------------------
+    | MÔN HỌC
+    |---------------------------------------
+    */
+    public function monHoc()
+    {
+        return $this->belongsTo(
+            MonHoc::class,
+            'ma_mon',
+            'ma_mon'
+        );
     }
 
-    public function loaiTaiLieu() {
-        return $this->belongsTo(LoaiTaiLieu::class, 'loai_id', 'loai_id');
+    /*
+    |---------------------------------------
+    | LOẠI TÀI LIỆU
+    |---------------------------------------
+    */
+    public function loaiTaiLieu()
+    {
+        return $this->belongsTo(
+            LoaiTaiLieu::class,
+            'loai_id',
+            'loai_id'
+        );
     }
 
-    public function nguoiDang() {
-        return $this->belongsTo(User::class, 'nguoi_upload', 'user_id');
+    /*
+    |---------------------------------------
+    | NGƯỜI UPLOAD
+    |---------------------------------------
+    */
+    public function nguoiUpload()
+    {
+        return $this->belongsTo(
+            User::class,
+            'nguoi_upload',
+            'user_id'
+        );
     }
 }

@@ -6,23 +6,24 @@ use Illuminate\Database\Eloquent\Model;
 
 class LoaiTaiLieu extends Model
 {
-    protected $table = 'loai_tai_lieu';
-    
-    // Khai báo khóa chính vì bạn đặt là loai_id
+    protected $table = 'loai_tai_lieus';
+
     protected $primaryKey = 'loai_id';
 
-    // Bảng này bạn CÓ dùng $table->timestamps() trong migration
-    public $timestamps = true;
-
     protected $fillable = [
-        'ten_loai'
+        'ten_loai',
+        'mo_ta',
     ];
 
     /**
-     * Quan hệ: Một loại có nhiều tài liệu
+     * LOẠI TÀI LIỆU CÓ NHIỀU TÀI LIỆU
      */
     public function taiLieus()
     {
-        return $this->hasMany(TaiLieu::class, 'loai_id', 'loai_id');
+        return $this->hasMany(
+            TaiLieu::class,
+            'loai_id',
+            'loai_id'
+        );
     }
 }

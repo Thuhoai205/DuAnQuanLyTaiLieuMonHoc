@@ -3,53 +3,61 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\TaiLieu;
 
 class TaiLieuSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // 1. Lấy danh sách ID để đảm bảo có dữ liệu cha
-        $maMonIds = DB::table('mon_hoc')->pluck('ma_mon')->toArray();
-        $loaiIds = DB::table('loai_tai_lieu')->pluck('loai_id')->toArray();
-        $userIds = DB::table('users')->pluck('user_id')->toArray();
+        TaiLieu::insert([
 
-        // 2. Kiểm tra nếu các bảng cha có dữ liệu thì mới tiến hành seed
-        if (!empty($maMonIds) && !empty($loaiIds) && !empty($userIds)) {
-            DB::table('tai_lieu')->insert([
-                [
-                    'ten_tai_lieu' => 'Slide chương 1: Nhập môn lập trình',
-                    'file_path' => 'uploads/tai-lieu/slide-c1.pdf',
-                    'kich_thuoc' => 1024, // 1MB
-                    'dinh_dang' => 'pdf',
-                    'ma_mon' => $maMonIds[0], 
-                    'loai_id' => $loaiIds[0], // Giả sử là Slide
-                    'nguoi_upload' => $userIds[0], 
-                    'ngay_upload' => now(),
-                    'luot_tai' => 10,
-                    'mo_ta' => 'Tài liệu hướng dẫn cơ bản cho người mới bắt đầu.',
-                    'trang_thai' => 1
-                ],
-                [
-                    'ten_tai_lieu' => 'Đề thi mẫu kỳ 1 - Năm 2024',
-                    'file_path' => 'uploads/tai-lieu/de-thi-mau.docx',
-                    'kich_thuoc' => 512,
-                    'dinh_dang' => 'docx',
-                    'ma_mon' => $maMonIds[0], 
-                    'loai_id' => $loaiIds[2] ?? $loaiIds[0], // Giả sử là Đề thi mẫu
-                    'nguoi_upload' => $userIds[1] ?? $userIds[0], 
-                    'ngay_upload' => now(),
-                    'luot_tai' => 5,
-                    'mo_ta' => 'Đề thi tham khảo cho sinh viên khóa 15.',
-                    'trang_thai' => 1
-                ],
-            ]);
-        } else {
-            // Thông báo nếu thiếu dữ liệu cha
-            $this->command->warn('TaiLieuSeeder: Chua co du lieu trong bang MonHoc, LoaiTaiLieu hoac Users!');
-        }
+            [
+                'tieu_de' => 'Slide HTML CSS',
+                'ten_file' => 'html_css.pdf',
+                'duong_dan' => 'documents/html_css.pdf',
+                'kich_thuoc' => 2048000,
+                'luot_tai' => 120,
+                'ma_mon' => 'WEB101',
+                'loai_id' => 1,
+                'nguoi_upload' => 2,
+                'mo_ta' => 'Slide HTML CSS căn bản',
+            ],
+
+            [
+                'tieu_de' => 'Đề cương Web',
+                'ten_file' => 'de_cuong_web.pdf',
+                'duong_dan' => 'documents/de_cuong_web.pdf',
+                'kich_thuoc' => 1024000,
+                'luot_tai' => 95,
+                'ma_mon' => 'WEB101',
+                'loai_id' => 2,
+                'nguoi_upload' => 2,
+                'mo_ta' => 'Đề cương môn lập trình web',
+            ],
+
+            [
+                'tieu_de' => 'Bài tập Linked List',
+                'ten_file' => 'linked_list.docx',
+                'duong_dan' => 'documents/linked_list.docx',
+                'kich_thuoc' => 500000,
+                'luot_tai' => 60,
+                'ma_mon' => 'CTDL',
+                'loai_id' => 3,
+                'nguoi_upload' => 3,
+                'mo_ta' => 'Bài tập linked list',
+            ],
+
+            [
+                'tieu_de' => 'Đề thi SQL Server',
+                'ten_file' => 'de_thi_sql.pdf',
+                'duong_dan' => 'documents/de_thi_sql.pdf',
+                'kich_thuoc' => 1500000,
+                'luot_tai' => 210,
+                'ma_mon' => 'CSDL',
+                'loai_id' => 4,
+                'nguoi_upload' => 2,
+                'mo_ta' => 'Đề thi SQL Server tham khảo',
+            ],
+        ]);
     }
 }

@@ -17,4 +17,11 @@ class Role extends Model
 
     // 4. Tắt Timestamps (Vì migration của bạn không có $table->timestamps())
     public $timestamps = false;
+    /**
+ * Một user upload nhiều tài liệu
+ */
+public function taiLieus()
+{
+    return $this->hasMany(TaiLieu::class, 'nguoi_upload', 'user_id');
+}
 }
