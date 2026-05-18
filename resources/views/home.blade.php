@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- HERO -->
-<header class="relative py-28 bg-white/20 text-white text-center overflow-hidden">
+<header class="relative py-20 lg:py-20 text-white text-center overflow-hidden">
 
     <!-- Background Slider -->
     <div class="absolute inset-0">
@@ -20,50 +20,73 @@
 
         <!-- Slide 3 -->
         <img src="https://i.pinimg.com/1200x/91/92/ec/9192ec49cbcbc1edf414963da9361909.jpg"
-            class=" hero-slide absolute inset-0 w-full h-full object-cover" />
+            class="hero-slide absolute inset-0 w-full h-full object-cover" />
 
         <!-- Overlay -->
-        <div class="absolute inset-0 bg-blue-950/75"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-blue-950/90 via-blue-950/80 to-slate-950/90"></div>
+
     </div>
 
-    <!-- Content -->
-    <div class="relative z-10 max-w-4xl mx-auto px-4">
+    <!-- CONTENT -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
+
+        <!-- BADGE -->
+        <div
+            class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl mb-8">
+
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+
+            <span class="text-sm font-semibold text-white/90 tracking-wide">
+                Hệ thống quản lý tài liệu học tập
+            </span>
+
+        </div>
 
         <!-- TITLE -->
-        <h2 class="text-white drop-shadow-lg text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-            Khám phá kho tri thức học tập
-        </h2>
+        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight drop-shadow-2xl mb-6">
+
+            Khám phá kho
+            <span class="text-blue-400">tri thức</span>
+            học tập
+
+        </h1>
 
         <!-- SUBTITLE -->
-        <p class="text-slate-200 mb-10 text-lg opacity-95">
-            Tìm kiếm giáo trình, slide, đề thi và bài tập từ hàng nghìn môn học khác nhau.
+        <p class="max-w-3xl mx-auto text-slate-200 text-lg lg:text-xl leading-relaxed mb-12 font-medium">
+
+            Tìm kiếm giáo trình, slide bài giảng, đề thi và tài liệu học tập chất lượng
+            dành cho sinh viên và giảng viên.
+
         </p>
 
-        <!-- SEARCH BOX -->
-        <form action="{{ route('documents.search') }}" method="GET" class="max-w-5xl mx-auto">
+        <!-- SEARCH -->
+        <form action="{{ route('documents.search') }}" method="GET" class="max-w-6xl mx-auto">
 
-            <div class="bg-white rounded-full shadow-2xl border border-white/30 overflow-hidden flex items-center p-2">
+            <div
+                class="bg-white/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_25px_80px_-15px_rgba(0,0,0,0.35)] border border-white/40 overflow-hidden p-3">
 
-                <!-- Input -->
-                <div class="flex items-center flex-1 px-6">
-                    <i class="fas fa-search text-slate-400 mr-4 text-lg"></i>
+                <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
 
-                    <input type="text" name="keyword" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
-                        class="w-full py-4 text-slate-700 placeholder-slate-400 bg-transparent outline-none text-sm font-medium">
-                </div>
+                    <!-- INPUT -->
+                    <div class="flex items-center flex-1 px-4 lg:px-6">
 
-                <!-- RIGHT SIDE -->
-                <div class="flex items-center gap-2 pr-2">
+                        <i class="fas fa-search text-slate-400 text-lg mr-4"></i>
 
-                    <!-- Divider -->
-                    <div class="hidden md:block w-px h-10 bg-slate-200"></div>
+                        <input type="text" name="keyword" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
+                            class="w-full py-4 bg-transparent outline-none text-slate-700 placeholder-slate-400 font-medium text-sm lg:text-base">
 
-                    <!-- Select -->
-                    <div class="flex items-center px-4">
-                        <i class="fas fa-book-open text-slate-400 mr-3 text-sm"></i>
+                    </div>
+
+                    <!-- DIVIDER -->
+                    <div class="hidden lg:block w-px h-12 bg-slate-200"></div>
+
+                    <!-- SELECT -->
+                    <div class="flex items-center px-4 lg:px-2">
+
+                        <i class="fas fa-book-open text-slate-400 mr-3"></i>
 
                         <select name="subject_id"
-                            class="bg-transparent text-slate-700 text-sm font-semibold border-none outline-none focus:ring-0 py-4 pr-8 cursor-pointer">
+                            class="bg-transparent text-slate-700 font-semibold border-none outline-none focus:ring-0 py-4 pr-8 cursor-pointer text-sm">
 
                             <option value="">Tất cả môn học</option>
                             <option value="1">Lập trình Web</option>
@@ -71,13 +94,11 @@
                             <option value="3">Mạng máy tính</option>
 
                         </select>
+
                     </div>
 
-
-                    <!-- BUTTON -->
-                    <button type="submit" class="w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-extrabold 
-    px-10 py-5 rounded-full transition-all duration-300 uppercase text-xs 
-    tracking-[0.2em] shadow-xl shadow-blue-600/30 hover:scale-[1.02] active:scale-95">
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-5 rounded-full transition-all duration-300 uppercase text-xs tracking-[0.2em] shadow-xl shadow-blue-600/30 hover:scale-[1.02] active:scale-95 whitespace-nowrap">
 
                         TÌM KIẾM
 
@@ -88,13 +109,29 @@
             </div>
 
         </form>
-        <!-- TREND TAG -->
-        <div class="mt-6 text-sm">
-            <span class="opacity-70 mr-2">Xu hướng:</span>
 
-            <span class="bg-white/20 px-3 py-1 rounded-full text-xs mr-2">#ASP.NETCore</span>
-            <span class="bg-white/20 px-3 py-1 rounded-full text-xs mr-2">#ĐềThiWeb</span>
-            <span class="bg-white/20 px-3 py-1 rounded-full text-xs">#SQLServer</span>
+        <!-- TAGS -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+
+            <span class="text-sm text-white/70 font-medium">
+                Xu hướng:
+            </span>
+
+            <span
+                class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-semibold backdrop-blur-md">
+                #ASP.NETCore
+            </span>
+
+            <span
+                class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-semibold backdrop-blur-md">
+                #ĐềThiWeb
+            </span>
+
+            <span
+                class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-semibold backdrop-blur-md">
+                #SQLServer
+            </span>
+
         </div>
 
     </div>
@@ -105,7 +142,7 @@
 <style>
 .hero-slide {
     opacity: 0;
-    transition: opacity 1.0s ease-in-out, transform 8s ease;
+    transition: opacity 1s ease-in-out, transform 8s ease;
     transform: scale(1.05);
 }
 
@@ -118,18 +155,23 @@
 <!-- SCRIPT -->
 <script>
 const slides = document.querySelectorAll('.hero-slide');
+
 let current = 0;
 
 setInterval(() => {
+
     slides[current].classList.remove('active');
 
     current = (current + 1) % slides.length;
 
     slides[current].classList.add('active');
+
 }, 5000);
 </script>
 
+
 <main class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
+
     <!-- Phần khách vãng lai -->
     @guest
     <div class="relative py-20 my-10 overflow-hidden rounded-[3rem] bg-slate-50 border border-slate-100 shadow-inner">
@@ -344,7 +386,7 @@ setInterval(() => {
             </a>
         </div>
     </div>
-
+    @endif
     <!-- Phần Tài liệu sẽ chia quyền sinh viên -->
     @if(auth()->user()->role_id==3)
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -453,7 +495,7 @@ setInterval(() => {
                 </div>
 
                 <div class="p-4 bg-slate-50/50 border-t border-slate-100 text-center">
-                    <a href="{{ route('documents.index') }}"
+                    <a href="{{ route('documents.latest') }}"
                         class="text-blue-600 font-bold text-sm hover:text-blue-700 flex items-center justify-center gap-2">
                         Xem thêm tài liệu <i class="fas fa-arrow-down animate-bounce"></i>
                     </a>
@@ -677,9 +719,7 @@ setInterval(() => {
         </div>
     </div>
     @endif
-    @endif
+
     @endauth
-
-
 </main>
 @endsection

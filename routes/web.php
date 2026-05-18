@@ -42,9 +42,28 @@ Route::get('/documents', function () {
     return view('documents.index');
 })->name('documents.index');
 
+Route::get('/documents/latest', function () {
+    return view('documents.latest');
+})->name('documents.latest');
 
 Route::get('/search', function () {
     return view('documents.search');
 })->name('documents.search');
 
 //Route::get('/search', [HomeController::class, 'search'])->name('documents.search');
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/profile', [AuthController::class, 'profile'])
+        ->name('profile');
+
+    Route::put('/profile/update', [AuthController::class, 'updateProfile'])
+        ->name('profile.update');
+
+    Route::put('/profile/password', [AuthController::class, 'updatePassword'])
+        ->name('profile.password');
+
+    Route::post('/profile/avatar', [AuthController::class, 'updateAvatar'])
+        ->name('profile.update.avatar');
+});

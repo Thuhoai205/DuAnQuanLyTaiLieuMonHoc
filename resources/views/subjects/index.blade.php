@@ -4,218 +4,339 @@
 
 @section('content')
 
-<!-- HERO -->
-<header class="relative py-28 text-white text-center overflow-hidden">
+<!-- BACKGROUND -->
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
 
-    <!-- Background image -->
-    <div class="absolute inset-0">
-        <img src="https://cdn-media.sforum.vn/storage/app/media/giakhanh/h%C3%ACnh%20n%E1%BB%81n%20powerpoint%20ch%E1%BB%A7%20%C4%91%E1%BB%81%20gi%C3%A1o%20d%E1%BB%A5c/hinh-nen-powerpoint-chu-de-giao-duc-22.jpg"
-            class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-blue-900/80"></div>
+    <div
+        class="absolute top-[-5%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[130px] animate-[pulse_7s_infinite]">
     </div>
 
-    <div class="relative z-10 max-w-4xl mx-auto px-4">
-
-        <!-- TITLE -->
-        <h2 class="text-4xl md:text-5xl font-extrabold mb-4">
-            Môn học không khó, vì đã có chúng tôi.
-        </h2>
-
-        <!-- SUBTITLE -->
-        <p class="text-blue-100 mb-10 text-lg opacity-90">
-            Tìm kiếm giáo trình, slide, đề thi và bài tập từ hàng nghìn môn học khác nhau.
-        </p>
-
-        <!-- SEARCH BOX -->
-        <div class="flex flex-col md:flex-row items-center bg-white rounded-2xl overflow-hidden shadow-2xl">
-
-            <!-- Input -->
-            <div class="flex items-center flex-1 px-4">
-                <i class="fas fa-search text-slate-400 mr-3"></i>
-                <input type="text" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
-                    class="w-full py-4 text-slate-800 outline-none text-sm">
-            </div>
-
-
-
-            <!-- Button -->
-            <button
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 text-sm uppercase tracking-widest">
-                Tìm kiếm
-            </button>
-        </div>
+    <div
+        class="absolute bottom-[15%] right-[-5%] w-[500px] h-[500px] rounded-full bg-cyan-500/5 blur-[120px] animate-[pulse_9s_infinite]">
     </div>
 
-</header>
+</div>
 
-<main class="max-w-7xl mx-auto px-6 lg:px-8 py-20">
-    <!-- Mục tìm kiếm -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+<!-- MAIN -->
+<main class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-14">
+
+    <!-- BACK BUTTON -->
+    <div class="mb-10">
+
+        <a href="javascript:history.back()"
+            class="group inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-slate-100 text-slate-600 hover:text-orange-500 font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-orange-500/20 hover:-translate-x-1 hover:border-orange-200 transition-all duration-300 active:scale-95">
+
+            <i
+                class="fas fa-arrow-left text-slate-400 group-hover:text-orange-500 transition-all duration-300 group-hover:-translate-x-0.5">
+            </i>
+
+            <span class="group-hover:text-orange-500 transition-colors duration-300">
+                Quay lại
+            </span>
+
+        </a>
+
+    </div>
+
+    <!-- HEADER -->
+    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-12 pb-8 border-b border-slate-100">
+
+        <!-- LEFT -->
         <div>
-            <div class="flex  items-center mb-3">
+
+            <div class="flex items-center mb-3">
+
                 <div
-                    class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white mr-3 shadow-lg shadow-blue-200">
+                    class="w-11 h-11 bg-blue-600 rounded-full flex items-center justify-center text-white mr-4 shadow-lg shadow-blue-200">
+
                     <i class="fas fa-layer-group"></i>
+
                 </div>
-                <h4 class="text-2xl font-extrabold text-slate-800">Danh mục Môn học</h4>
+
+                <h1 class="text-3xl font-black text-slate-800 tracking-tight">
+                    Danh mục Môn học
+                </h1>
 
             </div>
 
-            <p class="text-slate-500 font-medium text-lg md:text-left">Quản lý và cập nhật học liệu cho
-                các
-                chuyên ngành phụ trách.</p>
+            <p class="text-slate-400 font-medium text-sm pl-[60px] max-w-2xl leading-relaxed">
+                Quản lý và truy cập kho học liệu theo từng môn học, chuyên ngành và lĩnh vực đào tạo.
+            </p>
+
         </div>
 
-        <div class="flex flex-col sm:flex-row items-center gap-4">
-            <div class="relative w-72">
-                <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm theo tên..." class=" text-center w-full pl-11 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl 
-               text-sm font-medium text-slate-700
-               shadow-sm
-               focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500
-               transition-all duration-200">
+        <!-- RIGHT -->
+        <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
 
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 
-              text-slate-400 text-sm transition-colors duration-200"></i>
+            <!-- SEARCH -->
+            <div class="relative w-full lg:w-72">
+
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+
+                <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm theo tên môn..."
+                    class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all">
+
             </div>
-            <div class="inline-flex p-1.5 bg-slate-100 rounded-2xl border border-slate-200">
+
+            <!-- FILTER TAB -->
+            @auth
+            @if(auth()->user()->role_id == 2)
+
+            <div class="inline-flex p-1 bg-slate-100 border border-slate-200 rounded-2xl text-sm font-bold">
+
                 <button onclick="filterSubjects('assigned', this)"
-                    class="tab-btn px-6 py-2.5 rounded-xl bg-white text-blue-600 font-bold shadow-sm transition-all duration-300 text-sm">
-                    Phụ trách (2)
+                    class="tab-btn px-6 py-3 rounded-xl bg-white text-blue-600 shadow-sm transition-all duration-300">
+
+                    Phụ trách (1)
+
                 </button>
+
                 <button onclick="filterSubjects('all', this)"
-                    class="tab-btn px-6 py-2.5 rounded-xl text-slate-500 font-bold hover:text-slate-700 transition-all duration-300 text-sm">
-                    Tất cả (12)
+                    class="tab-btn px-6 py-3 rounded-xl text-slate-500 hover:text-slate-800 transition-all duration-300">
+
+                    Tất cả (2)
+
                 </button>
+
             </div>
 
+            @endif
+            @endauth
 
-        </div>
-    </div>
-
-    <!-- Grid môn học -->
-    <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
-
-        <div
-            class="subject-card assigned group relative bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-20px_rgba(59,130,246,0.2)] hover:-translate-y-3 transition-all duration-500 cursor-pointer overflow-hidden">
-            <div
-                class="absolute -top-12 -right-12 w-32 h-32 bg-blue-50 rounded-full group-hover:bg-blue-100 transition-colors">
-            </div>
-            <div class="p-10 relative z-10">
-                <div
-                    class="w-20 h-20 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 rounded-3xl flex items-center justify-center mb-8 shadow-inner transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                    <i class="fas fa-laptop-code text-3xl"></i>
-                </div>
-                <h3
-                    class="subject-title text-2xl font-black text-slate-800 mb-3 leading-tight group-hover:text-blue-600 transition-colors">
-                    Lập trình Web</h3>
-                <p class="text-slate-500 text-[15px] mb-8 leading-relaxed font-medium">Làm chủ các Framework hiện
-                    đại
-                    nhất như Laravel, ReactJS...</p>
-                <div class="flex items-center justify-between pt-8 border-t border-slate-50">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Bài đã
-                            đăng</span>
-                        <div class="flex items-center"><span
-                                class="text-2xl font-black text-slate-800 mr-1.5">10/20</span><span
-                                class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-md">FILES</span>
-                        </div>
-                    </div>
-                    <a href="{{ route('subjects.show', ['id' => 1]) }}" class="w-14 h-14 bg-slate-900 group-hover:bg-blue-600 text-white rounded-2xl 
-          flex items-center justify-center 
-          transition-all duration-300 
-          hover:scale-105 active:scale-95">
-
-                        <i class="fas fa-arrow-right text-sm"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-
-
-        <div
-            class="subject-card group relative bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_50px_-20px_rgba(249,115,22,0.2)] hover:-translate-y-3 transition-all duration-500 cursor-pointer overflow-hidden">
-            <div
-                class="absolute -top-12 -right-12 w-32 h-32 bg-orange-50 rounded-full group-hover:bg-orange-100 transition-colors">
-            </div>
-            <div class="p-10 relative z-10">
-                <div
-                    class="w-20 h-20 bg-gradient-to-br from-orange-50 to-orange-100 text-orange-600 rounded-3xl flex items-center justify-center mb-8 shadow-inner transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                    <i class="fas fa-network-wired text-3xl"></i>
-                </div>
-                <h3
-                    class="subject-title text-2xl font-black text-slate-800 mb-3 leading-tight group-hover:text-orange-600 transition-colors">
-                    Mạng máy tính</h3>
-                <p class="text-slate-500 text-[15px] mb-8 leading-relaxed font-medium">Tìm hiểu kiến trúc mạng, các
-                    tầng
-                    giao thức TCP/IP...</p>
-                <div class="flex items-center justify-between pt-8 border-t border-slate-50">
-                    <div class="flex flex-col">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Số
-                            lượng</span>
-                        <div class="flex items-center"><span
-                                class="text-2xl font-black text-slate-800 mr-1.5">42</span><span
-                                class="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-md">FILES</span>
-                        </div>
-                    </div>
-                    <div
-                        class="w-14 h-14 bg-slate-900 group-hover:bg-orange-600 text-white rounded-2xl flex items-center justify-center transition-all duration-500">
-                        <i class="fas fa-arrow-right"></i>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
+
+    <!-- GRID -->
+    <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+
+        <!-- CARD -->
+        <div
+            class="subject-card assigned group relative bg-white rounded-[2.2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_24px_60px_-15px_rgba(59,130,246,0.12)] hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between overflow-hidden">
+
+            <!-- DECOR -->
+            <div
+                class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-blue-50 to-cyan-50/50 rounded-full group-hover:scale-125 transition-transform duration-700 ease-out">
+            </div>
+
+            <!-- STATUS -->
+            <div class="absolute top-6 right-6 flex h-2 w-2">
+
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75">
+                </span>
+
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+
+            </div>
+
+            <!-- BODY -->
+            <div class="p-8 relative z-10">
+
+                <div
+                    class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-[inset_0_2px_8px_rgba(59,130,246,0.06)] group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+
+                    <i class="fas fa-laptop-code text-2xl"></i>
+
+                </div>
+
+                <div class="space-y-3">
+
+                    <h3
+                        class="subject-title text-2xl font-black text-slate-900 group-hover:text-blue-600 transition-colors duration-300">
+
+                        Lập trình Web
+
+                    </h3>
+
+                    <p class="text-slate-400 text-sm leading-relaxed font-medium">
+                        Làm chủ Laravel, ReactJS, ASP.NET Core và các công nghệ phát triển Web hiện đại.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="px-8 py-6 border-t border-slate-100 relative z-10 flex items-center justify-between">
+
+                <div>
+
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                        Bài đã đăng
+                    </span>
+
+                    <div class="flex items-end gap-2 mt-1">
+
+                        <span class="text-2xl font-black text-slate-800">
+                            10/20
+                        </span>
+
+                        <span class="text-[10px] font-extrabold text-amber-600 bg-amber-50 px-2 py-1 rounded-md">
+                            FILES
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <a href="{{ route('subjects.show', ['id' => 1]) }}"
+                    class="w-12 h-12 bg-slate-950 text-white rounded-full flex items-center justify-center group-hover:bg-amber-500 group-hover:shadow-lg group-hover:shadow-amber-500/20 active:scale-90 transition-all duration-300">
+
+                    <i class="fas fa-arrow-right text-sm transform group-hover:translate-x-0.5 transition-transform">
+                    </i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- CARD -->
+        <div
+            class="subject-card group relative bg-white rounded-[2.2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_24px_60px_-15px_rgba(59,130,246,0.12)] hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between overflow-hidden">
+
+            <div
+                class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-cyan-50 to-blue-50/50 rounded-full group-hover:scale-125 transition-transform duration-700 ease-out">
+            </div>
+
+            <div class="p-8 relative z-10">
+
+                <div
+                    class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6 shadow-[inset_0_2px_8px_rgba(34,211,238,0.06)] group-hover:bg-cyan-600 group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+
+                    <i class="fas fa-network-wired text-2xl"></i>
+
+                </div>
+
+                <div class="space-y-3">
+
+                    <h3
+                        class="subject-title text-2xl font-black text-slate-900 group-hover:text-cyan-600 transition-colors duration-300">
+
+                        Mạng máy tính
+
+                    </h3>
+
+                    <p class="text-slate-400 text-sm leading-relaxed font-medium">
+                        Kiến thức nền tảng về TCP/IP, OSI, thiết kế hệ thống và quản trị mạng.
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="px-8 py-6 border-t border-slate-100 relative z-10 flex items-center justify-between">
+
+                <div>
+
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                        Số lượng
+                    </span>
+
+                    <div class="flex items-end gap-2 mt-1">
+
+                        <span class="text-2xl font-black text-slate-800">
+                            42
+                        </span>
+
+                        <span class="text-[10px] font-extrabold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-md">
+                            FILES
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <a href="#"
+                    class="w-12 h-12 bg-slate-950 text-white rounded-full flex items-center justify-center group-hover:bg-cyan-500 group-hover:shadow-lg group-hover:shadow-cyan-500/20 active:scale-90 transition-all duration-300">
+
+                    <i class="fas fa-arrow-right text-sm transform group-hover:translate-x-0.5 transition-transform">
+                    </i>
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </main>
 
 @endsection
+
 <script>
 function filterSubjects(type, element) {
+
     const cards = document.querySelectorAll('.subject-card');
     const buttons = document.querySelectorAll('.tab-btn');
 
-    // 1. Xử lý đổi màu nút bấm (Tabs)
     buttons.forEach(btn => {
+
         btn.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
         btn.classList.add('text-slate-500');
+
     });
+
     element.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
     element.classList.remove('text-slate-500');
 
-    // 2. Lọc các Card môn học
     cards.forEach(card => {
+
         if (type === 'all') {
-            card.style.display = 'block'; // Hiện tất cả
+
+            card.classList.remove('hidden');
+
         } else if (type === 'assigned') {
+
             if (card.classList.contains('assigned')) {
-                card.style.display = 'block'; // Chỉ hiện môn phụ trách
+
+                card.classList.remove('hidden');
+
             } else {
-                card.style.display = 'none'; // Ẩn các môn khác
+
+                card.classList.add('hidden');
+
             }
+
         }
+
     });
+
 }
 
-// Tính năng tìm kiếm bổ trợ
 function searchSubjects() {
+
     const input = document.getElementById('subjectSearch').value.toUpperCase();
     const cards = document.querySelectorAll('.subject-card');
 
     cards.forEach(card => {
+
         const title = card.querySelector('.subject-title').innerText;
+
         if (title.toUpperCase().indexOf(input) > -1) {
-            card.style.display = "";
+
+            card.classList.remove('hidden');
+
         } else {
-            card.style.display = "none";
+
+            card.classList.add('hidden');
+
         }
+
     });
+
 }
 
-// Mặc định khi load trang hiển thị "Môn học phụ trách"
 document.addEventListener('DOMContentLoaded', () => {
-    // Nếu muốn mặc định hiện tất cả, hãy sửa thành filterSubjects('all', ...)
+
     const defaultTab = document.querySelector('.tab-btn');
-    filterSubjects('assigned', defaultTab);
+
+    if (defaultTab) {
+
+        filterSubjects('assigned', defaultTab);
+
+    }
+
 });
 </script>

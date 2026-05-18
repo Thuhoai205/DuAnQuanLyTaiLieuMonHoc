@@ -4,35 +4,21 @@
 
 
 @section('content')
-<header class="relative py-28 text-white text-center overflow-hidden mb-12">
-    <div class="absolute inset-0">
-        <img src="https://png.pngtree.com/thumb_back/fw800/background/20220505/pngtree-business-still-life-income-chart-breakfast-photo-image_13379188.jpg"
-            class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-blue-900/80"></div>
-    </div>
-    <div class="relative z-10 max-w-4xl mx-auto px-4">
-        <h2 class="text-4xl md:text-5xl font-extrabold mb-4">
-            Mọi tài liệu bạn cần, chỉ trong một lần chạm.
-        </h2>
-        <p class="text-blue-100 mb-10 text-lg opacity-90">
-            Tìm kiếm giáo trình, slide, đề thi và bài tập từ hàng nghìn môn học khác nhau.
-        </p>
-
-        <div class="flex flex-col md:flex-row items-center bg-white rounded-2xl overflow-hidden shadow-2xl">
-            <div class="flex items-center flex-1 px-4">
-                <i class="fas fa-search text-slate-400 mr-3"></i>
-                <input type="text" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
-                    class="w-full py-4 text-slate-800 outline-none text-sm">
-            </div>
-            <button
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 text-sm uppercase tracking-widest transition-colors">
-                Tìm kiếm
-            </button>
-        </div>
-    </div>
-</header>
 
 <main class="max-w-7xl mx-auto px-6 py-12 bg-[#f8fafc]">
+    <div class="mb-10">
+        <a href="javascript:history.back()"
+            class="group inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-slate-100 text-slate-600 hover:text-orange-500 font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-orange-500/20 hover:-translate-x-1 hover:border-orange-200 transition-all duration-300 active:scale-95">
+
+            <i
+                class="fas fa-arrow-left text-slate-400 group-hover:text-orange-500 transition-all duration-300 group-hover:-translate-x-0.5">
+            </i>
+
+            <span class="group-hover:text-orange-500 transition-colors duration-300">
+                Quay lại
+            </span>
+        </a>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <div
             class="bg-white p-7 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white hover:border-blue-100 transition-all duration-300 group">

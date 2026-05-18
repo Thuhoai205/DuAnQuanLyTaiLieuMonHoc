@@ -2,20 +2,35 @@
     <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-8">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             <div class="space-y-6">
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-4">
+
+                    <!-- ICON -->
                     <div
-                        class=" mb-3 bg-gradient-to-br from-blue-500 to-blue-700 p-2.5 rounded-2xl shadow-lg shadow-blue-500/30">
+                        class="w-14 h-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 shadow-lg shadow-blue-900/30 border border-white/10">
+
                         <i class="fas fa-graduation-cap text-white text-xl"></i>
+
                     </div>
 
-                    <a href="{{ route('home') }}" class="mb-3 text-2xl font-extrabold tracking-tight flex items-center">
-                        <span class="text-white">EDU</span>
-                        <span class="relative text-blue-500 ml-1">
+                    <!-- LOGO -->
+                    <a href="{{ route('home') }}"
+                        class="flex items-center text-2xl font-extrabold tracking-tight leading-none">
+
+                        <span class="text-white">
+                            EDU
+                        </span>
+
+                        <span class="relative ml-1 text-blue-400">
+
                             DOC
-                            <span class="absolute -top-2 -right-4 text-[10px] text-blue-400 font-bold uppercase">
+
+                            <span
+                                class="absolute -top-1.5 -right-4 text-[9px] font-bold uppercase tracking-wider text-blue-300">
                                 HH
                             </span>
+
                         </span>
+
                     </a>
 
                 </div>

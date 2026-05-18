@@ -3,7 +3,7 @@
 @section('title', 'Quản lý học liệu')
 
 @section('content')
-<main id="view-course-detail" class="py-12 bg-slate-50 min-h-screen">
+<main id="view-course-detail" class="py-15 bg-slate-50 min-h-screen">
     <div class="container mx-auto px-4 max-w-6xl">
 
         <!-- BACK -->

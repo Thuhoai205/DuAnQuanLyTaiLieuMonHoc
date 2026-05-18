@@ -1,284 +1,260 @@
 @extends('layouts.app')
 
+@section('title', 'Kho Học Liệu Môn Học')
+
 @section('content')
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-body {
-    font-family: 'Inter', sans-serif;
-}
+<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+    <div
+        class="absolute top-[-5%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[130px] animate-[pulse_7s_infinite]">
+    </div>
 
-.hero-slide {
-    opacity: 0;
-    transition: opacity 1s ease-in-out, transform 8s ease;
-    transform: scale(1.05);
-}
+    <div
+        class="absolute bottom-[15%] right-[-5%] w-[500px] h-[500px] rounded-full bg-cyan-500/5 blur-[120px] animate-[pulse_9s_infinite]">
+    </div>
+</div>
 
-.hero-slide.active {
-    opacity: 1;
-    transform: scale(1);
-}
-</style>
+{{-- KHỚP LAYOUT VỚI HOME --}}
+<main class="container mx-auto px-4 md:px-6 py-12">
 
-<div class="bg-slate-50 min-h-screen">
-    <header class="relative py-24 md:py-32 bg-slate-900 text-white text-center overflow-hidden">
-        <div class="absolute inset-0 z-0">
-            <img src="https://i.pinimg.com/736x/3f/3e/e6/3f3ee63d36c5938d1744264288d3c1cd.jpg"
-                class="hero-slide absolute inset-0 w-full h-full object-cover active" />
-            <img src="https://i.pinimg.com/1200x/e4/5f/a5/e45fa598385b82780c59d7fc382b709c.jpg"
-                class="hero-slide absolute inset-0 w-full h-full object-cover" />
-            <img src="https://i.pinimg.com/1200x/91/92/ec/9192ec49cbcbc1edf414963da9361909.jpg"
-                class="hero-slide absolute inset-0 w-full h-full object-cover" />
-            <div class="absolute inset-0 bg-blue-950/80"></div>
-        </div>
+    {{-- NÚT QUAY LẠI --}}
+    <div class="mb-10">
+        <a href="javascript:history.back()"
+            class="group inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-slate-100 text-slate-600 hover:text-orange-500 font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-orange-500/20 hover:-translate-x-1 hover:border-orange-200 transition-all duration-300 active:scale-95">
 
-        <div class="relative z-10 max-w-5xl mx-auto px-4">
-            <h2 class="text-3xl md:text-6xl font-black mb-6 leading-tight tracking-tight">
-                Khám phá kho tri thức học tập
-            </h2>
-            <p class="text-blue-100/80 mb-10 text-lg md:text-xl max-w-2xl mx-auto font-medium">
-                Tìm kiếm giáo trình, slide, đề thi và bài tập từ hàng nghìn môn học khác nhau.
-            </p>
+            <i
+                class="fas fa-arrow-left text-slate-400 group-hover:text-orange-500 transition-all duration-300 group-hover:-translate-x-0.5">
+            </i>
 
-            <form action="{{ route('documents.search') }}" method="GET" class="relative group">
+            <span class="group-hover:text-orange-500 transition-colors duration-300">
+                Quay lại
+            </span>
+        </a>
+    </div>
+
+    {{-- HEADER --}}
+    <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-10 gap-6 pb-6 border-b border-slate-100">
+
+        <div class="space-y-1">
+            <div class="flex items-center">
                 <div
-                    class="bg-white rounded-2xl md:rounded-full shadow-2xl p-2 flex flex-col md:flex-row items-center gap-2 border border-white/20">
-                    <div class="flex items-center flex-1 w-full px-6">
-                        <i class="fas fa-search text-slate-400 mr-3 text-lg"></i>
-                        <input type="text" name="keyword" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
-                            class="w-full py-4 text-slate-700 placeholder-slate-400 bg-transparent outline-none text-sm font-semibold">
-                    </div>
-
-                    <div class="hidden md:block w-px h-10 bg-slate-200"></div>
-
-                    <div class="flex items-center px-4 w-full md:w-auto">
-                        <i class="fas fa-book-open text-slate-400 mr-2 text-sm"></i>
-                        <select name="subject_id"
-                            class="w-full bg-transparent text-slate-700 text-sm font-bold border-none outline-none focus:ring-0 py-4 cursor-pointer">
-                            <option value="">Tất cả môn học</option>
-                            <option value="1">Lập trình Web</option>
-                            <option value="2">Cơ sở dữ liệu</option>
-                            <option value="3">Mạng máy tính</option>
-                        </select>
-                    </div>
-
-                    <button type="submit"
-                        class="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-4 rounded-xl md:rounded-full transition-all duration-300 uppercase text-xs tracking-widest shadow-lg shadow-blue-500/30 active:scale-95">
-                        TÌM KIẾM
-                    </button>
+                    class="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shadow-[inset_0_2px_8px_rgba(59,130,246,0.06)]">
+                    <i class="fas fa-folder-open text-lg"></i>
                 </div>
-            </form>
 
-            <div class="mt-8 flex flex-wrap justify-center items-center gap-3 text-sm font-medium">
-                <span class="text-blue-200/60">Xu hướng:</span>
-                <a href="#"
-                    class="bg-white/10 hover:bg-white/20 px-4 py-1.5 rounded-full text-xs transition-colors">#ASP.NETCore</a>
-                <a href="#"
-                    class="bg-white/10 hover:bg-white/20 px-4 py-1.5 rounded-full text-xs transition-colors">#ĐềThiWeb</a>
-                <a href="#"
-                    class="bg-white/10 hover:bg-white/20 px-4 py-1.5 rounded-full text-xs transition-colors">#SQLServer</a>
+                <div class="ml-4">
+                    <h4 class="text-2xl font-black text-slate-800 tracking-tight">
+                        Kho tài liệu môn học
+                    </h4>
+                </div>
             </div>
+
+            <p class="text-slate-400 font-semibold text-xs md:text-sm pl-16">
+                Môn học:
+                <span class="text-blue-600">Lập trình Web</span>
+            </p>
         </div>
-    </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-16">
-        <div class="flex flex-col lg:flex-row gap-8 items-start">
+        {{-- BUTTON --}}
+        @auth
+        @if(in_array(auth()->user()->role_id, [1,2]))
+        <button onclick="openUploadModal()"
+            class="self-start lg:self-center px-6 py-3 bg-blue-600 text-white font-bold text-xs uppercase tracking-wider rounded-full shadow-lg shadow-blue-600/20 hover:bg-amber-500 transition-all active:scale-95 flex items-center gap-2">
 
-            <aside class="w-full lg:w-1/4 sticky top-24">
-                <div class="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/60 p-8">
-                    <div class="flex items-center justify-between mb-8">
-                        <div>
-                            <h3 class="text-xl font-black text-slate-800">Bộ lọc</h3>
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mt-1">Tùy chỉnh kết quả
-                            </p>
-                        </div>
-                        <div
-                            class="w-10 h-10 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shadow-sm">
-                            <i class="fas fa-sliders-h text-sm"></i>
-                        </div>
-                    </div>
+            <i class="fas fa-plus"></i>
 
-                    <form action="#" method="GET" class="space-y-8">
-                        <div>
-                            <label class="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-5">
-                                Phân loại học liệu
-                            </label>
+            Upload tài liệu
+        </button>
+        @endif
+        @endauth
 
-                            <div class="space-y-4">
-                                {{-- Slide bài giảng --}}
-                                <label class="flex items-center group cursor-pointer">
-                                    <div class="relative flex items-center">
-                                        <input type="checkbox" name="types[]" value="slide" checked
-                                            class="w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500 transition-all">
-                                    </div>
-                                    <span
-                                        class="ml-4 text-sm font-bold text-slate-600 group-hover:text-blue-600 transition-colors">
-                                        Slide bài giảng
-                                    </span>
-                                </label>
+    </div>
 
-                                {{-- Đề thi cũ --}}
-                                <label class="flex items-center group cursor-pointer">
-                                    <div class="relative flex items-center">
-                                        <input type="checkbox" name="types[]" value="exam"
-                                            class="w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500 transition-all">
-                                    </div>
-                                    <span
-                                        class="ml-4 text-sm font-bold text-slate-600 group-hover:text-blue-600 transition-colors">
-                                        Đề thi cũ
-                                    </span>
-                                </label>
+    {{-- SEARCH + FILTER --}}
+    <div
+        class="bg-white rounded-[2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] p-5 md:p-6 mb-8">
 
-                                {{-- Bài tập lớn --}}
-                                <label class="flex items-center group cursor-pointer">
-                                    <div class="relative flex items-center">
-                                        <input type="checkbox" name="types[]" value="project"
-                                            class="w-5 h-5 rounded-lg border-slate-300 text-blue-600 focus:ring-blue-500 transition-all">
-                                    </div>
-                                    <span
-                                        class="ml-4 text-sm font-bold text-slate-600 group-hover:text-blue-600 transition-colors">
-                                        Bài tập lớn
-                                    </span>
-                                </label>
-                            </div>
-                        </div>
+        <form id="searchForm" class="flex flex-col xl:flex-row items-stretch xl:items-center gap-4">
 
-                        <button type="submit"
-                            class="w-full py-4 rounded-2xl bg-slate-900 hover:bg-blue-600 text-white font-black text-xs uppercase tracking-widest transition-all duration-300 shadow-lg shadow-slate-200 active:scale-95">
-                            ÁP DỤNG BỘ LỌC
-                        </button>
-                    </form>
-                </div>
-            </aside>
+            {{-- SEARCH --}}
+            <div class="relative flex-1">
+                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
 
-            <div class="flex-1 w-full">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10 px-2">
-                    <div>
-                        <h2 class="text-3xl font-black text-slate-800 tracking-tight">
-                            Kết quả tìm thấy <span class="text-blue-600">(4)</span>
-                        </h2>
-                        <p class="text-slate-400 font-medium text-sm mt-1 italic">Dựa trên từ khóa và bộ lọc bạn đã chọn
-                        </p>
-                    </div>
+                <input type="text" id="docKeyword" onkeyup="filterDocuments()"
+                    placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa cần tìm..."
+                    class="w-full h-14 pl-12 pr-5 bg-slate-50/60 border border-slate-100 rounded-2xl text-sm font-semibold text-slate-700 focus:outline-none focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/50 focus:bg-white transition-all">
+            </div>
 
-                    <div
-                        class="flex items-center bg-white border border-slate-100 rounded-2xl shadow-sm px-5 py-2 gap-4">
-                        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Sắp xếp</span>
-                        <div class="w-px h-4 bg-slate-200"></div>
-                        <select
-                            class="bg-transparent border-none outline-none focus:ring-0 text-sm font-bold text-slate-700 cursor-pointer pr-8">
-                            <option>Mới nhất</option>
-                            <option>Xem nhiều nhất</option>
-                            <option>Tải nhiều nhất</option>
-                        </select>
-                    </div>
+            {{-- FILTER --}}
+            <div class="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
+
+                <div class="relative w-full sm:w-64">
+                    <i class="fas fa-filter absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+
+                    <select id="docType" onchange="filterDocuments()"
+                        class="w-full h-14 pl-10 pr-10 bg-slate-50/60 border border-slate-100 rounded-2xl text-sm font-bold text-slate-600 appearance-none focus:outline-none focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/50 focus:bg-white transition-all cursor-pointer">
+
+                        <option value="all">Tất cả loại học liệu</option>
+                        <option value="slide">Slide bài giảng</option>
+                        <option value="de-thi">Đề thi & Đề kiểm tra</option>
+                        <option value="bai-tap">Bài tập về nhà</option>
+                        <option value="tai-lieu-tham-khao">Tài liệu tham khảo</option>
+                    </select>
+
+                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]">
+                    </i>
                 </div>
 
-                <div class="space-y-6">
+                <button type="button" onclick="filterDocuments()"
+                    class="h-14 px-8 bg-slate-950 text-white font-bold text-xs uppercase tracking-wider rounded-2xl transition-all duration-300 shadow-md shadow-slate-950/5 hover:bg-amber-500 hover:shadow-lg hover:shadow-amber-500/20 active:scale-95 whitespace-nowrap">
 
+                    Tìm kiếm
+                </button>
 
-                    <div
-                        class="group bg-white rounded-[2.5rem] border border-slate-100 p-6 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1.5 transition-all duration-500">
-                        <div class="flex flex-col lg:flex-row items-center gap-8">
-                            <div
-                                class="w-24 h-24 rounded-[2rem] bg-blue-50 text-blue-500 flex items-center justify-center flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500 shadow-inner">
-                                <i class="far fa-file-word text-4xl"></i>
-                            </div>
+            </div>
 
-                            <div class="flex-1 text-center lg:text-left">
-                                <div class="flex flex-wrap justify-center lg:justify-start items-center gap-3 mb-3">
-                                    <span
-                                        class="px-4 py-1 rounded-full bg-slate-100 text-slate-500 text-[9px] font-black uppercase tracking-widest">BÀI
-                                        TẬP</span>
-                                    <span class="text-[10px] font-black uppercase tracking-widest text-blue-600">Cơ sở
-                                        dữ liệu</span>
-                                </div>
-                                <h3
-                                    class="text-2xl font-black text-slate-800 group-hover:text-blue-600 transition-colors mb-4 leading-tight">
-                                    Bài tập thực hành SQL Server - Chương 4 & 5
-                                </h3>
+        </form>
+
+    </div>
+
+    {{-- TABLE --}}
+    <div
+        class="bg-white rounded-[2.2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] overflow-hidden">
+
+        <div class="overflow-x-auto">
+
+            <table class="w-full border-collapse min-w-[900px]">
+
+                <thead>
+                    <tr
+                        class="border-b border-slate-100 bg-slate-50/50 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+
+                        <th class="py-5 px-8 text-left">
+                            Thông tin tài liệu
+                        </th>
+
+                        <th class="py-5 px-6 text-left">
+                            Loại học liệu
+                        </th>
+
+                        <th class="py-5 px-6 text-left">
+                            Ngày đăng
+                        </th>
+
+                        <th class="py-5 px-6 text-center">
+                            Lượt tải
+                        </th>
+
+                        <th class="py-5 px-8 text-right">
+                            Hành động
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tbody id="documentTableBody" class="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
+
+                    {{-- ROW --}}
+                    <tr class="document-row hover:bg-blue-50/20 transition-colors duration-200" data-type="slide">
+
+                        <td class="py-6 px-8">
+
+                            <div class="flex items-center gap-4">
+
                                 <div
-                                    class="flex flex-wrap justify-center lg:justify-start items-center gap-x-6 gap-y-2 text-sm text-slate-400 font-semibold">
-                                    <span class="flex items-center"><i
-                                            class="far fa-user-circle mr-2 text-slate-300"></i> Bởi: <span
-                                            class="ml-1 text-green-600">Giảng viên A</span></span>
-                                    <span class="flex items-center"><i class="far fa-eye mr-2 text-slate-300"></i> 850
-                                        lượt xem</span>
-                                    <span class="flex items-center"><i
-                                            class="far fa-calendar-alt mr-2 text-slate-300"></i> 12/04/2024</span>
+                                    class="w-12 h-12 bg-red-50 text-red-500 rounded-2xl flex items-center justify-center shadow-inner shrink-0">
+
+                                    <span class="font-black text-[11px]">
+                                        PDF
+                                    </span>
+
                                 </div>
+
+                                <div class="min-w-0">
+
+                                    <h5
+                                        class="doc-title font-extrabold text-slate-800 text-sm hover:text-blue-600 transition-colors cursor-pointer line-clamp-1">
+
+                                        01_Slide_Tong_Quan_Ve_Web_Framework.pdf
+                                    </h5>
+
+                                    <div
+                                        class="flex flex-wrap items-center gap-2 mt-1 text-[11px] text-slate-400 font-medium">
+
+                                        <span>Kích thước: 4.2 MB</span>
+
+                                        <span>•</span>
+
+                                        <span>Lập trình Web</span>
+
+                                    </div>
+
+                                </div>
+
                             </div>
 
-                            <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+                        </td>
 
-                                @guest
-                                <a href="{{ route('login') }}" onclick="alert('Vui lòng đăng nhập để tải tài liệu!')"
-                                    class="w-full lg:w-auto flex items-center justify-center gap-3 bg-slate-400 hover:bg-slate-500 text-white font-black px-8 py-4 rounded-2xl transition-all shadow-lg">
-                                    <i class="fas fa-lock text-sm"></i>
-                                    <span class="uppercase text-xs tracking-widest">Đăng nhập để tải</span>
+                        <td class="py-6 px-6">
+
+                            <span
+                                class="px-3 py-1 bg-blue-50 text-blue-600 font-bold text-[10px] rounded-full uppercase tracking-wider">
+
+                                Slide bài giảng
+                            </span>
+
+                        </td>
+
+                        <td class="py-6 px-6 text-slate-400 font-medium">
+                            12/05/2026
+                        </td>
+
+                        <td class="py-6 px-6 text-center font-bold text-slate-800">
+                            248
+                        </td>
+
+                        <td class="py-6 px-8">
+
+                            <div class="flex items-center justify-end gap-2">
+
+                                <a href="#"
+                                    class="w-9 h-9 bg-slate-50 text-slate-600 rounded-full flex items-center justify-center hover:bg-amber-500 hover:text-white transition-all shadow-sm">
+
+                                    <i class="fas fa-download text-[11px]"></i>
                                 </a>
-                                @endguest
 
                                 @auth
-                                <a href="#"
-                                    class="w-full lg:w-auto flex items-center justify-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-black px-8 py-4 rounded-2xl transition-all shadow-lg shadow-blue-500/30">
-                                    <i class="fas fa-cloud-download-alt text-lg"></i>
-                                    <span class="uppercase text-xs tracking-widest">Tải xuống</span>
-                                </a>
+                                @if(in_array(auth()->user()->role_id, [1,2]))
 
-                                @if(auth()->user()->role_id ==2)
-                                <div class="flex gap-2 w-full lg:w-auto">
-                                    <a href="#" class=" flex-1 lg:flex-none p-4 bg-amber-500 hover:bg-amber-600 text-white
-                                        rounded-2xl transition-all shadow-lg shadow-amber-500/20" title="Chỉnh sửa">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                <button
+                                    class="w-9 h-9 bg-slate-50 text-slate-600 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all shadow-sm">
 
-                                    <form action="#" method="POST"
-                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')"
-                                        class="flex-1 lg:flex-none">
+                                    <i class="fas fa-pen text-[11px]"></i>
+                                </button>
 
-                                        <button type="submit"
-                                            class="w-full p-4 bg-red-500 hover:bg-red-600 text-white rounded-2xl transition-all shadow-lg shadow-red-500/20"
-                                            title="Xóa tài liệu">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </div>
+                                <button
+                                    class="w-9 h-9 bg-slate-50 text-slate-600 rounded-full flex items-center justify-center hover:bg-red-500 hover:text-white transition-all shadow-sm">
+
+                                    <i class="fas fa-trash text-[11px]"></i>
+                                </button>
+
                                 @endif
                                 @endauth
 
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="mt-16 flex items-center justify-center gap-3">
-                    <button
-                        class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all flex items-center justify-center"><i
-                            class="fas fa-chevron-left"></i></button>
-                    <button
-                        class="w-12 h-12 rounded-2xl bg-blue-600 text-white font-black shadow-xl shadow-blue-200 flex items-center justify-center">1</button>
-                    <button
-                        class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-blue-50 transition-all flex items-center justify-center">2</button>
-                    <button
-                        class="w-12 h-12 rounded-2xl bg-white border border-slate-200 text-slate-400 hover:bg-blue-50 hover:text-blue-600 transition-all flex items-center justify-center"><i
-                            class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
         </div>
-    </main>
-</div>
 
-<script>
-// Hero Slider Logic
-const slides = document.querySelectorAll('.hero-slide');
-let current = 0;
-setInterval(() => {
-    slides[current].classList.remove('active');
-    current = (current + 1) % slides.length;
-    slides[current].classList.add('active');
-}, 5000);
-</script>
+    </div>
+
+</main>
+
 @endsection
