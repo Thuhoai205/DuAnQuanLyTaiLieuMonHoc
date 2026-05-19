@@ -175,19 +175,10 @@
                                         Đăng nhập để tải
                                     </button>
 
+
                                     @endif
 
-                                    @if(Auth::check() && Auth::user()->role_id == 2)
-                                    <button
-                                        class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 hover:bg-amber-500 hover:text-white transition flex items-center justify-center">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
 
-                                    <button
-                                        class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    @endif
 
                                 </div>
 
@@ -249,19 +240,9 @@
                                     </button>
 
                                     @endif
-                                    </button>
 
-                                    @if(Auth::check() && Auth::user()->role_id == 2)
-                                    <button
-                                        class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 hover:bg-amber-500 hover:text-white transition flex items-center justify-center">
-                                        <i class="fas fa-pen"></i>
-                                    </button>
 
-                                    <button
-                                        class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    @endif
+
 
                                 </div>
 
@@ -293,7 +274,7 @@
 
                                         <span class="flex items-center">
                                             <i class="fas fa-user-graduate text-slate-400 mr-1.5"></i>
-                                            GV: Phạm Văn D
+                                            GV: Nguyễn Văn A
                                         </span>
 
                                         <span class="text-slate-300">•</span>
@@ -325,6 +306,8 @@
 
                                     @endif
                                     @if(Auth::check() && Auth::user()->role_id == 2)
+                                    <!-- nếu file đó là của giảng viên đăng thì mới có 2 nút chỉnh sửa và xóa -->
+
                                     <button
                                         class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 hover:bg-amber-500 hover:text-white transition flex items-center justify-center">
                                         <i class="fas fa-pen"></i>
