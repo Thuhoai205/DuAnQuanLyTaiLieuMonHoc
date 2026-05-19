@@ -3,35 +3,47 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('users')->insert([
+        User::insert([
+
+            // ADMIN
             [
                 'username' => 'admin',
-                'full_name' => 'Quản trị',
+                'password' => Hash::make('123456'),
+                'full_name' => 'Quản trị viên',
                 'email' => 'admin@gmail.com',
-                'password' => Hash::make('123456'),
-                'role_id' => 1
+                'avatar' => 'avatars/admin.jpg',
+                'role_id' => 1,
+                'is_active' => true,
             ],
+
+            // GIẢNG VIÊN
             [
-                'username' => 'gv01',
-                'full_name' => 'Giảng viên A',
+                'username' => 'gv001',
+                'password' => Hash::make('123456'),
+                'full_name' => 'Nguyễn Văn A',
                 'email' => 'gv@gmail.com',
-                'password' => Hash::make('123456'),
-                'role_id' => 2
+                'avatar' => 'avatars/gv1.jpg',
+                'role_id' => 2,
+                'is_active' => true,
             ],
+
+            // SINH VIÊN
             [
-                'username' => 'sv01',
-                'full_name' => 'Sinh viên 1',
-                'email' => 'sv@gmail.com',
+                'username' => 'sv001',
                 'password' => Hash::make('123456'),
-                'role_id' => 3
-            ]
+                'full_name' => 'Lê Văn C',
+                'email' => 'sv@gmail.com',
+                'avatar' => 'avatars/sv1.jpg',
+                'role_id' => 3,
+                'is_active' => true,
+            ],
         ]);
     }
 }

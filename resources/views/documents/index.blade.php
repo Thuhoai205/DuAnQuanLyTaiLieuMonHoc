@@ -1,38 +1,24 @@
 @extends('layouts.app')
 
-@section('title', 'Danh mục tài liệu')
+@section('title', 'Kho học liệu cá nhân')
 
 
 @section('content')
-<header class="relative py-28 text-white text-center overflow-hidden mb-12">
-    <div class="absolute inset-0">
-        <img src="https://png.pngtree.com/thumb_back/fw800/background/20220505/pngtree-business-still-life-income-chart-breakfast-photo-image_13379188.jpg"
-            class="w-full h-full object-cover" />
-        <div class="absolute inset-0 bg-blue-900/80"></div>
-    </div>
-    <div class="relative z-10 max-w-4xl mx-auto px-4">
-        <h2 class="text-4xl md:text-5xl font-extrabold mb-4">
-            Mọi tài liệu bạn cần, chỉ trong một lần chạm.
-        </h2>
-        <p class="text-blue-100 mb-10 text-lg opacity-90">
-            Tìm kiếm giáo trình, slide, đề thi và bài tập từ hàng nghìn môn học khác nhau.
-        </p>
-
-        <div class="flex flex-col md:flex-row items-center bg-white rounded-2xl overflow-hidden shadow-2xl">
-            <div class="flex items-center flex-1 px-4">
-                <i class="fas fa-search text-slate-400 mr-3"></i>
-                <input type="text" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
-                    class="w-full py-4 text-slate-800 outline-none text-sm">
-            </div>
-            <button
-                class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-8 py-4 text-sm uppercase tracking-widest transition-colors">
-                Tìm kiếm
-            </button>
-        </div>
-    </div>
-</header>
 
 <main class="max-w-7xl mx-auto px-6 py-12 bg-[#f8fafc]">
+    <div class="mb-10">
+        <a href="javascript:history.back()"
+            class="group inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-slate-100 text-slate-600 hover:text-orange-500 font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-orange-500/20 hover:-translate-x-1 hover:border-orange-200 transition-all duration-300 active:scale-95">
+
+            <i
+                class="fas fa-arrow-left text-slate-400 group-hover:text-orange-500 transition-all duration-300 group-hover:-translate-x-0.5">
+            </i>
+
+            <span class="group-hover:text-orange-500 transition-colors duration-300">
+                Quay lại
+            </span>
+        </a>
+    </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
         <div
             class="bg-white p-7 rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white hover:border-blue-100 transition-all duration-300 group">
@@ -91,32 +77,37 @@
             <h2 class="text-4xl font-black text-slate-900 tracking-tight">Kho học liệu cá nhân</h2>
             <p class="text-slate-500 mt-2 text-lg">Quản lý và theo dõi các tài liệu đã đăng tải hiệu quả.</p>
         </div>
-
         <div
-            class="flex items-center bg-white shadow-sm border border-slate-200 rounded-2xl p-1.5 focus-within:ring-2 focus-within:ring-blue-500/20 transition-all">
+            class="flex flex-col lg:flex-row lg:items-center gap-4 bg-white shadow-sm border border-slate-200 rounded-2xl p-3 md:p-4">
+
+            <!-- FILTER -->
             <select
-                class="bg-transparent pl-4 pr-2 py-2 text-sm font-bold text-slate-600 outline-none border-r border-slate-100 cursor-pointer">
+                class="w-full lg:w-[200px] bg-transparent px-4 py-3 text-sm font-bold text-slate-600 outline-none border border-slate-100 rounded-xl cursor-pointer">
                 <option>Tất cả loại</option>
                 <option>Slide bài giảng</option>
                 <option>Đề thi</option>
             </select>
-            <div class="relative flex items-center px-4 md:w-72">
-                <i class="fas fa-search text-slate-400 text-sm"></i>
+
+            <!-- SEARCH -->
+            <div class="relative flex-1 min-w-[200px]">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+
                 <input type="text" placeholder="Tìm tên tài liệu..."
-                    class="w-full pl-3 py-2 bg-transparent outline-none text-sm text-slate-700 placeholder-slate-400 font-medium">
+                    class="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl text-sm text-slate-700 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
             </div>
-            <div>
-                <button onclick="toggleModal('uploadModal')" class=" w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 bg-gradient-to-r
-                    from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-2xl
-                    shadow-[0_10px_25px_-5px_rgba(59,130,246,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(59,130,246,0.5)]
-                    transition-all duration-300 transform hover:-translate-y-1 active:scale-95 group">
-                    <div
-                        class="flex items-center justify-center w-6 h-6 bg-white/20 rounded-lg group-hover:rotate-90 transition-transform duration-500">
-                        <i class="fas fa-plus text-xs"></i>
-                    </div>
-                    <span class="font-bold text-sm tracking-widest uppercase">Tải lên tài liệu</span>
-                </button>
-            </div>
+
+            <!-- BUTTON UPLOAD -->
+            <button onclick="toggleModal('uploadModal')"
+                class="w-full lg:w-auto shrink-0 flex items-center justify-center gap-3 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl font-bold text-sm shadow-lg hover:shadow-blue-500/30 transition-all active:scale-95">
+
+                <div class="w-5 h-5 flex items-center justify-center bg-white/20 rounded-md">
+                    <i class="fas fa-plus text-xs"></i>
+                </div>
+
+                <span>Tải lên tài liệu</span>
+
+            </button>
+
         </div>
     </div>
 

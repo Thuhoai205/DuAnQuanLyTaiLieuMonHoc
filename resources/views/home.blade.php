@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- HERO -->
-<header class="relative py-28 bg-white/20 text-white text-center overflow-hidden">
+<header class="relative py-20 lg:py-20 text-white text-center overflow-hidden">
 
     <!-- Background Slider -->
     <div class="absolute inset-0">
@@ -20,50 +20,73 @@
 
         <!-- Slide 3 -->
         <img src="https://i.pinimg.com/1200x/91/92/ec/9192ec49cbcbc1edf414963da9361909.jpg"
-            class=" hero-slide absolute inset-0 w-full h-full object-cover" />
+            class="hero-slide absolute inset-0 w-full h-full object-cover" />
 
         <!-- Overlay -->
-        <div class="absolute inset-0 bg-blue-950/75"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-blue-950/90 via-blue-950/80 to-slate-950/90"></div>
+
     </div>
 
-    <!-- Content -->
-    <div class="relative z-10 max-w-4xl mx-auto px-4">
+    <!-- CONTENT -->
+    <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 lg:px-12">
+
+        <!-- BADGE -->
+        <div
+            class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 border border-white/20 backdrop-blur-xl mb-8">
+
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+
+            <span class="text-sm font-semibold text-white/90 tracking-wide">
+                Hệ thống quản lý tài liệu học tập
+            </span>
+
+        </div>
 
         <!-- TITLE -->
-        <h2 class="text-white drop-shadow-lg text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
-            Khám phá kho tri thức học tập
-        </h2>
+        <h1 class="text-4xl sm:text-5xl lg:text-7xl font-black leading-[1.1] tracking-tight drop-shadow-2xl mb-6">
+
+            Khám phá kho
+            <span class="text-blue-400">tri thức</span>
+            học tập
+
+        </h1>
 
         <!-- SUBTITLE -->
-        <p class="text-slate-200 mb-10 text-lg opacity-95">
-            Tìm kiếm giáo trình, slide, đề thi và bài tập từ hàng nghìn môn học khác nhau.
+        <p class="max-w-3xl mx-auto text-slate-200 text-lg lg:text-xl leading-relaxed mb-12 font-medium">
+
+            Tìm kiếm giáo trình, slide bài giảng, đề thi và tài liệu học tập chất lượng
+            dành cho sinh viên và giảng viên.
+
         </p>
 
-        <!-- SEARCH BOX -->
-        <form action="{{ route('documents.search') }}" method="GET" class="max-w-5xl mx-auto">
+        <!-- SEARCH -->
+        <form action="{{ route('documents.search') }}" method="GET" class="max-w-6xl mx-auto">
 
-            <div class="bg-white rounded-full shadow-2xl border border-white/30 overflow-hidden flex items-center p-2">
+            <div
+                class="bg-white/95 backdrop-blur-2xl rounded-[2rem] shadow-[0_25px_80px_-15px_rgba(0,0,0,0.35)] border border-white/40 overflow-hidden p-3">
 
-                <!-- Input -->
-                <div class="flex items-center flex-1 px-6">
-                    <i class="fas fa-search text-slate-400 mr-4 text-lg"></i>
+                <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-3">
 
-                    <input type="text" name="keyword" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
-                        class="w-full py-4 text-slate-700 placeholder-slate-400 bg-transparent outline-none text-sm font-medium">
-                </div>
+                    <!-- INPUT -->
+                    <div class="flex items-center flex-1 px-4 lg:px-6">
 
-                <!-- RIGHT SIDE -->
-                <div class="flex items-center gap-2 pr-2">
+                        <i class="fas fa-search text-slate-400 text-lg mr-4"></i>
 
-                    <!-- Divider -->
-                    <div class="hidden md:block w-px h-10 bg-slate-200"></div>
+                        <input type="text" name="keyword" placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa..."
+                            class="w-full py-4 bg-transparent outline-none text-slate-700 placeholder-slate-400 font-medium text-sm lg:text-base">
 
-                    <!-- Select -->
-                    <div class="flex items-center px-4">
-                        <i class="fas fa-book-open text-slate-400 mr-3 text-sm"></i>
+                    </div>
+
+                    <!-- DIVIDER -->
+                    <div class="hidden lg:block w-px h-12 bg-slate-200"></div>
+
+                    <!-- SELECT -->
+                    <div class="flex items-center px-4 lg:px-2">
+
+                        <i class="fas fa-book-open text-slate-400 mr-3"></i>
 
                         <select name="subject_id"
-                            class="bg-transparent text-slate-700 text-sm font-semibold border-none outline-none focus:ring-0 py-4 pr-8 cursor-pointer">
+                            class="bg-transparent text-slate-700 font-semibold border-none outline-none focus:ring-0 py-4 pr-8 cursor-pointer text-sm">
 
                             <option value="">Tất cả môn học</option>
                             <option value="1">Lập trình Web</option>
@@ -71,13 +94,11 @@
                             <option value="3">Mạng máy tính</option>
 
                         </select>
+
                     </div>
 
-
-                    <!-- BUTTON -->
-                    <button type="submit" class="w-full lg:w-auto bg-blue-600 hover:bg-blue-700 text-white font-extrabold 
-    px-10 py-5 rounded-full transition-all duration-300 uppercase text-xs 
-    tracking-[0.2em] shadow-xl shadow-blue-600/30 hover:scale-[1.02] active:scale-95">
+                    <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-5 rounded-full transition-all duration-300 uppercase text-xs tracking-[0.2em] shadow-xl shadow-blue-600/30 hover:scale-[1.02] active:scale-95 whitespace-nowrap">
 
                         TÌM KIẾM
 
@@ -88,13 +109,29 @@
             </div>
 
         </form>
-        <!-- TREND TAG -->
-        <div class="mt-6 text-sm">
-            <span class="opacity-70 mr-2">Xu hướng:</span>
 
-            <span class="bg-white/20 px-3 py-1 rounded-full text-xs mr-2">#ASP.NETCore</span>
-            <span class="bg-white/20 px-3 py-1 rounded-full text-xs mr-2">#ĐềThiWeb</span>
-            <span class="bg-white/20 px-3 py-1 rounded-full text-xs">#SQLServer</span>
+        <!-- TAGS -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+
+            <span class="text-sm text-white/70 font-medium">
+                Xu hướng:
+            </span>
+
+            <span
+                class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-semibold backdrop-blur-md">
+                #ASP.NETCore
+            </span>
+
+            <span
+                class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-semibold backdrop-blur-md">
+                #ĐềThiWeb
+            </span>
+
+            <span
+                class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-semibold backdrop-blur-md">
+                #SQLServer
+            </span>
+
         </div>
 
     </div>
@@ -105,7 +142,7 @@
 <style>
 .hero-slide {
     opacity: 0;
-    transition: opacity 1.0s ease-in-out, transform 8s ease;
+    transition: opacity 1s ease-in-out, transform 8s ease;
     transform: scale(1.05);
 }
 
@@ -118,167 +155,202 @@
 <!-- SCRIPT -->
 <script>
 const slides = document.querySelectorAll('.hero-slide');
+
 let current = 0;
 
 setInterval(() => {
+
     slides[current].classList.remove('active');
 
     current = (current + 1) % slides.length;
 
     slides[current].classList.add('active');
+
 }, 5000);
 </script>
 
+
 <main class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
+
     <!-- Phần khách vãng lai -->
     @guest
-    <div class="relative py-20 my-10 overflow-hidden rounded-[3rem] bg-slate-50 border border-slate-100 shadow-inner">
+    <style>
+    @keyframes floatBlob {
 
-        <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-cyan-100/50 rounded-full blur-3xl"></div>
+        0%,
+        100% {
+            transform: translateY(0) translateX(0) scale(1);
+        }
 
-        <div class="container relative z-10 mx-auto px-4">
-            <div class="text-center mb-10">
+        50% {
+            transform: translateY(-18px) translateX(14px) scale(1.05);
+        }
+    }
 
-                <h3
-                    class="text-slate-900 text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight leading-[1.1] mb-8">
-                    Một chạm – <span class="text-blue-600">Mở bừng</span> <br class="hidden md:block">
-                    kho tri thức
+    @keyframes floatCard {
 
-                </h3>
+        0%,
+        100% {
+            transform: translateY(0);
+        }
 
-                <div class="max-w-2xl mx-auto mb-8">
-                    <p class="text-slate-500 text-lg md:text-xl font-medium leading-relaxed italic">
-                        <i class="fas fa-quote-left text-blue-200 mr-2"></i>
-                        Tìm kiếm những tài liệu học tập tốt nhất để đạt điểm cao trong suốt quá trình học tập.
-                        <i class="fas fa-quote-right text-blue-200 ml-2"></i>
-                    </p>
-                </div>
+        50% {
+            transform: translateY(-10px);
+        }
+    }
 
-                <div class="relative flex items-center justify-center mt-10 ">
+    .guest-blob {
+        animation: floatBlob 8s ease-in-out infinite;
+    }
 
-                    <!-- Line trái -->
-                    <div class="line left"></div>
+    .guest-card-float {
+        animation: floatCard 5s ease-in-out infinite;
+    }
+    </style>
 
-                    <!-- Dot giữa -->
-                    <div class="dot"></div>
+    <!-- GUEST MODERN SECTION -->
+    <section
+        class="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#0E7490] p-8 md:p-12 mb-14 text-white shadow-2xl">
 
-                    <!-- Line phải -->
-                    <div class="line right"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-400/25 rounded-full blur-[120px] guest-blob"></div>
+        <div class="absolute -bottom-28 -left-20 w-96 h-96 bg-blue-500/25 rounded-full blur-[130px] guest-blob"></div>
+        <div class="absolute top-1/2 left-1/2 w-72 h-72 bg-indigo-500/20 rounded-full blur-[120px] guest-blob"></div>
 
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="bg-slate-50 py-20">
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div
-                class="group bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-slate-100 text-center transition-all duration-500 hover:shadow-2xl hover:shadow-blue-100 hover:-translate-y-3 relative overflow-hidden">
-                <div
-                    class="absolute -right-6 -bottom-6 w-32 h-32 bg-blue-50 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700">
-                </div>
-
-                <div class="relative z-10">
-                    <div
-                        class="w-20 h-20 bg-blue-50 text-blue-600 rounded-3xl flex items-center justify-center mx-auto mb-8 transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-sm">
-                        <i class="fas fa-file-invoice text-3xl"></i>
-                    </div>
-                    <h2
-                        class="text-5xl font-black text-slate-800 mb-3 tracking-tighter group-hover:text-blue-600 transition-colors">
-                        1,200+</h2>
-                    <p class="text-slate-400 font-bold uppercase text-xs tracking-[0.2em]">Tài liệu đã đăng tải</p>
-                </div>
-            </div>
-            <div
-                class="group bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-slate-100 text-center transition-all duration-500 hover:shadow-2xl hover:shadow-green-100 hover:-translate-y-3 relative overflow-hidden">
-                <div
-                    class="absolute -right-6 -bottom-6 w-32 h-32 bg-green-50 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700">
-                </div>
-
-                <div class="relative z-10">
-                    <div
-                        class="w-20 h-20 bg-green-50 text-green-600 rounded-3xl flex items-center justify-center mx-auto mb-8 transform group-hover:-rotate-12 group-hover:scale-110 transition-all duration-500 shadow-sm">
-                        <i class="fas fa-book-reader text-3xl"></i>
-                    </div>
-                    <h2
-                        class="text-5xl font-black text-slate-800 mb-3 tracking-tighter group-hover:text-green-600 transition-colors">
-                        50+</h2>
-                    <p class="text-slate-400 font-bold uppercase text-xs tracking-[0.2em]">Môn học hỗ trợ</p>
-                </div>
-            </div>
-            <div
-                class="group bg-white p-10 rounded-[2rem] shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] border border-slate-100 text-center transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-100 hover:-translate-y-3 relative overflow-hidden">
-                <div
-                    class="absolute -right-6 -bottom-6 w-32 h-32 bg-cyan-50 rounded-full opacity-0 group-hover:opacity-100 group-hover:scale-150 transition-all duration-700">
-                </div>
-
-                <div class="relative z-10">
-                    <div
-                        class="w-20 h-20 bg-cyan-50 text-cyan-600 rounded-3xl flex items-center justify-center mx-auto mb-8 transform group-hover:rotate-12 group-hover:scale-110 transition-all duration-500 shadow-sm">
-                        <i class="fas fa-bolt text-3xl"></i>
-                    </div>
-                    <h2
-                        class="text-5xl font-black text-slate-800 mb-3 tracking-tighter group-hover:text-cyan-600 transition-colors">
-                        5,000+</h2>
-                    <p class="text-slate-400 font-bold uppercase text-xs tracking-[0.2em]">Lượt tải xuống</p>
-                </div>
-            </div>
+        <div class="absolute inset-0 opacity-[0.08]"
+            style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 28px 28px;">
         </div>
 
-    </div>
+        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-    <div class="relative py-20 my-10 overflow-hidden rounded-[3rem] bg-slate-50 border border-slate-100 shadow-inner">
-
-        <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-100/90 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-cyan-100/90 rounded-full blur-3xl"></div>
-
-        <div class="relative z-10 max-w-2xl mx-auto px-6 text-center">
-
-            <div class="relative inline-block mb-8">
-                <div
-                    class="w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center mx-auto transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
-                    <i class="fas fa-lock text-4xl text-blue-600"></i>
-                </div>
-                <span class="absolute -top-2 -right-2 flex h-6 w-6">
-                    <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-6 w-6 bg-red-500 border-2 border-white"></span>
+            <div>
+                <span
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-cyan-100 text-sm font-bold mb-6 backdrop-blur">
+                    <i class="fas fa-bolt text-cyan-300"></i>
+                    Kho học liệu thông minh
                 </span>
+
+                <h2 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+                    Học nhanh hơn với
+                    <span class="bg-gradient-to-r from-cyan-200 via-blue-200 to-white bg-clip-text text-transparent">
+                        tài liệu chuẩn
+                    </span>
+                </h2>
+
+                <p class="text-blue-50/90 text-lg leading-relaxed mb-8 max-w-xl">
+                    Khám phá slide, đề thi, giáo trình và bài tập theo từng môn học. Đăng nhập để tải tài liệu và lưu
+                    lại tài liệu yêu thích.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="{{ route('login') }}"
+                        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-cyan-300 text-slate-950 font-black hover:bg-cyan-200 shadow-xl shadow-cyan-400/20 transition hover:-translate-y-1">
+                        Đăng nhập ngay
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    <a href="{{ route('register') }}"
+                        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/10 border border-white/20 text-white font-black hover:bg-white/20 backdrop-blur transition">
+                        Tạo tài khoản
+                    </a>
+                </div>
             </div>
 
-            <h3 class="text-3xl md:text-4xl font-black text-slate-800 mb-4 tracking-tight">
-                Nội dung này đã được <span class="text-blue-600">Khóa</span>
+            <div class="grid grid-cols-2 gap-4">
+                <div
+                    class="rounded-3xl bg-white/10 border border-white/15 p-6 backdrop-blur-xl hover:bg-white/15 transition guest-card-float">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-cyan-300 text-slate-950 flex items-center justify-center text-xl mb-5 shadow-lg shadow-cyan-400/20">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3 class="text-4xl font-black">1.2K+</h3>
+                    <p class="text-blue-100 text-sm font-bold mt-1">Tài liệu học tập</p>
+                </div>
+
+                <div
+                    class="rounded-3xl bg-white/10 border border-white/15 p-6 backdrop-blur-xl hover:bg-white/15 transition guest-card-float [animation-delay:1s]">
+                    <div
+                        class="w-12 h-12 rounded-2xl bg-emerald-300 text-slate-950 flex items-center justify-center text-xl mb-5 shadow-lg shadow-emerald-400/20">
+                        <i class="fas fa-book-open"></i>
+                    </div>
+                    <h3 class="text-4xl font-black">50+</h3>
+                    <p class="text-blue-100 text-sm font-bold mt-1">Môn học</p>
+                </div>
+
+                <div
+                    class="col-span-2 rounded-3xl bg-white/10 border border-white/15 p-6 backdrop-blur-xl hover:bg-white/15 transition guest-card-float [animation-delay:2s]">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <h3 class="text-4xl font-black">5K+</h3>
+                            <p class="text-blue-100 text-sm font-bold mt-1">Lượt tải tài liệu</p>
+                        </div>
+
+                        <div
+                            class="w-16 h-16 rounded-3xl bg-amber-300 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-amber-400/20">
+                            <i class="fas fa-download"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="mb-14">
+        <div class="text-center mb-10">
+            <span
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 text-blue-600 text-sm font-black mb-4">
+                <i class="fas fa-star"></i>
+                Tính năng nổi bật
+            </span>
+
+            <h3 class="text-4xl font-black text-slate-900 mb-3">
+                Tất cả tài liệu học tập trong một nơi
             </h3>
 
-            <p class="text-slate-500 text-lg mb-10 leading-relaxed font-medium">
-                “Trở thành thành viên để dễ dàng truy cập, tìm kiếm và tải về kho tài liệu học tập miễn phí mọi lúc,
-                mọi
-                nơi.”
-            </p>
-
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="{{ route('login') }}"
-                    class="group relative inline-flex items-center justify-center px-10 py-4 font-bold text-white transition-all duration-300 bg-blue-600 rounded-2xl hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-200 active:scale-95 w-full sm:w-auto">
-                    <span class="mr-2">ĐĂNG NHẬP NGAY</span>
-                    <i class="fas fa-arrow-right text-sm group-hover:translate-x-1 transition-transform"></i>
-                </a>
-
-                <a href="{{ route('register') }}"
-                    class="inline-flex items-center justify-center px-10 py-4 font-bold text-blue-600 transition-all duration-300 bg-white border-2 border-blue-600 rounded-2xl hover:bg-blue-50 active:scale-95 w-full sm:w-auto">
-                    Tạo tài khoản mới
-                </a>
-            </div>
-
-            <p
-                class="mt-8 text-xs text-slate-400 flex items-center justify-center gap-2 font-semibold uppercase tracking-widest">
-                <i class="fas fa-shield-alt text-green-500"></i>
-                Bảo mật & An toàn tuyệt đối
+            <p class="text-slate-500 font-medium">
+                Giao diện dễ dùng, tìm kiếm nhanh và phân loại rõ ràng theo môn học.
             </p>
         </div>
-    </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div
+                class="group bg-white rounded-[2rem] p-8 border border-blue-100 shadow-sm hover:shadow-2xl hover:shadow-blue-100 hover:-translate-y-2 transition">
+                <div
+                    class="w-16 h-16 rounded-3xl bg-blue-600 text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-blue-200 group-hover:scale-110 group-hover:rotate-6 transition">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h4 class="text-xl font-black text-slate-900 mb-3">Tìm kiếm nhanh</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Tìm tài liệu theo tên, môn học, loại tài liệu hoặc từ khóa liên quan.
+                </p>
+            </div>
+
+            <div
+                class="group bg-white rounded-[2rem] p-8 border border-violet-100 shadow-sm hover:shadow-2xl hover:shadow-violet-100 hover:-translate-y-2 transition">
+                <div
+                    class="w-16 h-16 rounded-3xl bg-violet-600 text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-violet-200 group-hover:scale-110 group-hover:rotate-6 transition">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <h4 class="text-xl font-black text-slate-900 mb-3">Phân loại rõ ràng</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Slide, bài tập, đề thi và giáo trình được sắp xếp theo từng môn học.
+                </p>
+            </div>
+
+            <div
+                class="group bg-white rounded-[2rem] p-8 border border-orange-100 shadow-sm hover:shadow-2xl hover:shadow-orange-100 hover:-translate-y-2 transition">
+                <div
+                    class="w-16 h-16 rounded-3xl bg-orange-500 text-white flex items-center justify-center text-2xl mb-6 shadow-lg shadow-orange-200 group-hover:scale-110 group-hover:rotate-6 transition">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h4 class="text-xl font-black text-slate-900 mb-3">Tải về an toàn</h4>
+                <p class="text-slate-500 text-sm leading-relaxed">
+                    Đăng nhập để tải tài liệu, giúp hệ thống quản lý và bảo vệ tài nguyên tốt hơn.
+                </p>
+            </div>
+        </div>
+    </section>
     @endguest
     <!-- Phần Tài liệu sẽ chia quyền giảng viên và sinh viên -->
     @auth
@@ -344,7 +416,7 @@ setInterval(() => {
             </a>
         </div>
     </div>
-
+    @endif
     <!-- Phần Tài liệu sẽ chia quyền sinh viên -->
     @if(auth()->user()->role_id==3)
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -453,7 +525,7 @@ setInterval(() => {
                 </div>
 
                 <div class="p-4 bg-slate-50/50 border-t border-slate-100 text-center">
-                    <a href="{{ route('documents.index') }}"
+                    <a href="{{ route('documents.latest') }}"
                         class="text-blue-600 font-bold text-sm hover:text-blue-700 flex items-center justify-center gap-2">
                         Xem thêm tài liệu <i class="fas fa-arrow-down animate-bounce"></i>
                     </a>
@@ -677,9 +749,7 @@ setInterval(() => {
         </div>
     </div>
     @endif
-    @endif
+
     @endauth
-
-
 </main>
 @endsection
