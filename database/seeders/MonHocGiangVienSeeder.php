@@ -14,27 +14,24 @@ class MonHocGiangVienSeeder extends Seeder
             [
                 'user_id' => 2,
                 'ma_mon' => 'WEB101',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
 
             [
                 'user_id' => 2,
                 'ma_mon' => 'CSDL',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
 
             [
-                'user_id' => 3,
-                'ma_mon' => 'WEB101',
-            ],
-
-            [
-                'user_id' => 3,
-                'ma_mon' => 'CTDL',
-            ],
-
-            [
-                'user_id' => 3,
+                'user_id' => 2,
                 'ma_mon' => 'JAVA101',
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
+
         ]);
     }
 }

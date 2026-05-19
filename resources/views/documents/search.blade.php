@@ -14,9 +14,7 @@
     </div>
 </div>
 
-{{-- KHỚP LAYOUT VỚI HOME --}}
-<main class="container mx-auto px-4 md:px-6 py-12">
-
+<main class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
     {{-- NÚT QUAY LẠI --}}
     <div class="mb-10">
         <a href="javascript:history.back()"
@@ -70,45 +68,58 @@
 
     </div>
 
-    {{-- SEARCH + FILTER --}}
+    {{-- SEARCH + FILTER (FINAL CLEAN UI) --}}
     <div
-        class="bg-white rounded-[2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] p-5 md:p-6 mb-8">
+        class="bg-white rounded-[2rem] border border-slate-100 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] p-6 lg:p-8 mb-10">
 
-        <form id="searchForm" class="flex flex-col xl:flex-row items-stretch xl:items-center gap-4">
+        <form id="searchForm" class="flex flex-col xl:flex-row xl:items-center gap-6">
 
-            {{-- SEARCH --}}
+            {{-- SEARCH INPUT --}}
             <div class="relative flex-1">
-                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+
+                <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
 
                 <input type="text" id="docKeyword" onkeyup="filterDocuments()"
-                    placeholder="Nhập tên tài liệu, đề thi hoặc từ khóa cần tìm..."
-                    class="w-full h-14 pl-12 pr-5 bg-slate-50/60 border border-slate-100 rounded-2xl text-sm font-semibold text-slate-700 focus:outline-none focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/50 focus:bg-white transition-all">
+                    placeholder="Tìm kiếm tài liệu, đề thi, bài giảng..." class="w-full h-14 pl-14 pr-5 bg-slate-50/60 border border-slate-100 rounded-2xl
+                text-sm font-semibold text-slate-700
+                focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/40 focus:bg-white
+                transition-all">
+
             </div>
 
-            {{-- FILTER --}}
-            <div class="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
+            {{-- FILTER + BUTTON --}}
+            <div class="flex flex-col sm:flex-row gap-4">
 
+                {{-- TYPE FILTER --}}
                 <div class="relative w-full sm:w-64">
-                    <i class="fas fa-filter absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
 
-                    <select id="docType" onchange="filterDocuments()"
-                        class="w-full h-14 pl-10 pr-10 bg-slate-50/60 border border-slate-100 rounded-2xl text-sm font-bold text-slate-600 appearance-none focus:outline-none focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/50 focus:bg-white transition-all cursor-pointer">
+                    <i class="fas fa-filter absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
 
-                        <option value="all">Tất cả loại học liệu</option>
-                        <option value="slide">Slide bài giảng</option>
-                        <option value="de-thi">Đề thi & Đề kiểm tra</option>
-                        <option value="bai-tap">Bài tập về nhà</option>
-                        <option value="tai-lieu-tham-khao">Tài liệu tham khảo</option>
+                    <select id="docType" onchange="filterDocuments()" class="w-full h-14 pl-12 pr-10 bg-slate-50/60 border border-slate-100 rounded-2xl
+                    text-sm font-bold text-slate-600 appearance-none cursor-pointer
+                    focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/40 focus:bg-white
+                    transition-all">
+
+                        <option value="all">Tất cả tài liệu</option>
+                        <option value="PDF">PDF</option>
+                        <option value="DOC">DOC</option>
+                        <option value="PPT">PPT</option>
+
                     </select>
 
-                    <i class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]">
-                    </i>
+                    <i
+                        class="fas fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]"></i>
+
                 </div>
 
-                <button type="button" onclick="filterDocuments()"
-                    class="h-14 px-8 bg-slate-950 text-white font-bold text-xs uppercase tracking-wider rounded-2xl transition-all duration-300 shadow-md shadow-slate-950/5 hover:bg-amber-500 hover:shadow-lg hover:shadow-amber-500/20 active:scale-95 whitespace-nowrap">
+                {{-- SEARCH BUTTON --}}
+                <button type="button" onclick="filterDocuments()" class="h-14 px-8 bg-slate-900 text-white font-black text-xs uppercase tracking-wider
+                rounded-2xl shadow-md shadow-slate-900/10
+                hover:bg-blue-600 hover:shadow-blue-200
+                transition-all active:scale-95 whitespace-nowrap">
 
                     Tìm kiếm
+
                 </button>
 
             </div>
@@ -116,7 +127,6 @@
         </form>
 
     </div>
-
     {{-- TABLE --}}
     <div
         class="bg-white rounded-[2.2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] overflow-hidden">

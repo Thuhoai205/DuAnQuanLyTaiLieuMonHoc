@@ -13,28 +13,24 @@ class LoaiTaiLieuSeeder extends Seeder
 
             [
                 'ten_loai' => 'Slide bài giảng',
-                'mo_ta' => 'Slide phục vụ học tập',
-            ],
-
-            [
-                'ten_loai' => 'Đề cương',
-                'mo_ta' => 'Đề cương môn học',
-            ],
-
-            [
-                'ten_loai' => 'Bài tập',
-                'mo_ta' => 'Bài tập thực hành',
+                'mo_ta' => 'Slide học tập',
             ],
 
             [
                 'ten_loai' => 'Đề thi',
-                'mo_ta' => 'Đề thi tham khảo',
+                'mo_ta' => 'Đề thi môn học',
             ],
 
             [
-                'ten_loai' => 'Tài liệu tham khảo',
-                'mo_ta' => 'Tài liệu học tập thêm',
+                'ten_loai' => 'Bài tập',
+                'mo_ta' => 'Tài liệu bài tập',
             ],
+
+            [
+                'ten_loai' => 'Giáo trình',
+                'mo_ta' => 'Tài liệu giáo trình',
+            ],
+
         ]);
     }
 }

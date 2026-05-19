@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Str;
 use App\Models\MonHoc;
+use Illuminate\Support\Str;
 
 class MonHocSeeder extends Seeder
 {
@@ -15,30 +15,36 @@ class MonHocSeeder extends Seeder
             [
                 'ma_mon' => 'WEB101',
                 'ten_mon' => 'Lập trình Web',
-                'mo_ta' => 'Môn học về phát triển website',
                 'slug' => Str::slug('Lập trình Web'),
-            ],
-
-            [
-                'ma_mon' => 'CTDL',
-                'ten_mon' => 'Cấu trúc dữ liệu',
-                'mo_ta' => 'Môn học về giải thuật và cấu trúc dữ liệu',
-                'slug' => Str::slug('Cấu trúc dữ liệu'),
+                'mo_ta' => 'Môn học phát triển website',
+                'color' => 'blue',
+                'tong_tai_lieu' => 0,
+                'is_featured' => true,
+                'is_active' => true,
             ],
 
             [
                 'ma_mon' => 'CSDL',
                 'ten_mon' => 'Cơ sở dữ liệu',
-                'mo_ta' => 'Môn học về SQL Server và quản trị dữ liệu',
                 'slug' => Str::slug('Cơ sở dữ liệu'),
+                'mo_ta' => 'Môn học SQL Server',
+                'color' => 'green',
+                'tong_tai_lieu' => 0,
+                'is_featured' => false,
+                'is_active' => true,
             ],
 
             [
                 'ma_mon' => 'JAVA101',
                 'ten_mon' => 'Lập trình Java',
-                'mo_ta' => 'Môn học Java căn bản',
                 'slug' => Str::slug('Lập trình Java'),
+                'mo_ta' => 'Java cơ bản',
+                'color' => 'red',
+                'tong_tai_lieu' => 0,
+                'is_featured' => false,
+                'is_active' => true,
             ],
+
         ]);
     }
 }

@@ -3,19 +3,22 @@
 @section('title', 'Quản lý học liệu')
 
 @section('content')
-<main id="view-course-detail" class="py-15 bg-slate-50 min-h-screen">
-    <div class="container mx-auto px-4 max-w-6xl">
+<main id="view-course-detail" class="bg-slate-50 min-h-screen py-12">
+    <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+        {{-- NÚT QUAY LẠI --}}
+        <div class="mb-10">
+            <a href="javascript:history.back()"
+                class="group inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-slate-100 text-slate-600 hover:text-orange-500 font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-orange-500/20 hover:-translate-x-1 hover:border-orange-200 transition-all duration-300 active:scale-95">
 
-        <!-- BACK -->
-        <button onclick="window.history.back()"
-            class="mt-8 flex items-center text-blue-600 font-bold mb-8 hover:-translate-x-1 transition-transform group">
+                <i
+                    class="fas fa-arrow-left text-slate-400 group-hover:text-orange-500 transition-all duration-300 group-hover:-translate-x-0.5">
+                </i>
 
-            <i
-                class="fas fa-arrow-left mr-2 bg-blue-100 p-2 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-all"></i>
-
-            Quay lại danh sách
-
-        </button>
+                <span class="group-hover:text-orange-500 transition-colors duration-300">
+                    Quay lại
+                </span>
+            </a>
+        </div>
 
         <!-- COURSE HEADER -->
         <div

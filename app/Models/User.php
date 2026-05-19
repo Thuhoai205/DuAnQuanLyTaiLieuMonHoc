@@ -4,18 +4,21 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Role;
 use App\Models\MonHoc;
 use App\Models\TaiLieu;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, SoftDeletes;
 
     protected $table = 'users';
 
     protected $primaryKey = 'user_id';
+
     public $incrementing = true;
+
     protected $keyType = 'int';
 
     protected $fillable = [
@@ -25,7 +28,7 @@ class User extends Authenticatable
         'email',
         'avatar',
         'role_id',
-        'is_active'
+        'is_active',
     ];
 
     protected $hidden = [
@@ -33,21 +36,16 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /*
-    |---------------------------------------
-    | ROLE (1 user -> 1 role)
-    |---------------------------------------
-    */
+    protected $casts = [
+        'is_active' => 'boolean',
+        'password' => 'hashed',
+    ];
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
 
-    /*
-    |---------------------------------------
-    | GIẢNG VIÊN - MÔN HỌC (N-N)
-    |---------------------------------------
-    */
     public function monHocs()
     {
         return $this->belongsToMany(
@@ -58,11 +56,6 @@ class User extends Authenticatable
         );
     }
 
-    /*
-    |---------------------------------------
-    | USER UPLOAD TÀI LIỆU (1-N)
-    |---------------------------------------
-    */
     public function taiLieus()
     {
         return $this->hasMany(

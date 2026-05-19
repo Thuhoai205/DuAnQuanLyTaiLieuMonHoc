@@ -11,36 +11,33 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+       Schema::create('users', function (Blueprint $table) {
 
-            // Khóa chính
-            $table->id('user_id');
+    $table->id('user_id');
 
-            // Thông tin tài khoản
-            $table->string('username', 50)->unique();
-            $table->string('password');
+    $table->string('username', 50)->unique();
+    $table->string('password');
 
-            // Thông tin cá nhân
-            $table->string('full_name', 100)->nullable();
-            $table->string('email', 100)->unique()->nullable();
+    $table->string('full_name', 100);
 
-            // Ảnh đại diện
-            $table->text('avatar')->nullable();
+    $table->string('email', 100)
+        ->unique()
+        ->nullable();
 
-            // Vai trò
-            $table->foreignId('role_id')
-                ->constrained('roles', 'role_id')
-                ->onDelete('cascade');
+    $table->string('avatar')->nullable();
 
-            // Trạng thái hoạt động
-            $table->boolean('is_active')->default(true);
+    $table->foreignId('role_id')
+        ->constrained('roles', 'role_id')
+        ->restrictOnDelete();
 
-            // Ghi nhớ đăng nhập
-            $table->rememberToken();
+    $table->boolean('is_active')->default(true);
 
-            // created_at + updated_at
-            $table->timestamps();
-        });
+    $table->rememberToken();
+
+    $table->timestamps();
+
+    $table->softDeletes();
+});
     }
 
     /**

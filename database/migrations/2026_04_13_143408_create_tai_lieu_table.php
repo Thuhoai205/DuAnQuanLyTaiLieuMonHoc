@@ -13,65 +13,47 @@ return new class extends Migration
     {
         Schema::create('tai_lieus', function (Blueprint $table) {
 
-            $table->id('tai_lieu_id');
+    $table->id('tai_lieu_id');
 
-            /**
-             * TIÊU ĐỀ
-             */
-            $table->string('tieu_de', 255);
+    $table->string('tieu_de', 255);
 
-            /**
-             * TÊN FILE
-             */
-            $table->string('ten_file');
+    $table->string('slug')->unique();
 
-            /**
-             * ĐƯỜNG DẪN FILE
-             */
-            $table->text('duong_dan');
+    $table->string('ten_file');
 
-            /**
-             * KÍCH THƯỚC FILE
-             */
-            $table->bigInteger('kich_thuoc')->nullable();
+    $table->text('duong_dan');
 
-            /**
-             * LƯỢT TẢI
-             */
-            $table->integer('luot_tai')->default(0);
+    $table->string('file_extension', 20)->nullable();
 
-            /**
-             * MÔ TẢ
-             */
-            $table->text('mo_ta')->nullable();
+    $table->bigInteger('kich_thuoc')->nullable();
 
-            /**
-             * MÔN HỌC
-             */
-            $table->string('ma_mon', 20);
+    $table->integer('luot_tai')->default(0);
 
-            $table->foreign('ma_mon')
-                ->references('ma_mon')
-                ->on('mon_hocs')
-                ->cascadeOnDelete();
+    $table->text('mo_ta')->nullable();
 
-            /**
-             * LOẠI TÀI LIỆU
-             */
-            $table->foreignId('loai_id')
-                ->constrained('loai_tai_lieus', 'loai_id')
-                ->restrictOnDelete();
+    $table->boolean('is_public')->default(true);
 
-            /**
-             * NGƯỜI UPLOAD
-             */
-            $table->foreignId('nguoi_upload')
-                ->references('user_id')
-                ->on('users')
-                ->cascadeOnDelete();
+    $table->string('ma_mon', 20);
 
-            $table->timestamps();
-        });
+    $table->foreign('ma_mon')
+        ->references('ma_mon')
+        ->on('mon_hocs')
+        ->cascadeOnDelete();
+
+    $table->foreignId('loai_id')
+        ->constrained('loai_tai_lieus', 'loai_id')
+        ->restrictOnDelete();
+
+    $table->foreignId('nguoi_upload')
+        ->nullable()
+        ->references('user_id')
+        ->on('users')
+        ->nullOnDelete();
+
+    $table->timestamps();
+
+    $table->softDeletes();
+});
     }
 
     /**
