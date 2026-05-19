@@ -73,6 +73,7 @@
         </div>
     </div>
 </nav>
+@if(request()->is('home'))
 
 <div id="uploadModal"
     class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/40 backdrop-blur-[4px] px-4 transition-all duration-300">
@@ -130,30 +131,19 @@
                     <div class="relative flex items-center">
                         <select name="subject_id"
                             class="w-full h-11 pl-4 pr-10 rounded-xl border border-slate-200 bg-slate-50/50 text-xs font-bold text-slate-600 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all appearance-none cursor-pointer">
-                            <option value="" disabled selected>-- Chọn môn học áp dụng --</option>
 
-                            <optgroup label="Công nghệ thông tin">
-                                <option value="1">Lập trình Web (Laravel/ReactJS)</option>
-                                <option value="2">Lập trình hướng đối tượng (OOP)</option>
-                                <option value="3">Cơ sở dữ liệu hệ quản trị SQL</option>
-                                <option value="4">Phát triển ứng dụng di động</option>
-                            </optgroup>
+                            <option value="">Chọn môn học</option>
+                            <option value="1">Lập trình Web</option>
+                            <option value="2">Cơ sở dữ liệu</option>
+                            <option value="3">Mạng máy tính</option>
 
-                            <optgroup label="Kinh tế & Quản trị">
-                                <option value="5">Kinh tế vĩ mô</option>
-                                <option value="6">Marketing kỹ thuật số (Digital)</option>
-                                <option value="7">Quản trị nguồn nhân lực</option>
-                            </optgroup>
-
-                            <optgroup label="Ngoại ngữ & Kỹ năng">
-                                <option value="8">Tiếng Anh chuyên ngành Công nghệ</option>
-                                <option value="9">Kỹ năng giao tiếp và thuyết trình</option>
-                            </optgroup>
                         </select>
                         <i class="fas fa-book text-slate-400 text-[11px] absolute right-8 pointer-events-none"></i>
                         <i
                             class="fas fa-chevron-down text-slate-400 text-[10px] absolute right-4 pointer-events-none"></i>
                     </div>
+
+
                 </div>
 
                 <div>
@@ -181,20 +171,33 @@
                     class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-xs font-semibold text-slate-700 placeholder-slate-400 resize-none focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 transition-all"></textarea>
             </div>
 
-            <div class="flex items-center justify-end gap-2.5 pt-2 border-t border-slate-50">
-                <button type="button" onclick="closeUploadModal()"
-                    class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 active:scale-95 transition-all">
-                    Hủy bỏ
+            <div class="flex items-center justify-between gap-2.5 pt-3 border-t border-slate-100">
+
+                <!-- NÚT XÓA DỮ LIỆU -->
+                <button type="button" onclick="resetUploadForm()"
+                    class="px-4 py-2.5 rounded-xl bg-red-50 text-red-500 text-xs font-bold hover:bg-red-500 hover:text-white active:scale-95 transition-all">
+                    <i class="fas fa-trash-alt mr-1"></i>
+                    Xóa dữ liệu
                 </button>
-                <button type="submit"
-                    class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md shadow-blue-600/10 active:scale-95 transition-all">
-                    Upload tài liệu
-                </button>
+
+                <div class="flex items-center gap-2.5">
+                    <button type="button" onclick="closeUploadModal()"
+                        class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-500 hover:bg-slate-50 active:scale-95 transition-all">
+                        Hủy bỏ
+                    </button>
+
+                    <button type="submit"
+                        class="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow-md shadow-blue-600/10 active:scale-95 transition-all">
+                        <i class="fas fa-cloud-upload-alt mr-1"></i>
+                        Upload tài liệu
+                    </button>
+                </div>
+
             </div>
         </form>
     </div>
 </div>
-
+@endif
 <style>
 @keyframes fadeIn {
     from {
@@ -240,6 +243,29 @@ function closeUploadModal() {
     }
 }
 
+function resetUploadForm() {
+    const modal = document.getElementById('uploadModal');
+    const form = modal ? modal.querySelector('form') : null;
+
+    if (form) {
+        form.reset();
+    }
+
+    const fileInput = document.getElementById('fileInput');
+    const uploadPrompt = document.getElementById('uploadPrompt');
+    const fileTypesHint = document.getElementById('fileTypesHint');
+
+    if (fileInput) fileInput.value = "";
+
+    if (uploadPrompt) {
+        uploadPrompt.innerHTML =
+            'Kéo thả file hoặc <span class="text-blue-600 group-hover:underline">click để chọn</span>';
+    }
+
+    if (fileTypesHint) {
+        fileTypesHint.innerText = 'PDF, DOCX, PPTX (Tối đa 50MB)';
+    }
+}
 // Lắng nghe sự thay đổi của input file nhằm tối ưu hiển thị trạng thái đã chọn file thành công
 function updateFileName(input) {
     const promptText = document.getElementById('uploadPrompt');
