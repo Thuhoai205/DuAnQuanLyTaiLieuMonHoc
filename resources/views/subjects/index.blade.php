@@ -4,339 +4,362 @@
 
 @section('content')
 
-<!-- BACKGROUND -->
-<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+<main class="min-h-screen bg-[#EAFBFF]">
 
-    <div
-        class="absolute top-[-5%] left-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[130px] animate-[pulse_7s_infinite]">
-    </div>
+    <section class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-14">
 
-    <div
-        class="absolute bottom-[15%] right-[-5%] w-[500px] h-[500px] rounded-full bg-cyan-500/5 blur-[120px] animate-[pulse_9s_infinite]">
-    </div>
-
-</div>
-
-<!-- MAIN -->
-<main class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-14">
-
-    <!-- BACK BUTTON -->
-    <div class="mb-10">
-
-        <a href="javascript:history.back()"
-            class="group inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-slate-100 text-slate-600 hover:text-orange-500 font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-orange-500/20 hover:-translate-x-1 hover:border-orange-200 transition-all duration-300 active:scale-95">
-
-            <i
-                class="fas fa-arrow-left text-slate-400 group-hover:text-orange-500 transition-all duration-300 group-hover:-translate-x-0.5">
-            </i>
-
-            <span class="group-hover:text-orange-500 transition-colors duration-300">
+        <!-- BACK -->
+        <div class="mb-10">
+            <a href="javascript:history.back()"
+                class="inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-cyan-100 text-cyan-700 hover:text-cyan-800 font-bold text-xs uppercase tracking-wider rounded-full shadow-sm hover:shadow-cyan-200 transition-all duration-300">
+                <i class="fa-solid fa-arrow-left"></i>
                 Quay lại
-            </span>
-
-        </a>
-
-    </div>
-
-    <!-- HEADER -->
-    <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-12 pb-8 border-b border-slate-100">
-
-        <!-- LEFT -->
-        <div>
-
-            <div class="flex items-center mb-3">
-
-                <div
-                    class="w-11 h-11 bg-blue-600 rounded-full flex items-center justify-center text-white mr-4 shadow-lg shadow-blue-200">
-
-                    <i class="fas fa-layer-group"></i>
-
-                </div>
-
-                <h1 class="text-3xl font-black text-slate-800 tracking-tight">
-                    Danh mục Môn học
-                </h1>
-
-            </div>
-
-            <p class="text-slate-400 font-medium text-sm pl-[60px] max-w-2xl leading-relaxed">
-                Quản lý và truy cập kho học liệu theo từng môn học, chuyên ngành và lĩnh vực đào tạo.
-            </p>
-
+            </a>
         </div>
 
-        <!-- RIGHT -->
-        <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
-
-            <!-- SEARCH -->
-            <div class="relative w-full lg:w-72">
-
-                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
-
-                <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm theo tên môn..."
-                    class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-2xl text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 transition-all">
-
-            </div>
-
-            <!-- FILTER TAB -->
-            @auth
-            @if(auth()->user()->role_id == 2)
-
-            <div class="inline-flex p-1 bg-slate-100 border border-slate-200 rounded-2xl text-sm font-bold">
-
-                <button onclick="filterSubjects('assigned', this)"
-                    class="tab-btn px-6 py-3 rounded-xl bg-white text-blue-600 shadow-sm transition-all duration-300">
-
-                    Phụ trách (1)
-
-                </button>
-
-                <button onclick="filterSubjects('all', this)"
-                    class="tab-btn px-6 py-3 rounded-xl text-slate-500 hover:text-slate-800 transition-all duration-300">
-
-                    Tất cả (2)
-
-                </button>
-
-            </div>
-
-            @endif
-            @endauth
-
-        </div>
-
-    </div>
-
-    <!-- GRID -->
-    <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
-
-        <!-- CARD -->
+        <!-- HEADER -->
         <div
-            class="subject-card assigned group relative bg-white rounded-[2.2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_24px_60px_-15px_rgba(59,130,246,0.12)] hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between overflow-hidden">
+            class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-12 pb-8 border-b border-cyan-100">
 
-            <!-- DECOR -->
-            <div
-                class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-blue-50 to-cyan-50/50 rounded-full group-hover:scale-125 transition-transform duration-700 ease-out">
-            </div>
+            <div>
+                <div class="flex items-center mb-3">
+                    <div
+                        class="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center text-white mr-4 shadow-lg shadow-cyan-200">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
 
-            <!-- STATUS -->
-            <div class="absolute top-6 right-6 flex h-2 w-2">
-
-                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75">
-                </span>
-
-                <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-
-            </div>
-
-            <!-- BODY -->
-            <div class="p-8 relative z-10">
-
-                <div
-                    class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-[inset_0_2px_8px_rgba(59,130,246,0.06)] group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-
-                    <i class="fas fa-laptop-code text-2xl"></i>
-
+                    <h1 class="text-3xl font-black text-cyan-950 tracking-tight">
+                        Danh mục Môn học
+                    </h1>
                 </div>
 
-                <div class="space-y-3">
+                <p class="text-slate-500 font-medium text-sm pl-[64px] max-w-2xl leading-relaxed">
+                    Quản lý và truy cập kho học liệu theo từng môn học, chuyên ngành và lĩnh vực đào tạo.
+                </p>
+            </div>
 
-                    <h3
-                        class="subject-title text-2xl font-black text-slate-900 group-hover:text-blue-600 transition-colors duration-300">
+            <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
 
+                <!-- SEARCH -->
+                <div class="relative w-full lg:w-72">
+                    <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-600 text-xs"></i>
+
+                    <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm theo tên môn..."
+                        class="w-full pl-11 pr-4 py-3 bg-white border border-cyan-100 rounded-2xl text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-500 transition-all">
+                </div>
+
+                @auth
+                @if(auth()->user()->role_id == 2)
+                <div class="inline-flex p-1 bg-cyan-50 border border-cyan-100 rounded-2xl text-sm font-bold">
+                    <button onclick="filterSubjects('assigned', this)"
+                        class="tab-btn px-6 py-3 rounded-xl bg-cyan-500 text-white shadow-sm transition-all duration-300">
+                        Phụ trách (1)
+                    </button>
+
+                    <button onclick="filterSubjects('all', this)"
+                        class="tab-btn px-6 py-3 rounded-xl text-cyan-700 hover:bg-white transition-all duration-300">
+                        Tất cả (2)
+                    </button>
+                </div>
+                @endif
+                @endauth
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+
+            <!-- CARD 1 -->
+            <div
+                class="subject-card assigned group relative bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+
+                <div
+                    class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-100 rounded-full group-hover:scale-125 transition-transform duration-700">
+                </div>
+
+                <div class="p-8 relative z-10">
+                    <div
+                        class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6 border border-cyan-100 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-laptop-code text-2xl"></i>
+                    </div>
+
+                    <h3 class="text-xl font-black text-slate-900 group-hover:text-cyan-600 transition">
                         Lập trình Web
-
                     </h3>
 
-                    <p class="text-slate-400 text-sm leading-relaxed font-medium">
-                        Làm chủ Laravel, ReactJS, ASP.NET Core và các công nghệ phát triển Web hiện đại.
+                    <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+                        HTML, CSS, JavaScript, Laravel và các công nghệ phát triển website.
                     </p>
 
-                </div>
-
-            </div>
-
-            <!-- FOOTER -->
-            <div class="px-8 py-6 border-t border-slate-100 relative z-10 flex items-center justify-between">
-
-                <div>
-
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                        Bài đã đăng
-                    </span>
-
-                    <div class="flex items-end gap-2 mt-1">
-
-                        <span class="text-2xl font-black text-slate-800">
-                            10/20
+                    <div class="mt-6 flex items-center justify-between">
+                        <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
+                            120 tài liệu
                         </span>
 
-                        <span class="text-[10px] font-extrabold text-amber-600 bg-amber-50 px-2 py-1 rounded-md">
-                            FILES
-                        </span>
-
+                        <a href="{{ route('subjects.show', ['id' => 1]) }}"
+                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 hover:bg-cyan-600 transition">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
                     </div>
-
                 </div>
-
-                <a href="{{ route('subjects.show', ['id' => 1]) }}"
-                    class="w-12 h-12 bg-slate-950 text-white rounded-full flex items-center justify-center group-hover:bg-amber-500 group-hover:shadow-lg group-hover:shadow-amber-500/20 active:scale-90 transition-all duration-300">
-
-                    <i class="fas fa-arrow-right text-sm transform group-hover:translate-x-0.5 transition-transform">
-                    </i>
-
-                </a>
-
             </div>
 
-        </div>
-
-        <!-- CARD -->
-        <div
-            class="subject-card group relative bg-white rounded-[2.2rem] border border-slate-100 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.03)] hover:shadow-[0_24px_60px_-15px_rgba(59,130,246,0.12)] hover:-translate-y-2 transition-all duration-500 flex flex-col justify-between overflow-hidden">
-
+            <!-- CARD 2 -->
             <div
-                class="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-cyan-50 to-blue-50/50 rounded-full group-hover:scale-125 transition-transform duration-700 ease-out">
-            </div>
-
-            <div class="p-8 relative z-10">
+                class="subject-card all group relative bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
 
                 <div
-                    class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6 shadow-[inset_0_2px_8px_rgba(34,211,238,0.06)] group-hover:bg-cyan-600 group-hover:text-white group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-
-                    <i class="fas fa-network-wired text-2xl"></i>
-
+                    class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-100 rounded-full group-hover:scale-125 transition-transform duration-700">
                 </div>
 
-                <div class="space-y-3">
-
-                    <h3
-                        class="subject-title text-2xl font-black text-slate-900 group-hover:text-cyan-600 transition-colors duration-300">
-
-                        Mạng máy tính
-
-                    </h3>
-
-                    <p class="text-slate-400 text-sm leading-relaxed font-medium">
-                        Kiến thức nền tảng về TCP/IP, OSI, thiết kế hệ thống và quản trị mạng.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="px-8 py-6 border-t border-slate-100 relative z-10 flex items-center justify-between">
-
-                <div>
-
-                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
-                        Số lượng
-                    </span>
-
-                    <div class="flex items-end gap-2 mt-1">
-
-                        <span class="text-2xl font-black text-slate-800">
-                            42
-                        </span>
-
-                        <span class="text-[10px] font-extrabold text-cyan-600 bg-cyan-50 px-2 py-1 rounded-md">
-                            FILES
-                        </span>
-
+                <div class="p-8 relative z-10">
+                    <div
+                        class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6 border border-cyan-100 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-database text-2xl"></i>
                     </div>
 
+                    <h3 class="text-xl font-black text-slate-900 group-hover:text-cyan-600 transition">
+                        Cơ sở dữ liệu
+                    </h3>
+
+                    <p class="text-slate-500 text-sm mt-3 leading-relaxed">
+                        SQL, thiết kế cơ sở dữ liệu, truy vấn và quản trị dữ liệu.
+                    </p>
+
+                    <div class="mt-6 flex items-center justify-between">
+                        <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
+                            85 tài liệu
+                        </span>
+
+                        <a href="#"
+                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 hover:bg-cyan-600 transition">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
-
-                <a href="#"
-                    class="w-12 h-12 bg-slate-950 text-white rounded-full flex items-center justify-center group-hover:bg-cyan-500 group-hover:shadow-lg group-hover:shadow-cyan-500/20 active:scale-90 transition-all duration-300">
-
-                    <i class="fas fa-arrow-right text-sm transform group-hover:translate-x-0.5 transition-transform">
-                    </i>
-
-                </a>
-
             </div>
 
         </div>
 
-    </div>
+        <!-- DOCUMENT LIST -->
+        <div
+            class="mt-14 bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
 
+            <div class="px-7 py-5 border-b border-cyan-100">
+                <h2 class="text-2xl font-black text-cyan-950">
+                    Tài liệu môn học
+                </h2>
+            </div>
+
+            <div class="divide-y divide-cyan-100">
+
+                <!-- ITEM -->
+                <div class="p-6 hover:bg-cyan-50/60 transition-colors flex items-center gap-5 group">
+                    <div
+                        class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-red-100">
+                        <i class="fa-solid fa-file-pdf text-2xl"></i>
+                        <span class="text-[10px] font-black mt-1">PDF</span>
+                    </div>
+
+                    <div class="flex-grow min-w-0">
+                        <h6
+                            class="font-bold text-slate-800 text-lg group-hover:text-cyan-600 transition-colors truncate">
+                            Slide Bài 1: Tổng quan về Laravel Framework
+                        </h6>
+
+                        <div class="flex flex-wrap items-center gap-3 text-slate-500 text-xs mt-2 font-medium">
+                            <span><i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>Môn: Lập trình Web</span>
+                            <span class="text-slate-300">•</span>
+                            <span><i class="fa-solid fa-user-graduate text-cyan-600 mr-1.5"></i>GV: ThS. Trần Văn
+                                B</span>
+                            <span class="text-slate-300">•</span>
+                            <span><i class="fa-solid fa-calendar-check text-cyan-600 mr-1.5"></i>Hôm nay</span>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0 flex items-center gap-2">
+                        @if(Auth::check())
+                        <button
+                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                            Tải về
+                        </button>
+                        @else
+                        <button onclick="showLoginRequiredModal()"
+                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                            Đăng nhập để tải
+                        </button>
+                        @endif
+
+                    </div>
+                </div>
+
+                <!-- ITEM CỦA GIẢNG VIÊN ĐANG ĐĂNG NHẬP -->
+                <div class="p-6 hover:bg-cyan-50/60 transition-colors flex items-center gap-5 group">
+                    <div
+                        class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-blue-100">
+                        <i class="fa-solid fa-file-word text-2xl"></i>
+                        <span class="text-[10px] font-black mt-1">W</span>
+                    </div>
+
+                    <div class="flex-grow min-w-0">
+                        <h6
+                            class="font-bold text-slate-800 text-lg group-hover:text-cyan-600 transition-colors truncate">
+                            Đề cương ôn tập giữa kỳ CSDL 2023-2024
+                        </h6>
+
+                        <div class="flex flex-wrap items-center gap-3 text-slate-500 text-xs mt-2 font-medium">
+                            <span><i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>Môn: Cơ sở dữ liệu</span>
+                            <span class="text-slate-300">•</span>
+                            <span><i class="fa-solid fa-user-graduate text-cyan-600 mr-1.5"></i>GV: Bạn</span>
+                            <span class="text-slate-300">•</span>
+                            <span><i class="fa-solid fa-calendar-check text-cyan-600 mr-1.5"></i>Hôm qua</span>
+                        </div>
+                    </div>
+
+                    <div class="shrink-0 flex items-center gap-2">
+                        @if(Auth::check())
+                        <button
+                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                            Tải về
+                        </button>
+                        @else
+                        <button onclick="showLoginRequiredModal()"
+                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                            Đăng nhập để tải
+                        </button>
+                        @endif
+
+                        @if(Auth::check() && Auth::user()->role_id == 2)
+
+                        <a href="{{ route('documents.edit', 1) }}" class="w-10 h-10 flex items-center justify-center
+    text-amber-500 hover:bg-amber-500 hover:text-white
+    rounded-xl transition-all duration-300
+    shadow-sm bg-white border border-amber-100" title="Sửa">
+
+                            <i class="fa-solid fa-pen-to-square text-sm"></i>
+                        </a>
+                        <button
+                            class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center border border-red-100">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+
+                        @endif
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div class="mt-10 flex items-center justify-center gap-2">
+            <button class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-400 hover:bg-cyan-50">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+
+            <button class="w-11 h-11 rounded-2xl bg-cyan-500 text-white font-bold shadow-lg shadow-cyan-200">
+                1
+            </button>
+
+            <button
+                class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50">
+                2
+            </button>
+
+            <button
+                class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50">
+                3
+            </button>
+
+            <button class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 hover:bg-cyan-50">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
+
+    </section>
 </main>
+
+<!-- LOGIN REQUIRED MODAL -->
+<div id="loginRequiredModal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+
+    <div class="w-full max-w-md bg-white rounded-3xl p-8 text-center shadow-2xl border border-cyan-100">
+
+        <div
+            class="w-20 h-20 mx-auto rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center text-3xl mb-5">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <h3 class="text-2xl font-black text-slate-900 mb-3">
+            Yêu cầu đăng nhập
+        </h3>
+
+        <p class="text-slate-500 leading-relaxed mb-6">
+            Bạn cần đăng nhập để tải tài liệu học tập.
+        </p>
+
+        <div class="flex items-center justify-center gap-3">
+            <button onclick="closeLoginRequiredModal()"
+                class="px-5 py-3 rounded-2xl border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50 transition">
+                Đóng
+            </button>
+
+            <a href="{{ route('login') }}"
+                class="px-6 py-3 rounded-2xl bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition shadow-lg shadow-cyan-200">
+                Đăng nhập ngay
+            </a>
+        </div>
+    </div>
+</div>
 
 @endsection
 
 <script>
-function filterSubjects(type, element) {
+function showLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
 
-    const cards = document.querySelectorAll('.subject-card');
-    const buttons = document.querySelectorAll('.tab-btn');
-
-    buttons.forEach(btn => {
-
-        btn.classList.remove('bg-white', 'text-blue-600', 'shadow-sm');
-        btn.classList.add('text-slate-500');
-
-    });
-
-    element.classList.add('bg-white', 'text-blue-600', 'shadow-sm');
-    element.classList.remove('text-slate-500');
-
-    cards.forEach(card => {
-
-        if (type === 'all') {
-
-            card.classList.remove('hidden');
-
-        } else if (type === 'assigned') {
-
-            if (card.classList.contains('assigned')) {
-
-                card.classList.remove('hidden');
-
-            } else {
-
-                card.classList.add('hidden');
-
-            }
-
-        }
-
-    });
-
+function closeLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
 }
 
 function searchSubjects() {
-
-    const input = document.getElementById('subjectSearch').value.toUpperCase();
+    const input = document.getElementById('subjectSearch');
+    const keyword = input.value.toLowerCase();
     const cards = document.querySelectorAll('.subject-card');
 
     cards.forEach(card => {
-
-        const title = card.querySelector('.subject-title').innerText;
-
-        if (title.toUpperCase().indexOf(input) > -1) {
-
-            card.classList.remove('hidden');
-
-        } else {
-
-            card.classList.add('hidden');
-
-        }
-
+        card.style.display = card.innerText.toLowerCase().includes(keyword) ? 'flex' : 'none';
     });
-
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+function filterSubjects(type, btn) {
+    const cards = document.querySelectorAll('.subject-card');
+    const buttons = document.querySelectorAll('.tab-btn');
 
-    const defaultTab = document.querySelector('.tab-btn');
+    buttons.forEach(b => {
+        b.classList.remove('bg-cyan-500', 'text-white');
+        b.classList.add('text-cyan-700');
+    });
 
-    if (defaultTab) {
+    btn.classList.add('bg-cyan-500', 'text-white');
+    btn.classList.remove('text-cyan-700');
 
-        filterSubjects('assigned', defaultTab);
-
-    }
-
-});
+    cards.forEach(card => {
+        if (type === 'all') {
+            card.style.display = 'flex';
+        } else {
+            card.style.display = card.classList.contains('assigned') ? 'flex' : 'none';
+        }
+    });
+}
 </script>

@@ -4,69 +4,56 @@
 
 @section('content')
 
-<main id="view-course-detail" class="min-h-screen bg-slate-50">
-
+<main id="view-course-detail" class="min-h-screen bg-[#EAFBFF]">
     <!-- HERO -->
-    <section class="relative overflow-hidden bg-gradient-to-br from-blue-700 via-blue-600 to-cyan-500 text-white">
-        <div class="absolute inset-0 bg-black/10"></div>
-        <div class="absolute -top-24 -left-24 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-cyan-300/20 rounded-full blur-3xl"></div>
+    <section class="relative overflow-hidden bg-[#0891B2] text-white">
+        <div class="absolute inset-0 opacity-20">
+            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=1600"
+                class="w-full h-full object-cover">
+        </div>
 
-        <div class="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-14">
+        <div class="absolute inset-0 bg-[#0891B2]/90"></div>
 
-            <div class="mb-10">
+        <div class="relative max-w-7xl mx-auto px-6 py-16">
 
-                <a href="javascript:history.back()"
-                    class="group inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-slate-100 text-slate-600 hover:text-orange-500 font-bold text-xs uppercase tracking-wider rounded-full shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-orange-500/20 hover:-translate-x-1 hover:border-orange-200 transition-all duration-300 active:scale-95">
-
-                    <i
-                        class="fas fa-arrow-left text-slate-400 group-hover:text-orange-500 transition-all duration-300 group-hover:-translate-x-0.5">
-                    </i>
-
-                    <span class="group-hover:text-orange-500 transition-colors duration-300">
-                        Quay lại
-                    </span>
-
-                </a>
-
-            </div>
+            <a href="javascript:history.back()"
+                class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-cyan-700/70 border border-cyan-300/30 text-cyan-50 text-xs font-black uppercase tracking-wider hover:bg-cyan-600 transition mb-8">
+                <i class="fa-solid fa-arrow-left"></i>
+                Quay lại
+            </a>
 
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
 
-                <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-6">
-
+                <div class="flex items-center gap-6">
                     <div
-                        class="w-24 h-24 bg-white/20 backdrop-blur rounded-3xl flex items-center justify-center text-4xl text-white shadow-xl border border-white/20">
-                        <i class="fas fa-laptop-code"></i>
+                        class="w-24 h-24 rounded-[28px] bg-cyan-300 text-cyan-950 flex items-center justify-center shadow-2xl">
+                        <i class="fa-solid fa-laptop-code text-4xl"></i>
                     </div>
 
                     <div>
-                        <p class="text-blue-100 text-sm font-bold uppercase tracking-[0.25em] mb-3">
+                        <p class="text-cyan-100 text-sm font-black uppercase tracking-[0.25em] mb-3">
                             Chi tiết môn học
                         </p>
 
-                        <h1 class="text-4xl md:text-5xl font-black mb-4">
+                        <h1 class="text-4xl md:text-5xl font-black">
                             Lập trình Web
                         </h1>
 
-                        <p class="text-blue-50 max-w-2xl text-lg leading-relaxed">
-                            Làm chủ các Framework hiện đại như Laravel, ReactJS, VueJS.
+                        <p class="text-cyan-50/90 mt-4 text-lg max-w-2xl">
+                            Làm chủ các framework hiện đại như Laravel, ReactJS, VueJS.
                         </p>
                     </div>
-
                 </div>
 
                 @if(Auth::check() && Auth::user()->role_id == 2)
-                <button onclick="openSubjectUploadModal()" class="inline-flex items-center justify-center gap-2
-                    bg-white text-blue-700 px-8 py-4 rounded-2xl font-extrabold shadow-xl hover:-translate-y-1
-                    hover:shadow-2xl transition-all">
-                    <i class="fas fa-cloud-upload-alt"></i>
+                <button onclick="openSubjectUploadModal()"
+                    class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-cyan-300 text-cyan-950 font-black hover:bg-cyan-200 shadow-xl transition">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
                     Đăng tài liệu
                 </button>
                 @endif
 
             </div>
-
         </div>
     </section>
 
@@ -76,34 +63,34 @@
         <!-- STATS -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 -mt-24 relative z-10 mb-10">
 
-            <div class="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-lg">
+            <div class="bg-white rounded-[2rem] p-6 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
                 <div
-                    class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4">
-                    <i class="fas fa-file-alt"></i>
+                    class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl mb-4">
+                    <i class="fa-solid fa-file-lines"></i>
                 </div>
                 <p class="text-slate-500 font-bold text-sm">Tổng tài liệu</p>
-                <h3 class="text-3xl font-black text-slate-900 mt-1">2</h3>
+                <h3 class="text-3xl font-black text-cyan-600 mt-1">2</h3>
             </div>
 
-            <div class="bg-white rounded-[2rem] p-6 border border-slate-100 shadow-lg">
+            <div class="bg-white rounded-[2rem] p-6 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
                 <div
-                    class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center text-2xl mb-4">
-                    <i class="fas fa-download"></i>
+                    class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl mb-4">
+                    <i class="fa-solid fa-download"></i>
                 </div>
                 <p class="text-slate-500 font-bold text-sm">Lượt tải</p>
-                <h3 class="text-3xl font-black text-slate-900 mt-1">980</h3>
+                <h3 class="text-3xl font-black text-cyan-600 mt-1">980</h3>
             </div>
 
         </div>
         <!-- TOOLBAR -->
-        <div class="bg-white rounded-[2rem] border border-slate-100 shadow-sm p-6 mb-8">
+        <div class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-6 mb-8">
 
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
 
                 <div>
                     <h4 class="text-2xl font-black text-slate-900">
                         Tài liệu môn học
-                        <span class="text-blue-600">(2)</span>
+                        <span class="text-cyan-600">(2)</span>
                     </h4>
                     <p class="text-slate-500 text-sm mt-2">
                         Danh sách tài liệu, bài tập và slide của môn học.
@@ -113,23 +100,24 @@
                 <div class="flex flex-col sm:flex-row items-center gap-4">
 
                     <div class="relative w-full sm:w-80">
-                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <i
+                            class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-cyan-600 text-sm"></i>
 
                         <input type="text" id="subjectSearch" onkeyup="searchSubjects()"
                             placeholder="Tìm theo tên tài liệu..."
-                            class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all">
+                            class="w-full pl-11 pr-4 py-3 bg-cyan-50 border border-cyan-100 rounded-2xl text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-500 transition-all">
                     </div>
 
                     @if(Auth::check() && Auth::user()->role_id == 2)
-                    <div class="flex items-center bg-slate-100 border border-slate-200 rounded-2xl p-1 shadow-sm">
+                    <div class="flex items-center bg-cyan-50 border border-cyan-100 rounded-2xl p-1 shadow-sm">
 
                         <button
-                            class="filter-btn px-5 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-bold transition-all">
+                            class="filter-btn px-5 py-2.5 rounded-xl bg-cyan-500 text-white text-sm font-bold transition-all">
                             Tất cả
                         </button>
 
                         <button
-                            class="filter-btn px-5 py-2.5 rounded-xl text-slate-600 hover:bg-white text-sm font-bold transition-all">
+                            class="filter-btn px-5 py-2.5 rounded-xl text-cyan-700 hover:bg-white text-sm font-bold transition-all">
                             Của tôi
                         </button>
 
@@ -175,10 +163,13 @@
                         </button>
 
                         @if(Auth::check() && Auth::user()->role_id == 2)
-                        <button
-                            class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 hover:bg-amber-500 hover:text-white transition flex items-center justify-center">
-                            <i class="fas fa-pen"></i>
-                        </button>
+                        <a href="{{ route('documents.edit', 1) }}" class="w-10 h-10 flex items-center justify-center
+    text-amber-500 hover:bg-amber-500 hover:text-white
+    rounded-xl transition-all duration-300
+    shadow-sm bg-white border border-amber-100" title="Sửa">
+
+                            <i class="fa-solid fa-pen-to-square text-sm"></i>
+                        </a>
 
                         <button
                             class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
