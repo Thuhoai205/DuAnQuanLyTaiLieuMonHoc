@@ -201,23 +201,48 @@
                         {{-- DÒNG MẪU 1: Tài liệu của mình nên có nút Sửa/Xóa --}}
                         <tr class="group hover:bg-cyan-50/50 transition-all duration-300">
                             <td class="px-8 py-6">
-                                <div class="flex items-center">
-                                    <div
-                                        class="w-14 h-14 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shadow-sm group-hover:bg-red-500 group-hover:text-white transition-all duration-300">
+
+                                <a href="{{ route('documents.show', 1) }}"
+                                    class="group flex items-center rounded-2xl hover:bg-cyan-50/70 transition-all duration-300 p-3 -m-3">
+
+                                    <!-- ICON -->
+                                    <div class="w-14 h-14 rounded-2xl
+            bg-red-50 text-red-500
+            flex items-center justify-center
+            shadow-sm
+            group-hover:bg-red-500
+            group-hover:text-white
+            transition-all duration-300">
+
                                         <i class="fas fa-file-pdf text-2xl"></i>
                                     </div>
 
+                                    <!-- CONTENT -->
                                     <div class="ml-5">
-                                        <h4
-                                            class="text-[16px] font-bold text-slate-800 leading-tight group-hover:text-cyan-600 transition-colors">
+
+                                        <h4 class="text-[16px] font-bold text-slate-800
+                leading-tight
+                group-hover:text-cyan-600
+                transition-colors">
+
                                             Đề cương ôn tập cuối kỳ
                                         </h4>
+
                                         <p class="text-[12px] text-slate-400 mt-1.5 font-semibold">
-                                            PDF <span class="mx-1">•</span> 2.4 MB <span class="mx-1">•</span>
+
+                                            PDF
+                                            <span class="mx-1">•</span>
+
+                                            2.4 MB
+                                            <span class="mx-1">•</span>
+
                                             20/10/2026
                                         </p>
+
                                     </div>
-                                </div>
+
+                                </a>
+
                             </td>
 
                             <td class="px-8 py-6">
@@ -247,12 +272,13 @@
                                         <i class="fas fa-cloud-download-alt"></i>
                                     </button>
 
-                                    <button
-                                        class="w-10 h-10 flex items-center justify-center text-amber-500 hover:bg-amber-500 hover:text-white rounded-xl transition-all shadow-sm bg-white border border-amber-100"
-                                        title="Sửa">
-                                        <i class="fas fa-pen-nib"></i>
-                                    </button>
+                                    <a href="{{ route('documents.edit', 1) }}" class="w-10 h-10 flex items-center justify-center
+    text-amber-500 hover:bg-amber-500 hover:text-white
+    rounded-xl transition-all duration-300
+    shadow-sm bg-white border border-amber-100" title="Sửa">
 
+                                        <i class="fa-solid fa-pen-to-square text-sm"></i>
+                                    </a>
                                     <button
                                         class="w-10 h-10 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white rounded-xl transition-all shadow-sm bg-white border border-red-100"
                                         title="Xóa">

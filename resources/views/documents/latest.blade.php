@@ -1,286 +1,187 @@
 @extends('layouts.app')
 
-@section('title', 'Tài liệu mới cập nhật')
+@section('title', 'Tài liệu mới nhất')
 
 @section('content')
 
-@php
+<main class="min-h-screen bg-[#EAFBFF] py-12">
 
-$documents = [
-[
-'type' => 'PDF',
-'title' => 'Giáo trình Java cơ bản',
-'subject' => 'Java',
-'author' => 'Nguyễn Văn A',
-'date' => '12/05/2026',
-'downloads' => 120,
-'icon' => 'fa-file-pdf',
-'color' => 'text-red-500 bg-red-50 border-red-100',
-'button' => 'bg-red-500 hover:bg-red-600'
-],
-[
-'type' => 'DOC',
-'title' => 'Bài tập SQL nâng cao',
-'subject' => 'SQL',
-'author' => 'Trần Văn B',
-'date' => '11/05/2026',
-'downloads' => 95,
-'icon' => 'fa-file-word',
-'color' => 'text-blue-500 bg-blue-50 border-blue-100',
-'button' => 'bg-blue-500 hover:bg-blue-600'
-],
-[
-'type' => 'PPT',
-'title' => 'Thiết kế UI/UX cơ bản',
-'subject' => 'UI/UX',
-'author' => 'Lê Văn C',
-'date' => '10/05/2026',
-'downloads' => 70,
-'icon' => 'fa-file-powerpoint',
-'color' => 'text-amber-500 bg-amber-50 border-amber-100',
-'button' => 'bg-amber-500 hover:bg-amber-600'
-]
+    <div class="max-w-7xl mx-auto px-6">
 
-];
+        <!-- HEADER -->
+        <section class="mb-8 rounded-[36px] bg-cyan-600 text-white p-8 shadow-xl">
+            <a href="javascript:history.back()"
+                class="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-cyan-50 text-slate-600 hover:text-cyan-600 text-xs font-black uppercase tracking-wider transition-all">
+                <i class="fa-solid fa-arrow-left"></i>
+                Quay lại
+            </a>
 
-@endphp
 
-<!-- BACKGROUND -->
-<div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-
-    <div
-        class="absolute top-[-5%] right-[-10%] w-[600px] h-[600px] rounded-full bg-blue-500/5 blur-[130px] animate-[pulse_7s_infinite]">
-    </div>
-
-    <div
-        class="absolute bottom-[15%] left-[-5%] w-[500px] h-[500px] rounded-full bg-cyan-500/5 blur-[120px] animate-[pulse_9s_infinite]">
-    </div>
-
-</div>
-
-<!-- MAIN -->
-<main class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
-
-    <!-- HEADER -->
-    <div class="mb-12">
-
-        <a href="javascript:history.back()"
-            class="group inline-flex items-center gap-3 text-slate-700 hover:text-blue-600 transition-all duration-300 font-black text-2xl">
-
-            <div
-                class="w-11 h-11 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-
-                <i class="fas fa-arrow-left text-sm"></i>
-
-            </div>
-
-            <span>Tài liệu mới cập nhật</span>
-
-        </a>
-
-    </div>
-
-    <!-- SEARCH -->
-    <div class="mb-8">
-
-        <div
-            class="bg-white/95 backdrop-blur-xl rounded-[2rem] border border-slate-100 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] p-3">
-
-            <div class="relative">
-
-                <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 text-sm">
-                </i>
-
-                <input type="text" placeholder="Tìm kiếm tài liệu................................"
-                    class="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-14 pr-5 py-4 text-sm font-semibold outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all">
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- FILTER -->
-    <div
-        class="bg-white border border-slate-100 rounded-[2rem] p-6 lg:p-8 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.05)] mb-10">
-
-        <div class="flex items-center gap-3 mb-8">
-
-            <div
-                class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-200">
-
-                <i class="fas fa-filter text-sm"></i>
-
-            </div>
-
-            <h3 class="text-2xl font-black text-slate-800">
-                Bộ lọc
-            </h3>
-
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-            <!-- SUBJECT -->
-            <div>
-
-                <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
-                    Môn học
-                </label>
-
-                <select
-                    class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-sm outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all">
-
-                    <option>Tất cả</option>
-                    <option>Java</option>
-                    <option>SQL</option>
-                    <option>UI/UX</option>
-
-                </select>
-
-            </div>
-
-            <!-- TYPE -->
-            <div>
-
-                <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
-                    Loại tài liệu
-                </label>
-
-                <select
-                    class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-sm outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all">
-
-                    <option>Tất cả</option>
-                    <option>PDF</option>
-                    <option>DOC</option>
-                    <option>PPT</option>
-
-                </select>
-
-            </div>
-
-            <!-- SORT -->
-            <div>
-
-                <label class="block text-xs font-black uppercase tracking-[0.2em] text-slate-400 mb-3">
-                    Sắp xếp
-                </label>
-
-                <select
-                    class="w-full px-5 py-3.5 rounded-2xl border border-slate-200 bg-slate-50 font-bold text-sm outline-none focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all">
-
-                    <option>Mới nhất</option>
-                    <option>Tải nhiều nhất</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- DOCUMENT LIST -->
-    <div class="space-y-7">
-
-        @foreach($documents as $doc)
-
-        <div
-            class="group bg-white border border-slate-100 rounded-[2rem] p-6 lg:p-8 shadow-[0_12px_40px_-15px_rgba(0,0,0,0.04)] hover:shadow-[0_25px_60px_-15px_rgba(59,130,246,0.12)] hover:-translate-y-1 transition-all duration-500">
-
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-
-                <!-- LEFT -->
-                <div class="flex items-start gap-5 flex-1 min-w-0">
-
-                    <!-- FILE ICON -->
-                    <div
-                        class="w-16 h-16 rounded-2xl border flex flex-col items-center justify-center shrink-0 transition-all duration-300 group-hover:scale-105 {{ $doc['color'] }}">
-
-                        <i class="fas {{ $doc['icon'] }} text-2xl"></i>
-
-                        <span class="text-[10px] font-black mt-1 uppercase">
-                            {{ $doc['type'] }}
-                        </span>
-
-                    </div>
-
-                    <!-- CONTENT -->
-                    <div class="flex-1 min-w-0">
-
-                        <p class="text-[11px] font-black uppercase tracking-[0.25em] text-slate-400 mb-3">
-                            {{ $doc['type'] }}
-                        </p>
-
-                        <h2
-                            class="text-xl lg:text-2xl font-black text-slate-800 mb-4 group-hover:text-blue-600 transition-colors duration-300 truncate">
-
-                            {{ $doc['title'] }}
-
-                        </h2>
-
-                        <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500 font-semibold mb-4">
-
-                            <span class="px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-xs font-bold">
-                                {{ $doc['subject'] }}
-                            </span>
-
-                            <span class="text-slate-300">•</span>
-
-                            <span>{{ $doc['author'] }}</span>
-
-                            <span class="text-slate-300">•</span>
-
-                            <span>{{ $doc['date'] }}</span>
-
-                        </div>
-
-                        <div class="flex items-center gap-2 text-sm font-bold text-slate-600">
-
-                            <i class="fas fa-download text-slate-400"></i>
-
-                            <span>{{ $doc['downloads'] }} lượt tải</span>
-
-                        </div>
-
-                    </div>
-
+            <div class="flex items-center gap-5">
+                <div class="w-20 h-20 rounded-3xl bg-cyan-300 text-cyan-950 flex items-center justify-center shadow-xl">
+                    <i class="fa-solid fa-clock text-3xl"></i>
                 </div>
 
-                <!-- BUTTON -->
-                <div class="flex justify-end">
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-black">
+                        Tài liệu mới nhất
+                    </h1>
+                    <p class="text-cyan-50 mt-3 font-semibold">
+                        Danh sách học liệu vừa được giảng viên cập nhật gần đây.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-                    <button
-                        class="px-7 py-3.5 text-white rounded-2xl font-black text-sm transition-all duration-300 active:scale-95 shadow-lg hover:shadow-xl {{ $doc['button'] }}">
+        <!-- SEARCH -->
+        <section class="mb-8 bg-white rounded-[28px] p-5 border border-cyan-100 shadow-sm">
+            <form method="GET" action="{{ url()->current() }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
-                        <i class="fas fa-eye mr-2"></i>
-                        Xem chi tiết
+                <div class="md:col-span-2 relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-cyan-600"></i>
+                    <input type="text" name="keyword" placeholder="Tìm tài liệu mới nhất..."
+                        class="w-full h-14 pl-14 pr-5 rounded-2xl bg-cyan-50 border border-cyan-100 outline-none font-semibold">
+                </div>
 
+                <select name="subject_id"
+                    class="h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 text-slate-700 font-bold outline-none">
+                    <option value="">Tất cả môn học</option>
+                    <option value="1">Lập trình Web</option>
+                    <option value="2">Cơ sở dữ liệu</option>
+                    <option value="3">Mạng máy tính</option>
+                </select>
+
+                <button
+                    class="h-14 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-black shadow-lg shadow-cyan-200">
+                    <i class="fa-solid fa-filter mr-2"></i>
+                    Lọc
+                </button>
+            </form>
+        </section>
+
+        <!-- LIST -->
+        <section
+            class="bg-white rounded-[32px] border border-cyan-100 overflow-hidden shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+
+            <div class="px-7 py-5 border-b border-cyan-100 flex items-center justify-between">
+                <h2 class="text-2xl font-black text-cyan-950">
+                    Học liệu vừa đăng
+                </h2>
+
+                <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
+                    Mới nhất
+                </span>
+            </div>
+
+            <div class="divide-y divide-cyan-100">
+
+                @foreach([
+                ['pdf', 'red', 'Slide Bài 1: Tổng quan Laravel Framework', 'Lập trình Web', 'ThS. Trần Văn B', 'Hôm
+                nay'],
+                ['word', 'blue', 'Đề cương ôn tập giữa kỳ CSDL 2023-2024', 'Cơ sở dữ liệu', 'TS. Lê Thị C', 'Hôm qua'],
+                ['excel', 'emerald', 'Danh sách chia nhóm & Bài tập lớn Mạng máy tính', 'Mạng máy tính', 'Phạm Văn D',
+                '2 ngày trước'],
+                ['powerpoint', 'orange', 'Slide chương 2: HTML CSS JavaScript', 'Lập trình Web', 'ThS. Nguyễn Văn A', '3
+                ngày trước'],
+                ] as $doc)
+
+                <div class="group p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
+
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-{{ $doc[1] }}-50 text-{{ $doc[1] }}-500 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-file-{{ $doc[0] }} text-2xl"></i>
+                    </div>
+
+                    <div class="flex-1">
+                        <h3 class="text-lg font-black text-slate-800 group-hover:text-cyan-600 transition">
+                            {{ $doc[2] }}
+                        </h3>
+
+                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
+                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Môn: {{ $doc[3] }}</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> GV: {{ $doc[4] }}</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> {{ $doc[5] }}</span>
+                        </div>
+                    </div>
+
+                    <a href="#"
+                        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition">
+                        <i class="fa-solid fa-download"></i>
+                        Tải về
+                    </a>
+                </div>
+
+                @endforeach
+
+            </div>
+
+            <!-- PAGINATION -->
+            <div class="px-8 py-6 bg-cyan-50/40 border-t border-cyan-100
+    flex flex-col md:flex-row items-center justify-between gap-5">
+
+                <!-- INFO -->
+                <p class="text-sm font-black uppercase tracking-[0.15em] text-slate-400">
+                    Trang 1 của 5
+                </p>
+
+                <!-- PAGINATION BUTTON -->
+                <div class="flex items-center gap-3">
+
+                    <!-- PREV -->
+                    <button class="h-12 px-5 rounded-2xl
+            bg-white border border-cyan-100
+            text-slate-500 font-black
+            hover:bg-cyan-500 hover:text-white
+            hover:border-cyan-500
+            transition-all duration-300 shadow-sm">
+
+                        <i class="fa-solid fa-angle-left mr-2"></i>
+                        Trước
+                    </button>
+
+                    <!-- NUMBER -->
+                    <button class="w-12 h-12 rounded-2xl
+            bg-cyan-500 text-white font-black
+            shadow-lg shadow-cyan-200">
+                        1
+                    </button>
+
+                    <button class="w-12 h-12 rounded-2xl
+            bg-white border border-cyan-100
+            text-slate-600 font-black
+            hover:bg-cyan-500 hover:text-white
+            hover:border-cyan-500
+            transition-all duration-300">
+                        2
+                    </button>
+
+                    <button class="w-12 h-12 rounded-2xl
+            bg-white border border-cyan-100
+            text-slate-600 font-black
+            hover:bg-cyan-500 hover:text-white
+            hover:border-cyan-500
+            transition-all duration-300">
+                        3
+                    </button>
+
+                    <!-- NEXT -->
+                    <button class="h-12 px-5 rounded-2xl
+            bg-cyan-500 text-white font-black
+            hover:bg-cyan-600
+            transition-all duration-300
+            shadow-lg shadow-cyan-200">
+
+                        Sau
+                        <i class="fa-solid fa-angle-right ml-2"></i>
                     </button>
 
                 </div>
-
             </div>
-
-        </div>
-
-        @endforeach
+        </section>
 
     </div>
-
-    <!-- LOAD MORE -->
-    <div class="text-center mt-14">
-
-        <button
-            class="px-9 py-4 bg-slate-900 hover:bg-blue-600 text-white rounded-2xl font-black text-sm shadow-xl transition-all duration-300 hover:shadow-blue-200 hover:-translate-y-0.5 active:scale-95">
-
-            <i class="fas fa-plus-circle mr-2"></i>
-            Tải thêm
-
-        </button>
-
-    </div>
-
 </main>
 
 @endsection

@@ -11,11 +11,11 @@
         <section class="mb-8 rounded-[32px] bg-cyan-600 text-white p-8 shadow-xl">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
                 <div>
-                    <span
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-700 text-cyan-50 text-xs font-bold mb-4">
-                        <i class="fa-solid fa-folder-open"></i>
-                        Kho học liệu
-                    </span>
+                    <a href="javascript:history.back()"
+                        class="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-cyan-50 text-slate-600 hover:text-cyan-600 text-xs font-black uppercase tracking-wider transition-all">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Quay lại
+                    </a>
 
                     <h1 class="text-4xl font-black mb-2">
                         Danh sách tài liệu

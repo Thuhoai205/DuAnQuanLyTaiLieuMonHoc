@@ -46,6 +46,14 @@ Route::get('/documents/latest', function () {
     return view('documents.latest');
 })->name('documents.latest');
 
+Route::get('/documents/{id}', function ($id) {
+    return view('documents.show', compact('id'));
+})->name('documents.show');
+
+Route::get('/documents/{id}/edit', function ($id) {
+    return view('documents.edit', compact('id'));
+})->name('documents.edit');
+
 Route::get('/tai-lieu-cua-toi', function () {
     return view('documents.my-documents');
 })->name('documents.my-documents');
