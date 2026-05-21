@@ -23,7 +23,7 @@
                 <div
                     class="bg-white rounded-[32px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
 
-                    <!-- FILE HEADER -->
+                    <!-- HEADER -->
                     <div class="p-7 border-b border-cyan-100 flex items-center gap-5">
                         <div
                             class="w-20 h-20 rounded-3xl bg-red-50 text-red-500 flex flex-col items-center justify-center border border-red-100">
@@ -37,82 +37,146 @@
                             </h1>
 
                             <p class="text-slate-500 mt-2 font-semibold">
-                                html-css.pdf
+                                html-css.pdf • WEB101 • 12 lượt tải
                             </p>
                         </div>
                     </div>
 
-                    <!-- PREVIEW AREA -->
-                    <div class="p-8 bg-cyan-50/50">
-                        <div
-                            class="min-h-[520px] bg-white border-2 border-dashed border-cyan-200 rounded-[28px] flex flex-col items-center justify-center text-center p-8">
+                    <!-- PREVIEW -->
+                    <div class="bg-cyan-50/50 p-6">
 
-                            <div
-                                class="w-28 h-28 rounded-[32px] bg-red-50 text-red-500 flex items-center justify-center mb-6">
-                                <i class="fa-solid fa-file-pdf text-5xl"></i>
+                        <div class="bg-white rounded-[28px] border border-cyan-100 overflow-hidden">
+
+                            <!-- PREVIEW TOP BAR -->
+                            <div class="px-5 py-4 bg-cyan-600 text-white flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-10 h-10 rounded-xl bg-cyan-300 text-cyan-950 flex items-center justify-center">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </div>
+
+                                    <div>
+                                        <h3 class="font-black">
+                                            Xem trước tài liệu
+                                        </h3>
+                                        <p class="text-cyan-100 text-xs font-semibold">
+                                            Sinh viên có thể xem nội dung trước khi tải
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <span
+                                    class="hidden sm:inline-flex px-3 py-1 rounded-full bg-cyan-700 text-cyan-50 text-xs font-bold">
+                                    PDF Preview
+                                </span>
                             </div>
 
-                            <h2 class="text-2xl font-black text-slate-800 mb-3">
-                                Xem trước tài liệu
-                            </h2>
+                            <!-- PDF VIEWER MOCK -->
+                            <div class="min-h-[560px] bg-slate-100 p-6 flex justify-center">
 
-                            <p class="text-slate-500 max-w-md leading-relaxed font-medium">
-                                Đây là khu vực preview file. Khi làm backend, bạn có thể nhúng PDF bằng iframe từ đường
-                                dẫn:
-                                <span class="text-cyan-600 font-bold">uploads/html-css.pdf</span>
-                            </p>
+                                <a href="{{ route('documents.show', 1) }}"
+                                    class="w-full max-w-3xl bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
 
-                            <div class="mt-8 flex flex-wrap justify-center gap-3">
-                                <a href="#"
-                                    class="px-6 py-3 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition">
-                                    <i class="fa-solid fa-eye mr-2"></i>
-                                    Xem online
-                                </a>
+                                    <!-- Mock page -->
+                                    <div class="border-b border-slate-200 pb-5 mb-6">
+                                        <p class="text-xs font-black uppercase tracking-[0.2em] text-cyan-600">
+                                            EDU DOC
+                                        </p>
 
-                                <a href="#"
-                                    class="px-6 py-3 rounded-2xl bg-white border border-cyan-100 text-cyan-700 font-black hover:bg-cyan-50 transition">
-                                    <i class="fa-solid fa-download mr-2"></i>
-                                    Tải xuống
+                                        <h2 class="text-3xl font-black text-slate-900 mt-3">
+                                            Slide HTML CSS cơ bản
+                                        </h2>
+
+                                        <p class="text-slate-500 font-semibold mt-2">
+                                            Môn học: Lập trình Web - WEB101
+                                        </p>
+                                    </div>
+
+                                    <div class="space-y-5">
+                                        <div>
+                                            <h3 class="text-xl font-black text-cyan-700 mb-2">
+                                                1. Giới thiệu HTML
+                                            </h3>
+                                            <p class="text-slate-600 leading-relaxed">
+                                                HTML là ngôn ngữ đánh dấu dùng để xây dựng cấu trúc nội dung của trang
+                                                web.
+                                                Một tài liệu HTML thường bao gồm phần tiêu đề, nội dung và các thẻ định
+                                                dạng.
+                                            </p>
+                                        </div>
+
+                                        <div>
+                                            <h3 class="text-xl font-black text-cyan-700 mb-2">
+                                                2. Giới thiệu CSS
+                                            </h3>
+                                            <p class="text-slate-600 leading-relaxed">
+                                                CSS được sử dụng để định dạng giao diện, màu sắc, bố cục và hiệu ứng
+                                                hiển thị
+                                                cho các thành phần HTML trên website.
+                                            </p>
+                                        </div>
+
+                                        <div class="grid grid-cols-2 gap-4 mt-6">
+                                            <div class="bg-cyan-50 border border-cyan-100 rounded-2xl p-5">
+                                                <i class="fa-solid fa-code text-cyan-600 text-2xl mb-3"></i>
+                                                <h4 class="font-black text-slate-800">HTML</h4>
+                                                <p class="text-sm text-slate-500 mt-1">Xây dựng cấu trúc trang</p>
+                                            </div>
+
+                                            <div class="bg-cyan-50 border border-cyan-100 rounded-2xl p-5">
+                                                <i class="fa-solid fa-palette text-cyan-600 text-2xl mb-3"></i>
+                                                <h4 class="font-black text-slate-800">CSS</h4>
+                                                <p class="text-sm text-slate-500 mt-1">Thiết kế giao diện</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-8 pt-5 border-t border-slate-200 text-center">
+                                        <p class="text-slate-400 text-sm font-semibold">
+                                            Trang xem trước UI mẫu - chưa kết nối backend
+                                        </p>
+                                    </div>
                                 </a>
                             </div>
+
+
+
                         </div>
                     </div>
                 </div>
 
             </section>
 
-            <!-- RIGHT: INFO -->
+            <!-- RIGHT INFO -->
             <aside class="space-y-6">
 
-                <!-- ACTION CARD -->
+                <!-- ACTION -->
                 <div
                     class="bg-white rounded-[32px] border border-cyan-100 p-6 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
-
-                    <button
-                        class="w-full py-4 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition">
-                        <i class="fa-solid fa-cloud-arrow-down mr-2"></i>
+                    <a href="#"
+                        class="w-full inline-flex items-center justify-center gap-2 py-4 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition">
+                        <i class="fa-solid fa-cloud-arrow-down"></i>
                         Tải tài liệu
-                    </button>
+                    </a>
 
-                    <!-- Nếu là tài liệu của giảng viên đang đăng nhập thì hiện Sửa/Xóa -->
                     @if(Auth::check() && Auth::user()->role_id == 2)
                     <div class="grid grid-cols-2 gap-3 mt-4">
-                        <button
-                            class="py-3 rounded-2xl bg-amber-50 text-amber-600 font-black border border-amber-100 hover:bg-amber-500 hover:text-white transition">
-                            <i class="fa-solid fa-pen-to-square mr-2"></i>
+                        <a href="{{ route('documents.edit', 1) }}"
+                            class="py-3 rounded-2xl bg-amber-50 text-amber-600 font-black border border-amber-100 hover:bg-amber-500 hover:text-white transition text-center">
+                            <i class="fa-solid fa-pen-to-square mr-1"></i>
                             Sửa
-                        </button>
+                        </a>
 
                         <button
                             class="py-3 rounded-2xl bg-red-50 text-red-500 font-black border border-red-100 hover:bg-red-500 hover:text-white transition">
-                            <i class="fa-solid fa-trash mr-2"></i>
+                            <i class="fa-solid fa-trash mr-1"></i>
                             Xóa
                         </button>
                     </div>
                     @endif
                 </div>
 
-                <!-- INFO CARD -->
+                <!-- INFO -->
                 <div
                     class="bg-white rounded-[32px] border border-cyan-100 p-6 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
 
@@ -199,7 +263,7 @@
                     </h3>
 
                     <p class="text-slate-600 leading-relaxed font-medium">
-                        Slide HTML CSS cơ bản.
+                        Slide HTML CSS cơ bản, phù hợp cho sinh viên bắt đầu học lập trình giao diện web.
                     </p>
                 </div>
 
@@ -214,7 +278,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <div
+                <a href="{{ route('documents.show', 1) }}"
                     class="bg-white rounded-[28px] border border-cyan-100 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
                     <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center mb-4">
                         <i class="fa-solid fa-file-word text-2xl"></i>
@@ -227,7 +291,7 @@
                     <p class="text-slate-500 text-sm font-semibold">
                         JAVA101 • DOCX • 5 lượt tải
                     </p>
-                </div>
+                </a>
 
                 <div
                     class="bg-white rounded-[28px] border border-cyan-100 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
@@ -265,5 +329,4 @@
 
     </div>
 </main>
-
 @endsection

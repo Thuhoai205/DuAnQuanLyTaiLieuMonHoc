@@ -300,24 +300,33 @@
                     Trang <span class="text-slate-800">1</span> của 5
                 </p>
 
-                <div class="flex gap-2">
+                <!-- PAGINATION -->
+                <div class="mt-10 flex items-center justify-center gap-2">
                     <button
-                        class="px-5 py-2.5 text-xs font-black uppercase tracking-widest text-slate-500 hover:bg-white hover:shadow-sm rounded-xl transition-all">
-                        Trước
+                        class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-400 hover:bg-cyan-50">
+                        <i class="fa-solid fa-chevron-left"></i>
                     </button>
-                    <button
-                        class="w-10 h-10 flex items-center justify-center rounded-xl bg-blue-600 text-white font-black shadow-lg shadow-cyan-200/70 text-sm">
+
+                    <button class="w-11 h-11 rounded-2xl bg-cyan-500 text-white font-bold shadow-lg shadow-cyan-200">
                         1
                     </button>
+
                     <button
-                        class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-500 hover:bg-white hover:shadow-sm font-black text-sm transition-all">
+                        class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50">
                         2
                     </button>
+
                     <button
-                        class="px-5 py-2.5 text-xs font-black uppercase tracking-widest text-cyan-600 hover:bg-white hover:shadow-sm rounded-xl transition-all">
-                        Sau
+                        class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50">
+                        3
+                    </button>
+
+                    <button
+                        class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 hover:bg-cyan-50">
+                        <i class="fa-solid fa-chevron-right"></i>
                     </button>
                 </div>
+
             </div>
         </section>
     </div>

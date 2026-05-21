@@ -2,6 +2,7 @@
 <html lang="vi">
 
 <head>
+
     <meta charset="UTF-8">
     <title>Đăng ký tài khoản</title>
 
@@ -22,42 +23,74 @@
         overflow-hidden grid grid-cols-1 md:grid-cols-2 border border-cyan-100">
 
         <!-- LEFT -->
-        <div class="hidden md:flex flex-col justify-center items-center p-6 bg-cyan-600 text-white">
+        <div class="hidden md:flex flex-col justify-center items-center p-6 bg-cyan-600 text-white relative">
 
+            <!-- BACK BUTTON -->
+            <a href="{{ route('home') }}" class="absolute top-6 left-6 inline-flex items-center gap-2
+        px-4 py-2.5 rounded-2xl
+        bg-white/95 backdrop-blur-md
+        text-cyan-700
+        text-xs font-black uppercase tracking-[0.18em]
+        shadow-lg shadow-cyan-900/10
+        hover:bg-cyan-50
+        hover:-translate-x-1
+        hover:shadow-xl
+        transition-all duration-300">
+
+                <i class="fa-solid fa-arrow-left text-[11px]"></i>
+
+                <span>
+                    Quay lại
+                </span>
+            </a>
+
+            <!-- ICON -->
             <div class="w-16 h-16 rounded-3xl bg-cyan-300 text-cyan-950
-                flex items-center justify-center shadow-xl mb-6">
+        flex items-center justify-center shadow-xl mb-6">
 
-                <i class="fa-solid fa-graduation-cap text-4xl"></i>
+                <i class="fa-solid fa-graduation-cap text-3xl"></i>
             </div>
 
+            <!-- LOGO -->
             <h1 class="text-3xl font-black tracking-tight">
                 EDU<span class="text-cyan-200">DOC</span>
             </h1>
 
-            <p class="text-cyan-100 text-center mt-4 leading-relaxed max-w-sm">
+            <!-- DESC -->
+            <p class="text-cyan-100 text-center mt-4 leading-relaxed max-w-sm text-sm">
                 Nền tảng chia sẻ tài liệu học tập dành cho sinh viên và giảng viên.
             </p>
 
             <!-- STATS -->
             <div class="grid grid-cols-2 gap-4 mt-8 w-full">
 
-                <div class="bg-cyan-700/60 rounded-3xl p-4 text-center">
-                    <p class="text-3xl font-black">1.2K+</p>
+                <div class="bg-cyan-700/60 rounded-3xl p-4 text-center
+            border border-cyan-400/10">
+
+                    <p class="text-3xl font-black">
+                        1.2K+
+                    </p>
+
                     <p class="text-sm text-cyan-100 font-bold mt-1">
                         Tài liệu
                     </p>
                 </div>
 
-                <div class="bg-cyan-700/60 rounded-3xl p-5 text-center">
-                    <p class="text-3xl font-black">24/7</p>
+                <div class="bg-cyan-700/60 rounded-3xl p-4 text-center
+            border border-cyan-400/10">
+
+                    <p class="text-3xl font-black">
+                        24/7
+                    </p>
+
                     <p class="text-sm text-cyan-100 font-bold mt-1">
                         Truy cập
                     </p>
                 </div>
 
             </div>
-        </div>
 
+        </div>
         <!-- FORM -->
         <div class="p-6 md:p-6">
 
