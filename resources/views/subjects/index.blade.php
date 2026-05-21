@@ -154,28 +154,26 @@
             <div class="divide-y divide-cyan-100">
 
                 <!-- ITEM -->
-                <div class="p-6 hover:bg-cyan-50/60 transition-colors flex items-center gap-5 group">
+                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
+
                     <div
-                        class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-red-100">
-                        <i class="fa-solid fa-file-pdf text-2xl"></i>
-                        <span class="text-[10px] font-black mt-1">PDF</span>
+                        class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-file-word text-2xl"></i>
                     </div>
 
-                    <div class="flex-grow min-w-0">
-                        <h6
-                            class="font-bold text-slate-800 text-lg group-hover:text-cyan-600 transition-colors truncate">
-                            Slide Bài 1: Tổng quan về Laravel Framework
-                        </h6>
+                    <a href="{{ route('documents.show', 1) }}" class="flex-1">
+                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
+                            Đề cương ôn tập giữa kỳ CSDL 2023-2024
+                        </h3>
 
-                        <div class="flex flex-wrap items-center gap-3 text-slate-500 text-xs mt-2 font-medium">
-                            <span><i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>Môn: Lập trình Web</span>
-                            <span class="text-slate-300">•</span>
-                            <span><i class="fa-solid fa-user-graduate text-cyan-600 mr-1.5"></i>GV: ThS. Trần Văn
-                                B</span>
-                            <span class="text-slate-300">•</span>
-                            <span><i class="fa-solid fa-calendar-check text-cyan-600 mr-1.5"></i>Hôm nay</span>
+                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
+                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Cơ sở dữ liệu</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> TS. Lê Thị C</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> Hôm qua</span>
                         </div>
-                    </div>
+                    </a>
 
                     <div class="shrink-0 flex items-center gap-2">
                         @if(Auth::check())
@@ -191,32 +189,30 @@
                             Đăng nhập để tải
                         </button>
                         @endif
-
                     </div>
                 </div>
 
                 <!-- ITEM CỦA GIẢNG VIÊN ĐANG ĐĂNG NHẬP -->
-                <div class="p-6 hover:bg-cyan-50/60 transition-colors flex items-center gap-5 group">
-                    <div
-                        class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-blue-100">
-                        <i class="fa-solid fa-file-word text-2xl"></i>
-                        <span class="text-[10px] font-black mt-1">W</span>
+                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
+
+                    <div class="w-16 h-16 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-file-pdf text-2xl"></i>
                     </div>
 
-                    <div class="flex-grow min-w-0">
-                        <h6
-                            class="font-bold text-slate-800 text-lg group-hover:text-cyan-600 transition-colors truncate">
-                            Đề cương ôn tập giữa kỳ CSDL 2023-2024
-                        </h6>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
+                            Slide Bài 1: Tổng quan Laravel Framework
+                        </h3>
 
-                        <div class="flex flex-wrap items-center gap-3 text-slate-500 text-xs mt-2 font-medium">
-                            <span><i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>Môn: Cơ sở dữ liệu</span>
-                            <span class="text-slate-300">•</span>
-                            <span><i class="fa-solid fa-user-graduate text-cyan-600 mr-1.5"></i>GV: Bạn</span>
-                            <span class="text-slate-300">•</span>
-                            <span><i class="fa-solid fa-calendar-check text-cyan-600 mr-1.5"></i>Hôm qua</span>
+                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
+                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Lập trình Web</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> ThS. Trần Văn B</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> Hôm nay</span>
                         </div>
                     </div>
+
 
                     <div class="shrink-0 flex items-center gap-2">
                         @if(Auth::check())

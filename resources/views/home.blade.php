@@ -765,8 +765,9 @@ setInterval(() => {
 
                             <div class="flex-1">
                                 <div class="flex items-center gap-2">
-                                    <h3 class="text-lg font-black leading-relaxed text-slate-800
-    group-hover:text-cyan-600 transition-colors"> Đề thi mẫu cuối kỳ CSDL...
+                                    <h3
+                                        class="text-lg font-black leading-relaxed text-slate-800  group-hover:text-cyan-600 transition-colors">
+                                        Đề thi mẫu cuối kỳ CSDL...
                                     </h3>
 
                                     <span class="px-2 py-1 rounded-full bg-cyan-500 text-white text-[10px] font-black">

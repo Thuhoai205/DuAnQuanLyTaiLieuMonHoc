@@ -20,6 +20,11 @@
         <!-- LEFT INTRO -->
         <div class="hidden lg:block">
             <div class="rounded-[40px] bg-cyan-600 text-white p-10 shadow-2xl shadow-cyan-200">
+                <a href="javascript:history.back()"
+                    class="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-cyan-50 text-slate-600 hover:text-cyan-600 text-xs font-black uppercase tracking-wider transition-all">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Quay lại
+                </a>
                 <div class="w-20 h-20 rounded-3xl bg-cyan-300 text-cyan-950 flex items-center justify-center mb-8">
                     <i class="fa-solid fa-book-open text-4xl"></i>
                 </div>

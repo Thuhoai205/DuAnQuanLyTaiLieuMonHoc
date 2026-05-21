@@ -133,34 +133,44 @@
         <div id="course-files-list" class="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
             <div class="divide-y divide-slate-100">
 
-                <div class="document-item p-6 hover:bg-slate-50 transition-colors flex items-center gap-5 group"
-                    data-owner="mine">
+                <div class="p-6 hover:bg-cyan-50/60 transition-colors flex items-center gap-5 group">
                     <div
-                        class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-blue-100">
-                        <i class="fas fa-file-word text-2xl"></i>
-                        <span class="text-[10px] font-black mt-1">W</span>
+                        class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-red-100">
+                        <i class="fa-solid fa-file-pdf text-2xl"></i>
                     </div>
 
-                    <div class="flex-grow min-w-0">
+                    <a href="{{ route('documents.show', 1) }}" class="flex-grow min-w-0">
                         <h6
-                            class="font-bold text-slate-800 text-lg group-hover:text-blue-600 transition-colors truncate">
-                            Bài tập thực hành tuần 2: CSS Grid/Flexbox
+                            class="font-bold text-slate-800 text-lg group-hover:text-cyan-600 transition-colors truncate">
+                            Slide Bài 1: Tổng quan về Laravel Framework
                         </h6>
 
                         <div class="flex flex-wrap items-center gap-3 text-slate-500 text-xs mt-2 font-medium">
-                            <span><i class="fas fa-book text-slate-400 mr-1.5"></i>Môn: Lập trình Web</span>
+                            <span><i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>Môn: Lập trình Web</span>
                             <span class="text-slate-300">•</span>
-                            <span><i class="fas fa-user-graduate text-slate-400 mr-1.5"></i>GV: Bạn</span>
+                            <span><i class="fa-solid fa-user-graduate text-cyan-600 mr-1.5"></i>GV: ThS. Trần Văn
+                                B</span>
                             <span class="text-slate-300">•</span>
-                            <span><i class="fas fa-calendar-check text-slate-400 mr-1.5"></i>Hôm nay</span>
+                            <span><i class="fa-solid fa-calendar-check text-cyan-600 mr-1.5"></i>Hôm nay</span>
                         </div>
-                    </div>
+
+                    </a>
+
 
                     <div class="shrink-0 flex items-center gap-2">
+                        @if(Auth::check())
                         <button
-                            class="px-5 py-2.5 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all flex items-center gap-2 text-sm">
-                            <i class="fas fa-cloud-download-alt"></i> Tải về
+                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                            Tải về
                         </button>
+                        @else
+                        <button onclick="showLoginRequiredModal()"
+                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                            Đăng nhập để tải
+                        </button>
+                        @endif
 
                         @if(Auth::check() && Auth::user()->role_id == 2)
                         <a href="{{ route('documents.edit', 1) }}" class="w-10 h-10 flex items-center justify-center
@@ -179,34 +189,41 @@
                     </div>
                 </div>
 
-                <div class="document-item p-6 hover:bg-slate-50 transition-colors flex items-center gap-5 group"
-                    data-owner="other">
+                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
+
                     <div
-                        class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-red-100">
-                        <i class="fas fa-file-pdf text-2xl"></i>
-                        <span class="text-[10px] font-black mt-1">PDF</span>
+                        class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-file-word text-2xl"></i>
                     </div>
 
-                    <div class="flex-grow min-w-0">
-                        <h6
-                            class="font-bold text-slate-800 text-lg group-hover:text-blue-600 transition-colors truncate">
-                            Slide chương 1: HTML & CSS cơ bản
-                        </h6>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
+                            Đề cương ôn tập giữa kỳ CSDL 2023-2024
+                        </h3>
 
-                        <div class="flex flex-wrap items-center gap-3 text-slate-500 text-xs mt-2 font-medium">
-                            <span><i class="fas fa-book text-slate-400 mr-1.5"></i>Môn: Lập trình Web</span>
-                            <span class="text-slate-300">•</span>
-                            <span><i class="fas fa-user-graduate text-slate-400 mr-1.5"></i>GV: Nguyễn Văn A</span>
-                            <span class="text-slate-300">•</span>
-                            <span><i class="fas fa-calendar-check text-slate-400 mr-1.5"></i>Hôm qua</span>
+                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
+                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Cơ sở dữ liệu</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> TS. Lê Thị C</span>
+                            <span>•</span>
+                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> Hôm qua</span>
                         </div>
                     </div>
 
-                    <div class="shrink-0">
+                    <div class="shrink-0 flex items-center gap-2">
+                        @if(Auth::check())
                         <button
-                            class="px-5 py-2.5 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition-all flex items-center gap-2 text-sm">
-                            <i class="fas fa-cloud-download-alt"></i> Tải về
+                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                            Tải về
                         </button>
+                        @else
+                        <button onclick="showLoginRequiredModal()"
+                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                            Đăng nhập để tải
+                        </button>
+                        @endif
                     </div>
                 </div>
 
@@ -214,43 +231,30 @@
         </div>
 
         <!-- PAGINATION -->
-        <div class="mt-10 flex justify-end">
+        <div class="mt-10 flex items-center justify-center gap-2">
+            <button class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-400 hover:bg-cyan-50">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
 
-            <div class="flex items-center gap-2">
+            <button class="w-11 h-11 rounded-2xl bg-cyan-500 text-white font-bold shadow-lg shadow-cyan-200">
+                1
+            </button>
 
-                <button
-                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-white border border-slate-200 text-slate-400 hover:bg-slate-50 transition">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+            <button
+                class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50">
+                2
+            </button>
 
-                <button
-                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-blue-600 text-white font-bold shadow-md shadow-blue-500/20">
-                    1
-                </button>
+            <button
+                class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50">
+                3
+            </button>
 
-                <button
-                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-blue-50 hover:text-blue-600 transition">
-                    2
-                </button>
+            <button class="w-11 h-11 rounded-2xl bg-white border border-cyan-100 text-slate-600 hover:bg-cyan-50">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
 
-                <button
-                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-blue-50 hover:text-blue-600 transition">
-                    3
-                </button>
-
-                <span class="px-2 text-slate-400 font-bold">...</span>
-
-                <button
-                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-white border border-slate-200 text-slate-600 font-bold hover:bg-blue-50 hover:text-blue-600 transition">
-                    6
-                </button>
-
-                <button
-                    class="w-11 h-11 flex items-center justify-center rounded-2xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-
-            </div>
 
         </div>
 
@@ -406,7 +410,57 @@
         </form>
     </div>
 </div>
+<!-- LOGIN REQUIRED MODAL -->
+<div id="loginRequiredModal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+
+    <div class="w-full max-w-md bg-white rounded-3xl p-8 text-center shadow-2xl border border-cyan-100">
+
+        <div
+            class="w-20 h-20 mx-auto rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center text-3xl mb-5">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <h3 class="text-2xl font-black text-slate-900 mb-3">
+            Yêu cầu đăng nhập
+        </h3>
+
+        <p class="text-slate-500 leading-relaxed mb-6">
+            Bạn cần đăng nhập để tải tài liệu học tập.
+        </p>
+
+        <div class="flex items-center justify-center gap-3">
+            <button onclick="closeLoginRequiredModal()"
+                class="px-5 py-3 rounded-2xl border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50 transition">
+                Đóng
+            </button>
+
+            <a href="{{ route('login') }}"
+                class="px-6 py-3 rounded-2xl bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition shadow-lg shadow-cyan-200">
+                Đăng nhập ngay
+            </a>
+        </div>
+    </div>
+</div>
+
+
+@endsection
+
 <script>
+function showLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+
 function openSubjectUploadModal() {
     const modal = document.getElementById('subjectUploadModal');
 
@@ -449,5 +503,3 @@ function searchSubjects() {
     });
 }
 </script>
-
-@endsection

@@ -73,49 +73,136 @@
                 </span>
             </div>
 
-            <div class="divide-y divide-cyan-100">
+            <a href="{{ route('documents.show', 1) }}" class="divide-y divide-cyan-100">
 
-                @foreach([
-                ['pdf', 'red', 'Slide Bài 1: Tổng quan Laravel Framework', 'Lập trình Web', 'ThS. Trần Văn B', 'Hôm
-                nay'],
-                ['word', 'blue', 'Đề cương ôn tập giữa kỳ CSDL 2023-2024', 'Cơ sở dữ liệu', 'TS. Lê Thị C', 'Hôm qua'],
-                ['excel', 'emerald', 'Danh sách chia nhóm & Bài tập lớn Mạng máy tính', 'Mạng máy tính', 'Phạm Văn D',
-                '2 ngày trước'],
-                ['powerpoint', 'orange', 'Slide chương 2: HTML CSS JavaScript', 'Lập trình Web', 'ThS. Nguyễn Văn A', '3
-                ngày trước'],
-                ] as $doc)
 
-                <div class="group p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
+                <!-- LIST -->
+                <div
+                    class="bg-white rounded-[2rem] border border-cyan-100 overflow-hidden shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
 
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-{{ $doc[1] }}-50 text-{{ $doc[1] }}-500 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-file-{{ $doc[0] }} text-2xl"></i>
-                    </div>
+                    <!-- ITEM -->
+                    <a href="{{ route('documents.show', 1) }}"
+                        class="group p-6 hover:bg-cyan-50/60 transition-colors flex flex-col lg:flex-row lg:items-center gap-5 border-b border-cyan-100">
 
-                    <div class="flex-1">
-                        <h3 class="text-lg font-black text-slate-800 group-hover:text-cyan-600 transition">
-                            {{ $doc[2] }}
-                        </h3>
+                        <!-- ICON -->
+                        <div
+                            class="w-16 h-16 bg-red-50 text-red-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-red-100">
 
-                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
-                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Môn: {{ $doc[3] }}</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> GV: {{ $doc[4] }}</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> {{ $doc[5] }}</span>
+                            <i class="fa-solid fa-file-pdf text-2xl"></i>
                         </div>
+
+                        <!-- CONTENT -->
+                        <div class="flex-grow">
+
+                            <h3 class="text-lg font-black text-slate-800 group-hover:text-cyan-600 transition-colors">
+
+                                Slide Bài 1: Tổng quan Laravel Framework
+                            </h3>
+
+                            <div class="flex flex-wrap items-center gap-3 text-slate-500 text-sm mt-3 font-medium">
+
+                                <span>
+                                    <i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>
+                                    Lập trình Web
+                                </span>
+
+                                <span>•</span>
+
+                                <span>
+                                    <i class="fa-solid fa-user-tie text-cyan-600 mr-1.5"></i>
+                                    GV: Bạn
+                                </span>
+
+                                <span>•</span>
+
+                                <span>
+                                    <i class="fa-solid fa-calendar text-cyan-600 mr-1.5"></i>
+                                    Hôm nay
+                                </span>
+
+                            </div>
+
+
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="shrink-0 flex items-center gap-3">
+
+
+                            <button
+                                class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                                <i class="fa-solid fa-cloud-arrow-down"></i>
+                                Tải về
+                            </button>
+
+                        </div>
+
+
+                    </a>
+
+                    <!-- ITEM -->
+                    <div
+                        class="group p-6 hover:bg-cyan-50/60 transition-colors flex flex-col lg:flex-row lg:items-center gap-5">
+
+                        <!-- ICON -->
+                        <div
+                            class="w-16 h-16 bg-blue-50 text-blue-500 rounded-2xl flex flex-col items-center justify-center shrink-0 border border-blue-100">
+
+                            <i class="fa-solid fa-file-word text-2xl"></i>
+                            <span class="text-[10px] font-black mt-1">DOCX</span>
+                        </div>
+
+                        <!-- CONTENT -->
+                        <div class="flex-grow">
+
+                            <h3 class="text-lg font-black text-slate-800 group-hover:text-cyan-600 transition-colors">
+
+                                Đề cương ôn tập giữa kỳ CSDL 2023-2024
+                            </h3>
+
+                            <div class="flex flex-wrap items-center gap-3 text-slate-500 text-sm mt-3 font-medium">
+
+                                <span>
+                                    <i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>
+                                    Cơ sở dữ liệu
+                                </span>
+
+                                <span>•</span>
+
+                                <span>
+                                    <i class="fa-solid fa-user-tie text-cyan-600 mr-1.5"></i>
+                                    TS. Lê Thị C
+                                </span>
+
+                                <span>•</span>
+
+                                <span>
+                                    <i class="fa-solid fa-calendar text-cyan-600 mr-1.5"></i>
+                                    Hôm qua
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                        <!-- BUTTON -->
+                        <div class="shrink-0 flex items-center gap-3">
+
+                            <button
+                                class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                                <i class="fa-solid fa-cloud-arrow-down"></i>
+                                Tải về
+                            </button>
+
+                        </div>
+
                     </div>
 
-                    <a href="#"
-                        class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition">
-                        <i class="fa-solid fa-download"></i>
-                        Tải về
-                    </a>
                 </div>
 
-                @endforeach
-
-            </div>
+            </a>
 
             <!-- PAGINATION -->
             <div class="px-8 py-6 bg-cyan-50/40 border-t border-cyan-100

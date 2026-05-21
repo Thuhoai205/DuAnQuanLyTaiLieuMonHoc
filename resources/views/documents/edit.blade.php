@@ -177,30 +177,7 @@
                             class="w-full px-5 py-4 rounded-2xl bg-cyan-50 border border-cyan-100 text-slate-800 font-semibold outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-500 transition resize-none">Slide HTML CSS cơ bản</textarea>
                     </div>
 
-                    <!-- PUBLIC -->
-                    <div
-                        class="flex items-center justify-between gap-4 p-5 rounded-2xl bg-cyan-50 border border-cyan-100">
 
-                        <div>
-                            <h4 class="font-black text-slate-800">
-                                Công khai tài liệu
-                            </h4>
-
-                            <p class="text-sm text-slate-500 font-semibold mt-1">
-                                Sinh viên có thể xem và tải tài liệu này.
-                            </p>
-                        </div>
-
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" checked class="sr-only peer">
-                            <div
-                                class="w-14 h-8 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:bg-cyan-500 transition">
-                            </div>
-                            <div
-                                class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition peer-checked:translate-x-6 shadow">
-                            </div>
-                        </label>
-                    </div>
 
                     <!-- ACTIONS -->
                     <div class="flex flex-col sm:flex-row items-center justify-end gap-4 pt-4">
@@ -289,16 +266,7 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-11 h-11 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                                <i class="fa-solid fa-eye"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-400 font-black uppercase">Trạng thái</p>
-                                <p class="text-cyan-600 font-black">Công khai</p>
-                            </div>
-                        </div>
+
 
                     </div>
                 </div>

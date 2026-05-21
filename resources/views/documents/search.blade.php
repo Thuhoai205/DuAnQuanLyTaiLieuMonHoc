@@ -197,7 +197,7 @@
                         </div>
 
                         <!-- CONTENT -->
-                        <div class="flex-grow">
+                        <a href="{{ route('documents.show', 1) }}" class="flex-grow">
 
                             <h3 class="text-lg font-black text-slate-800 group-hover:text-cyan-600 transition-colors">
 
@@ -227,11 +227,9 @@
 
                             </div>
 
-                            <p class="text-slate-500 mt-4 text-sm leading-relaxed">
-                                Slide bài giảng giới thiệu tổng quan về Laravel Framework.
-                            </p>
 
-                        </div>
+
+                        </a>
 
                         <!-- BUTTON -->
                         <div class="shrink-0 flex items-center gap-3">
@@ -312,9 +310,6 @@
 
                             </div>
 
-                            <p class="text-slate-500 mt-4 text-sm leading-relaxed">
-                                Bộ đề cương tổng hợp kiến thức và bài tập ôn tập giữa kỳ.
-                            </p>
 
                         </div>
 
@@ -390,4 +385,51 @@
 
 </main>
 
+<!-- LOGIN REQUIRED MODAL -->
+<div id="loginRequiredModal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+
+    <div class="w-full max-w-md bg-white rounded-3xl p-8 text-center shadow-2xl border border-cyan-100">
+
+        <div
+            class="w-20 h-20 mx-auto rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center text-3xl mb-5">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <h3 class="text-2xl font-black text-slate-900 mb-3">
+            Yêu cầu đăng nhập
+        </h3>
+
+        <p class="text-slate-500 leading-relaxed mb-6">
+            Bạn cần đăng nhập để tải tài liệu học tập.
+        </p>
+
+        <div class="flex items-center justify-center gap-3">
+            <button onclick="closeLoginRequiredModal()"
+                class="px-5 py-3 rounded-2xl border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50 transition">
+                Đóng
+            </button>
+
+            <a href="{{ route('login') }}"
+                class="px-6 py-3 rounded-2xl bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition shadow-lg shadow-cyan-200">
+                Đăng nhập ngay
+            </a>
+        </div>
+    </div>
+</div>
 @endsection
+<script>
+function showLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+</script>

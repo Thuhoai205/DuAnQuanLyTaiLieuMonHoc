@@ -113,7 +113,8 @@
             <div class="divide-y divide-cyan-100">
 
                 <!-- ITEM 1 -->
-                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
+                <a href="{{ route('documents.show', 1) }}"
+                    class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
 
                     <div class="w-16 h-16 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
                         <i class="fa-solid fa-file-pdf text-2xl"></i>
@@ -138,13 +139,21 @@
                             Slide
                         </span>
 
-                        <a href="#"
-                            class="px-5 py-3 rounded-2xl bg-cyan-600 text-white font-black hover:bg-cyan-700 transition">
-                            <i class="fa-solid fa-download mr-2"></i>
+                        @if(Auth::check())
+                        <button
+                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
                             Tải về
-                        </a>
+                        </button>
+                        @else
+                        <button onclick="showLoginRequiredModal()"
+                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                            Đăng nhập để tải
+                        </button>
+                        @endif
                     </div>
-                </div>
+                </a>
 
                 <!-- ITEM 2 -->
                 <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
@@ -173,11 +182,19 @@
                             Đề cương
                         </span>
 
-                        <a href="#"
-                            class="px-5 py-3 rounded-2xl bg-cyan-600 text-white font-black hover:bg-cyan-700 transition">
-                            <i class="fa-solid fa-download mr-2"></i>
+                        @if(Auth::check())
+                        <button
+                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
                             Tải về
-                        </a>
+                        </button>
+                        @else
+                        <button onclick="showLoginRequiredModal()"
+                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                            Đăng nhập để tải
+                        </button>
+                        @endif
                     </div>
                 </div>
 
@@ -208,11 +225,19 @@
                             Bài tập
                         </span>
 
-                        <a href="#"
-                            class="px-5 py-3 rounded-2xl bg-cyan-600 text-white font-black hover:bg-cyan-700 transition">
-                            <i class="fa-solid fa-download mr-2"></i>
+                        @if(Auth::check())
+                        <button
+                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
                             Tải về
-                        </a>
+                        </button>
+                        @else
+                        <button onclick="showLoginRequiredModal()"
+                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                            <i class="fa-solid fa-lock"></i>
+                            Đăng nhập để tải
+                        </button>
+                        @endif
                     </div>
                 </div>
 
@@ -256,5 +281,51 @@
 
     </div>
 </main>
+<!-- LOGIN REQUIRED MODAL -->
+<div id="loginRequiredModal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
 
+    <div class="w-full max-w-md bg-white rounded-3xl p-8 text-center shadow-2xl border border-cyan-100">
+
+        <div
+            class="w-20 h-20 mx-auto rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center text-3xl mb-5">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <h3 class="text-2xl font-black text-slate-900 mb-3">
+            Yêu cầu đăng nhập
+        </h3>
+
+        <p class="text-slate-500 leading-relaxed mb-6">
+            Bạn cần đăng nhập để tải tài liệu học tập.
+        </p>
+
+        <div class="flex items-center justify-center gap-3">
+            <button onclick="closeLoginRequiredModal()"
+                class="px-5 py-3 rounded-2xl border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50 transition">
+                Đóng
+            </button>
+
+            <a href="{{ route('login') }}"
+                class="px-6 py-3 rounded-2xl bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition shadow-lg shadow-cyan-200">
+                Đăng nhập ngay
+            </a>
+        </div>
+    </div>
+</div>
 @endsection
+<script>
+function showLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+</script>
