@@ -153,11 +153,19 @@
                 <!-- ACTION -->
                 <div
                     class="bg-white rounded-[32px] border border-cyan-100 p-6 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
-                    <a href="#"
-                        class="w-full inline-flex items-center justify-center gap-2 py-4 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition">
+                    @if(Auth::check())
+                    <button
+                        class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
                         <i class="fa-solid fa-cloud-arrow-down"></i>
-                        Tải tài liệu
-                    </a>
+                        Tải về
+                    </button>
+                    @else
+                    <button onclick="showLoginRequiredModal()"
+                        class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-lock"></i>
+                        Đăng nhập để tải
+                    </button>
+                    @endif
 
                     @if(Auth::check() && Auth::user()->role_id == 2)
                     <div class="grid grid-cols-2 gap-3 mt-4">
@@ -330,3 +338,18 @@
     </div>
 </main>
 @endsection
+<script>
+function showLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLoginRequiredModal() {
+    const modal = document.getElementById('loginRequiredModal');
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+    document.body.style.overflow = 'auto';
+}
+</script>
