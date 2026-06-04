@@ -16,10 +16,20 @@ Route::middleware('auth')
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        Route::resource('users', UserController::class);
+        // Người dùng đã xóa + khôi phục
+        Route::get('/users/trashed', [UserController::class, 'trashed'])
+            ->name('users.trashed');
+
+        Route::post('/users/restore-multiple', [UserController::class, 'restoreMultiple'])
+            ->name('users.restoreMultiple');
+
+        Route::patch('/users/{id}/restore', [UserController::class, 'restore'])
+            ->name('users.restore');
 
         Route::patch('/users/{id}/status', [UserController::class, 'toggleStatus'])
             ->name('users.status');
+
+        Route::resource('users', UserController::class);
 
         Route::resource('subjects', SubjectController::class);
 

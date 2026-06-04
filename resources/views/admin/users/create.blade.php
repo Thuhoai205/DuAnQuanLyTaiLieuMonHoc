@@ -18,16 +18,18 @@
             </p>
         </div>
 
-        <a href="{{ route('admin.users.index') }}"
-            class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 text-sm font-semibold hover:bg-slate-50 hover:text-slate-900 transition-all shadow-sm">
-            <i class="fa-solid fa-arrow-left text-xs"></i>
+        <a href="{{ url()->previous() }}"
+            class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200 text-slate-700 font-black shadow-sm hover:bg-slate-50 transition">
+            <span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                <i class="fa-solid fa-arrow-left"></i>
+            </span>
             Quay lại
         </a>
     </div>
 
     <div class="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden">
 
-        <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data"
+        <form action="{{ route('admin.users.store') }}" method="POST" enctype="multipart/form-data" autocomplete="off"
             class="p-6 sm:p-8 space-y-6">
             @csrf
 
@@ -38,13 +40,8 @@
                         Họ và tên
                     </label>
 
-                    <div class="relative">
-                        <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-
-                        <input type="text" name="full_name" value="{{ old('full_name') }}"
-                            placeholder="Ví dụ: Nguyễn Văn A"
-                            class="w-full h-10 pl-11 pr-4 rounded-xl bg-slate-50 border @error('full_name') border-rose-400 focus:ring-rose-500/10 @else border-slate-200 focus:border-cyan-500 focus:ring-cyan-500/10 @enderror text-sm text-slate-800 placeholder-slate-400 transition-all outline-none focus:bg-white focus:ring-4">
-                    </div>
+                    <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Ví dụ: Nguyễn Văn A"
+                        class="w-full h-10 px-4 rounded-xl bg-slate-50 border @error('full_name') border-rose-400 @else border-slate-200 @enderror outline-none">
 
                     @error('full_name')
                     <p class="text-xs text-rose-500 font-medium mt-1">{{ $message }}</p>
@@ -56,12 +53,8 @@
                         Tên tài khoản
                     </label>
 
-                    <div class="relative">
-                        <i class="fa-solid fa-at absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-
-                        <input type="text" name="username" value="{{ old('username') }}" placeholder="vanya.nguyen"
-                            class="w-full h-10 pl-11 pr-4 rounded-xl bg-slate-50 border @error('username') border-rose-400 focus:ring-rose-500/10 @else border-slate-200 focus:border-cyan-500 focus:ring-cyan-500/10 @enderror text-sm text-slate-800 placeholder-slate-400 transition-all outline-none focus:bg-white focus:ring-4">
-                    </div>
+                    <input type="text" name="username" value="{{ old('username') }}" placeholder="vanya.nguyen"
+                        class="w-full h-10 px-4 rounded-xl bg-slate-50 border @error('username') border-rose-400 @else border-slate-200 @enderror outline-none">
 
                     @error('username')
                     <p class="text-xs text-rose-500 font-medium mt-1">{{ $message }}</p>
@@ -73,13 +66,8 @@
                         Email
                     </label>
 
-                    <div class="relative">
-                        <i
-                            class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-
-                        <input type="email" name="email" value="{{ old('email') }}" placeholder="example@domain.com"
-                            class="w-full h-10 pl-11 pr-4 rounded-xl bg-slate-50 border @error('email') border-rose-400 focus:ring-rose-500/10 @else border-slate-200 focus:border-cyan-500 focus:ring-cyan-500/10 @enderror text-sm text-slate-800 placeholder-slate-400 transition-all outline-none focus:bg-white focus:ring-4">
-                    </div>
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="example@domain.com"
+                        class="w-full h-10 px-4 rounded-xl bg-slate-50 border @error('email') border-rose-400 @else border-slate-200 @enderror outline-none">
 
                     @error('email')
                     <p class="text-xs text-rose-500 font-medium mt-1">{{ $message }}</p>
@@ -91,12 +79,8 @@
                         Mật khẩu
                     </label>
 
-                    <div class="relative">
-                        <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-
-                        <input type="password" name="password" placeholder="Tối thiểu 6 ký tự"
-                            class="w-full h-10 pl-11 pr-4 rounded-xl bg-slate-50 border @error('password') border-rose-400 focus:ring-rose-500/10 @else border-slate-200 focus:border-cyan-500 focus:ring-cyan-500/10 @enderror text-sm text-slate-800 placeholder-slate-400 transition-all outline-none focus:bg-white focus:ring-4">
-                    </div>
+                    <input type="password" name="password" placeholder="Tối thiểu 6 ký tự"
+                        class="w-full h-10 px-4 rounded-xl bg-slate-50 border @error('password') border-rose-400 @else border-slate-200 @enderror outline-none">
 
                     @error('password')
                     <p class="text-xs text-rose-500 font-medium mt-1">{{ $message }}</p>
@@ -108,24 +92,16 @@
                         Vai trò
                     </label>
 
-                    <div class="relative">
-                        <i
-                            class="fa-solid fa-shield-halved absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <select name="role_id"
+                        class="w-full h-10 px-4 rounded-xl bg-slate-50 border @error('role_id') border-rose-400 @else border-slate-200 @enderror outline-none">
+                        <option value="">Chọn vai trò hệ thống</option>
 
-                        <select name="role_id"
-                            class="w-full h-10 pl-11 pr-10 rounded-xl bg-slate-50 border @error('role_id') border-rose-400 focus:ring-rose-500/10 @else border-slate-200 focus:border-cyan-500 focus:ring-cyan-500/10 @enderror text-sm text-slate-700 font-medium transition-all outline-none focus:bg-white focus:ring-4 appearance-none cursor-pointer">
-                            <option value="">Chọn vai trò hệ thống</option>
-
-                            @foreach($roles as $role)
-                            <option value="{{ $role->role_id }}" @selected((int) old('role_id')===(int) $role->role_id)>
-                                {{ $role->role_name }}
-                            </option>
-                            @endforeach
-                        </select>
-
-                        <i
-                            class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
-                    </div>
+                        @foreach($roles as $role)
+                        <option value="{{ $role->role_id }}" @selected((int) old('role_id')===(int) $role->role_id)>
+                            {{ $role->role_name }}
+                        </option>
+                        @endforeach
+                    </select>
 
                     @error('role_id')
                     <p class="text-xs text-rose-500 font-medium mt-1">{{ $message }}</p>
@@ -138,18 +114,13 @@
                     </label>
 
                     <div class="h-10 flex items-center">
-                        <label class="relative inline-flex items-center cursor-pointer select-none">
-
+                        <label class="inline-flex items-center cursor-pointer">
                             <input type="hidden" name="is_active" value="0">
 
-                            <input type="checkbox" name="is_active" value="1" class="sr-only peer"
+                            <input type="checkbox" name="is_active" value="1" class="w-5 h-5 accent-cyan-600"
                                 @checked(old('is_active', 1))>
 
-                            <div
-                                class="w-11 h-6 bg-slate-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-cyan-500/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600">
-                            </div>
-
-                            <span class="ml-3 text-sm font-medium text-slate-600 peer-checked:text-slate-800">
+                            <span class="ml-3 text-sm font-medium text-slate-600">
                                 Kích hoạt ngay tài khoản
                             </span>
                         </label>
@@ -171,15 +142,14 @@
 
             </div>
 
-            <div
-                class="pt-5 border-t border-slate-100 flex items-center justify-end gap-3 bg-slate-50/30 -mx-6 -mb-6 p-6 sm:-mx-8 sm:-mb-8 sm:p-6">
+            <div class="pt-5 border-t border-slate-100 flex items-center justify-end gap-3">
                 <button type="reset"
-                    class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-800 hover:bg-slate-50 font-semibold text-sm transition shadow-sm cursor-pointer">
+                    class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 font-semibold text-sm">
                     Xóa nhập liệu
                 </button>
 
                 <button type="submit"
-                    class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-semibold text-sm shadow-sm shadow-cyan-600/10 transition flex items-center gap-2 cursor-pointer">
+                    class="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-semibold text-sm flex items-center gap-2">
                     <i class="fa-solid fa-plus text-xs"></i>
                     Tạo người dùng
                 </button>

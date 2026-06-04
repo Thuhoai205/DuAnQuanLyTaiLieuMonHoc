@@ -12,114 +12,181 @@ $totalDownloads = $totalDownloads ?? $user->downloadHistories->count();
 $totalFavorites = $totalFavorites ?? $user->favorites->count();
 $totalLogs = $totalLogs ?? $user->activityLogs->count();
 $totalSearches = $totalSearches ?? $user->searchHistories->count();
+
+$isAdmin = $user->role_id == 1;
+$isLecturer = $user->role_id == 2;
+$isStudent = $user->role_id == 3;
 @endphp
 
 <div class="max-w-7xl mx-auto px-2 lg:px-4">
 
-    <section
-        class="relative overflow-hidden rounded-[40px] bg-[#0891B2] text-white p-8 lg:p-10 mb-10 shadow-2xl shadow-cyan-200">
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-300/30 rounded-full blur-3xl"></div>
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-sky-300/20 rounded-full blur-3xl"></div>
+    {{-- HEADER --}}
+    <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+        <div>
+            <h1 class="text-3xl font-black text-slate-900">
+                Chi tiết người dùng
+            </h1>
 
-        <div class="relative flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
-            <div class="flex items-center gap-6">
+            <p class="text-slate-500 font-semibold mt-2">
+                Xem thông tin tài khoản, vai trò và hoạt động của người dùng.
+            </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+            <a href="{{ route('admin.users.edit', $user->user_id) }}"
+                class="group inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-cyan-600 text-white font-black shadow-lg shadow-cyan-100 hover:bg-cyan-700 hover:-translate-y-0.5 transition-all">
+                <span class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </span>
+                Chỉnh sửa
+            </a>
+
+            <a href="{{ url()->previous() }}"
+                class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200 text-slate-700 font-black shadow-sm hover:bg-slate-50 transition">
+                <span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </span>
+                Quay lại
+            </a>
+        </div>
+    </div>
+
+    {{-- PROFILE CARD --}}
+    <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden mb-8">
+        <div class="bg-gradient-to-r from-cyan-600 to-sky-500 px-8 py-8 text-white">
+            <div class="flex flex-col md:flex-row md:items-center gap-6">
                 <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=06b6d4&color=fff' }}"
-                    class="w-28 h-28 rounded-[30px] object-cover border-4 border-white shadow-2xl">
+                    class="w-28 h-28 rounded-[30px] object-cover border-4 border-white shadow-xl">
 
-                <div>
-                    <span
-                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-700/60 border border-cyan-300/30 text-cyan-50 text-xs font-black mb-4">
-                        <i class="fa-solid fa-user"></i>
-                        User Profile
-                    </span>
+                <div class="flex-1">
+                    <div class="flex flex-wrap items-center gap-3 mb-3">
+                        <span
+                            class="px-4 py-2 rounded-full bg-white/20 text-white text-xs font-black border border-white/20">
+                            {{ $user->role->role_name ?? 'Chưa có role' }}
+                        </span>
 
-                    <h1 class="text-4xl md:text-5xl font-black leading-tight">
+                        @if($user->is_active)
+                        <span
+                            class="px-4 py-2 rounded-full bg-emerald-400/20 text-emerald-50 text-xs font-black border border-emerald-200/20">
+                            Hoạt động
+                        </span>
+                        @else
+                        <span
+                            class="px-4 py-2 rounded-full bg-red-400/20 text-red-50 text-xs font-black border border-red-200/20">
+                            Bị khóa
+                        </span>
+                        @endif
+                    </div>
+
+                    <h2 class="text-4xl font-black">
                         {{ $user->full_name }}
-                    </h1>
+                    </h2>
 
-                    <p class="text-cyan-100 font-semibold mt-2">
+                    <p class="text-cyan-50 font-semibold mt-2">
                         {{ '@' . $user->username }} • {{ $user->email }}
                     </p>
                 </div>
             </div>
+        </div>
 
-            <div class="flex flex-wrap gap-3">
-                <a href="{{ route('admin.users.edit', $user->user_id) }}"
-                    class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-cyan-300 text-cyan-950 font-black hover:bg-cyan-200 transition shadow-xl">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                    Chỉnh sửa
-                </a>
-
-                <a href="{{ route('admin.users.index') }}"
-                    class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-white/15 border border-white/20 text-white font-black hover:bg-white/25 transition">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Quay lại
-                </a>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border-t border-cyan-100">
+            <div class="p-6 border-b md:border-b-0 md:border-r border-cyan-100">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+                    Mã người dùng
+                </p>
+                <h3 class="text-2xl font-black text-slate-900 mt-2">
+                    #{{ $user->user_id }}
+                </h3>
             </div>
-        </div>
-    </section>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div class="bg-white rounded-[32px] p-7 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
-            <p class="text-sm font-black uppercase tracking-[0.18em] text-slate-400">Vai trò</p>
-            <h3 class="text-3xl font-black text-cyan-950 mt-4">
-                {{ $user->role->role_name ?? 'Chưa có role' }}
-            </h3>
-        </div>
+            <div class="p-6 border-b md:border-b-0 md:border-r border-cyan-100">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+                    Ngày tạo
+                </p>
+                <h3 class="text-2xl font-black text-slate-900 mt-2">
+                    {{ $user->created_at ? $user->created_at->format('d/m/Y') : 'Chưa có' }}
+                </h3>
+            </div>
 
-        <div class="bg-white rounded-[32px] p-7 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
-            <p class="text-sm font-black uppercase tracking-[0.18em] text-slate-400">Trạng thái</p>
-
-            <h3 class="text-3xl font-black mt-4 {{ $user->is_active ? 'text-emerald-600' : 'text-red-500' }}">
-                {{ $user->is_active ? 'Hoạt động' : 'Bị khóa' }}
-            </h3>
-        </div>
-
-        <div class="bg-white rounded-[32px] p-7 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
-            <p class="text-sm font-black uppercase tracking-[0.18em] text-slate-400">Ngày tạo</p>
-            <h3 class="text-3xl font-black text-cyan-950 mt-4">
-                {{ $user->created_at ? $user->created_at->format('d/m/Y') : 'Chưa có' }}
-            </h3>
+            <div class="p-6">
+                <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-400">
+                    Cập nhật gần nhất
+                </p>
+                <h3 class="text-2xl font-black text-slate-900 mt-2">
+                    {{ $user->updated_at ? $user->updated_at->format('d/m/Y') : 'Chưa có' }}
+                </h3>
+            </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    {{-- STATISTICS --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
 
-        @if($user->role_id == 2)
-        <div class="bg-white rounded-[28px] p-6 border border-cyan-100">
-            <p class="text-slate-400 text-xs font-black uppercase">Tài liệu upload</p>
+        @if($isLecturer)
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Tài liệu upload</p>
             <h3 class="text-4xl font-black text-cyan-700 mt-2">
                 {{ number_format($totalDocuments) }}
             </h3>
         </div>
 
-        <div class="bg-white rounded-[28px] p-6 border border-cyan-100">
-            <p class="text-slate-400 text-xs font-black uppercase">Môn phụ trách</p>
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Môn phụ trách</p>
             <h3 class="text-4xl font-black text-cyan-700 mt-2">
                 {{ number_format($totalSubjects) }}
             </h3>
         </div>
+
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Lượt tải tài liệu</p>
+            <h3 class="text-4xl font-black text-cyan-700 mt-2">
+                {{ number_format($totalDownloads) }}
+            </h3>
+        </div>
         @endif
 
-        <div class="bg-white rounded-[28px] p-6 border border-cyan-100">
-            <p class="text-slate-400 text-xs font-black uppercase">Lượt tải</p>
+        @if($isStudent)
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Lượt tải</p>
             <h3 class="text-4xl font-black text-cyan-700 mt-2">
                 {{ number_format($totalDownloads) }}
             </h3>
         </div>
 
-        @if($user->role_id == 3)
-        <div class="bg-white rounded-[28px] p-6 border border-cyan-100">
-            <p class="text-slate-400 text-xs font-black uppercase">Tài liệu yêu thích</p>
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Tài liệu yêu thích</p>
             <h3 class="text-4xl font-black text-cyan-700 mt-2">
                 {{ number_format($totalFavorites) }}
             </h3>
         </div>
 
-        <div class="bg-white rounded-[28px] p-6 border border-cyan-100">
-            <p class="text-slate-400 text-xs font-black uppercase">Lịch sử tìm kiếm</p>
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Lịch sử tìm kiếm</p>
             <h3 class="text-4xl font-black text-cyan-700 mt-2">
                 {{ number_format($totalSearches) }}
+            </h3>
+        </div>
+        @endif
+
+        @if($isAdmin)
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Nhật ký hoạt động</p>
+            <h3 class="text-4xl font-black text-cyan-700 mt-2">
+                {{ number_format($totalLogs) }}
+            </h3>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Trạng thái</p>
+            <h3 class="text-3xl font-black mt-2 {{ $user->is_active ? 'text-emerald-600' : 'text-red-500' }}">
+                {{ $user->is_active ? 'Hoạt động' : 'Bị khóa' }}
+            </h3>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
+            <p class="text-xs font-black uppercase text-slate-400">Vai trò</p>
+            <h3 class="text-3xl font-black text-cyan-700 mt-2">
+                Admin
             </h3>
         </div>
         @endif
@@ -127,96 +194,140 @@ $totalSearches = $totalSearches ?? $user->searchHistories->count();
     </div>
 
     <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+
+        {{-- MAIN CONTENT --}}
         <div class="xl:col-span-2 space-y-8">
-            <div
-                class="bg-white rounded-[36px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
-                <div class="px-7 py-6 border-b border-cyan-100">
-                    <h2 class="text-3xl font-black text-cyan-950">Thông tin tài khoản</h2>
+
+            {{-- ACCOUNT INFO --}}
+            <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden">
+                <div class="px-6 py-5 border-b border-cyan-100">
+                    <h2 class="text-xl font-black text-slate-900">
+                        Thông tin tài khoản
+                    </h2>
+                    <p class="text-sm text-slate-500 font-semibold mt-1">
+                        Thông tin cơ bản của người dùng trong hệ thống.
+                    </p>
                 </div>
 
-                <div class="p-7 grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <div class="p-5 rounded-3xl bg-cyan-50 border border-cyan-100">
-                        <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-400 mb-2">Họ và tên</p>
-                        <h4 class="text-lg font-black text-slate-800">{{ $user->full_name }}</h4>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="rounded-2xl bg-cyan-50 border border-cyan-100 p-5">
+                        <p class="text-xs font-black uppercase text-slate-400">Họ và tên</p>
+                        <h4 class="text-lg font-black text-slate-900 mt-2">{{ $user->full_name }}</h4>
                     </div>
 
-                    <div class="p-5 rounded-3xl bg-cyan-50 border border-cyan-100">
-                        <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-400 mb-2">Username</p>
-                        <h4 class="text-lg font-black text-slate-800">{{ '@' . $user->username }}</h4>
+                    <div class="rounded-2xl bg-cyan-50 border border-cyan-100 p-5">
+                        <p class="text-xs font-black uppercase text-slate-400">Username</p>
+                        <h4 class="text-lg font-black text-slate-900 mt-2">{{ '@' . $user->username }}</h4>
                     </div>
 
-                    <div class="p-5 rounded-3xl bg-cyan-50 border border-cyan-100">
-                        <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-400 mb-2">Email</p>
-                        <h4 class="text-lg font-black text-slate-800">{{ $user->email }}</h4>
+                    <div class="rounded-2xl bg-cyan-50 border border-cyan-100 p-5">
+                        <p class="text-xs font-black uppercase text-slate-400">Email</p>
+                        <h4 class="text-lg font-black text-slate-900 mt-2">{{ $user->email }}</h4>
                     </div>
 
-                    <div class="p-5 rounded-3xl bg-cyan-50 border border-cyan-100">
-                        <p class="text-xs font-black uppercase tracking-[0.18em] text-slate-400 mb-2">Mã người dùng</p>
-                        <h4 class="text-lg font-black text-slate-800">#{{ $user->user_id }}</h4>
+                    <div class="rounded-2xl bg-cyan-50 border border-cyan-100 p-5">
+                        <p class="text-xs font-black uppercase text-slate-400">Vai trò</p>
+                        <h4 class="text-lg font-black text-slate-900 mt-2">
+                            {{ $user->role->role_name ?? 'Chưa có role' }}</h4>
                     </div>
                 </div>
             </div>
-            @if($user->role_id == 2)
 
-            <div
-                class="bg-white rounded-[36px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
-                <div class="px-7 py-6 border-b border-cyan-100">
-                    <h2 class="text-3xl font-black text-cyan-950">Môn học phụ trách</h2>
+            {{-- LECTURER ONLY --}}
+            @if($isLecturer)
+            <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden">
+                <div class="px-6 py-5 border-b border-cyan-100">
+                    <h2 class="text-xl font-black text-slate-900">
+                        Môn học phụ trách
+                    </h2>
                 </div>
 
-                <div class="p-7 space-y-4">
+                <div class="p-6 space-y-4">
                     @forelse($user->subjects as $subject)
-                    <div class="p-5 rounded-3xl bg-cyan-50 border border-cyan-100 flex items-center justify-between">
+                    <div class="p-5 rounded-2xl bg-cyan-50 border border-cyan-100 flex items-center justify-between">
                         <div>
-                            <h3 class="font-black text-slate-800">{{ $subject->subject_name }}</h3>
+                            <h3 class="font-black text-slate-900">{{ $subject->subject_name }}</h3>
                             <p class="text-sm font-semibold text-slate-500">{{ $subject->subject_code }}</p>
                         </div>
 
                         <a href="{{ route('admin.subjects.show', $subject->subject_code) }}"
-                            class="text-cyan-600 font-black hover:text-cyan-700">
+                            class="px-4 py-2 rounded-xl bg-white text-cyan-700 font-black border border-cyan-100 hover:bg-cyan-600 hover:text-white transition">
                             Xem
                         </a>
                     </div>
                     @empty
-                    <p class="text-slate-500 font-semibold">Người dùng này chưa được phân công môn học.</p>
+                    <p class="text-slate-500 font-semibold">
+                        Giảng viên này chưa được phân công môn học.
+                    </p>
                     @endforelse
                 </div>
             </div>
 
-            <div
-                class="bg-white rounded-[36px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
-                <div class="px-7 py-6 border-b border-cyan-100">
-                    <h2 class="text-3xl font-black text-cyan-950">Tài liệu đã upload</h2>
+            <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden">
+                <div class="px-6 py-5 border-b border-cyan-100">
+                    <h2 class="text-xl font-black text-slate-900">
+                        Tài liệu đã upload
+                    </h2>
                 </div>
 
-                <div class="p-7 space-y-4">
+                <div class="p-6 space-y-4">
                     @forelse($user->documents as $document)
-                    <div class="p-5 rounded-3xl bg-cyan-50 border border-cyan-100">
-                        <h3 class="font-black text-slate-800">{{ $document->title }}</h3>
-                        <p class="text-sm font-semibold text-slate-500">
-                            {{ $document->file_extension ?? 'file' }} • {{ number_format($document->download_count) }}
-                            lượt tải
+                    <div class="p-5 rounded-2xl bg-cyan-50 border border-cyan-100">
+                        <h3 class="font-black text-slate-900">{{ $document->title }}</h3>
+                        <p class="text-sm font-semibold text-slate-500 mt-1">
+                            {{ strtoupper($document->file_extension ?? 'FILE') }}
+                            • {{ number_format($document->download_count) }} lượt tải
                         </p>
                     </div>
                     @empty
-                    <p class="text-slate-500 font-semibold">Người dùng này chưa upload tài liệu.</p>
+                    <p class="text-slate-500 font-semibold">
+                        Giảng viên này chưa upload tài liệu.
+                    </p>
                     @endforelse
                 </div>
             </div>
             @endif
+
+            {{-- STUDENT ONLY --}}
+            @if($isStudent)
+            <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden">
+                <div class="px-6 py-5 border-b border-cyan-100">
+                    <h2 class="text-xl font-black text-slate-900">
+                        Thông tin học tập
+                    </h2>
+                </div>
+
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="rounded-2xl bg-cyan-50 border border-cyan-100 p-5">
+                        <p class="text-xs font-black uppercase text-slate-400">Lượt tải tài liệu</p>
+                        <h4 class="text-3xl font-black text-cyan-700 mt-2">{{ number_format($totalDownloads) }}</h4>
+                    </div>
+
+                    <div class="rounded-2xl bg-cyan-50 border border-cyan-100 p-5">
+                        <p class="text-xs font-black uppercase text-slate-400">Tài liệu yêu thích</p>
+                        <h4 class="text-3xl font-black text-cyan-700 mt-2">{{ number_format($totalFavorites) }}</h4>
+                    </div>
+                </div>
+            </div>
+            @endif
+
         </div>
 
+        {{-- SIDEBAR --}}
         <div class="space-y-6">
-            <div class="bg-white rounded-[36px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-7">
-                <h3 class="text-2xl font-black text-cyan-950 mb-5">Thao tác nhanh</h3>
+
+            <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm p-6">
+                <h3 class="text-xl font-black text-slate-900 mb-5">
+                    Thao tác nhanh
+                </h3>
 
                 <div class="space-y-3">
                     <a href="{{ route('admin.users.edit', $user->user_id) }}"
-                        class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 transition shadow-lg shadow-cyan-200">
+                        class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-cyan-600 text-white font-black hover:bg-cyan-700 transition">
                         <i class="fa-solid fa-pen"></i>
                         Chỉnh sửa người dùng
                     </a>
-
+                    @if($user->user_id != auth()->id())
                     <form action="{{ route('admin.users.status', $user->user_id) }}" method="POST">
                         @csrf
                         @method('PATCH')
@@ -228,8 +339,9 @@ $totalSearches = $totalSearches ?? $user->searchHistories->count();
                         </button>
                     </form>
 
+
                     <form action="{{ route('admin.users.destroy', $user->user_id) }}" method="POST"
-                        onsubmit="return confirm('Bạn có chắc muốn xóa người dùng này không?')">
+                        onsubmit="return confirm('Người dùng sẽ bị xóa mềm và có thể khôi phục lại. Bạn có chắc không?')">
                         @csrf
                         @method('DELETE')
 
@@ -239,18 +351,16 @@ $totalSearches = $totalSearches ?? $user->searchHistories->count();
                             Xóa người dùng
                         </button>
                     </form>
+                    @endif
                 </div>
             </div>
 
-            <div class="bg-white rounded-[36px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-7">
-                <h3 class="text-2xl font-black text-cyan-950 mb-5">Thống kê khác</h3>
+            <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm p-6">
+                <h3 class="text-xl font-black text-slate-900 mb-5">
+                    Thống kê khác
+                </h3>
 
                 <div class="space-y-4">
-                    <div class="flex justify-between font-bold text-slate-600">
-                        <span>Yêu thích</span>
-                        <span>{{ number_format($totalFavorites) }}</span>
-                    </div>
-
                     <div class="flex justify-between font-bold text-slate-600">
                         <span>Nhật ký</span>
                         <span>{{ number_format($totalLogs) }}</span>
@@ -260,10 +370,16 @@ $totalSearches = $totalSearches ?? $user->searchHistories->count();
                         <span>Tìm kiếm</span>
                         <span>{{ number_format($totalSearches) }}</span>
                     </div>
+
+                    <div class="flex justify-between font-bold text-slate-600">
+                        <span>Yêu thích</span>
+                        <span>{{ number_format($totalFavorites) }}</span>
+                    </div>
                 </div>
             </div>
 
         </div>
+
     </div>
 
 </div>

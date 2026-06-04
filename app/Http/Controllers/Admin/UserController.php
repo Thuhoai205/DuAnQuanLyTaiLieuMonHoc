@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-    /**
-     * Danh sách người dùng
-     */
     public function index(Request $request)
     {
         $query = User::with('role');
@@ -22,8 +20,8 @@ class UserController extends Controller
 
             $query->where(function ($q) use ($search) {
                 $q->where('full_name', 'like', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhere('username', 'like', "%{$search}%");
+                    ->orWhere('username', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
             });
         }
 
@@ -31,7 +29,7 @@ class UserController extends Controller
             $query->where('role_id', $request->role_id);
         }
 
-        $users = $query->latest('user_id')
+        $users = $query->orderByDesc('user_id')
             ->paginate(10)
             ->withQueryString();
 
@@ -40,19 +38,18 @@ class UserController extends Controller
         $totalUsers = User::count();
         $totalTeachers = User::where('role_id', 2)->count();
         $totalStudents = User::where('role_id', 3)->count();
+        $totalTrashedUsers = User::onlyTrashed()->count();
 
         return view('admin.users.index', compact(
             'users',
             'roles',
             'totalUsers',
             'totalTeachers',
-            'totalStudents'
+            'totalStudents',
+            'totalTrashedUsers'
         ));
     }
 
-    /**
-     * Form thêm người dùng
-     */
     public function create()
     {
         $roles = Role::all();
@@ -60,9 +57,6 @@ class UserController extends Controller
         return view('admin.users.create', compact('roles'));
     }
 
-    /**
-     * Lưu người dùng
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -78,8 +72,7 @@ class UserController extends Controller
         $avatarPath = null;
 
         if ($request->hasFile('avatar')) {
-            $avatarPath = $request->file('avatar')
-                ->store('avatars', 'public');
+            $avatarPath = $request->file('avatar')->store('avatars', 'public');
         }
 
         User::create([
@@ -94,12 +87,9 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Thêm người dùng thành công');
+            ->with('success', 'Thêm người dùng thành công.');
     }
 
-    /**
-     * Chi tiết người dùng
-     */
     public function show(string $id)
     {
         $user = User::with([
@@ -130,24 +120,14 @@ class UserController extends Controller
         ));
     }
 
-    /**
-     * Form sửa người dùng
-     */
     public function edit(string $id)
     {
         $user = User::with('role')->findOrFail($id);
-
         $roles = Role::all();
 
-        return view('admin.users.edit', compact(
-            'user',
-            'roles'
-        ));
+        return view('admin.users.edit', compact('user', 'roles'));
     }
 
-    /**
-     * Cập nhật người dùng
-     */
     public function update(Request $request, string $id)
     {
         $user = User::findOrFail($id);
@@ -177,47 +157,53 @@ class UserController extends Controller
                 Storage::disk('public')->delete($user->avatar);
             }
 
-            $user->avatar = $request->file('avatar')
-                ->store('avatars', 'public');
+            $user->avatar = $request->file('avatar')->store('avatars', 'public');
         }
 
         $user->save();
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Cập nhật người dùng thành công');
+            ->with('success', 'Cập nhật người dùng thành công.');
     }
 
-    /**
-     * Xóa mềm người dùng
-     */
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
+
+        if ($user->user_id == Auth::id()) {
+            return back()->with('error', 'Bạn không thể tự xóa tài khoản của mình.');
+        }
+
+        if ($user->role_id == 1) {
+            $adminCount = User::where('role_id', 1)->count();
+
+            if ($adminCount <= 1) {
+                return back()->with('error', 'Hệ thống phải có ít nhất một tài khoản quản trị.');
+            }
+        }
 
         $user->delete();
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'Xóa người dùng thành công');
+            ->with('success', 'Xóa người dùng thành công.');
     }
 
-    /**
-     * Khóa / mở khóa tài khoản
-     */
     public function toggleStatus(string $id)
     {
         $user = User::findOrFail($id);
 
+        if ($user->user_id == Auth::id()) {
+            return back()->with('error', 'Bạn không thể tự khóa tài khoản của mình.');
+        }
+
         $user->is_active = !$user->is_active;
         $user->save();
 
-        return back()->with('success', 'Cập nhật trạng thái thành công');
+        return back()->with('success', 'Cập nhật trạng thái thành công.');
     }
 
-    /**
-     * Upload avatar riêng
-     */
     public function uploadAvatar(Request $request, string $id)
     {
         $request->validate([
@@ -230,11 +216,47 @@ class UserController extends Controller
             Storage::disk('public')->delete($user->avatar);
         }
 
-        $user->avatar = $request->file('avatar')
-            ->store('avatars', 'public');
-
+        $user->avatar = $request->file('avatar')->store('avatars', 'public');
         $user->save();
 
-        return back()->with('success', 'Cập nhật avatar thành công');
+        return back()->with('success', 'Cập nhật avatar thành công.');
+    }
+
+    public function trashed()
+    {
+        $users = User::onlyTrashed()
+            ->with('role')
+            ->orderByDesc('deleted_at')
+            ->paginate(10);
+
+        return view('admin.users.trashed', compact('users'));
+    }
+
+    public function restore(string $id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+
+        $user->restore();
+
+        return redirect()
+            ->route('admin.users.trashed')
+            ->with('success', 'Khôi phục người dùng thành công.');
+    }
+
+    public function restoreMultiple(Request $request)
+    {
+        $ids = $request->user_ids ?? [];
+
+        if (empty($ids)) {
+            return back()->with('error', 'Vui lòng chọn ít nhất một người dùng.');
+        }
+
+        User::onlyTrashed()
+            ->whereIn('user_id', $ids)
+            ->restore();
+
+        return redirect()
+            ->route('admin.users.trashed')
+            ->with('success', 'Khôi phục các người dùng đã chọn thành công.');
     }
 }
