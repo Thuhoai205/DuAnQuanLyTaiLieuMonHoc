@@ -11,12 +11,15 @@ class Role extends Model
     protected $primaryKey = 'role_id';
 
     protected $fillable = [
-        'role_name'
+        'role_name',
     ];
 
-    /**
-     * ROLE CÓ NHIỀU USER
-     */
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    
     public function users()
     {
         return $this->hasMany(

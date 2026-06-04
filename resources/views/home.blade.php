@@ -421,7 +421,6 @@ setInterval(() => {
     @endguest
     <!-- Phần Tài liệu sẽ chia quyền giảng viên và sinh viên -->
     @auth
-    @if(auth()->user()->role_id !=1)
     <!--DANH MỤC MÔN HỌC (SINH VIÊN xem đc tất cả các file, giảng viên xem đc tất cả các file)-->
     <div class="mb-12 py-15 my-10">
 
@@ -525,9 +524,8 @@ setInterval(() => {
 
         </div>
     </div>
-    @endif
     <!-- Phần Tài liệu sẽ chia quyền sinh viên -->
-    @if(auth()->user()->role_id==3)
+    @if(auth()->user()->role_id !=2)
     <!-- ========================= -->
     <!-- TÀI LIỆU -->
     <!-- ========================= -->

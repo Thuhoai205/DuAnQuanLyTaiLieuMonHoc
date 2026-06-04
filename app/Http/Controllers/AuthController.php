@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Models\ActivityLog;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\LoginRequest;
 
 class AuthController extends Controller
 {
@@ -22,13 +23,14 @@ class AuthController extends Controller
 
     public function postRegister(RegisterRequest $request)
     {
+        // Người dùng đăng ký mặc định là sinh viên
         User::create([
             'full_name' => $request->full_name,
             'username'  => $request->username,
             'email'     => $request->email,
             'password'  => Hash::make($request->password),
-            'role_id'   => 3,
-            'is_active' => 1,
+            'role_id'   => 3, // student
+            'is_active' => true,
         ]);
 
         return redirect()->route('login')
@@ -44,15 +46,42 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
+        // Đăng nhập bằng email và password
         if (Auth::attempt($request->only('email', 'password'))) {
+
+            /** @var User $user */
+            $user = Auth::user();
+
+            // Chặn tài khoản bị khóa
+            if (!$user->is_active) {
+                Auth::logout();
+
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'
+                ])->onlyInput('email');
+            }
 
             $request->session()->regenerate();
 
-            $user = Auth::user();
+            // Ghi nhật ký đăng nhập
+            ActivityLog::create([
+                'user_id'     => $user->user_id,
+                'action'      => 'login',
+                'object_type' => 'users',
+                'object_id'   => $user->user_id,
+                'description' => $user->full_name . ' đã đăng nhập hệ thống',
+                'ip_address'  => $request->ip(),
+                'user_agent'  => $request->userAgent(),
+            ]);
 
+            // Điều hướng theo role
             return match ((int) $user->role_id) {
-                1 => redirect()->route('admin.dashboard'),
-                2, 3 => redirect()->route('home'),
+                1 => redirect()->route('admin.dashboard'), // admin
+                2 => redirect()->route('home'),            // lecturer
+                3 => redirect()->route('home'),            // student
                 default => redirect()->route('login'),
             };
         }
@@ -66,6 +95,22 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        /** @var User|null $user */
+        $user = Auth::user();
+
+        // Ghi nhật ký trước khi logout
+        if ($user) {
+            ActivityLog::create([
+                'user_id'     => $user->user_id,
+                'action'      => 'logout',
+                'object_type' => 'users',
+                'object_id'   => $user->user_id,
+                'description' => $user->full_name . ' đã đăng xuất hệ thống',
+                'ip_address'  => $request->ip(),
+                'user_agent'  => $request->userAgent(),
+            ]);
+        }
+
         Auth::logout();
 
         $request->session()->invalidate();
@@ -91,8 +136,8 @@ class AuthController extends Controller
         $user = Auth::user();
 
         $request->validate([
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->user_id . ',user_id',
+            'full_name' => 'required|string|max:100',
+            'email' => 'required|email|max:100|unique:users,email,' . $user->user_id . ',user_id',
         ], [
             'full_name.required' => 'Vui lòng nhập họ tên.',
             'email.required' => 'Vui lòng nhập email.',

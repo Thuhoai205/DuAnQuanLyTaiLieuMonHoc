@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('roles', function (Blueprint $table) {
 
-    $table->id('role_id');
+            // Mã vai trò
+            $table->id('role_id');
 
-    $table->string('role_name', 50)->unique();
+            // admin | lecturer | student
+            $table->string('role_name', 50)->unique();
 
-    $table->timestamps();
-});
+            // created_at, updated_at
+            $table->timestamps();
+        });
     }
 
     /**

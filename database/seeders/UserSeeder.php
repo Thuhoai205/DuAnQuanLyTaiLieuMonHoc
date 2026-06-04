@@ -16,34 +16,41 @@ class UserSeeder extends Seeder
             [
                 'username' => 'admin',
                 'password' => Hash::make('123456'),
-                'full_name' => 'Quản trị viên',
+                'full_name' => 'Administrator',
                 'email' => 'admin@gmail.com',
-                'avatar' => 'avatars/admin.jpg',
+                'avatar' => null,
                 'role_id' => 1,
                 'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
 
             // GIẢNG VIÊN
             [
-                'username' => 'gv001',
+                'username' => 'lecturer01',
                 'password' => Hash::make('123456'),
                 'full_name' => 'Nguyễn Văn A',
-                'email' => 'gv@gmail.com',
-                'avatar' => 'avatars/gv1.jpg',
+                'email' => 'lecturer01@gmail.com',
+                'avatar' => null,
                 'role_id' => 2,
                 'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
 
             // SINH VIÊN
             [
-                'username' => 'sv001',
+                'username' => 'student01',
                 'password' => Hash::make('123456'),
                 'full_name' => 'Lê Văn C',
-                'email' => 'sv@gmail.com',
-                'avatar' => 'avatars/sv1.jpg',
+                'email' => 'student01@gmail.com',
+                'avatar' => null,
                 'role_id' => 3,
                 'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
+
         ]);
     }
 }

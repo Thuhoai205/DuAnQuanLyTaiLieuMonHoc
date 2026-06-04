@@ -7,6 +7,15 @@
 <main class="min-h-screen bg-[#EAFBFF] py-12">
 
     <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+        @if(auth()->check() && auth()->user()->role_id == 1)
+
+        <a href="{{ url()->previous() }}"
+            class="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full bg-white border border-cyan-100 text-cyan-700 font-bold text-sm hover:bg-cyan-50 transition">
+            <i class="fa-solid fa-arrow-left"></i>
+            Quay về quản trị
+        </a>
+        @endif
+        @if(auth()->check() && auth()->user()->role_id !=1)
 
         <!-- BACK -->
         <a href="javascript:history.back()"
@@ -14,6 +23,7 @@
             <i class="fa-solid fa-arrow-left"></i>
             Quay lại
         </a>
+        @endif
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 

@@ -97,7 +97,15 @@
                         Học liệu cá nhân
                     </a>
                     @endif
+                    @if(auth()->check() && auth()->user()->role_id == 1)
 
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="flex items-center gap-3 px-5 py-3 text-sm font-bold text-cyan-600 hover:bg-cyan-50 transition">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Admin Panel
+                    </a>
+
+                    @endif
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
                         <button type="submit"

@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 class LoginRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Cho phép tất cả người dùng gửi request đăng nhập.
      */
     public function authorize(): bool
     {
@@ -15,25 +15,30 @@ class LoginRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Quy tắc validate form đăng nhập.
      */
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required|string|min:6',
+            // Email đăng nhập
+            'email' => ['required', 'email'],
+
+            // Mật khẩu
+            'password' => ['required', 'string', 'min:6'],
         ];
     }
 
     /**
-     * Custom message (khuyến nghị)
+     * Thông báo lỗi validate.
      */
     public function messages(): array
     {
         return [
             'email.required' => 'Vui lòng nhập email.',
             'email.email' => 'Email không hợp lệ.',
+
             'password.required' => 'Vui lòng nhập mật khẩu.',
+            'password.string' => 'Mật khẩu không hợp lệ.',
             'password.min' => 'Mật khẩu tối thiểu 6 ký tự.',
         ];
     }
