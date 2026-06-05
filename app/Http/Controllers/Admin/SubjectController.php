@@ -14,34 +14,37 @@ class SubjectController extends Controller
     /**
      * Danh sách môn học
      */
-    public function index(Request $request)
-    {
-        $query = Subject::with(['lecturers', 'documents']);
+   public function index(Request $request)
+{
+    $query = Subject::with(['lecturers', 'documents'])
+        ->withCount('documents');
 
-        if ($request->filled('search')) {
-            $search = $request->search;
+    if ($request->filled('search')) {
+        $search = $request->search;
 
-            $query->where(function ($q) use ($search) {
-                $q->where('subject_code', 'like', "%{$search}%")
-                    ->orWhere('subject_name', 'like', "%{$search}%");
-            });
-        }
-
-        $subjects = $query->orderBy('subject_name', 'asc')
-            ->paginate(10)
-            ->withQueryString();
-
-        $totalSubjects = Subject::count();
-        $totalTeachers = User::where('role_id', 2)->count();
-        $totalDocuments = Document::count();
-
-        return view('admin.subjects.index', compact(
-            'subjects',
-            'totalSubjects',
-            'totalTeachers',
-            'totalDocuments'
-        ));
+        $query->where(function ($q) use ($search) {
+            $q->where('subject_code', 'like', "%{$search}%")
+                ->orWhere('subject_name', 'like', "%{$search}%");
+        });
     }
+
+    $subjects = $query->orderBy('subject_name', 'asc')
+        ->paginate(6)
+        ->withQueryString();
+
+    $totalSubjects = Subject::count();
+    $totalTeachers = User::where('role_id', 2)->count();
+    $totalDocuments = Document::count();
+    $totalTrashedSubjects = Subject::onlyTrashed()->count();
+
+    return view('admin.subjects.index', compact(
+        'subjects',
+        'totalSubjects',
+        'totalTeachers',
+        'totalDocuments',
+        'totalTrashedSubjects'
+    ));
+}
 
     /**
      * Form thêm môn học
@@ -152,22 +155,64 @@ class SubjectController extends Controller
     /**
      * Xóa môn học
      */
-    public function destroy(string $id)
-    {
-        $subject = Subject::withCount('documents')->findOrFail($id);
+  public function destroy(string $id)
+{
+    $subject = Subject::withCount('documents')->findOrFail($id);
 
-        if ($subject->documents_count > 0) {
-            return back()->withErrors([
-                'delete' => 'Không thể xóa môn học vì đang có tài liệu.'
-            ]);
-        }
-
-        $subject->lecturers()->detach();
-
-        $subject->delete();
+    if ($subject->documents_count > 0) {
+        $subject->update([
+            'is_active' => false,
+        ]);
 
         return redirect()
             ->route('admin.subjects.index')
-            ->with('success', 'Xóa môn học thành công');
+            ->with('success', 'Môn học đã có tài liệu nên đã chuyển sang trạng thái ngừng hoạt động.');
     }
+
+    // Không detach lecturers để khi khôi phục vẫn còn giảng viên phụ trách
+    $subject->delete();
+
+    return redirect()
+        ->route('admin.subjects.index')
+        ->with('success', 'Xóa môn học thành công.');
+}
+public function trashed()
+{
+    $subjects = Subject::onlyTrashed()
+        ->withCount('documents')
+        ->orderByDesc('deleted_at')
+        ->paginate(10);
+
+    return view('admin.subjects.trashed', compact('subjects'));
+}
+
+public function restore(string $id)
+{
+    $subject = Subject::onlyTrashed()
+        ->where('subject_code', $id)
+        ->firstOrFail();
+
+    $subject->restore();
+
+    return redirect()
+        ->route('admin.subjects.trashed')
+        ->with('success', 'Khôi phục môn học thành công.');
+}
+
+public function restoreMultiple(Request $request)
+{
+    $ids = $request->subject_codes ?? [];
+
+    if (empty($ids)) {
+        return back()->with('error', 'Vui lòng chọn ít nhất một môn học.');
+    }
+
+    Subject::onlyTrashed()
+        ->whereIn('subject_code', $ids)
+        ->restore();
+
+    return redirect()
+        ->route('admin.subjects.trashed')
+        ->with('success', 'Khôi phục các môn học đã chọn thành công.');
+}
 }

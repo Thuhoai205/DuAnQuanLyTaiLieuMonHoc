@@ -30,7 +30,7 @@ class UserController extends Controller
         }
 
         $users = $query->orderByDesc('user_id')
-            ->paginate(10)
+            ->paginate(3)
             ->withQueryString();
 
         $roles = Role::all();

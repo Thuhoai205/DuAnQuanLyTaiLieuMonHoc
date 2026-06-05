@@ -208,11 +208,61 @@ $totalStudents = $totalStudents ?? 0;
             </table>
         </div>
 
-        @if($users->hasPages())
-        <div class="px-6 py-5 border-t border-cyan-100">
-            {{ $users->links() }}
+
+
+
+    </div>
+    <div
+        class="mt-8 px-7 py-6 bg-white rounded-[30px] border border-cyan-100 flex flex-col md:flex-row items-center justify-between gap-5 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+        <p class="text-sm font-bold text-slate-500">
+            Hiển thị
+            <span class="text-cyan-700">{{ $users->firstItem() ?? 0 }}</span>
+            -
+            <span class="text-cyan-700">{{ $users->lastItem() ?? 0 }}</span>
+            trong tổng
+            <span class="text-cyan-700">{{ $users->total() }}</span>
+            người dùng
+        </p>
+
+        <div class="flex items-center gap-3">
+            @if ($users->onFirstPage())
+            <span
+                class="w-12 h-12 rounded-2xl bg-white border border-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
+                <i class="fa-solid fa-angle-left"></i>
+            </span>
+            @else
+            <a href="{{ $users->previousPageUrl() }}"
+                class="ajax-user-page w-12 h-12 rounded-2xl bg-white border border-cyan-100 text-slate-500 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all">
+                <i class="fa-solid fa-angle-left"></i>
+            </a>
+            @endif
+
+            @for ($page = 1; $page <= max($users->lastPage(), 1); $page++)
+                @if ($page == $users->currentPage())
+                <span
+                    class="w-12 h-12 rounded-2xl bg-cyan-500 text-white shadow-lg shadow-cyan-200 flex items-center justify-center font-black">
+                    {{ $page }}
+                </span>
+                @else
+                <a href="{{ $users->url($page) }}"
+                    class="ajax-user-page w-12 h-12 rounded-2xl bg-white border border-cyan-100 text-slate-500 hover:bg-cyan-500 hover:text-white flex items-center justify-center font-bold transition-all">
+                    {{ $page }}
+                </a>
+                @endif
+                @endfor
+
+                @if ($users->hasMorePages())
+                <a href="{{ $users->nextPageUrl() }}"
+                    class="ajax-user-page w-12 h-12 rounded-2xl bg-white border border-cyan-100 text-slate-500 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all">
+                    <i class="fa-solid fa-angle-right"></i>
+                </a>
+                @else
+                <span
+                    class="w-12 h-12 rounded-2xl bg-white border border-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
+                    <i class="fa-solid fa-angle-right"></i>
+                </span>
+                @endif
         </div>
-        @endif
     </div>
 </div>
 

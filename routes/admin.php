@@ -16,7 +16,12 @@ Route::middleware('auth')
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        // Người dùng đã xóa + khôi phục
+        /*
+        |--------------------------------------------------------------------------
+        | Users
+        |--------------------------------------------------------------------------
+        */
+
         Route::get('/users/trashed', [UserController::class, 'trashed'])
             ->name('users.trashed');
 
@@ -31,12 +36,44 @@ Route::middleware('auth')
 
         Route::resource('users', UserController::class);
 
-        Route::resource('subjects', SubjectController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Subjects
+        |--------------------------------------------------------------------------
+        */
+
+       Route::get('/subjects/trashed', [SubjectController::class, 'trashed'])
+    ->name('subjects.trashed');
+
+Route::post('/subjects/restore-multiple', [SubjectController::class, 'restoreMultiple'])
+    ->name('subjects.restoreMultiple');
+
+Route::patch('/subjects/{id}/restore', [SubjectController::class, 'restore'])
+    ->name('subjects.restore');
+
+Route::resource('subjects', SubjectController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Categories
+        |--------------------------------------------------------------------------
+        */
 
         Route::resource('categories', DocumentTypeController::class);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Statistics
+        |--------------------------------------------------------------------------
+        */
+
         Route::get('/statistics', [StatisticsController::class, 'index'])
             ->name('statistics.index');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Logs
+        |--------------------------------------------------------------------------
+        */
 
         Route::get('/logs', [LogController::class, 'index'])
             ->name('logs.index');
