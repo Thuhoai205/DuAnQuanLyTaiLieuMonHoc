@@ -15,7 +15,7 @@
             </p>
         </div>
 
-        <a href="{{ route('admin.categories.index') }}"
+        <a href="{{ route('admin.document-types.index') }}"
             class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-600 shadow-sm transition hover:bg-slate-100">
             <i class="fa-solid fa-arrow-left"></i>
             Quay lại danh sách
@@ -51,7 +51,7 @@
                     </p>
                 </div>
 
-                <form action="{{ route('admin.categories.store') }}" method="POST" class="p-6">
+                <form action="{{ route('admin.document-types.store') }}" method="POST" class="p-6">
                     @csrf
 
                     <div class="mb-6">
@@ -87,7 +87,7 @@
                     </div>
 
                     <div class="flex flex-col-reverse gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:justify-end">
-                        <a href="{{ route('admin.categories.index') }}"
+                        <a href="{{ route('admin.document-types.index') }}"
                             class="inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
                             Hủy
                         </a>

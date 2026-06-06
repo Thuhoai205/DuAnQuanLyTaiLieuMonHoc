@@ -8,23 +8,16 @@ use Illuminate\Http\Request;
 
 class DocumentTypeController extends Controller
 {
-    /**
-     * Danh sách loại tài liệu
-     */
     public function index(Request $request)
     {
         $query = DocumentType::query();
 
-        // Tìm kiếm theo tên loại tài liệu
+        $totalTrashedDocumentTypes = DocumentType::onlyTrashed()->count();
+
         if ($request->filled('keyword')) {
-            $query->where(
-                'type_name',
-                'like',
-                '%' . $request->keyword . '%'
-            );
+            $query->where('type_name', 'like', '%' . $request->keyword . '%');
         }
 
-        // Sắp xếp A-Z hoặc Z-A
         if ($request->sort === 'az') {
             $query->orderBy('type_name', 'asc');
         } elseif ($request->sort === 'za') {
@@ -33,29 +26,22 @@ class DocumentTypeController extends Controller
             $query->orderByDesc('document_type_id');
         }
 
-        // Đếm số tài liệu thuộc từng loại
         $documentTypes = $query
             ->withCount('documents')
-            ->paginate(10)
+            ->paginate(5)
             ->withQueryString();
 
-        return view(
-            'admin.categories.index',
-            compact('documentTypes')
-        );
+        return view('admin.document-types.index', compact(
+            'documentTypes',
+            'totalTrashedDocumentTypes'
+        ));
     }
 
-    /**
-     * Form thêm loại tài liệu
-     */
     public function create()
     {
-        return view('admin.categories.create');
+        return view('admin.document-types.create');
     }
 
-    /**
-     * Lưu loại tài liệu mới
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -71,32 +57,23 @@ class DocumentTypeController extends Controller
         DocumentType::create([
             'type_name' => $request->type_name,
             'description' => $request->description,
-            'icon' => $request->icon,
-            'color' => $request->color ?? 'blue',
+            'icon' => $request->icon ?? 'fa-solid fa-file-lines',
+            'color' => $request->color ?? 'cyan',
             'is_active' => true,
         ]);
 
         return redirect()
-            ->route('admin.categories.index')
+            ->route('admin.document-types.index')
             ->with('success', 'Thêm loại tài liệu thành công');
     }
 
-    /**
-     * Form sửa loại tài liệu
-     */
     public function edit($id)
     {
-        $documentType = DocumentType::findOrFail($id);
+        $documentType = DocumentType::withCount('documents')->findOrFail($id);
 
-        return view(
-            'admin.categories.edit',
-            compact('documentType')
-        );
+        return view('admin.document-types.edit', compact('documentType'));
     }
 
-    /**
-     * Cập nhật loại tài liệu
-     */
     public function update(Request $request, $id)
     {
         $documentType = DocumentType::findOrFail($id);
@@ -112,38 +89,66 @@ class DocumentTypeController extends Controller
         $documentType->update([
             'type_name' => $request->type_name,
             'description' => $request->description,
-            'icon' => $request->icon,
+            'icon' => $request->icon ?? $documentType->icon,
             'color' => $request->color ?? $documentType->color,
-            'is_active' => $request->boolean('is_active', true),
+            'is_active' => $request->boolean('is_active'),
         ]);
 
         return redirect()
-            ->route('admin.categories.index')
+            ->route('admin.document-types.index')
             ->with('success', 'Cập nhật loại tài liệu thành công');
     }
 
-    /**
-     * Xóa loại tài liệu
-     */
     public function destroy($id)
     {
-        $documentType = DocumentType::withCount('documents')
-            ->findOrFail($id);
+        $documentType = DocumentType::withCount('documents')->findOrFail($id);
 
-        // Không cho xóa nếu loại tài liệu đang có tài liệu
         if ($documentType->documents_count > 0) {
+            $documentType->update([
+                'is_active' => false,
+            ]);
+
             return redirect()
-                ->route('admin.categories.index')
-                ->with(
-                    'error',
-                    'Không thể xóa vì loại tài liệu đang chứa tài liệu.'
-                );
+                ->route('admin.document-types.index')
+                ->with('success', 'Loại tài liệu đã được chuyển sang trạng thái ngừng hoạt động.');
         }
 
         $documentType->delete();
 
         return redirect()
-            ->route('admin.categories.index')
-            ->with('success', 'Xóa loại tài liệu thành công');
+            ->route('admin.document-types.index')
+            ->with('success', 'Xóa loại tài liệu thành công.');
+    }
+
+    public function toggleStatus($id)
+    {
+        $documentType = DocumentType::findOrFail($id);
+
+        $documentType->update([
+            'is_active' => !$documentType->is_active,
+        ]);
+
+        return back()->with('success', 'Cập nhật trạng thái thành công.');
+    }
+
+    public function trashed()
+    {
+        $documentTypes = DocumentType::onlyTrashed()
+            ->withCount('documents')
+            ->orderByDesc('deleted_at')
+            ->paginate(10);
+
+        return view('admin.document-types.trashed', compact('documentTypes'));
+    }
+
+    public function restore($id)
+    {
+        $documentType = DocumentType::onlyTrashed()->findOrFail($id);
+
+        $documentType->restore();
+
+        return redirect()
+            ->route('admin.document-types.trashed')
+            ->with('success', 'Khôi phục loại tài liệu thành công.');
     }
 }

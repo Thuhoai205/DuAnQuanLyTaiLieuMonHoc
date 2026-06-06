@@ -42,23 +42,33 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-       Route::get('/subjects/trashed', [SubjectController::class, 'trashed'])
-    ->name('subjects.trashed');
+        Route::get('/subjects/trashed', [SubjectController::class, 'trashed'])
+            ->name('subjects.trashed');
 
-Route::post('/subjects/restore-multiple', [SubjectController::class, 'restoreMultiple'])
-    ->name('subjects.restoreMultiple');
+        Route::post('/subjects/restore-multiple', [SubjectController::class, 'restoreMultiple'])
+            ->name('subjects.restoreMultiple');
 
-Route::patch('/subjects/{id}/restore', [SubjectController::class, 'restore'])
-    ->name('subjects.restore');
+        Route::patch('/subjects/{id}/restore', [SubjectController::class, 'restore'])
+            ->name('subjects.restore');
 
-Route::resource('subjects', SubjectController::class);
+        Route::resource('subjects', SubjectController::class);
+
         /*
         |--------------------------------------------------------------------------
-        | Categories
+        | Document Types
         |--------------------------------------------------------------------------
         */
 
-        Route::resource('categories', DocumentTypeController::class);
+        Route::get('/document-types/trashed', [DocumentTypeController::class, 'trashed'])
+            ->name('document-types.trashed');
+
+        Route::patch('/document-types/{id}/restore', [DocumentTypeController::class, 'restore'])
+            ->name('document-types.restore');
+
+        Route::patch('/document-types/{id}/status', [DocumentTypeController::class, 'toggleStatus'])
+            ->name('document-types.status');
+
+        Route::resource('document-types', DocumentTypeController::class);
 
         /*
         |--------------------------------------------------------------------------

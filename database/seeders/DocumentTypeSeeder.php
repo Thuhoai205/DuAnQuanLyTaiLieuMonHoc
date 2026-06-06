@@ -12,30 +12,10 @@ class DocumentTypeSeeder extends Seeder
         DocumentType::insert([
 
             [
-                'type_name' => 'Slide bài giảng',
-                'description' => 'Slide phục vụ giảng dạy và học tập',
-                'icon' => 'fa-file-powerpoint',
-                'color' => 'blue',
-                'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-            [
-                'type_name' => 'Đề thi',
-                'description' => 'Đề thi giữa kỳ, cuối kỳ',
-                'icon' => 'fa-file-alt',
-                'color' => 'red',
-                'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
-            [
-                'type_name' => 'Bài tập',
-                'description' => 'Bài tập thực hành và bài tập về nhà',
-                'icon' => 'fa-tasks',
-                'color' => 'green',
+                'type_name' => 'Đề cương môn học',
+                'description' => 'Đề cương chi tiết môn học',
+                'icon' => 'fa-solid fa-book-open',
+                'color' => 'cyan',
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -44,8 +24,18 @@ class DocumentTypeSeeder extends Seeder
             [
                 'type_name' => 'Giáo trình',
                 'description' => 'Giáo trình chính thức của môn học',
-                'icon' => 'fa-book',
-                'color' => 'amber',
+                'icon' => 'fa-solid fa-book',
+                'color' => 'blue',
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'type_name' => 'Slide bài giảng',
+                'description' => 'Slide phục vụ giảng dạy và học tập',
+                'icon' => 'fa-solid fa-file-powerpoint',
+                'color' => 'orange',
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -54,7 +44,7 @@ class DocumentTypeSeeder extends Seeder
             [
                 'type_name' => 'Tài liệu tham khảo',
                 'description' => 'Tài liệu tham khảo bổ sung',
-                'icon' => 'fa-folder-open',
+                'icon' => 'fa-solid fa-file-lines',
                 'color' => 'purple',
                 'is_active' => true,
                 'created_at' => now(),
@@ -62,10 +52,40 @@ class DocumentTypeSeeder extends Seeder
             ],
 
             [
-                'type_name' => 'Đề cương môn học',
-                'description' => 'Đề cương chi tiết môn học',
-                'icon' => 'fa-file-lines',
-                'color' => 'cyan',
+                'type_name' => 'Bài tập',
+                'description' => 'Bài tập về nhà và bài tập tự luyện',
+                'icon' => 'fa-solid fa-pencil',
+                'color' => 'green',
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'type_name' => 'Bài thực hành',
+                'description' => 'Tài liệu thực hành và hướng dẫn thực hành',
+                'icon' => 'fa-solid fa-laptop-code',
+                'color' => 'indigo',
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'type_name' => 'Đề thi',
+                'description' => 'Đề thi giữa kỳ và cuối kỳ',
+                'icon' => 'fa-solid fa-file-circle-check',
+                'color' => 'red',
+                'is_active' => true,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+
+            [
+                'type_name' => 'Đáp án',
+                'description' => 'Đáp án và hướng dẫn giải',
+                'icon' => 'fa-solid fa-circle-check',
+                'color' => 'emerald',
                 'is_active' => true,
                 'created_at' => now(),
                 'updated_at' => now(),

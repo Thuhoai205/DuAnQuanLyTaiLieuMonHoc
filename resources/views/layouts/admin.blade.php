@@ -12,7 +12,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
     <style>
     body {
         font-family: 'Inter', sans-serif;
@@ -85,8 +86,8 @@
 
 
 
-                <a href="{{ url('/admin/categories') }}"
-                    class="admin-link {{ request()->is('admin/categories*') ? 'active' : '' }} flex items-center gap-3 px-4 py-3 rounded-2xl font-bold">
+                <a href="{{ url('/admin/document-types') }}"
+                    class="admin-link {{ request()->is('admin/document-types*') ? 'active' : '' }} flex items-center gap-3 px-4 py-3 rounded-2xl font-bold">
                     <i class="fa-solid fa-layer-group w-5"></i>
                     <span>Loại tài liệu</span>
                 </a>
