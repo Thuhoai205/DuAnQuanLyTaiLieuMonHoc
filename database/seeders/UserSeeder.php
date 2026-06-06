@@ -12,19 +12,7 @@ class UserSeeder extends Seeder
     {
         User::insert([
 
-            // ADMIN
-            [
-                'username' => 'admin',
-                'password' => Hash::make('123456'),
-                'full_name' => 'Administrator',
-                'email' => 'admin@gmail.com',
-                'avatar' => null,
-                'role_id' => 1,
-                'is_active' => true,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
+            
             // GIẢNG VIÊN
             [
                 'username' => 'lecturer01',
