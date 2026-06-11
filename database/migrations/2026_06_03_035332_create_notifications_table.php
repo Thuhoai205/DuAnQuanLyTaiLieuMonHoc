@@ -13,94 +13,40 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
 
-            // Mã thông báo
             $table->id('notification_id');
 
-            /*
-            |--------------------------------------------------------------------------
-            | NGƯỜI NHẬN THÔNG BÁO
-            |--------------------------------------------------------------------------
-            */
-
             $table->foreignId('user_id')
-                ->nullable()
                 ->constrained('users', 'user_id')
                 ->cascadeOnDelete();
 
-            /*
-            |--------------------------------------------------------------------------
-            | NỘI DUNG THÔNG BÁO
-            |--------------------------------------------------------------------------
-            */
-
-            // Tiêu đề
             $table->string('title', 255);
 
-            // Nội dung chi tiết
             $table->text('content');
 
-            /*
-            |--------------------------------------------------------------------------
-            | LOẠI THÔNG BÁO
-            |--------------------------------------------------------------------------
-            */
-
-            // document_uploaded
-            // document_approved
-            // document_rejected
+            $table->string('type', 50)->nullable();
             // new_document
+            // update_document
+            // assign_teacher
             // system
-            $table->string('type', 50)
-                ->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | ĐỐI TƯỢNG LIÊN QUAN
-            |--------------------------------------------------------------------------
-            */
+            $table->string('related_type', 50)->nullable();
 
-            // documents
-            // users
-            // subjects
-            $table->string('related_type', 100)
-                ->nullable();
+            $table->unsignedBigInteger('related_id')->nullable();
 
-            // ID của đối tượng liên quan
-            $table->unsignedBigInteger('related_id')
-                ->nullable();
+            $table->boolean('is_read')->default(false);
 
-            /*
-            |--------------------------------------------------------------------------
-            | TRẠNG THÁI ĐÃ ĐỌC
-            |--------------------------------------------------------------------------
-            */
-
-            $table->boolean('is_read')
-                ->default(false);
-
-            /*
-            |--------------------------------------------------------------------------
-            | THỜI GIAN TẠO
-            |--------------------------------------------------------------------------
-            */
-
-            $table->timestamp('created_at')
-                ->useCurrent();
-
-            /*
-            |--------------------------------------------------------------------------
-            | INDEX
-            |--------------------------------------------------------------------------
-            */
+            $table->timestamp('created_at')->useCurrent();
 
             $table->index('user_id');
-            $table->index('is_read');
             $table->index('type');
-            $table->index(['related_type', 'related_id']);
+            $table->index('is_read');
             $table->index('created_at');
         });
     }
 
+    /**
+     * Rollback
+     */
     public function down(): void
     {
         Schema::dropIfExists('notifications');

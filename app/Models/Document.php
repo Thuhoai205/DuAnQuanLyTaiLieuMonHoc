@@ -21,24 +21,21 @@ class Document extends Model
     protected $fillable = [
         'title',
         'slug',
-        'original_file_name',
-        'file_path',
-        'file_extension',
-        'file_size',
-        'download_count',
         'description',
-        'is_public',
-        'status',
-        'rejection_reason',
+        'thumbnail',
+        'view_count',
+        'download_count',
         'subject_code',
         'document_type_id',
         'uploaded_by',
+        'updated_by',
+        'is_active',
     ];
 
     protected $casts = [
-        'file_size' => 'integer',
+        'view_count' => 'integer',
         'download_count' => 'integer',
-        'is_public' => 'boolean',
+        'is_active' => 'boolean',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -71,22 +68,31 @@ class Document extends Model
         );
     }
 
-    public function downloadHistories()
+    public function updater()
+    {
+        return $this->belongsTo(
+            User::class,
+            'updated_by',
+            'user_id'
+        );
+    }
+
+    public function documentVersions()
     {
         return $this->hasMany(
-            DownloadHistory::class,
+            DocumentVersion::class,
             'document_id',
             'document_id'
         );
     }
 
-    public function approvals()
+    public function currentVersion()
     {
-        return $this->hasMany(
-            DocumentApproval::class,
+        return $this->hasOne(
+            DocumentVersion::class,
             'document_id',
             'document_id'
-        );
+        )->where('is_current', true);
     }
 
     public function favorites()
@@ -96,16 +102,6 @@ class Document extends Model
             'document_id',
             'document_id'
         );
-    }
-
-    public function tags()
-    {
-        return $this->belongsToMany(
-            Tag::class,
-            'document_tags',
-            'document_id',
-            'tag_id'
-        )->withPivot('created_at');
     }
 
     protected static function boot()

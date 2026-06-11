@@ -12,14 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('roles', function (Blueprint $table) {
-
-            // Mã vai trò
             $table->id('role_id');
 
-            // admin | lecturer | student
             $table->string('role_name', 50)->unique();
 
-            // created_at, updated_at
             $table->timestamps();
         });
     }

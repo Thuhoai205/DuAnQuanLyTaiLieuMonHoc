@@ -6,19 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Bảng khoa
+     */
     public function up(): void
     {
-        Schema::create('document_types', function (Blueprint $table) {
+        Schema::create('faculties', function (Blueprint $table) {
 
-            $table->id('document_type_id');
+            $table->id('faculty_id');
 
-            $table->string('type_name', 100)->unique();
+            $table->string('faculty_code', 20)->unique();
+
+            $table->string('faculty_name', 150)->unique();
 
             $table->text('description')->nullable();
-
-            $table->string('icon', 255)->nullable();
-
-            $table->string('color', 30)->default('blue');
 
             $table->boolean('is_active')->default(true);
 
@@ -36,12 +37,17 @@ return new class extends Migration
 
             $table->softDeletes();
 
+            $table->index('faculty_code');
+            $table->index('faculty_name');
             $table->index('is_active');
         });
     }
 
+    /**
+     * Rollback
+     */
     public function down(): void
     {
-        Schema::dropIfExists('document_types');
+        Schema::dropIfExists('faculties');
     }
 };

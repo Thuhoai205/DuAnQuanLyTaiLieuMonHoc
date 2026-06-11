@@ -18,7 +18,6 @@ class SearchHistory extends Model
         'subject_code',
         'document_type_id',
         'result_count',
-        'ip_address',
         'searched_at',
     ];
 
@@ -27,39 +26,18 @@ class SearchHistory extends Model
         'searched_at' => 'datetime',
     ];
 
-    /**
-     * Người thực hiện tìm kiếm
-     */
     public function user()
     {
-        return $this->belongsTo(
-            User::class,
-            'user_id',
-            'user_id'
-        );
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
-    /**
-     * Môn học được tìm kiếm
-     */
     public function subject()
     {
-        return $this->belongsTo(
-            Subject::class,
-            'subject_code',
-            'subject_code'
-        );
+        return $this->belongsTo(Subject::class, 'subject_code', 'subject_code');
     }
 
-    /**
-     * Loại tài liệu được tìm kiếm
-     */
     public function documentType()
     {
-        return $this->belongsTo(
-            DocumentType::class,
-            'document_type_id',
-            'document_type_id'
-        );
+        return $this->belongsTo(DocumentType::class, 'document_type_id', 'document_type_id');
     }
 }

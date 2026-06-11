@@ -1,63 +1,121 @@
 <?php
 
+
+
 use Illuminate\Database\Migrations\Migration;
+
 use Illuminate\Database\Schema\Blueprint;
+
 use Illuminate\Support\Facades\Schema;
 
+
+
 return new class extends Migration
+
 {
+
     /**
+
      * Bảng môn học
+
      */
+
     public function up(): void
+
     {
-        Schema::create('subjects', function (Blueprint $table) {
 
-            // Mã môn học
-            $table->string('subject_code', 20)->primary();
+      Schema::create('subjects', function (Blueprint $table) {
 
-            // Tên môn học
-            $table->string('subject_name', 150);
 
-            // Đường dẫn thân thiện
-            $table->string('slug')->unique();
 
-            // Mô tả môn học
-            $table->text('description')->nullable();
+    $table->string('subject_code', 20)->primary();
 
-            // Ảnh đại diện môn học
-            $table->string('thumbnail', 255)->nullable();
 
-            // Icon hiển thị
-            $table->string('icon', 255)->nullable();
 
-            // Màu giao diện
-            $table->string('color', 30)->default('blue');
+    $table->string('subject_name', 150);
 
-            // Tổng số tài liệu của môn học
-            $table->unsignedInteger('total_documents')->default(0);
 
-            // Môn học nổi bật
-            $table->boolean('is_featured')->default(false);
 
-            // Trạng thái hoạt động
-            $table->boolean('is_active')->default(true);
+    $table->string('slug')->unique();
 
-            // Thời gian tạo và cập nhật
-            $table->timestamps();
 
-            // Xóa mềm
-            $table->softDeletes();
 
-            // Index hỗ trợ tìm kiếm
-            $table->index('subject_name');
-            $table->index('is_active');
-            $table->index('deleted_at');
-        });
+    $table->text('description')->nullable();
+
+
+
+    $table->string('thumbnail', 255)->nullable();
+
+
+
+    $table->string('icon', 255)->nullable();
+
+
+
+    $table->string('color', 30)->default('blue');
+
+
+
+    $table->string('status', 20)->default('active');
+
+
+
+    $table->foreignId('faculty_id')
+
+        ->nullable()
+
+        ->constrained('faculties', 'faculty_id')
+
+        ->restrictOnDelete();
+
+
+
+    $table->foreignId('created_by')
+
+        ->nullable()
+
+        ->constrained('users', 'user_id')
+
+        ->nullOnDelete();
+
+
+
+    $table->foreignId('updated_by')
+
+        ->nullable()
+
+        ->constrained('users', 'user_id')
+
+        ->nullOnDelete();
+
+
+
+    $table->timestamps();
+
+
+
+    $table->softDeletes();
+
+
+
+    $table->index('faculty_id');
+
+    $table->index('subject_name');
+
+    $table->index('status');
+
+});
+
     }
+
+
 
     public function down(): void
+
     {
+
         Schema::dropIfExists('subjects');
+
     }
+
 };

@@ -26,20 +26,45 @@ class Subject extends Model
         'thumbnail',
         'icon',
         'color',
-        'total_documents',
-        'is_featured',
-        'is_active',
+        'status',
+        'faculty_id',
+        'created_by',
+        'updated_by',
     ];
 
     protected $casts = [
-        'is_featured' => 'boolean',
-        'is_active' => 'boolean',
-        'total_documents' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
-    /**
-     * Một môn học có nhiều tài liệu
-     */
+    public function faculty()
+    {
+        return $this->belongsTo(
+            Faculty::class,
+            'faculty_id',
+            'faculty_id'
+        );
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(
+            User::class,
+            'created_by',
+            'user_id'
+        );
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(
+            User::class,
+            'updated_by',
+            'user_id'
+        );
+    }
+
     public function documents()
     {
         return $this->hasMany(
@@ -49,9 +74,6 @@ class Subject extends Model
         );
     }
 
-    /**
-     * Một môn học có nhiều giảng viên
-     */
     public function lecturers()
     {
         return $this->belongsToMany(
@@ -61,12 +83,20 @@ class Subject extends Model
             'user_id',
             'subject_code',
             'user_id'
-        )->withTimestamps();
+        )
+        ->wherePivotNull('deleted_at')
+        ->withTimestamps();
     }
 
-    /**
-     * Lịch sử tìm kiếm theo môn học
-     */
+    public function subjectTeachers()
+    {
+        return $this->hasMany(
+            SubjectTeacher::class,
+            'subject_code',
+            'subject_code'
+        );
+    }
+
     public function searchHistories()
     {
         return $this->hasMany(
