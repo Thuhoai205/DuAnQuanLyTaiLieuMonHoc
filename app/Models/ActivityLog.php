@@ -13,21 +13,21 @@ class ActivityLog extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'user_id',
-        'action',
-        'object_type',
-        'object_id',
-        'description',
-        'ip_address',
-        'user_agent',
-        'created_at',
-    ];
+    'user_id',
+    'ip_address',
+    'user_agent',
+    'login_at',
+    'logout_at',
+];
 
-    protected $casts = [
-        'object_id' => 'integer',
-        'created_at' => 'datetime',
-    ];
-
+protected $casts = [
+    'login_at' => 'datetime',
+    'logout_at' => 'datetime',
+    'created_at' => 'datetime',
+];
+    /**
+     * Người dùng thực hiện hành động
+     */
     public function user()
     {
         return $this->belongsTo(

@@ -67,15 +67,12 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Ghi nhật ký đăng nhập
-            ActivityLog::create([
-                'user_id'     => $user->user_id,
-                'action'      => 'login',
-                'object_type' => 'users',
-                'object_id'   => $user->user_id,
-                'description' => $user->full_name . ' đã đăng nhập hệ thống',
-                'ip_address'  => $request->ip(),
-                'user_agent'  => $request->userAgent(),
-            ]);
+           ActivityLog::create([
+    'user_id' => $user->user_id,
+    'ip_address' => $request->ip(),
+    'user_agent' => $request->userAgent(),
+    'login_at' => now(),
+]);
 
             // Điều hướng theo role
             return match ((int) $user->role_id) {
@@ -100,15 +97,12 @@ class AuthController extends Controller
 
         // Ghi nhật ký trước khi logout
         if ($user) {
-            ActivityLog::create([
-                'user_id'     => $user->user_id,
-                'action'      => 'logout',
-                'object_type' => 'users',
-                'object_id'   => $user->user_id,
-                'description' => $user->full_name . ' đã đăng xuất hệ thống',
-                'ip_address'  => $request->ip(),
-                'user_agent'  => $request->userAgent(),
-            ]);
+           ActivityLog::where('user_id', $user->user_id)
+    ->whereNull('logout_at')
+    ->latest('login_at')
+    ->first()?->update([
+        'logout_at' => now(),
+    ]);
         }
 
         Auth::logout();

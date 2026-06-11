@@ -15,7 +15,6 @@ class Favorite extends Model
     protected $fillable = [
         'user_id',
         'document_id',
-        'created_at',
     ];
 
     protected $casts = [

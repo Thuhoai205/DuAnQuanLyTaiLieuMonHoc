@@ -6,81 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Bảng nhật ký hoạt động hệ thống
-     */
     public function up(): void
     {
         Schema::create('activity_logs', function (Blueprint $table) {
 
-            // Mã nhật ký
-            $table->id('log_id');
+    $table->id('log_id');
 
-            /*
-            |--------------------------------------------------------------------------
-            | NGƯỜI THỰC HIỆN
-            |--------------------------------------------------------------------------
-            */
+    $table->foreignId('user_id')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
 
-            $table->foreignId('user_id')
-                ->nullable()
-                ->constrained('users', 'user_id')
-                ->nullOnDelete();
+    $table->string('ip_address', 45)->nullable();
 
-            /*
-            |--------------------------------------------------------------------------
-            | THÔNG TIN HÀNH ĐỘNG
-            |--------------------------------------------------------------------------
-            */
+    $table->text('user_agent')->nullable();
 
-            // login, logout, upload_document, delete_document...
-            $table->string('action', 100);
+    $table->timestamp('login_at')->nullable();
 
-            // documents, users, subjects...
-            $table->string('object_type', 100)
-                ->nullable();
+    $table->timestamp('logout_at')->nullable();
 
-            // id của đối tượng
-            $table->unsignedBigInteger('object_id')
-                ->nullable();
+    $table->timestamp('created_at')->useCurrent();
 
-            // mô tả chi tiết
-            $table->text('description');
-
-            /*
-            |--------------------------------------------------------------------------
-            | THÔNG TIN THIẾT BỊ
-            |--------------------------------------------------------------------------
-            */
-
-            // địa chỉ IP
-            $table->string('ip_address', 45)
-                ->nullable();
-
-            // trình duyệt / thiết bị
-            $table->text('user_agent')
-                ->nullable();
-
-            /*
-            |--------------------------------------------------------------------------
-            | THỜI GIAN
-            |--------------------------------------------------------------------------
-            */
-
-            $table->timestamp('created_at')
-                ->useCurrent();
-
-            /*
-            |--------------------------------------------------------------------------
-            | INDEX
-            |--------------------------------------------------------------------------
-            */
-
-            $table->index('user_id');
-            $table->index('action');
-            $table->index(['object_type', 'object_id']);
-            $table->index('created_at');
-        });
+    $table->index('user_id');
+    $table->index('login_at');
+});
     }
 
     public function down(): void

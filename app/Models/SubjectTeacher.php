@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubjectTeacher extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'subject_teachers';
 
     protected $primaryKey = 'id';
@@ -13,6 +16,14 @@ class SubjectTeacher extends Model
     protected $fillable = [
         'user_id',
         'subject_code',
+        'assigned_at',
+    ];
+
+    protected $casts = [
+        'assigned_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'deleted_at' => 'datetime',
     ];
 
     /**

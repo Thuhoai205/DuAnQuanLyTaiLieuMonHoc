@@ -5,19 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DocumentType extends Model
+class Faculty extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'document_types';
+    protected $table = 'faculties';
 
-    protected $primaryKey = 'document_type_id';
+    protected $primaryKey = 'faculty_id';
+
+    public $incrementing = true;
+
+    protected $keyType = 'int';
 
     protected $fillable = [
-        'type_name',
+        'faculty_code',
+        'faculty_name',
         'description',
-        'icon',
-        'color',
         'is_active',
         'created_by',
         'updated_by',
@@ -30,21 +33,12 @@ class DocumentType extends Model
         'deleted_at' => 'datetime',
     ];
 
-    public function documents()
+    public function subjects()
     {
         return $this->hasMany(
-            Document::class,
-            'document_type_id',
-            'document_type_id'
-        );
-    }
-
-    public function searchHistories()
-    {
-        return $this->hasMany(
-            SearchHistory::class,
-            'document_type_id',
-            'document_type_id'
+            Subject::class,
+            'faculty_id',
+            'faculty_id'
         );
     }
 

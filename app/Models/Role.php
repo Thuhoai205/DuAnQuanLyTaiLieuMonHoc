@@ -10,6 +10,10 @@ class Role extends Model
 
     protected $primaryKey = 'role_id';
 
+    public $incrementing = true;
+
+    protected $keyType = 'int';
+
     protected $fillable = [
         'role_name',
     ];
@@ -19,7 +23,9 @@ class Role extends Model
         'updated_at' => 'datetime',
     ];
 
-    
+    /**
+     * Danh sách người dùng thuộc vai trò này
+     */
     public function users()
     {
         return $this->hasMany(

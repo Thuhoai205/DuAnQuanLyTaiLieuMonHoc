@@ -14,8 +14,7 @@ class DownloadHistory extends Model
 
     protected $fillable = [
         'user_id',
-        'document_id',
-        'downloaded_at',
+        'version_id',
     ];
 
     protected $casts = [
@@ -23,7 +22,7 @@ class DownloadHistory extends Model
     ];
 
     /**
-     * Lịch sử tải thuộc về một người dùng
+     * Người dùng tải tài liệu
      */
     public function user()
     {
@@ -35,14 +34,14 @@ class DownloadHistory extends Model
     }
 
     /**
-     * Lịch sử tải thuộc về một tài liệu
+     * Phiên bản tài liệu được tải
      */
-    public function document()
+    public function version()
     {
         return $this->belongsTo(
-            Document::class,
-            'document_id',
-            'document_id'
+            DocumentVersion::class,
+            'version_id',
+            'version_id'
         );
     }
 }

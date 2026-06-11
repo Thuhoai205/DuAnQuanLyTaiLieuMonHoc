@@ -13,47 +13,22 @@ return new class extends Migration
     {
         Schema::create('download_histories', function (Blueprint $table) {
 
-            // Khóa chính
             $table->id('download_id');
-
-            /*
-            |--------------------------------------------------------------------------
-            | NGƯỜI TẢI
-            |--------------------------------------------------------------------------
-            */
 
             $table->foreignId('user_id')
                 ->nullable()
                 ->constrained('users', 'user_id')
                 ->nullOnDelete();
 
-            /*
-            |--------------------------------------------------------------------------
-            | TÀI LIỆU ĐƯỢC TẢI
-            |--------------------------------------------------------------------------
-            */
-
-            $table->foreignId('document_id')
-                ->constrained('documents', 'document_id')
+            $table->foreignId('version_id')
+                ->constrained('document_versions', 'version_id')
                 ->restrictOnDelete();
-
-            /*
-            |--------------------------------------------------------------------------
-            | THỜI GIAN TẢI
-            |--------------------------------------------------------------------------
-            */
 
             $table->timestamp('downloaded_at')
                 ->useCurrent();
 
-            /*
-            |--------------------------------------------------------------------------
-            | INDEX
-            |--------------------------------------------------------------------------
-            */
-
             $table->index('user_id');
-            $table->index('document_id');
+            $table->index('version_id');
             $table->index('downloaded_at');
         });
     }
