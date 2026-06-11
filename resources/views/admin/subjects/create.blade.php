@@ -6,10 +6,12 @@
 @section('content')
 
 @php
-$selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
+$selectedTeachers = old('teacher_ids', []);
+$previewIcon = old('icon', 'fa-solid fa-book-open');
 @endphp
 
 <div class="max-w-6xl mx-auto px-2 lg:px-4">
+
 
     <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>
@@ -18,16 +20,18 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
             </h1>
 
             <p class="text-slate-500 font-semibold mt-2">
-                Tạo môn học mới và phân công giảng viên phụ trách.
+                Tạo môn học mới, phân khoa và phân công giảng viên phụ trách.
             </p>
         </div>
 
         <a href="{{ route('admin.subjects.index') }}"
-            class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200 text-slate-700 font-black shadow-sm hover:bg-slate-50 transition">
-            <span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+            class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-cyan-100 text-slate-700 font-black shadow-sm hover:bg-cyan-50 hover:text-cyan-700 transition">
+
+            <span class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
                 <i class="fa-solid fa-arrow-left"></i>
             </span>
-            Quay lại
+
+            <span>Quay lại</span>
         </a>
     </div>
 
@@ -35,10 +39,12 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
 
         <div class="xl:col-span-1">
             <div class="bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden sticky top-6">
+
                 <div class="bg-gradient-to-r from-cyan-600 to-sky-500 px-6 py-7 text-white">
                     <div
-                        class="w-20 h-20 rounded-3xl bg-white/20 border border-white/30 flex items-center justify-center mb-5">
-                        <i class="fa-solid fa-book-open text-3xl"></i>
+                        class="w-20 h-20 rounded-3xl bg-white/20 border border-white/30 flex items-center justify-center mb-5 overflow-hidden">
+                        <i id="iconPreview" class="{{ $previewIcon }} text-3xl"></i>
+                        <img id="thumbnailPreview" src="" class="hidden w-full h-full object-cover">
                     </div>
 
                     <span
@@ -58,7 +64,10 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
                 <div class="p-6 space-y-4">
                     <div
                         class="flex items-center justify-between rounded-2xl bg-cyan-50 border border-cyan-100 px-4 py-3">
-                        <span class="text-sm font-bold text-slate-500">Giảng viên đã chọn</span>
+                        <span class="text-sm font-bold text-slate-500">
+                            Giảng viên đã chọn
+                        </span>
+
                         <span id="selectedTeacherCard" class="text-sm font-black text-cyan-700">
                             {{ count($selectedTeachers) }}
                         </span>
@@ -66,7 +75,10 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
 
                     <div
                         class="flex items-center justify-between rounded-2xl bg-slate-50 border border-slate-100 px-4 py-3">
-                        <span class="text-sm font-bold text-slate-500">Trạng thái</span>
+                        <span class="text-sm font-bold text-slate-500">
+                            Trạng thái
+                        </span>
+
                         <span class="text-sm font-black text-emerald-600">
                             Mới tạo
                         </span>
@@ -78,12 +90,14 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
                         Mã môn học nên viết ngắn gọn, ví dụ: WEB101, DB101.
                     </div>
                 </div>
+
             </div>
         </div>
 
         <div class="xl:col-span-2">
-            <form action="{{ route('admin.subjects.store') }}" method="POST"
+            <form action="{{ route('admin.subjects.store') }}" method="POST" enctype="multipart/form-data"
                 class="bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden">
+
                 @csrf
 
                 <div class="px-6 py-5 border-b border-cyan-100 bg-cyan-50/40">
@@ -104,16 +118,14 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
                                 Mã môn học
                             </label>
 
-                            <input type="text" name="subject_code" value="{{ old('subject_code', old('ma_mon')) }}"
-                                placeholder="VD: WEB101"
-                                class="w-full h-12 px-5 rounded-xl bg-slate-50 border @error('subject_code') border-red-400 @else border-slate-200 @enderror outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700">
+                            <input type="text" name="subject_code" value="{{ old('subject_code') }}"
+                                placeholder="VD: WEB101" class="w-full h-12 px-5 rounded-xl bg-slate-50 border outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700
+                            @error('subject_code') border-red-400 @else border-slate-200 @enderror">
 
                             @error('subject_code')
-                            <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
-                            @enderror
-
-                            @error('ma_mon')
-                            <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
+                            <p class="text-red-500 text-sm font-bold mt-2">
+                                {{ $message }}
+                            </p>
                             @enderror
                         </div>
 
@@ -122,18 +134,144 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
                                 Tên môn học
                             </label>
 
-                            <input type="text" name="subject_name" value="{{ old('subject_name', old('ten_mon')) }}"
-                                placeholder="VD: Lập trình Web"
-                                class="w-full h-12 px-5 rounded-xl bg-slate-50 border @error('subject_name') border-red-400 @else border-slate-200 @enderror outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700">
+                            <input type="text" name="subject_name" value="{{ old('subject_name') }}"
+                                placeholder="VD: Lập trình Web" class="w-full h-12 px-5 rounded-xl bg-slate-50 border outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700
+                            @error('subject_name') border-red-400 @else border-slate-200 @enderror">
 
                             @error('subject_name')
-                            <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
-                            @enderror
-
-                            @error('ten_mon')
-                            <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
+                            <p class="text-red-500 text-sm font-bold mt-2">
+                                {{ $message }}
+                            </p>
                             @enderror
                         </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div>
+                            <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
+                                Khoa
+                            </label>
+
+                            <select name="faculty_id" class="w-full h-12 px-5 rounded-xl bg-slate-50 border outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700
+                            @error('faculty_id') border-red-400 @else border-slate-200 @enderror">
+
+                                <option value="">Chưa phân khoa</option>
+
+                                @isset($faculties)
+                                @foreach($faculties as $faculty)
+                                <option value="{{ $faculty->faculty_id }}" @selected(old('faculty_id')==$faculty->
+                                    faculty_id)>
+                                    {{ $faculty->faculty_name }}
+                                </option>
+                                @endforeach
+                                @endisset
+                            </select>
+
+                            @error('faculty_id')
+                            <p class="text-red-500 text-sm font-bold mt-2">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
+                                Trạng thái
+                            </label>
+
+                            <select name="status" class="w-full h-12 px-5 rounded-xl bg-slate-50 border outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700
+                            @error('status') border-red-400 @else border-slate-200 @enderror">
+
+                                <option value="active" @selected(old('status', 'active' )==='active' )>
+                                    Hoạt động
+                                </option>
+
+                                <option value="inactive" @selected(old('status')==='inactive' )>
+                                    Ngừng hoạt động
+                                </option>
+                            </select>
+
+                            @error('status')
+                            <p class="text-red-500 text-sm font-bold mt-2">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
+
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                        <div>
+                            <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
+                                Icon
+                            </label>
+
+                            <input type="text" name="icon" id="subjectIconInput"
+                                value="{{ old('icon', 'fa-solid fa-book-open') }}"
+                                placeholder="VD: fa-solid fa-book-open" class="w-full h-12 px-5 rounded-xl bg-slate-50 border outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700
+                            @error('icon') border-red-400 @else border-slate-200 @enderror">
+
+                            <p class="text-xs text-slate-400 font-semibold mt-2">
+                                Ví dụ: fa-solid fa-globe, fa-solid fa-database, fa-solid fa-mug-saucer.
+                            </p>
+
+                            @error('icon')
+                            <p class="text-red-500 text-sm font-bold mt-2">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
+                                Màu hiển thị
+                            </label>
+
+                            <select name="color"
+                                class="w-full h-12 px-5 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700">
+
+                                @php
+                                $colors = [
+                                'blue' => 'Xanh dương',
+                                'green' => 'Xanh lá',
+                                'red' => 'Đỏ',
+                                'yellow' => 'Vàng',
+                                'purple' => 'Tím',
+                                'cyan' => 'Xanh cyan',
+                                'gray' => 'Xám',
+                                ];
+                                @endphp
+
+                                @foreach($colors as $value => $label)
+                                <option value="{{ $value }}" @selected(old('color', 'blue' )===$value)>
+                                    {{ $label }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-black text-slate-600 uppercase tracking-wider mb-3">
+                            Ảnh đại diện môn học
+                        </label>
+
+                        <input type="file" name="thumbnail" accept="image/*" onchange="previewThumbnail(this)" class="w-full rounded-xl bg-slate-50 border border-slate-200 text-sm text-slate-600
+                        file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0
+                        file:bg-cyan-50 file:text-cyan-700 file:font-black hover:file:bg-cyan-100">
+
+                        <p class="text-xs text-slate-400 font-semibold mt-2">
+                            Chỉ hỗ trợ JPG, JPEG, PNG, WEBP. Dung lượng tối đa 2MB.
+                        </p>
+
+                        @error('thumbnail')
+                        <p class="text-red-500 text-sm font-bold mt-2">
+                            {{ $message }}
+                        </p>
+                        @enderror
                     </div>
 
                     <div>
@@ -142,14 +280,13 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
                         </label>
 
                         <textarea name="description" rows="5" placeholder="Nhập mô tả môn học..."
-                            class="w-full px-5 py-4 rounded-xl bg-slate-50 border @error('description') border-red-400 @else border-slate-200 @enderror outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700 resize-none">{{ old('description', old('mo_ta')) }}</textarea>
+                            class="w-full px-5 py-4 rounded-xl bg-slate-50 border outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700 resize-none
+                        @error('description') border-red-400 @else border-slate-200 @enderror">{{ old('description') }}</textarea>
 
                         @error('description')
-                        <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
-                        @enderror
-
-                        @error('mo_ta')
-                        <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
+                        <p class="text-red-500 text-sm font-bold mt-2">
+                            {{ $message }}
+                        </p>
                         @enderror
                     </div>
 
@@ -181,6 +318,7 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
 
                         <div id="teachersList"
                             class="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[420px] overflow-y-auto pr-1">
+
                             @forelse($teachers as $teacher)
                             <label
                                 class="teacher-item group flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 cursor-pointer hover:bg-cyan-50 hover:border-cyan-200 transition"
@@ -210,6 +348,7 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
                                 Chưa có giảng viên nào để gán cho môn học.
                             </div>
                             @endforelse
+
                         </div>
 
                         <div id="teacherEmpty"
@@ -219,13 +358,12 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
                         </div>
 
                         @error('teacher_ids')
-                        <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
-                        @enderror
-
-                        @error('giang_vien_ids')
-                        <p class="text-red-500 text-sm font-bold mt-2">{{ $message }}</p>
+                        <p class="text-red-500 text-sm font-bold mt-2">
+                            {{ $message }}
+                        </p>
                         @enderror
                     </div>
+
                 </div>
 
                 <div
@@ -247,9 +385,36 @@ $selectedTeachers = old('teacher_ids', old('giang_vien_ids', []));
 
     </div>
 
+
 </div>
 
+@endsection
+
+@push('scripts')
+
 <script>
+function previewThumbnail(input) {
+    const thumbnailPreview = document.getElementById('thumbnailPreview');
+    const iconPreview = document.getElementById('iconPreview');
+
+    if (!thumbnailPreview) return;
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            thumbnailPreview.src = e.target.result;
+            thumbnailPreview.classList.remove('hidden');
+
+            if (iconPreview) {
+                iconPreview.classList.add('hidden');
+            }
+        };
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const searchInput = document.getElementById('teacherSearch');
     const teacherItems = Array.from(document.querySelectorAll('.teacher-item'));
@@ -257,6 +422,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkboxes = Array.from(document.querySelectorAll('.teacher-checkbox'));
     const selectedBadge = document.getElementById('selectedTeacherBadge');
     const selectedCard = document.getElementById('selectedTeacherCard');
+
+    const iconInput = document.getElementById('subjectIconInput');
+    const iconPreview = document.getElementById('iconPreview');
 
     function updateSelectedBadge() {
         const checkedCount = checkboxes.filter(item => item.checked).length;
@@ -294,8 +462,14 @@ document.addEventListener('DOMContentLoaded', function() {
         item.addEventListener('change', updateSelectedBadge);
     });
 
+    iconInput?.addEventListener('input', function() {
+        if (!iconPreview) return;
+
+        iconPreview.className = this.value + ' text-3xl';
+    });
+
     updateSelectedBadge();
 });
 </script>
 
-@endsection
+@endpush

@@ -74,20 +74,19 @@ class Subject extends Model
         );
     }
 
-    public function lecturers()
-    {
-        return $this->belongsToMany(
-            User::class,
-            'subject_teachers',
-            'subject_code',
-            'user_id',
-            'subject_code',
-            'user_id'
-        )
-        ->wherePivotNull('deleted_at')
-        ->withTimestamps();
-    }
-
+   public function lecturers()
+{
+    return $this->belongsToMany(
+        User::class,
+        'subject_teachers',
+        'subject_code',
+        'user_id',
+        'subject_code',
+        'user_id'
+    )
+    ->withPivot('assigned_at')
+    ->withTimestamps();
+}
     public function subjectTeachers()
     {
         return $this->hasMany(

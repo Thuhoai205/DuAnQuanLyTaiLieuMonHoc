@@ -7,6 +7,7 @@
 
 <div class="max-w-7xl mx-auto px-2 lg:px-4">
 
+    ```
     <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>
             <h1 class="text-3xl font-black text-slate-900">
@@ -19,15 +20,18 @@
         </div>
 
         <a href="{{ route('admin.users.index') }}"
-            class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-slate-200 text-slate-700 font-black shadow-sm hover:bg-slate-50 transition">
-            <span class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center">
+            class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-cyan-100 text-slate-700 font-black shadow-sm hover:bg-cyan-50 hover:text-cyan-700 transition">
+
+            <span class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
                 <i class="fa-solid fa-arrow-left"></i>
             </span>
-            Quay lại
+
+            <span>Quay lại</span>
         </a>
     </div>
 
-    <form action="{{ route('admin.users.restoreMultiple') }}" method="POST" id="restore-multiple-form">
+    <form action="{{ route('admin.users.restoreMultiple') }}" method="POST" id="restore-multiple-form"
+        class="restore-multiple-form">
         @csrf
     </form>
 
@@ -53,6 +57,7 @@
                 @if($users->count() > 0)
                 <button type="submit" form="restore-multiple-form" id="restore-selected-btn" disabled
                     class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 font-black opacity-50 cursor-not-allowed transition">
+
                     <i class="fa-solid fa-rotate-left"></i>
                     Khôi phục đã chọn
 
@@ -70,8 +75,10 @@
                 <thead class="bg-red-50/70">
                     <tr>
                         <th class="px-6 py-4 w-12">
+                            @if($users->count() > 0)
                             <input type="checkbox" id="check-all"
                                 class="w-5 h-5 rounded border-red-200 accent-emerald-600">
+                            @endif
                         </th>
 
                         <th class="px-6 py-4 text-xs font-black uppercase text-slate-500">
@@ -140,12 +147,13 @@
                         <td class="px-6 py-5">
                             <div class="flex items-center justify-end gap-2">
                                 <form action="{{ route('admin.users.restore', $user->user_id) }}" method="POST"
-                                    onsubmit="return confirm('Bạn có chắc muốn khôi phục người dùng này không?')">
+                                    class="restore-user-form">
                                     @csrf
                                     @method('PATCH')
 
                                     <button type="submit"
                                         class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 text-emerald-600 font-black hover:bg-emerald-500 hover:text-white transition">
+
                                         <i class="fa-solid fa-rotate-left"></i>
                                         Khôi phục
                                     </button>
@@ -182,8 +190,51 @@
         @endif
 
     </div>
+    ```
 
 </div>
+
+<div id="restore-user-modal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
+
+    ```
+    <div class="w-full max-w-md bg-white rounded-[28px] shadow-2xl border border-emerald-100 overflow-hidden">
+
+        <div class="p-7 text-center">
+            <div
+                class="w-16 h-16 mx-auto rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-5">
+                <i class="fa-solid fa-rotate-left text-2xl"></i>
+            </div>
+
+            <h3 id="restore-modal-title" class="text-2xl font-black text-slate-900">
+                Khôi phục người dùng?
+            </h3>
+
+            <p id="restore-modal-message" class="text-slate-500 font-semibold mt-3 leading-relaxed">
+                Tài khoản sẽ được khôi phục và hiển thị lại trong danh sách người dùng chính.
+            </p>
+        </div>
+
+        <div class="px-7 pb-7 grid grid-cols-2 gap-3">
+            <button type="button" id="cancel-restore-user"
+                class="h-12 rounded-2xl bg-slate-100 text-slate-700 font-black hover:bg-slate-200 transition">
+                Hủy
+            </button>
+
+            <button type="button" id="confirm-restore-user"
+                class="h-12 rounded-2xl bg-emerald-500 text-white font-black hover:bg-emerald-600 transition">
+                Khôi phục
+            </button>
+        </div>
+
+    </div>
+    ```
+
+</div>
+
+@endsection
+
+@push('scripts')
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -191,7 +242,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkboxes = document.querySelectorAll('.user-checkbox');
     const restoreBtn = document.getElementById('restore-selected-btn');
     const selectedCount = document.getElementById('selected-count');
-    const restoreForm = document.getElementById('restore-multiple-form');
+    const restoreMultipleForm = document.getElementById('restore-multiple-form');
+
+    const restoreModal = document.getElementById('restore-user-modal');
+    const restoreModalTitle = document.getElementById('restore-modal-title');
+    const restoreModalMessage = document.getElementById('restore-modal-message');
+    const cancelRestoreBtn = document.getElementById('cancel-restore-user');
+    const confirmRestoreBtn = document.getElementById('confirm-restore-user');
+
+    let pendingRestoreForm = null;
 
     function updateRestoreButton() {
         const checked = document.querySelectorAll('.user-checkbox:checked').length;
@@ -203,22 +262,51 @@ document.addEventListener('DOMContentLoaded', function() {
             restoreBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             restoreBtn.classList.add('hover:bg-emerald-500', 'hover:text-white');
 
-            selectedCount.textContent = checked;
-            selectedCount.classList.remove('hidden');
-            selectedCount.classList.add('inline-flex');
+            if (selectedCount) {
+                selectedCount.textContent = checked;
+                selectedCount.classList.remove('hidden');
+                selectedCount.classList.add('inline-flex');
+            }
         } else {
             restoreBtn.disabled = true;
             restoreBtn.classList.add('opacity-50', 'cursor-not-allowed');
             restoreBtn.classList.remove('hover:bg-emerald-500', 'hover:text-white');
 
-            selectedCount.textContent = 0;
-            selectedCount.classList.add('hidden');
-            selectedCount.classList.remove('inline-flex');
+            if (selectedCount) {
+                selectedCount.textContent = 0;
+                selectedCount.classList.add('hidden');
+                selectedCount.classList.remove('inline-flex');
+            }
         }
 
         if (checkAll) {
-            checkAll.checked = checked === checkboxes.length && checkboxes.length > 0;
+            checkAll.checked = checked > 0 && checked === checkboxes.length;
         }
+    }
+
+    function openRestoreModal(formElement, type = 'single') {
+        pendingRestoreForm = formElement;
+
+        if (type === 'multiple') {
+            const checked = document.querySelectorAll('.user-checkbox:checked').length;
+
+            restoreModalTitle.textContent = 'Khôi phục người dùng đã chọn?';
+            restoreModalMessage.textContent = 'Bạn đang khôi phục ' + checked +
+                ' tài khoản. Các tài khoản này sẽ hiển thị lại trong danh sách người dùng chính.';
+        } else {
+            restoreModalTitle.textContent = 'Khôi phục người dùng?';
+            restoreModalMessage.textContent =
+                'Tài khoản sẽ được khôi phục và hiển thị lại trong danh sách người dùng chính.';
+        }
+
+        restoreModal.classList.remove('hidden');
+        restoreModal.classList.add('flex');
+    }
+
+    function closeRestoreModal() {
+        pendingRestoreForm = null;
+        restoreModal.classList.add('hidden');
+        restoreModal.classList.remove('flex');
     }
 
     checkAll?.addEventListener('change', function() {
@@ -233,20 +321,52 @@ document.addEventListener('DOMContentLoaded', function() {
         item.addEventListener('change', updateRestoreButton);
     });
 
-    restoreForm?.addEventListener('submit', function(e) {
-        const checked = document.querySelectorAll('.user-checkbox:checked').length;
+    document.addEventListener('submit', function(e) {
+        const restoreUserForm = e.target.closest('.restore-user-form');
+        const isRestoreMultipleForm = e.target === restoreMultipleForm;
 
-        if (checked === 0) {
-            e.preventDefault();
-            alert('Vui lòng chọn ít nhất một người dùng.');
+        if (!restoreUserForm && !isRestoreMultipleForm) return;
+
+        e.preventDefault();
+
+        if (isRestoreMultipleForm) {
+            const checked = document.querySelectorAll('.user-checkbox:checked').length;
+
+            if (checked === 0) {
+                return;
+            }
+
+            openRestoreModal(restoreMultipleForm, 'multiple');
             return;
         }
 
-        if (!confirm('Bạn có chắc muốn khôi phục các người dùng đã chọn không?')) {
-            e.preventDefault();
+        openRestoreModal(restoreUserForm, 'single');
+    });
+
+    cancelRestoreBtn?.addEventListener('click', function() {
+        closeRestoreModal();
+    });
+
+    confirmRestoreBtn?.addEventListener('click', function() {
+        if (pendingRestoreForm) {
+            pendingRestoreForm.submit();
         }
     });
+
+    restoreModal?.addEventListener('click', function(e) {
+        if (e.target === restoreModal) {
+            closeRestoreModal();
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeRestoreModal();
+        }
+    });
+
+    updateRestoreButton();
 });
 </script>
 
-@endsection
+@endpush

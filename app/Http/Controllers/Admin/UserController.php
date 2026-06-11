@@ -90,35 +90,35 @@ class UserController extends Controller
             ->with('success', 'Thêm người dùng thành công.');
     }
 
-    public function show(string $id)
-    {
-        $user = User::with([
-            'role',
-            'documents',
-            'subjects',
-            'downloadHistories',
-            'activityLogs',
-            'favorites',
-            'searchHistories',
-        ])->findOrFail($id);
+   public function show(string $id)
+{
+    $user = User::with([
+        'role',
+        'uploadedDocuments.currentVersion',
+        'subjects',
+        'downloadHistories',
+        'activityLogs',
+        'favorites',
+        'searchHistories',
+    ])->findOrFail($id);
 
-        $totalDocuments = $user->documents->count();
-        $totalSubjects = $user->subjects->count();
-        $totalDownloads = $user->downloadHistories->count();
-        $totalFavorites = $user->favorites->count();
-        $totalLogs = $user->activityLogs->count();
-        $totalSearches = $user->searchHistories->count();
+    $totalDocuments = $user->uploadedDocuments->count();
+    $totalSubjects = $user->subjects->count();
+    $totalDownloads = $user->downloadHistories->count();
+    $totalFavorites = $user->favorites->count();
+    $totalLogs = $user->activityLogs->count();
+    $totalSearches = $user->searchHistories->count();
 
-        return view('admin.users.show', compact(
-            'user',
-            'totalDocuments',
-            'totalSubjects',
-            'totalDownloads',
-            'totalFavorites',
-            'totalLogs',
-            'totalSearches'
-        ));
-    }
+    return view('admin.users.show', compact(
+        'user',
+        'totalDocuments',
+        'totalSubjects',
+        'totalDownloads',
+        'totalFavorites',
+        'totalLogs',
+        'totalSearches'
+    ));
+}
 
     public function edit(string $id)
     {

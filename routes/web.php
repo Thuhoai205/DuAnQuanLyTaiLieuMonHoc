@@ -1,24 +1,19 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController;
 
 Route::get('/', function () {
-
     if (!Auth::check()) {
-        return redirect()->route('home');
+        return view('home');
     }
 
-    return match (Auth::user()->role_id) {
+    return match ((int) Auth::user()->role_id) {
         1 => redirect('/admin/dashboard'),
-        2, 3 => redirect()->route('home'),
-        default => redirect()->route('login')
+        2, 3 => view('home'),
+        default => view('home'),
     };
-
-});
-Route::get('/home', function () {
-    return view('home');
 })->name('home');
 
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
@@ -28,7 +23,6 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'postRegister'])->name('postRegister');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
 Route::get('/subjects', function () {
     return view('subjects.index');
 })->name('subjects.index');

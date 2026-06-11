@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
@@ -42,14 +42,8 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/subjects/trashed', [SubjectController::class, 'trashed'])
-            ->name('subjects.trashed');
-
-        Route::post('/subjects/restore-multiple', [SubjectController::class, 'restoreMultiple'])
-            ->name('subjects.restoreMultiple');
-
-        Route::patch('/subjects/{id}/restore', [SubjectController::class, 'restore'])
-            ->name('subjects.restore');
+        Route::patch('/subjects/{id}/status', [SubjectController::class, 'toggleStatus'])
+            ->name('subjects.status');
 
         Route::resource('subjects', SubjectController::class);
 
@@ -91,3 +85,4 @@ Route::middleware('auth')
         Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
             ->name('logs.readAll');
     });
+ 
