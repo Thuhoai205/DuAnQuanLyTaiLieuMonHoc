@@ -1,4 +1,5 @@
-<?php
+ php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,8 +18,6 @@ return new class extends Migration
                 ->nullOnDelete();
 
             $table->string('action', 100)->nullable();
-            $table->string('object_type', 100)->nullable();
-            $table->unsignedBigInteger('object_id')->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_read')->default(false);
 
@@ -31,10 +30,9 @@ return new class extends Migration
 
             $table->index('user_id');
             $table->index('action');
-            $table->index('object_type');
-            $table->index('object_id');
             $table->index('is_read');
             $table->index('login_at');
+            $table->index('logout_at');
             $table->index('created_at');
         });
     }
@@ -44,3 +42,4 @@ return new class extends Migration
         Schema::dropIfExists('activity_logs');
     }
 };
+ 

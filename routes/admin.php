@@ -1,4 +1,4 @@
- <?php
+<?php
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
@@ -53,12 +53,6 @@ Route::middleware('auth')
         |--------------------------------------------------------------------------
         */
 
-        Route::get('/document-types/trashed', [DocumentTypeController::class, 'trashed'])
-            ->name('document-types.trashed');
-
-        Route::patch('/document-types/{id}/restore', [DocumentTypeController::class, 'restore'])
-            ->name('document-types.restore');
-
         Route::patch('/document-types/{id}/status', [DocumentTypeController::class, 'toggleStatus'])
             ->name('document-types.status');
 
@@ -82,7 +76,7 @@ Route::middleware('auth')
         Route::get('/logs', [LogController::class, 'index'])
             ->name('logs.index');
 
-        Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
-            ->name('logs.readAll');
+Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
+    ->name('logs.readAll');
+
     });
- 

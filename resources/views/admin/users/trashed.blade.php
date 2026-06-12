@@ -7,7 +7,7 @@
 
 <div class="max-w-7xl mx-auto px-2 lg:px-4">
 
-    ```
+
     <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>
             <h1 class="text-3xl font-black text-slate-900">
@@ -190,14 +190,14 @@
         @endif
 
     </div>
-    ```
+
 
 </div>
 
 <div id="restore-user-modal"
     class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
 
-    ```
+
     <div class="w-full max-w-md bg-white rounded-[28px] shadow-2xl border border-emerald-100 overflow-hidden">
 
         <div class="p-7 text-center">
@@ -228,7 +228,7 @@
         </div>
 
     </div>
-    ```
+
 
 </div>
 

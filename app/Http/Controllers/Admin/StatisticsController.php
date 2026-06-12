@@ -3,47 +3,59 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\TaiLieu;
-use App\Models\LichSuTai;
-use App\Models\LoaiTaiLieu;
+use App\Models\Document;
+use App\Models\DocumentType;
+use App\Models\DownloadHistory;
 use App\Models\User;
-use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends Controller
 {
     public function index()
     {
-        $totalDocuments = TaiLieu::count();
+        $totalDocuments = Document::count();
 
-        $totalDownloads = LichSuTai::count();
+        $totalDownloads = DownloadHistory::count();
 
-        $totalTypes = LoaiTaiLieu::count();
+        $totalTypes = DocumentType::count();
 
         $totalUsers = User::count();
 
-        $topDownloads = TaiLieu::withCount('lichSuTais')
-            ->orderByDesc('lich_su_tais_count')
+        $topDownloads = Document::query()
+            ->select('document_id', 'title', 'download_count')
+            ->orderByDesc('download_count')
             ->take(5)
             ->get();
 
-        $documentsByType = LoaiTaiLieu::withCount('taiLieus')
-            ->orderByDesc('tai_lieus_count')
-            ->take(5)
-            ->get();
+$documentsByType = DocumentType::query()
+    ->withCount('documents')
+    ->orderByDesc('documents_count')
+    ->take(5)
+    ->get();
 
-        $chartData = LichSuTai::select(
-                DB::raw('MONTH(ngay_tai) as month'),
-                DB::raw('COUNT(*) as total')
-            )
-            ->whereYear('ngay_tai', now()->year)
-            ->groupBy(DB::raw('MONTH(ngay_tai)'))
-            ->orderBy(DB::raw('MONTH(ngay_tai)'))
-            ->get();
+$recentDownloads = DownloadHistory::query()
+    ->with([
+        'user',
+        'version.document',
+    ])
+    ->whereNotNull('downloaded_at')
+    ->orderByDesc('downloaded_at')
+    ->take(4)
+    ->get();
 
-        $recentDownloads = LichSuTai::with(['user', 'taiLieu'])
-            ->orderByDesc('ngay_tai')
-            ->take(5)
-            ->get();
+
+        $downloadsByMonth = DownloadHistory::query()
+            ->selectRaw('MONTH(downloaded_at) as month, COUNT(*) as total')
+            ->whereNotNull('downloaded_at')
+            ->whereYear('downloaded_at', now()->year)
+            ->groupByRaw('MONTH(downloaded_at)')
+            ->pluck('total', 'month');
+
+        $chartData = collect(range(1, 12))->map(function ($month) use ($downloadsByMonth) {
+            return [
+                'month' => $month,
+                'total' => (int) ($downloadsByMonth->get($month, 0)),
+            ];
+        });
 
         return view('admin.statistics.index', compact(
             'totalDocuments',
@@ -52,8 +64,8 @@ class StatisticsController extends Controller
             'totalUsers',
             'topDownloads',
             'documentsByType',
-            'chartData',
-            'recentDownloads'
+            'recentDownloads',
+            'chartData'
         ));
     }
 }

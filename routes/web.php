@@ -1,28 +1,36 @@
-<?php
+ <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
 
 Route::get('/', function () {
-    if (!Auth::check()) {
-        return view('home');
-    }
-
-    return match ((int) Auth::user()->role_id) {
-        1 => redirect('/admin/dashboard'),
-        2, 3 => view('home'),
-        default => view('home'),
-    };
+    return view('home');
 })->name('home');
 
+Route::get('/home', function () {
+    return redirect()->route('home');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Auth
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'postRegister'])->name('postRegister');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+/*
+|--------------------------------------------------------------------------
+| Subjects
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/subjects', function () {
     return view('subjects.index');
 })->name('subjects.index');
@@ -31,6 +39,11 @@ Route::get('/subjects/{id}', function ($id) {
     return view('subjects.show', compact('id'));
 })->name('subjects.show');
 
+/*
+|--------------------------------------------------------------------------
+| Documents
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/documents', function () {
     return view('documents.index');
@@ -56,9 +69,25 @@ Route::get('/search', function () {
     return view('documents.search');
 })->name('documents.search');
 
+/*
+|--------------------------------------------------------------------------
+| Faculties
+|--------------------------------------------------------------------------
+*/
+
+Route::view('/faculties', 'faculties.index')->name('faculties.index');
+
+Route::get('/faculties/{code}', function ($code) {
+    return view('faculties.show', compact('code'));
+})->name('faculties.show');
+
+/*
+|--------------------------------------------------------------------------
+| Profile
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
-
     Route::get('/profile', [AuthController::class, 'profile'])
         ->name('profile');
 
@@ -71,3 +100,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/avatar', [AuthController::class, 'updateAvatar'])
         ->name('profile.update.avatar');
 });
+ 
