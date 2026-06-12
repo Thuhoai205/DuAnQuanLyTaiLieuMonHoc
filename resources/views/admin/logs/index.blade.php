@@ -1,200 +1,524 @@
 @extends('layouts.admin')
 
 @section('title', 'Nhật ký hệ thống')
+@section('page-title', 'Nhật ký hệ thống')
 
 @section('content')
-<div class="min-h-screen bg-[#F6F7FB] px-6 py-8">
 
-    <!-- Header -->
-    <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+@php
+$totalLogs = $totalLogs ?? \App\Models\ActivityLog::count();
+$totalLoginLogs = $totalLoginLogs ?? \App\Models\ActivityLog::where('action', 'login')->count();
+$totalLogoutLogs = $totalLogoutLogs ?? \App\Models\ActivityLog::where('action', 'logout')->count();
+$unreadLogsCount = $unreadLogsCount ?? \App\Models\ActivityLog::where('is_read', false)->count();
+@endphp
+
+<div class="max-w-7xl mx-auto px-2 lg:px-4">
+
+    <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
         <div>
-            <h1 class="text-2xl font-bold text-slate-800">
+            <h1 class="text-3xl font-black text-slate-900">
                 Nhật ký hệ thống
             </h1>
-            <p class="mt-1 text-sm text-slate-500">
-                Theo dõi hoạt động người dùng, thông báo và các thay đổi trong hệ thống.
+
+            <p class="text-slate-500 font-semibold mt-2">
+                Theo dõi lịch sử đăng nhập và đăng xuất của người dùng trong hệ thống.
             </p>
         </div>
 
-        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-100 text-violet-600">
-            <i class="fa-solid fa-clock-rotate-left text-xl"></i>
+        <div class="flex flex-wrap items-center gap-3">
+            @if($unreadLogsCount > 0)
+            <form action="{{ route('admin.logs.readAll') }}" method="POST">
+                @csrf
+
+                <button type="submit"
+                    class="group inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-emerald-600 text-white font-black shadow-lg shadow-emerald-100 hover:bg-emerald-700 hover:-translate-y-0.5 transition-all">
+                    <span class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                        <i class="fa-solid fa-check-double"></i>
+                    </span>
+                    Đánh dấu đã đọc
+                </button>
+            </form>
+            @endif
+
+            <div
+                class="w-16 h-16 rounded-3xl bg-cyan-50 text-cyan-600 border border-cyan-100 flex items-center justify-center shadow-sm">
+                <i class="fa-solid fa-clock-rotate-left text-2xl"></i>
+            </div>
         </div>
     </div>
 
-    <!-- Filter -->
-    <div class="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-        <form method="GET" action="{{ route('admin.logs.index') }}" class="grid grid-cols-1 gap-4 md:grid-cols-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
 
-            <div class="relative md:col-span-6">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+        <div
+            class="group bg-white rounded-[28px] border border-cyan-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-100/70 transition-all">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-wider text-slate-400">
+                        Tổng nhật ký
+                    </p>
 
-                <input type="text" name="keyword" value="{{ request('keyword') }}"
-                    placeholder="Tìm theo nội dung, hành động, đối tượng..."
-                    class="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm text-slate-700 outline-none transition focus:border-violet-400 focus:bg-white focus:ring-4 focus:ring-violet-100">
+                    <h3 class="text-4xl font-black text-cyan-700 mt-2">
+                        {{ number_format($totalLogs) }}
+                    </h3>
+                </div>
+
+                <div
+                    class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white transition">
+                    <i class="fa-solid fa-list text-xl"></i>
+                </div>
             </div>
+        </div>
 
-            <div class="md:col-span-3">
-                <select name="hanh_dong"
-                    class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700 outline-none transition focus:border-violet-400 focus:bg-white focus:ring-4 focus:ring-violet-100">
-                    <option value="">Tất cả hành động</option>
-                    <option value="Thêm" {{ request('hanh_dong') == 'Thêm' ? 'selected' : '' }}>Thêm</option>
-                    <option value="Sửa" {{ request('hanh_dong') == 'Sửa' ? 'selected' : '' }}>Sửa</option>
-                    <option value="Xóa" {{ request('hanh_dong') == 'Xóa' ? 'selected' : '' }}>Xóa</option>
-                    <option value="Upload" {{ request('hanh_dong') == 'Upload' ? 'selected' : '' }}>Upload</option>
-                    <option value="Tải xuống" {{ request('hanh_dong') == 'Tải xuống' ? 'selected' : '' }}>Tải xuống
-                    </option>
-                    <option value="Đăng nhập" {{ request('hanh_dong') == 'Đăng nhập' ? 'selected' : '' }}>Đăng nhập
-                    </option>
-                </select>
+        <div
+            class="group bg-white rounded-[28px] border border-emerald-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-100/70 transition-all">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-wider text-slate-400">
+                        Đăng nhập
+                    </p>
+
+                    <h3 class="text-4xl font-black text-emerald-700 mt-2">
+                        {{ number_format($totalLoginLogs) }}
+                    </h3>
+                </div>
+
+                <div
+                    class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition">
+                    <i class="fa-solid fa-right-to-bracket text-xl"></i>
+                </div>
             </div>
+        </div>
 
-            <div class="flex gap-3 md:col-span-3">
-                <button type="submit"
-                    class="flex-1 rounded-xl bg-violet-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-violet-700">
-                    Lọc
-                </button>
+        <div
+            class="group bg-white rounded-[28px] border border-orange-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-100/70 transition-all">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-wider text-slate-400">
+                        Đăng xuất
+                    </p>
 
-                <a href="{{ route('admin.logs.index') }}"
-                    class="rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
-                    Reset
-                </a>
+                    <h3 class="text-4xl font-black text-orange-700 mt-2">
+                        {{ number_format($totalLogoutLogs) }}
+                    </h3>
+                </div>
+
+                <div
+                    class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition">
+                    <i class="fa-solid fa-right-from-bracket text-xl"></i>
+                </div>
             </div>
-        </form>
+        </div>
+
+        <div
+            class="group bg-white rounded-[28px] border border-red-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-red-100/70 transition-all">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-black uppercase tracking-wider text-slate-400">
+                        Chưa đọc
+                    </p>
+
+                    <h3 class="text-4xl font-black text-red-600 mt-2">
+                        {{ number_format($unreadLogsCount) }}
+                    </h3>
+                </div>
+
+                <div
+                    class="w-14 h-14 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center group-hover:bg-red-500 group-hover:text-white transition">
+                    <i class="fa-solid fa-bell text-xl"></i>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Table -->
-    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+    <div
+        class="bg-white rounded-[34px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden mb-8">
+        <div
+            class="px-7 py-6 bg-gradient-to-r from-cyan-50 to-sky-50 border-b border-cyan-100 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div class="flex items-start gap-4">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-100">
+                    <i class="fa-solid fa-filter text-xl"></i>
+                </div>
 
-        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-5">
-            <div>
-                <h2 class="font-bold text-slate-800">
-                    Danh sách nhật ký
-                </h2>
-                <p class="mt-1 text-sm text-slate-500">
-                    Tổng số:
-                    <span class="font-semibold text-violet-600">
-                        {{ $logs->total() }}
-                    </span>
-                    hoạt động
-                </p>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">
+                        Bộ lọc nhật ký
+                    </h2>
+
+                    <p class="text-slate-500 font-semibold mt-1">
+                        Tìm kiếm theo người dùng, nội dung, hành động hoặc địa chỉ IP.
+                    </p>
+                </div>
             </div>
 
-            <span class="rounded-full bg-violet-50 px-3 py-1 text-xs font-semibold text-violet-600">
-                Logs
+            <span
+                class="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white text-cyan-700 text-sm font-black border border-cyan-100 shadow-sm">
+                {{ number_format($logs->total()) }} bản ghi
             </span>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full min-w-[1000px] text-left">
-                <thead class="bg-slate-50 text-xs uppercase text-slate-500">
-                    <tr>
-                        <th class="px-6 py-4">STT</th>
-                        <th class="px-6 py-4">Người dùng</th>
-                        <th class="px-6 py-4">Hành động</th>
-                        <th class="px-6 py-4">Đối tượng</th>
-                        <th class="px-6 py-4">Nội dung</th>
-                        <th class="px-6 py-4">Trạng thái</th>
-                        <th class="px-6 py-4">IP</th>
-                        <th class="px-6 py-4">Thời gian</th>
-                    </tr>
-                </thead>
+        <div class="p-5">
+            <form method="GET" action="{{ route('admin.logs.index') }}" id="logsFilterForm"
+                class="grid grid-cols-1 md:grid-cols-6 gap-4">
 
-                <tbody class="divide-y divide-slate-100">
-                    @forelse($logs as $index => $log)
-                    <tr class="transition hover:bg-violet-50/40">
-                        <td class="px-6 py-5 text-sm text-slate-500">
-                            {{ $logs->firstItem() + $index }}
-                        </td>
+                <div class="md:col-span-3 relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-cyan-600"></i>
 
-                        <td class="px-6 py-5">
-                            <div class="flex items-center gap-3">
-                                <div
-                                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
+                    <input type="text" name="keyword" id="keywordInput" value="{{ request('keyword') }}"
+                        placeholder="Tìm theo tên người dùng, nội dung, IP..."
+                        class="w-full h-12 pl-14 pr-5 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700">
+                </div>
 
-                                <div>
-                                    <p class="font-semibold text-slate-800">
-                                        {{ $log->user->full_name ?? 'Hệ thống' }}
-                                    </p>
-                                    <p class="text-xs text-slate-400">
-                                        ID: {{ $log->user_id ?? '-' }}
-                                    </p>
-                                </div>
-                            </div>
-                        </td>
+                <select name="action" id="actionSelect"
+                    class="h-12 px-4 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 font-semibold text-slate-700">
+                    <option value="">Tất cả hành động</option>
+                    <option value="login" @selected(request('action')==='login' )>Đăng nhập</option>
+                    <option value="logout" @selected(request('action')==='logout' )>Đăng xuất</option>
+                </select>
 
-                        <td class="px-6 py-5">
-                            <span class="rounded-full px-3 py-1 text-xs font-semibold
-                                    @if($log->hanh_dong == 'Thêm')
-                                        bg-emerald-50 text-emerald-600
-                                    @elseif($log->hanh_dong == 'Sửa')
-                                        bg-amber-50 text-amber-600
-                                    @elseif($log->hanh_dong == 'Xóa')
-                                        bg-rose-50 text-rose-600
-                                    @elseif($log->hanh_dong == 'Upload')
-                                        bg-indigo-50 text-indigo-600
-                                    @elseif($log->hanh_dong == 'Tải xuống')
-                                        bg-blue-50 text-blue-600
-                                    @else
-                                        bg-slate-100 text-slate-600
-                                    @endif">
-                                {{ $log->hanh_dong }}
-                            </span>
-                        </td>
+                <button type="submit"
+                    class="h-12 rounded-xl bg-cyan-600 text-white font-black hover:bg-cyan-700 transition">
+                    <i class="fa-solid fa-filter mr-2"></i>
+                    Lọc
+                </button>
 
-                        <td class="px-6 py-5 text-sm text-slate-500">
-                            {{ $log->doi_tuong ?? '-' }}
-                        </td>
-
-                        <td class="px-6 py-5 text-sm text-slate-600">
-                            {{ $log->noi_dung }}
-                        </td>
-
-                        <td class="px-6 py-5">
-                            @if($log->da_doc)
-                            <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
-                                Đã đọc
-                            </span>
-                            @else
-                            <span class="rounded-full bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-600">
-                                Chưa đọc
-                            </span>
-                            @endif
-                        </td>
-
-                        <td class="px-6 py-5 text-sm text-slate-500">
-                            {{ $log->ip_address ?? '-' }}
-                        </td>
-
-                        <td class="px-6 py-5 text-sm text-slate-500">
-                            {{ $log->created_at->format('d/m/Y H:i') }}
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="8" class="px-6 py-16 text-center">
-                            <div
-                                class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
-                                <i class="fa-solid fa-clock-rotate-left text-2xl"></i>
-                            </div>
-                            <h3 class="font-semibold text-slate-700">
-                                Chưa có nhật ký nào
-                            </h3>
-                            <p class="mt-1 text-sm text-slate-500">
-                                Các hoạt động trong hệ thống sẽ hiển thị tại đây.
-                            </p>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                <button type="button" id="resetLogsButton"
+                    class="h-12 rounded-xl bg-slate-100 text-slate-700 font-black flex items-center justify-center hover:bg-slate-200 transition">
+                    Reset
+                </button>
+            </form>
         </div>
+    </div>
 
-        <div class="border-t border-slate-200 px-6 py-4">
-            {{ $logs->appends(request()->query())->links() }}
+    <div id="logs-list-area" class="transition-opacity duration-200">
+        <div
+            class="bg-white rounded-[34px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
+
+            <div
+                class="px-7 py-6 border-b border-cyan-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <h2 class="text-xl font-black text-slate-900">
+                        Danh sách nhật ký
+                    </h2>
+
+                    <p class="text-sm text-slate-500 font-semibold mt-1">
+                        Hiển thị lịch sử đăng nhập và đăng xuất mới nhất.
+                    </p>
+                </div>
+
+                <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black border border-cyan-100">
+                    {{ number_format($logs->total()) }} bản ghi
+                </span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full min-w-[1050px] text-left">
+                    <thead class="bg-slate-50 border-b border-cyan-100">
+                        <tr>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-wider text-slate-500">
+                                STT
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-wider text-slate-500">
+                                Người dùng
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-wider text-slate-500">
+                                Hành động
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-wider text-slate-500">
+                                Nội dung
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-wider text-slate-500">
+                                Trạng thái
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-wider text-slate-500">
+                                IP
+                            </th>
+
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-wider text-slate-500">
+                                Thời gian
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse($logs as $index => $log)
+                        @php
+                        $action = $log->action ?? '-';
+
+                        if ($action === 'login') {
+                        $actionLabel = 'Đăng nhập';
+                        $actionClass = 'bg-emerald-50 text-emerald-600 border-emerald-100';
+                        $actionIcon = 'fa-solid fa-right-to-bracket';
+                        $time = $log->login_at ?? $log->created_at;
+                        } elseif ($action === 'logout') {
+                        $actionLabel = 'Đăng xuất';
+                        $actionClass = 'bg-orange-50 text-orange-600 border-orange-100';
+                        $actionIcon = 'fa-solid fa-right-from-bracket';
+                        $time = $log->logout_at ?? $log->created_at;
+                        } else {
+                        $actionLabel = $action;
+                        $actionClass = 'bg-slate-100 text-slate-600 border-slate-200';
+                        $actionIcon = 'fa-solid fa-circle-info';
+                        $time = $log->created_at;
+                        }
+
+                        $user = $log->user;
+                        $userName = $user->full_name ?? 'Hệ thống';
+                        $userEmail = $user->email ?? null;
+                        $avatar = $user->avatar ?? null;
+                        $description = $log->description ?? 'Không có nội dung';
+                        @endphp
+
+                        <tr class="hover:bg-cyan-50/40 transition">
+                            <td class="px-6 py-5 text-sm font-bold text-slate-500">
+                                {{ $logs->firstItem() + $index }}
+                            </td>
+
+                            <td class="px-6 py-5">
+                                <div class="flex items-center gap-3 min-w-[230px]">
+                                    @if($avatar)
+                                    <img src="{{ asset('storage/' . $avatar) }}" alt="{{ $userName }}"
+                                        class="w-11 h-11 rounded-2xl object-cover border border-cyan-100">
+                                    @else
+                                    <div
+                                        class="w-11 h-11 rounded-2xl bg-cyan-50 text-cyan-600 border border-cyan-100 flex items-center justify-center font-black">
+                                        {{ mb_substr($userName, 0, 1) }}
+                                    </div>
+                                    @endif
+
+                                    <div class="min-w-0">
+                                        <p class="font-black text-slate-800 truncate">
+                                            {{ $userName }}
+                                        </p>
+
+                                        <p class="text-xs text-slate-400 font-semibold truncate">
+                                            {{ $userEmail ?? 'ID: ' . ($log->user_id ?? '-') }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-5">
+                                <span
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black border {{ $actionClass }}">
+                                    <i class="{{ $actionIcon }}"></i>
+                                    {{ $actionLabel }}
+                                </span>
+                            </td>
+
+                            <td class="px-6 py-5 max-w-md">
+                                <p class="text-sm font-semibold text-slate-600 truncate">
+                                    {{ $description }}
+                                </p>
+                            </td>
+
+                            <td class="px-6 py-5">
+                                @if($log->is_read)
+                                <span
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-100 text-slate-500 text-xs font-black border border-slate-200">
+                                    <span class="w-2 h-2 rounded-full bg-slate-400"></span>
+                                    Đã đọc
+                                </span>
+                                @else
+                                <span
+                                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 text-red-500 text-xs font-black border border-red-100">
+                                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                    Chưa đọc
+                                </span>
+                                @endif
+                            </td>
+
+                            <td class="px-6 py-5 text-sm font-bold text-slate-500 whitespace-nowrap">
+                                {{ $log->ip_address ?? '-' }}
+                            </td>
+
+                            <td class="px-6 py-5 text-sm font-bold text-slate-500 whitespace-nowrap">
+                                @if($time)
+                                {{ \Carbon\Carbon::parse($time)->format('d/m/Y H:i') }}
+                                @else
+                                -
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="px-6 py-16 text-center">
+                                <div
+                                    class="w-20 h-20 mx-auto rounded-3xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-5">
+                                    <i class="fa-solid fa-clock-rotate-left text-3xl"></i>
+                                </div>
+
+                                <h3 class="text-2xl font-black text-slate-900">
+                                    Chưa có nhật ký nào
+                                </h3>
+
+                                <p class="text-slate-500 font-semibold mt-2">
+                                    Các hoạt động đăng nhập và đăng xuất sẽ hiển thị tại đây.
+                                </p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <div
+                class="px-7 py-6 border-t border-cyan-100 flex flex-col md:flex-row items-center justify-between gap-5">
+                <p class="text-sm font-bold text-slate-500">
+                    Hiển thị
+                    <span class="text-cyan-700">{{ $logs->firstItem() ?? 0 }}</span>
+                    -
+                    <span class="text-cyan-700">{{ $logs->lastItem() ?? 0 }}</span>
+                    trong tổng
+                    <span class="text-cyan-700">{{ $logs->total() }}</span>
+                    nhật ký
+                </p>
+
+                <div>
+                    {{ $logs->withQueryString()->links() }}
+                </div>
+            </div>
+
         </div>
     </div>
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('#logsFilterForm');
+    const keywordInput = document.querySelector('#keywordInput');
+    const actionSelect = document.querySelector('#actionSelect');
+    const resetButton = document.querySelector('#resetLogsButton');
+    const logsListArea = document.querySelector('#logs-list-area');
+
+    if (!form || !logsListArea) {
+        console.log('Không tìm thấy form hoặc logs-list-area');
+        return;
+    }
+
+    let searchTimer = null;
+
+    function getFilterUrl() {
+        const formData = new FormData(form);
+        const params = new URLSearchParams();
+
+        for (const [key, value] of formData.entries()) {
+            const cleanValue = String(value).trim();
+
+            if (cleanValue !== '') {
+                params.append(key, cleanValue);
+            }
+        }
+
+        const queryString = params.toString();
+
+        if (queryString) {
+            return form.getAttribute('action') + '?' + queryString;
+        }
+
+        return form.getAttribute('action');
+    }
+
+    function loadLogs(url, pushState = true) {
+        logsListArea.classList.add('opacity-40', 'pointer-events-none');
+
+        fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(function(response) {
+                return response.text();
+            })
+            .then(function(html) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newLogsListArea = doc.querySelector('#logs-list-area');
+
+                if (newLogsListArea) {
+                    logsListArea.innerHTML = newLogsListArea.innerHTML;
+
+                    if (pushState) {
+                        window.history.pushState({}, '', url);
+                    }
+                } else {
+                    console.log('Không tìm thấy #logs-list-area trong response');
+                }
+            })
+            .catch(function(error) {
+                console.log(error);
+                alert('Không thể tải dữ liệu nhật ký.');
+            })
+            .finally(function() {
+                logsListArea.classList.remove('opacity-40', 'pointer-events-none');
+            });
+    }
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const url = getFilterUrl();
+        loadLogs(url);
+    });
+
+    if (keywordInput) {
+        keywordInput.addEventListener('input', function() {
+            clearTimeout(searchTimer);
+
+            searchTimer = setTimeout(function() {
+                const url = getFilterUrl();
+                loadLogs(url);
+            }, 500);
+        });
+    }
+
+    if (actionSelect) {
+        actionSelect.addEventListener('change', function() {
+            const url = getFilterUrl();
+            loadLogs(url);
+        });
+    }
+
+    if (resetButton) {
+        resetButton.addEventListener('click', function() {
+            if (keywordInput) {
+                keywordInput.value = '';
+            }
+
+            if (actionSelect) {
+                actionSelect.value = '';
+            }
+
+            loadLogs(form.getAttribute('action'));
+        });
+    }
+
+    logsListArea.addEventListener('click', function(event) {
+        const link = event.target.closest('a');
+
+        if (!link) {
+            return;
+        }
+
+        if (link.href && link.href.includes('/admin/logs')) {
+            event.preventDefault();
+            loadLogs(link.href);
+        }
+    });
+
+    window.addEventListener('popstate', function() {
+        loadLogs(window.location.href, false);
+    });
+});
+</script>
+
+
 @endsection

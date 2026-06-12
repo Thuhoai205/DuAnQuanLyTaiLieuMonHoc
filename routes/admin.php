@@ -16,21 +16,67 @@ Route::middleware('auth')
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
 
-        Route::resource('users', UserController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Users
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('/users/trashed', [UserController::class, 'trashed'])
+            ->name('users.trashed');
+
+        Route::post('/users/restore-multiple', [UserController::class, 'restoreMultiple'])
+            ->name('users.restoreMultiple');
+
+        Route::patch('/users/{id}/restore', [UserController::class, 'restore'])
+            ->name('users.restore');
 
         Route::patch('/users/{id}/status', [UserController::class, 'toggleStatus'])
             ->name('users.status');
 
+        Route::resource('users', UserController::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Subjects
+        |--------------------------------------------------------------------------
+        */
+
+        Route::patch('/subjects/{id}/status', [SubjectController::class, 'toggleStatus'])
+            ->name('subjects.status');
+
         Route::resource('subjects', SubjectController::class);
 
-        Route::resource('categories', DocumentTypeController::class);
+        /*
+        |--------------------------------------------------------------------------
+        | Document Types
+        |--------------------------------------------------------------------------
+        */
+
+        Route::patch('/document-types/{id}/status', [DocumentTypeController::class, 'toggleStatus'])
+            ->name('document-types.status');
+
+        Route::resource('document-types', DocumentTypeController::class);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Statistics
+        |--------------------------------------------------------------------------
+        */
 
         Route::get('/statistics', [StatisticsController::class, 'index'])
             ->name('statistics.index');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Logs
+        |--------------------------------------------------------------------------
+        */
+
         Route::get('/logs', [LogController::class, 'index'])
             ->name('logs.index');
 
-        Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
-            ->name('logs.readAll');
+Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
+    ->name('logs.readAll');
+
     });

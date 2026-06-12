@@ -12,7 +12,7 @@ class UserSeeder extends Seeder
     {
         User::insert([
 
-            // ADMIN
+         // ADMIN
             [
                 'username' => 'admin',
                 'password' => Hash::make('123456'),

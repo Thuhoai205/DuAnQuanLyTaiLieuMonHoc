@@ -68,9 +68,13 @@ class AuthController extends Controller
 
             // Ghi nhật ký đăng nhập
            ActivityLog::create([
-    'user_id' => $user->user_id,
-    'ip_address' => $request->ip(),
-    'user_agent' => $request->userAgent(),
+    'user_id' => Auth::id(),
+    'action' => 'login',
+    'object_type' => 'auth',
+    'object_id' => Auth::id(),
+    'description' => 'Người dùng đăng nhập hệ thống',
+    'ip_address' => request()->ip(),
+    'user_agent' => request()->userAgent(),
     'login_at' => now(),
 ]);
 
@@ -97,12 +101,16 @@ class AuthController extends Controller
 
         // Ghi nhật ký trước khi logout
         if ($user) {
-           ActivityLog::where('user_id', $user->user_id)
-    ->whereNull('logout_at')
-    ->latest('login_at')
-    ->first()?->update([
-        'logout_at' => now(),
-    ]);
+        ActivityLog::create([
+    'user_id' => Auth::id(),
+    'action' => 'logout',
+    'object_type' => 'auth',
+    'object_id' => Auth::id(),
+    'description' => 'Người dùng đăng xuất hệ thống',
+    'ip_address' => request()->ip(),
+    'user_agent' => request()->userAgent(),
+    'logout_at' => now(),
+]);
         }
 
         Auth::logout();

@@ -213,87 +213,127 @@ setInterval(() => {
         background: rgba(255, 255, 255, 0.14);
     }
     </style>
+    <!-- ROLE INTRO SECTION -->
+    <section class="guest-section mb-14">
+        <div class="mb-7 text-center">
+            <p
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-50 border border-cyan-100 text-cyan-700 text-xs font-extrabold uppercase tracking-wider mb-4">
+                <i class="fa-solid fa-users"></i>
+                Vai trò người dùng
+            </p>
 
-    <!-- GUEST MODERN SECTION -->
-    <section
-        class="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-[#0F172A] via-[#1E3A8A] to-[#0E7490] p-8 md:p-12 mb-14 text-white shadow-2xl">
+            <h2 class="text-3xl md:text-4xl font-black text-cyan-950 tracking-[-0.03em]">
+                Hệ thống hỗ trợ nhiều nhóm người dùng
+            </h2>
 
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-cyan-400/25 rounded-full blur-[120px] guest-blob"></div>
-        <div class="absolute -bottom-28 -left-20 w-96 h-96 bg-blue-500/25 rounded-full blur-[130px] guest-blob"></div>
-        <div class="absolute top-1/2 left-1/2 w-72 h-72 bg-indigo-500/20 rounded-full blur-[120px] guest-blob"></div>
-
-        <div class="absolute inset-0 opacity-[0.08]"
-            style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 28px 28px;">
+            <p class="text-slate-500 text-base font-medium mt-3 max-w-2xl mx-auto leading-7">
+                EDU DOC được thiết kế để giúp việc quản lý, đăng tải và tra cứu tài liệu môn học trở nên dễ dàng hơn.
+            </p>
         </div>
 
-        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-            <div>
-                <span
-                    class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 text-cyan-100 text-sm font-bold mb-6 backdrop-blur">
-                    <i class="fas fa-bolt text-cyan-300"></i>
-                    Kho học liệu thông minh
-                </span>
+            <!-- STUDENT -->
+            <div
+                class="group bg-white rounded-[2rem] border border-cyan-100 p-7 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] transition-all duration-300">
+                <div
+                    class="w-16 h-16 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-6 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                    <i class="fa-solid fa-user-graduate text-2xl"></i>
+                </div>
 
-                <h2 class="text-4xl md:text-6xl font-black leading-tight mb-6">
-                    Học nhanh hơn với
-                    <span class="bg-gradient-to-r from-cyan-200 via-blue-200 to-white bg-clip-text text-transparent">
-                        tài liệu chuẩn
-                    </span>
-                </h2>
+                <h3 class="text-xl font-black text-slate-900 mb-3">
+                    Sinh viên
+                </h3>
 
-                <p class="text-blue-50/90 text-lg leading-relaxed mb-8 max-w-xl">
-                    Khám phá slide, đề thi, giáo trình và bài tập theo từng môn học. Đăng nhập để tải tài liệu và lưu
-                    lại tài liệu yêu thích.
+                <p class="text-slate-500 text-sm font-medium leading-7">
+                    Sinh viên có thể xem danh sách khoa, môn học, tìm kiếm tài liệu và tải học liệu phục vụ quá trình
+                    học tập.
                 </p>
 
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="{{ route('login') }}"
-                        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-cyan-300 text-slate-950 font-black hover:bg-cyan-200 shadow-xl shadow-cyan-400/20 transition hover:-translate-y-1">
-                        Đăng nhập ngay
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Xem tài liệu môn học
+                    </div>
 
-                    <a href="{{ route('register') }}"
-                        class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-white/10 border border-white/20 text-white font-black hover:bg-white/20 backdrop-blur transition">
-                        Tạo tài khoản
-                    </a>
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Tìm kiếm theo từ khóa
+                    </div>
+
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Tải tài liệu học tập
+                    </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <!-- TEACHER -->
+            <div
+                class="group bg-white rounded-[2rem] border border-cyan-100 p-7 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] transition-all duration-300">
                 <div
-                    class="rounded-3xl bg-white/10 border border-white/15 p-6 backdrop-blur-xl hover:bg-white/15 transition guest-card-float">
-                    <div
-                        class="w-12 h-12 rounded-2xl bg-cyan-300 text-slate-950 flex items-center justify-center text-xl mb-5 shadow-lg shadow-cyan-400/20">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <h3 class="text-4xl font-black">1.2K+</h3>
-                    <p class="text-blue-100 text-sm font-bold mt-1">Tài liệu học tập</p>
+                    class="w-16 h-16 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-6 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                    <i class="fa-solid fa-chalkboard-user text-2xl"></i>
                 </div>
 
-                <div
-                    class="rounded-3xl bg-white/10 border border-white/15 p-6 backdrop-blur-xl hover:bg-white/15 transition guest-card-float [animation-delay:1s]">
-                    <div
-                        class="w-12 h-12 rounded-2xl bg-emerald-300 text-slate-950 flex items-center justify-center text-xl mb-5 shadow-lg shadow-emerald-400/20">
-                        <i class="fas fa-book-open"></i>
+                <h3 class="text-xl font-black text-slate-900 mb-3">
+                    Giảng viên
+                </h3>
+
+                <p class="text-slate-500 text-sm font-medium leading-7">
+                    Giảng viên có thể đăng tải, chỉnh sửa và cập nhật tài liệu cho các môn học mà mình được phân công
+                    phụ trách.
+                </p>
+
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Upload tài liệu
                     </div>
-                    <h3 class="text-4xl font-black">50+</h3>
-                    <p class="text-blue-100 text-sm font-bold mt-1">Môn học</p>
+
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Quản lý học liệu của mình
+                    </div>
+
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Cập nhật tài liệu môn học
+                    </div>
+                </div>
+            </div>
+
+            <!-- ADMIN -->
+            <div
+                class="group bg-white rounded-[2rem] border border-cyan-100 p-7 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:-translate-y-2 hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] transition-all duration-300">
+                <div
+                    class="w-16 h-16 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center mb-6 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
                 </div>
 
-                <div
-                    class="col-span-2 rounded-3xl bg-white/10 border border-white/15 p-6 backdrop-blur-xl hover:bg-white/15 transition guest-card-float [animation-delay:2s]">
-                    <div class="flex items-center justify-between gap-4">
-                        <div>
-                            <h3 class="text-4xl font-black">5K+</h3>
-                            <p class="text-blue-100 text-sm font-bold mt-1">Lượt tải tài liệu</p>
-                        </div>
+                <h3 class="text-xl font-black text-slate-900 mb-3">
+                    Quản trị viên
+                </h3>
 
-                        <div
-                            class="w-16 h-16 rounded-3xl bg-amber-300 text-slate-950 flex items-center justify-center text-2xl shadow-lg shadow-amber-400/20">
-                            <i class="fas fa-download"></i>
-                        </div>
+                <p class="text-slate-500 text-sm font-medium leading-7">
+                    Admin quản lý toàn bộ hệ thống như người dùng, khoa, môn học, loại tài liệu và theo dõi hoạt động hệ
+                    thống.
+                </p>
+
+                <div class="mt-6 space-y-3">
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Quản lý người dùng
+                    </div>
+
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Quản lý môn học
+                    </div>
+
+                    <div class="flex items-center gap-3 text-sm font-bold text-slate-600">
+                        <i class="fa-solid fa-check text-cyan-600"></i>
+                        Thống kê và nhật ký
                     </div>
                 </div>
             </div>
@@ -301,123 +341,177 @@ setInterval(() => {
         </div>
     </section>
 
-    <!-- FEATURES -->
-    <section class="relative overflow-hidden rounded-[3rem]
-    bg-gradient-to-br from-cyan-500 via-sky-500 to-blue-600
-    p-8 md:p-12 mb-14 text-white shadow-[0_25px_80px_rgba(14,165,233,0.25)]">
+    <!-- GUEST SECTION -->
+    <style>
+    .guest-section {
+        font-family: 'Be Vietnam Pro', sans-serif;
+    }
+    </style>
 
-        <!-- Background Blur -->
-        <div class="absolute -top-24 -right-24 w-96 h-96 bg-white/10 rounded-full blur-[120px] animate-pulse">
-        </div>
+    <section class="guest-section mb-14">
+        <div
+            class="relative overflow-hidden rounded-[36px] bg-gradient-to-br from-white via-cyan-50 to-sky-100 border border-cyan-100 shadow-[0_20px_60px_rgba(8,145,178,0.12)]">
 
-        <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-300/20 rounded-full blur-[120px] animate-pulse">
-        </div>
-
-        <!-- Grid Pattern -->
-        <div class="absolute inset-0 opacity-[0.06]" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0);
-        background-size: 28px 28px;">
-        </div>
-
-        <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-            <!-- LEFT -->
-            <div>
-
-                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full
-                bg-white/15 border border-white/20
-                text-white text-sm font-bold mb-6 backdrop-blur-xl">
-
-                    <i class="fa-solid fa-bolt text-cyan-100"></i>
-                    Kho học liệu thông minh
-                </span>
-
-                <h2 class="text-4xl md:text-6xl font-black leading-tight mb-6">
-                    Học nhanh hơn với
-                    <span class="text-cyan-100">
-                        tài liệu chuẩn
-                    </span>
-                </h2>
-
-                <p class="text-white/90 text-lg leading-relaxed mb-8 max-w-xl">
-                    Khám phá slide, đề thi, giáo trình và bài tập theo từng môn học.
-                    Đăng nhập để tải tài liệu và quản lý học liệu dễ dàng hơn.
-                </p>
-
-                <div class="flex flex-col sm:flex-row gap-4">
-
-                    <a href="{{ route('login') }}" class="inline-flex items-center justify-center gap-2
-                    px-8 py-4 rounded-2xl
-                    bg-white text-cyan-600
-                    font-black
-                    hover:bg-cyan-50
-                    shadow-xl
-                    transition-all duration-300 hover:-translate-y-1">
-
-                        Đăng nhập ngay
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </a>
-
-                    <a href="{{ route('register') }}" class="inline-flex items-center justify-center gap-2
-                    px-8 py-4 rounded-2xl
-                    bg-white/10 border border-white/20
-                    text-white font-black
-                    hover:bg-white/20 backdrop-blur-xl transition-all">
-
-                        Tạo tài khoản
-                    </a>
-                </div>
-
-                <!-- TAGS -->
-                <div class="mt-8 flex flex-wrap items-center gap-3">
-
-                    <span
-                        class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-bold backdrop-blur-xl">
-                        #ASP.NETCore
-                    </span>
-
-                    <span
-                        class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-bold backdrop-blur-xl">
-                        #Laravel
-                    </span>
-
-                    <span
-                        class="px-4 py-2 rounded-full bg-white/10 border border-white/10 text-xs font-bold backdrop-blur-xl">
-                        #SQLServer
-                    </span>
-
-                </div>
+            <!-- DECOR -->
+            <div
+                class="absolute top-0 right-0 w-[420px] h-[420px] bg-cyan-200/50 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3">
             </div>
 
-            <!-- RIGHT -->
-            <div class="hidden lg:flex justify-center">
+            <div
+                class="absolute bottom-0 left-0 w-[320px] h-[320px] bg-sky-200/50 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3">
+            </div>
 
+            <div class="relative grid grid-cols-1 lg:grid-cols-2 gap-10 items-center p-8 md:p-12 lg:p-14">
+
+                <!-- LEFT -->
+                <div>
+                    <div
+                        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-cyan-100 text-cyan-700 text-xs font-extrabold uppercase tracking-wider mb-6 shadow-sm">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        EDU DOC Learning Resources
+                    </div>
+
+                    <h1
+                        class="text-[34px] md:text-[52px] leading-[1.12] font-black tracking-[-0.04em] text-slate-950 mb-6">
+                        Quản lý và tra cứu
+                        <span class="text-cyan-600">tài liệu môn học</span>
+                        dễ dàng
+                    </h1>
+
+                    <p class="text-slate-500 text-base md:text-lg leading-8 font-medium max-w-xl mb-8">
+                        Hệ thống giúp sinh viên tìm kiếm tài liệu theo khoa, môn học và loại học liệu. Giảng viên có thể
+                        đăng tải tài liệu cho các môn học mình phụ trách.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                        <a href="{{ route('login') }}"
+                            class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-cyan-500 text-white text-sm font-extrabold hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition-all hover:-translate-y-0.5">
+                            Đăng nhập ngay
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="{{ route('register') }}"
+                            class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-white border border-cyan-100 text-cyan-700 text-sm font-extrabold hover:bg-cyan-50 shadow-sm transition-all">
+                            Tạo tài khoản
+                        </a>
+                    </div>
+
+                    <!-- STATS -->
+                    <div class="grid grid-cols-3 gap-3 max-w-xl">
+                        <div class="rounded-2xl bg-white border border-cyan-100 p-4 shadow-sm">
+                            <p class="text-2xl font-black text-cyan-600">1.2K+</p>
+                            <p class="text-xs font-bold text-slate-500 mt-1">Tài liệu</p>
+                        </div>
+
+                        <div class="rounded-2xl bg-white border border-cyan-100 p-4 shadow-sm">
+                            <p class="text-2xl font-black text-cyan-600">50+</p>
+                            <p class="text-xs font-bold text-slate-500 mt-1">Môn học</p>
+                        </div>
+
+                        <div class="rounded-2xl bg-white border border-cyan-100 p-4 shadow-sm">
+                            <p class="text-2xl font-black text-cyan-600">6</p>
+                            <p class="text-xs font-bold text-slate-500 mt-1">Khoa</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT -->
                 <div class="relative">
+                    <div
+                        class="bg-white/80 backdrop-blur-xl border border-white rounded-[32px] p-5 md:p-6 shadow-[0_18px_45px_rgba(8,145,178,0.12)]">
 
-                    <div class="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-125">
-                    </div>
+                        <!-- SEARCH PREVIEW -->
+                        <div class="bg-white rounded-[26px] border border-cyan-100 p-5 mb-5 shadow-sm">
+                            <div class="flex items-center gap-4">
+                                <div
+                                    class="w-14 h-14 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-100">
+                                    <i class="fa-solid fa-magnifying-glass text-xl"></i>
+                                </div>
 
-                    <div class="relative w-[420px] h-[420px]
-                    rounded-[3rem]
-                    bg-white/10 border border-white/20
-                    backdrop-blur-xl
-                    flex items-center justify-center
-                    shadow-2xl">
+                                <div>
+                                    <h3 class="text-lg font-black text-slate-900">
+                                        Tìm tài liệu nhanh
+                                    </h3>
+                                    <p class="text-sm font-semibold text-slate-500 mt-1">
+                                        Theo khoa, môn học và loại tài liệu
+                                    </p>
+                                </div>
+                            </div>
 
-                        <div class="w-44 h-44 rounded-[2rem]
-                        bg-white
-                        text-cyan-600
-                        flex items-center justify-center
-                        shadow-[0_20px_60px_rgba(255,255,255,0.25)]">
-
-                            <i class="fa-solid fa-book-open text-7xl"></i>
+                            <div
+                                class="mt-5 flex items-center gap-3 bg-cyan-50 border border-cyan-100 rounded-2xl px-4 py-3">
+                                <i class="fa-solid fa-search text-cyan-600"></i>
+                                <span class="text-sm font-semibold text-slate-400">
+                                    Nhập tên tài liệu cần tìm...
+                                </span>
+                            </div>
                         </div>
 
+                        <!-- QUICK LINKS -->
+                        <div class="grid grid-cols-1 gap-4">
+                            <a href="{{ route('faculties.index') }}"
+                                class="group bg-white border border-cyan-100 rounded-[24px] p-5 flex items-center justify-between hover:bg-cyan-50 hover:border-cyan-200 transition shadow-sm">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white transition">
+                                        <i class="fa-solid fa-building-columns"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-black text-slate-900">Khoa</h4>
+                                        <p class="text-xs font-bold text-slate-400 mt-1">Danh sách khoa đào tạo</p>
+                                    </div>
+                                </div>
+
+                                <i class="fa-solid fa-angle-right text-cyan-600"></i>
+                            </a>
+
+                            <a href="{{ route('subjects.index') }}"
+                                class="group bg-white border border-cyan-100 rounded-[24px] p-5 flex items-center justify-between hover:bg-cyan-50 hover:border-cyan-200 transition shadow-sm">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center group-hover:bg-sky-500 group-hover:text-white transition">
+                                        <i class="fa-solid fa-book-open"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-black text-slate-900">Môn học</h4>
+                                        <p class="text-xs font-bold text-slate-400 mt-1">Tài liệu theo từng môn</p>
+                                    </div>
+                                </div>
+
+                                <i class="fa-solid fa-angle-right text-cyan-600"></i>
+                            </a>
+
+                            <a href="{{ route('documents.index') }}"
+                                class="group bg-white border border-cyan-100 rounded-[24px] p-5 flex items-center justify-between hover:bg-cyan-50 hover:border-cyan-200 transition shadow-sm">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition">
+                                        <i class="fa-solid fa-file-lines"></i>
+                                    </div>
+
+                                    <div>
+                                        <h4 class="font-black text-slate-900">Tài liệu</h4>
+                                        <p class="text-xs font-bold text-slate-400 mt-1">Kho học liệu môn học</p>
+                                    </div>
+                                </div>
+
+                                <i class="fa-solid fa-angle-right text-cyan-600"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </section>
+
+
+
+
+
+
     @endguest
     <!-- Phần Tài liệu sẽ chia quyền giảng viên và sinh viên -->
     @auth
