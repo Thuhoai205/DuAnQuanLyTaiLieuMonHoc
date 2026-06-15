@@ -14,6 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Thống kê tài liệu theo tháng trong năm hiện tại
         $documentsByMonth = Document::select(
                 DB::raw('MONTH(created_at) as month'),
                 DB::raw('COUNT(*) as total')
@@ -22,6 +23,7 @@ class DashboardController extends Controller
             ->groupBy(DB::raw('MONTH(created_at)'))
             ->pluck('total', 'month');
 
+        // Thống kê người dùng theo tháng trong năm hiện tại
         $usersByMonth = User::select(
                 DB::raw('MONTH(created_at) as month'),
                 DB::raw('COUNT(*) as total')
@@ -40,16 +42,25 @@ class DashboardController extends Controller
             $userChartData[] = $usersByMonth[$i] ?? 0;
         }
 
+        // Hoạt động gần đây
+        $recentActivities = ActivityLog::with('user')
+            ->latest('created_at')
+            ->take(5)
+            ->get();
+
         return view('admin.dashboard', [
             'totalUsers' => User::count(),
             'totalSubjects' => Subject::count(),
             'totalDocuments' => Document::count(),
             'totalDownloads' => DownloadHistory::count(),
 
-            'recentActivities' => ActivityLog::with('user')
-                ->latest('created_at')
-                ->take(5)
-                ->get(),
+            // Thống kê nhật ký đăng nhập / đăng xuất
+            'totalLogs' => ActivityLog::count(),
+            'totalLoginLogs' => ActivityLog::whereNotNull('login_at')->count(),
+            'totalLogoutLogs' => ActivityLog::whereNotNull('logout_at')->count(),
+            'todayLogs' => ActivityLog::whereDate('created_at', today())->count(),
+
+            'recentActivities' => $recentActivities,
 
             'chartLabels' => $chartLabels,
             'documentChartData' => $documentChartData,

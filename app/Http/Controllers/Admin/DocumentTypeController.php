@@ -7,6 +7,7 @@ use App\Models\Document;
 use App\Models\DocumentType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class DocumentTypeController extends Controller
 {
@@ -14,14 +15,17 @@ class DocumentTypeController extends Controller
     {
         $query = DocumentType::withCount('documents');
 
+        // Tìm kiếm theo tên loại tài liệu
         if ($request->filled('keyword')) {
             $query->where('type_name', 'like', '%' . $request->keyword . '%');
         }
 
+        // Lọc trạng thái
         if ($request->filled('status')) {
             $query->where('is_active', $request->status);
         }
 
+        // Sắp xếp
         if ($request->sort === 'az') {
             $query->orderBy('type_name', 'asc');
         } elseif ($request->sort === 'za') {
@@ -35,6 +39,7 @@ class DocumentTypeController extends Controller
             ->withQueryString();
 
         $totalTypes = DocumentType::count();
+
         $totalDocuments = Document::count();
 
         return view('admin.document-types.index', compact(
@@ -52,7 +57,12 @@ class DocumentTypeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type_name' => 'required|string|max:100|unique:document_types,type_name',
+            'type_name' => [
+                'required',
+                'string',
+                'max:100',
+                'unique:document_types,type_name',
+            ],
             'description' => 'nullable|string|max:1000',
             'icon' => 'nullable|string|max:255',
             'color' => 'nullable|string|max:30',
@@ -60,6 +70,8 @@ class DocumentTypeController extends Controller
         ], [
             'type_name.required' => 'Vui lòng nhập tên loại tài liệu.',
             'type_name.unique' => 'Tên loại tài liệu đã tồn tại.',
+            'type_name.max' => 'Tên loại tài liệu không được vượt quá 100 ký tự.',
+            'description.max' => 'Mô tả không được vượt quá 1000 ký tự.',
         ]);
 
         DocumentType::create([
@@ -98,7 +110,13 @@ class DocumentTypeController extends Controller
         $documentType = DocumentType::findOrFail($id);
 
         $request->validate([
-            'type_name' => 'required|string|max:100|unique:document_types,type_name,' . $id . ',document_type_id',
+            'type_name' => [
+                'required',
+                'string',
+                'max:100',
+                Rule::unique('document_types', 'type_name')
+                    ->ignore($documentType->document_type_id, 'document_type_id'),
+            ],
             'description' => 'nullable|string|max:1000',
             'icon' => 'nullable|string|max:255',
             'color' => 'nullable|string|max:30',
@@ -106,6 +124,8 @@ class DocumentTypeController extends Controller
         ], [
             'type_name.required' => 'Vui lòng nhập tên loại tài liệu.',
             'type_name.unique' => 'Tên loại tài liệu đã tồn tại.',
+            'type_name.max' => 'Tên loại tài liệu không được vượt quá 100 ký tự.',
+            'description.max' => 'Mô tả không được vượt quá 1000 ký tự.',
         ]);
 
         $documentType->update([
@@ -131,13 +151,15 @@ class DocumentTypeController extends Controller
             'updated_by' => Auth::id(),
         ]);
 
-        return back()->with('success', 'Cập nhật trạng thái loại tài liệu thành công.');
+        return back()
+            ->with('success', 'Cập nhật trạng thái loại tài liệu thành công.');
     }
 
     public function destroy(string $id)
     {
         $documentType = DocumentType::findOrFail($id);
 
+        // Không xóa cứng loại tài liệu, chỉ chuyển sang trạng thái ngừng hoạt động
         $documentType->update([
             'is_active' => false,
             'updated_by' => Auth::id(),

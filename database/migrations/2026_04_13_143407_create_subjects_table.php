@@ -24,89 +24,54 @@ return new class extends Migration
 
     {
 
-      Schema::create('subjects', function (Blueprint $table) {
+    Schema::create('subjects', function (Blueprint $table) {
 
+        $table->string('subject_code', 20)->primary();
 
+        $table->string('subject_name', 150);
 
-    $table->string('subject_code', 20)->primary();
+        $table->string('slug')->unique();
 
+        $table->text('description')->nullable();
 
+        $table->string('thumbnail', 255)->nullable();
 
-    $table->string('subject_name', 150);
+        $table->string('icon', 255)->nullable();
 
+        $table->string('color', 30)->default('blue');
 
+        $table->string('status', 20)->default('active');
 
-    $table->string('slug')->unique();
+        $table->foreignId('faculty_id')
+            ->constrained('faculties', 'faculty_id')
+            ->restrictOnDelete();
 
+        $table->foreignId('created_by')
+            ->nullable()
+            ->constrained('users', 'user_id')
+            ->nullOnDelete();
 
+        $table->foreignId('updated_by')
+            ->nullable()
+            ->constrained('users', 'user_id')
+            ->nullOnDelete();
 
-    $table->text('description')->nullable();
+        $table->foreignId('deleted_by')
+            ->nullable()
+            ->constrained('users', 'user_id')
+            ->nullOnDelete();
 
+        $table->timestamps();
 
+        $table->softDeletes();
 
-    $table->string('thumbnail', 255)->nullable();
-
-
-
-    $table->string('icon', 255)->nullable();
-
-
-
-    $table->string('color', 30)->default('blue');
-
-
-
-    $table->string('status', 20)->default('active');
-
-
-
-    $table->foreignId('faculty_id')
-
-        ->nullable()
-
-        ->constrained('faculties', 'faculty_id')
-
-        ->restrictOnDelete();
-
-
-
-    $table->foreignId('created_by')
-
-        ->nullable()
-
-        ->constrained('users', 'user_id')
-
-        ->nullOnDelete();
-
-
-
-    $table->foreignId('updated_by')
-
-        ->nullable()
-
-        ->constrained('users', 'user_id')
-
-        ->nullOnDelete();
-
-
-
-    $table->timestamps();
-
-
-
-    $table->softDeletes();
-
-
-
-    $table->index('faculty_id');
-
-    $table->index('subject_name');
-
-    $table->index('status');
-
-});
-
-    }
+        $table->index('faculty_id');
+        $table->index('subject_name');
+        $table->index('status');
+        $table->index('created_by');
+        $table->index('updated_by');
+        $table->index('deleted_by');
+    });    }
 
 
 

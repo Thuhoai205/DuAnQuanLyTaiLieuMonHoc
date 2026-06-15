@@ -66,16 +66,15 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            // Ghi nhật ký đăng nhập
-           ActivityLog::create([
-    'user_id' => Auth::id(),
-    'action' => 'login',
-    'object_type' => 'auth',
-    'object_id' => Auth::id(),
+          // Ghi nhật ký đăng nhập
+ActivityLog::create([
+    'user_id' => $user->user_id,
     'description' => 'Người dùng đăng nhập hệ thống',
-    'ip_address' => request()->ip(),
-    'user_agent' => request()->userAgent(),
+    'ip_address' => $request->ip(),
+    'user_agent' => $request->userAgent(),
     'login_at' => now(),
+    'logout_at' => null,
+    'created_at' => now(),
 ]);
 
             // Điều hướng theo role
@@ -94,33 +93,31 @@ class AuthController extends Controller
 
     // ================= LOGOUT =================
 
-    public function logout(Request $request)
-    {
-        /** @var User|null $user */
-        $user = Auth::user();
+   public function logout(Request $request)
+{
+    /** @var User|null $user */
+    $user = Auth::user();
 
-        // Ghi nhật ký trước khi logout
-        if ($user) {
+    // Ghi nhật ký trước khi logout
+    if ($user) {
         ActivityLog::create([
-    'user_id' => Auth::id(),
-    'action' => 'logout',
-    'object_type' => 'auth',
-    'object_id' => Auth::id(),
-    'description' => 'Người dùng đăng xuất hệ thống',
-    'ip_address' => request()->ip(),
-    'user_agent' => request()->userAgent(),
-    'logout_at' => now(),
-]);
-        }
-
-        Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('home');
+            'user_id' => $user->user_id,
+            'description' => 'Người dùng đăng xuất hệ thống',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'login_at' => null,
+            'logout_at' => now(),
+            'created_at' => now(),
+        ]);
     }
 
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()->route('home');
+}
     // ================= PROFILE =================
 
     public function profile()

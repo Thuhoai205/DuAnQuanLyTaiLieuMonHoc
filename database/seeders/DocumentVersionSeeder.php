@@ -3,59 +3,35 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\DocumentVersion;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class DocumentVersionSeeder extends Seeder
 {
     public function run(): void
     {
-        DocumentVersion::insert([
+        $documents = DB::table('documents')->get();
 
-            [
-                'document_id' => 1,
-                'version_name' => '1.0',
-                'version_note' => 'Phiên bản đầu tiên',
-                'original_file_name' => 'slide-laravel.pdf',
-                'stored_file_name' => 'laravel_v1.pdf',
-                'file_path' => 'documents/laravel_v1.pdf',
-                'file_extension' => 'pdf',
-                'mime_type' => 'application/pdf',
-                'file_size' => 2048000,
-                'uploaded_by' => 2,
-                'is_current' => true,
-                'created_at' => now(),
-            ],
+        foreach ($documents as $document) {
+            $storedFileName = Str::slug($document->title) . '-v1.pdf';
 
-            [
-                'document_id' => 2,
-                'version_name' => '1.0',
-                'version_note' => 'Đề thi cuối kỳ',
-                'original_file_name' => 'de-thi-csdl.pdf',
-                'stored_file_name' => 'csdl_exam.pdf',
-                'file_path' => 'documents/csdl_exam.pdf',
-                'file_extension' => 'pdf',
-                'mime_type' => 'application/pdf',
-                'file_size' => 1024000,
-                'uploaded_by' => 2,
-                'is_current' => true,
-                'created_at' => now(),
-            ],
-
-            [
-                'document_id' => 3,
-                'version_name' => '1.0',
-                'version_note' => 'Bài tập OOP',
-                'original_file_name' => 'java-oop.docx',
-                'stored_file_name' => 'java_oop.docx',
-                'file_path' => 'documents/java_oop.docx',
-                'file_extension' => 'docx',
-                'mime_type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'file_size' => 512000,
-                'uploaded_by' => 2,
-                'is_current' => true,
-                'created_at' => now(),
-            ],
-
-        ]);
+            DB::table('document_versions')->updateOrInsert(
+                [
+                    'document_id' => $document->document_id,
+                    'version_name' => '1.0',
+                ],
+                [
+                    'version_note' => 'Phiên bản đầu tiên',
+                    'original_file_name' => $document->title . '.pdf',
+                    'stored_file_name' => $storedFileName,
+                    'file_path' => 'documents/' . $storedFileName,
+                    'file_extension' => 'pdf',
+                    'file_size' => 1024 * 500,
+                    'uploaded_by' => $document->uploaded_by,
+                    'is_current' => true,
+                    'created_at' => now(),
+                ]
+            );
+        }
     }
 }

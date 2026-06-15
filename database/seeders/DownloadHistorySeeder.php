@@ -13,7 +13,11 @@ class DownloadHistorySeeder extends Seeder
 {
     public function run(): void
     {
-        $userIds = User::pluck('user_id')->toArray();
+        $userIds = User::query()
+            ->join('roles', 'users.role_id', '=', 'roles.role_id')
+            ->where('roles.role_name', 'student')
+            ->pluck('users.user_id')
+            ->toArray();
 
         $versions = DocumentVersion::query()
             ->whereNotNull('document_id')

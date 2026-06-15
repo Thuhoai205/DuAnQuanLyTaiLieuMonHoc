@@ -10,32 +10,52 @@ return new class extends Migration
     {
         Schema::create('subject_teachers', function (Blueprint $table) {
 
-            $table->id();
+    $table->id();
 
-            $table->foreignId('user_id')
-                ->constrained('users', 'user_id')
-                ->restrictOnDelete();
+    $table->foreignId('user_id')
+        ->constrained('users', 'user_id')
+        ->restrictOnDelete();
 
-            $table->string('subject_code', 20);
+    $table->string('subject_code', 20);
 
-            $table->foreign('subject_code')
-                ->references('subject_code')
-                ->on('subjects')
-                ->restrictOnDelete();
+    $table->foreign('subject_code')
+        ->references('subject_code')
+        ->on('subjects')
+        ->restrictOnDelete();
 
-            $table->timestamp('assigned_at')
-                ->useCurrent();
+    $table->timestamp('assigned_at')
+        ->useCurrent();
 
-            $table->timestamps();
+    $table->foreignId('created_by')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
 
-            $table->unique(
-                ['user_id', 'subject_code'],
-                'unique_teacher_subject'
-            );
+    $table->foreignId('updated_by')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
 
-            $table->index('user_id');
-            $table->index('subject_code');
-        });
+    $table->foreignId('deleted_by')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
+
+    $table->timestamps();
+
+    $table->softDeletes();
+
+    $table->unique(
+        ['user_id', 'subject_code'],
+        'unique_teacher_subject'
+    );
+
+    $table->index('user_id');
+    $table->index('subject_code');
+    $table->index('created_by');
+    $table->index('updated_by');
+    $table->index('deleted_by');
+});
     }
 
     public function down(): void
