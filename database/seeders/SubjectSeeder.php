@@ -3,78 +3,65 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Subject;
-use App\Models\Faculty;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class SubjectSeeder extends Seeder
 {
     public function run(): void
     {
-        $cntt = Faculty::where('faculty_code', 'CNTT')->first();
+        $adminId = DB::table('users')->where('email', 'admin@gmail.com')->value('user_id');
 
-<<<<<<< HEAD
+        $cnttId = DB::table('faculties')->where('faculty_code', 'CNTT')->value('faculty_id');
+        $ktId = DB::table('faculties')->where('faculty_code', 'KT')->value('faculty_id');
+        $nnId = DB::table('faculties')->where('faculty_code', 'NN')->value('faculty_id');
+
         $subjects = [
-=======
-        Subject::updateOrCreate(
-            ['subject_code' => 'WEB101'],
->>>>>>> frontend
             [
-                'subject_name' => 'Lập trình Web',
-                'description' => 'Môn học phát triển website bằng HTML, CSS, JavaScript và Laravel',
-<<<<<<< HEAD
-                'icon' => 'fa-solid fa-globe',
-                'color' => 'blue',
-            ],
-=======
-                'thumbnail' => null,
-                'icon' => 'fa-solid fa-globe',
-                'color' => 'blue',
-                'status' => 'active',
-                'faculty_id' => $cntt?->faculty_id,
-                'created_by' => 1,
-                'updated_by' => 1,
-            ]
-        );
-
-        Subject::updateOrCreate(
-            ['subject_code' => 'DB101'],
->>>>>>> frontend
-            [
+                'subject_code' => 'CSDL',
                 'subject_name' => 'Cơ sở dữ liệu',
-                'description' => 'Môn học về thiết kế cơ sở dữ liệu và SQL',
-<<<<<<< HEAD
-                'icon' => 'fa-solid fa-database',
-                'color' => 'green',
+                'faculty_id' => $cnttId,
+                'description' => 'Môn học cung cấp kiến thức về mô hình dữ liệu, SQL và thiết kế cơ sở dữ liệu.',
+                'color' => 'blue',
+                'icon' => 'database',
             ],
-=======
-                'thumbnail' => null,
-                'icon' => 'fa-solid fa-database',
-                'color' => 'green',
-                'status' => 'active',
-                'faculty_id' => $cntt?->faculty_id,
-                'created_by' => 1,
-                'updated_by' => 1,
-            ]
-        );
-
-        Subject::updateOrCreate(
-            ['subject_code' => 'JAVA101'],
->>>>>>> frontend
             [
-                'subject_name' => 'Lập trình Java',
-                'description' => 'Môn học Java cơ bản và hướng đối tượng',
-<<<<<<< HEAD
-                'icon' => 'fa-solid fa-mug-saucer',
+                'subject_code' => 'LTW',
+                'subject_name' => 'Lập trình Web',
+                'faculty_id' => $cnttId,
+                'description' => 'Môn học cung cấp kiến thức về HTML, CSS, JavaScript và xây dựng website.',
+                'color' => 'green',
+                'icon' => 'code',
+            ],
+            [
+                'subject_code' => 'CTDLGT',
+                'subject_name' => 'Cấu trúc dữ liệu và giải thuật',
+                'faculty_id' => $cnttId,
+                'description' => 'Môn học về cấu trúc dữ liệu, giải thuật sắp xếp, tìm kiếm và đồ thị.',
+                'color' => 'purple',
+                'icon' => 'network',
+            ],
+            [
+                'subject_code' => 'QTKD',
+                'subject_name' => 'Quản trị kinh doanh',
+                'faculty_id' => $ktId,
+                'description' => 'Môn học cung cấp kiến thức cơ bản về quản trị doanh nghiệp.',
+                'color' => 'orange',
+                'icon' => 'briefcase',
+            ],
+            [
+                'subject_code' => 'TACB',
+                'subject_name' => 'Tiếng Anh căn bản',
+                'faculty_id' => $nnId,
+                'description' => 'Môn học hỗ trợ sinh viên rèn luyện kỹ năng tiếng Anh cơ bản.',
                 'color' => 'red',
+                'icon' => 'language',
             ],
         ];
 
         foreach ($subjects as $subject) {
-            Subject::updateOrCreate(
-                [
-                    'subject_code' => $subject['subject_code'],
-                ],
+            DB::table('subjects')->updateOrInsert(
+                ['subject_code' => $subject['subject_code']],
                 [
                     'subject_name' => $subject['subject_name'],
                     'slug' => Str::slug($subject['subject_name']),
@@ -83,22 +70,15 @@ class SubjectSeeder extends Seeder
                     'icon' => $subject['icon'],
                     'color' => $subject['color'],
                     'status' => 'active',
-                    'faculty_id' => $cntt?->faculty_id,
-                    'created_by' => 1,
-                    'updated_by' => 1,
+                    'faculty_id' => $subject['faculty_id'],
+                    'created_by' => $adminId,
+                    'updated_by' => $adminId,
+                    'deleted_by' => null,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                    'deleted_at' => null,
                 ]
             );
         }
-=======
-                'thumbnail' => null,
-                'icon' => 'fa-solid fa-mug-saucer',
-                'color' => 'red',
-                'status' => 'active',
-                'faculty_id' => $cntt?->faculty_id,
-                'created_by' => 1,
-                'updated_by' => 1,
-            ]
-        );
->>>>>>> frontend
     }
 }

@@ -31,8 +31,6 @@ return new class extends Migration
 
             $table->string('file_extension', 20)->nullable();
 
-            $table->string('mime_type', 100)->nullable();
-
             $table->unsignedBigInteger('file_size')->default(0);
 
             $table->foreignId('uploaded_by')

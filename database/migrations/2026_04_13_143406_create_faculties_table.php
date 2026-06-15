@@ -13,34 +13,40 @@ return new class extends Migration
     {
         Schema::create('faculties', function (Blueprint $table) {
 
-            $table->id('faculty_id');
+    $table->id('faculty_id');
 
-            $table->string('faculty_code', 20)->unique();
+    $table->string('faculty_code', 20)->unique();
 
-            $table->string('faculty_name', 150)->unique();
+    $table->string('faculty_name', 150)->unique();
 
-            $table->text('description')->nullable();
+    $table->text('description')->nullable();
 
-            $table->boolean('is_active')->default(true);
+    $table->boolean('is_active')->default(true);
 
-            $table->foreignId('created_by')
-                ->nullable()
-                ->constrained('users', 'user_id')
-                ->nullOnDelete();
+    $table->foreignId('created_by')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
 
-            $table->foreignId('updated_by')
-                ->nullable()
-                ->constrained('users', 'user_id')
-                ->nullOnDelete();
+    $table->foreignId('updated_by')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
 
-            $table->timestamps();
+    $table->foreignId('deleted_by')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
 
-            $table->softDeletes();
+    $table->timestamps();
 
-            $table->index('faculty_code');
-            $table->index('faculty_name');
-            $table->index('is_active');
-        });
+    $table->softDeletes();
+
+    $table->index('is_active');
+    $table->index('created_by');
+    $table->index('updated_by');
+    $table->index('deleted_by');
+});
     }
 
     /**

@@ -3,25 +3,26 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class RoleSeeder extends Seeder
 {
     public function run(): void
     {
-        Role::updateOrCreate(
-            ['role_id' => 1],
-            ['role_name' => 'admin']
-        );
+        $roles = [
+            'admin',
+            'lecturer',
+            'student',
+        ];
 
-        Role::updateOrCreate(
-            ['role_id' => 2],
-            ['role_name' => 'lecturer']
-        );
-
-        Role::updateOrCreate(
-            ['role_id' => 3],
-            ['role_name' => 'student']
-        );
+        foreach ($roles as $role) {
+            DB::table('roles')->updateOrInsert(
+                ['role_name' => $role],
+                [
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]
+            );
+        }
     }
 }

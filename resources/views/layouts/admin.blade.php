@@ -82,7 +82,7 @@
 <body class="bg-[#EAFBFF] text-slate-800 h-screen overflow-hidden">
 
     @php
-    $unreadMenuLogs = \App\Models\ActivityLog::where('is_read', false)->count();
+    $todayLogCount = \App\Models\ActivityLog::whereDate('created_at', today())->count();
     $adminUser = Auth::user();
     @endphp
 
@@ -90,6 +90,7 @@
 
         <!-- SIDEBAR -->
         <aside class="w-72 bg-[#020617] text-slate-300 flex flex-col border-r border-slate-800/80">
+
             <!-- LOGO -->
             <div class="relative h-20 min-h-20 px-6 border-b border-slate-800/80 flex items-center overflow-hidden">
                 <div class="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-cyan-500/10 blur-2xl"></div>
@@ -113,7 +114,6 @@
                     </div>
                 </a>
             </div>
-
 
             <!-- NAV -->
             <nav class="sidebar-scroll flex-1 px-4 py-6 overflow-y-auto">
@@ -189,10 +189,10 @@
 
                         <span>Nhật ký</span>
 
-                        @if($unreadMenuLogs > 0)
+                        @if($todayLogCount > 0)
                         <span
                             class="ml-auto min-w-[24px] h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
-                            {{ $unreadMenuLogs >10 ? '10+' : $unreadMenuLogs }}
+                            {{ $todayLogCount > 10 ? '10+' : $todayLogCount }}
                         </span>
                         @endif
                     </a>
@@ -230,7 +230,6 @@
             <header
                 class="h-18 min-h-18 bg-[#020617] border-b border-slate-800 flex items-center justify-end px-8 shadow-[0_8px_30px_rgba(2,6,23,0.22)]">
 
-                <!-- RIGHT -->
                 <div class="ml-auto flex items-center justify-end gap-4">
 
                     <!-- DATE -->
@@ -285,8 +284,6 @@
                         <div
                             class="absolute right-0 top-[118%] w-72 bg-white rounded-[26px] shadow-2xl shadow-cyan-950/20 border border-cyan-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200 z-[9999] overflow-hidden">
 
-
-
                             <a href="{{ route('profile') }}"
                                 class="flex items-center gap-3 px-5 py-4 text-sm font-bold text-slate-600 hover:bg-cyan-50 hover:text-cyan-600 transition">
                                 <span
@@ -321,6 +318,7 @@
             <div id="admin-content" class="relative flex-1 overflow-y-auto bg-[#EAFBFF] p-8">
                 <div class="pointer-events-none fixed top-24 right-12 w-80 h-80 rounded-full bg-cyan-300/20 blur-3xl">
                 </div>
+
                 <div class="pointer-events-none fixed bottom-10 left-96 w-80 h-80 rounded-full bg-sky-300/20 blur-3xl">
                 </div>
 

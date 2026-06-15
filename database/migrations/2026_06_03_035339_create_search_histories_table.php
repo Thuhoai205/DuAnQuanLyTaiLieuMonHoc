@@ -12,37 +12,43 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('search_histories', function (Blueprint $table) {
-            $table->id('search_id');
+    $table->id('search_id');
 
-            $table->foreignId('user_id')
-                ->nullable()
-                ->constrained('users', 'user_id')
-                ->nullOnDelete();
+    $table->foreignId('user_id')
+        ->nullable()
+        ->constrained('users', 'user_id')
+        ->nullOnDelete();
 
-            $table->string('keyword', 255);
+    $table->string('keyword', 255)->nullable();
 
-            $table->string('subject_code', 20)->nullable();
+    $table->foreignId('faculty_id')
+        ->nullable()
+        ->constrained('faculties', 'faculty_id')
+        ->nullOnDelete();
 
-            $table->foreign('subject_code')
-                ->references('subject_code')
-                ->on('subjects')
-                ->nullOnDelete();
+    $table->string('subject_code', 20)->nullable();
 
-            $table->foreignId('document_type_id')
-                ->nullable()
-                ->constrained('document_types', 'document_type_id')
-                ->nullOnDelete();
+    $table->foreign('subject_code')
+        ->references('subject_code')
+        ->on('subjects')
+        ->nullOnDelete();
 
-            $table->unsignedInteger('result_count')->default(0);
+    $table->foreignId('document_type_id')
+        ->nullable()
+        ->constrained('document_types', 'document_type_id')
+        ->nullOnDelete();
 
-            $table->timestamp('searched_at')->useCurrent();
+    $table->unsignedInteger('result_count')->default(0);
 
-            $table->index('user_id');
-            $table->index('keyword');
-            $table->index('subject_code');
-            $table->index('document_type_id');
-            $table->index('searched_at');
-        });
+    $table->timestamp('searched_at')->useCurrent();
+
+    $table->index('user_id');
+    $table->index('keyword');
+    $table->index('faculty_id');
+    $table->index('subject_code');
+    $table->index('document_type_id');
+    $table->index('searched_at');
+});
     }
 
     public function down(): void
