@@ -24,7 +24,7 @@ class AuthController extends Controller
     public function postRegister(RegisterRequest $request)
     {
         // Người dùng đăng ký mặc định là sinh viên
-        User::create([
+        $user = User::create([
             'full_name' => $request->full_name,
             'username'  => $request->username,
             'email'     => $request->email,
@@ -33,8 +33,19 @@ class AuthController extends Controller
             'is_active' => true,
         ]);
 
+        // Ghi nhật ký đăng ký tài khoản
+        ActivityLog::create([
+            'user_id' => $user->user_id,
+            'description' => 'Người dùng đăng ký tài khoản',
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'login_at' => null,
+            'logout_at' => null,
+            'created_at' => now(),
+        ]);
+
         return redirect()->route('login')
-            ->with('success', 'Đăng ký thành công!');
+            ->with('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
     }
 
     // ================= LOGIN =================
@@ -66,16 +77,16 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-          // Ghi nhật ký đăng nhập
-ActivityLog::create([
-    'user_id' => $user->user_id,
-    'description' => 'Người dùng đăng nhập hệ thống',
-    'ip_address' => $request->ip(),
-    'user_agent' => $request->userAgent(),
-    'login_at' => now(),
-    'logout_at' => null,
-    'created_at' => now(),
-]);
+            // Ghi nhật ký đăng nhập
+            ActivityLog::create([
+                'user_id' => $user->user_id,
+                'description' => 'Người dùng đăng nhập hệ thống',
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'login_at' => now(),
+                'logout_at' => null,
+                'created_at' => now(),
+            ]);
 
             // Điều hướng theo role
             return match ((int) $user->role_id) {
@@ -87,37 +98,38 @@ ActivityLog::create([
         }
 
         return back()->withErrors([
-            'email' => 'Email hoặc mật khẩu không đúng'
+            'email' => 'Email hoặc mật khẩu không đúng.'
         ])->onlyInput('email');
     }
 
     // ================= LOGOUT =================
 
-   public function logout(Request $request)
-{
-    /** @var User|null $user */
-    $user = Auth::user();
+    public function logout(Request $request)
+    {
+        /** @var User|null $user */
+        $user = Auth::user();
 
-    // Ghi nhật ký trước khi logout
-    if ($user) {
-        ActivityLog::create([
-            'user_id' => $user->user_id,
-            'description' => 'Người dùng đăng xuất hệ thống',
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'login_at' => null,
-            'logout_at' => now(),
-            'created_at' => now(),
-        ]);
+        // Ghi nhật ký trước khi logout
+        if ($user) {
+            ActivityLog::create([
+                'user_id' => $user->user_id,
+                'description' => 'Người dùng đăng xuất hệ thống',
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'login_at' => null,
+                'logout_at' => now(),
+                'created_at' => now(),
+            ]);
+        }
+
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home');
     }
 
-    Auth::logout();
-
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
-
-    return redirect()->route('home');
-}
     // ================= PROFILE =================
 
     public function profile()
@@ -140,6 +152,7 @@ ActivityLog::create([
         ], [
             'full_name.required' => 'Vui lòng nhập họ tên.',
             'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không hợp lệ.',
             'email.unique' => 'Email đã tồn tại.',
         ]);
 
@@ -157,6 +170,11 @@ ActivityLog::create([
     {
         $request->validate([
             'avatar' => 'required|image|mimes:jpg,jpeg,png|max:2048'
+        ], [
+            'avatar.required' => 'Vui lòng chọn ảnh đại diện.',
+            'avatar.image' => 'File phải là hình ảnh.',
+            'avatar.mimes' => 'Ảnh phải có định dạng jpg, jpeg hoặc png.',
+            'avatar.max' => 'Ảnh không được vượt quá 2MB.',
         ]);
 
         /** @var User $user */
@@ -183,8 +201,11 @@ ActivityLog::create([
             'current_password' => ['required', 'current_password'],
             'new_password' => ['required', 'confirmed', Password::min(6)],
         ], [
+            'current_password.required' => 'Vui lòng nhập mật khẩu hiện tại.',
             'current_password.current_password' => 'Mật khẩu hiện tại không chính xác.',
+            'new_password.required' => 'Vui lòng nhập mật khẩu mới.',
             'new_password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự.',
         ]);
 
         /** @var User $user */

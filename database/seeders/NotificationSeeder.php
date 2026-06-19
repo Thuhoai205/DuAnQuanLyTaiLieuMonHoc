@@ -16,24 +16,24 @@ class NotificationSeeder extends Seeder
         $lecturerBId = DB::table('users')
             ->where('email', 'minhhau@gmail.com')
             ->value('user_id');
-        $notifications = [
-            [
-                'user_id' => $lecturerAId,
-                'title' => 'Thông báo phân công giảng viên',
-                'content' => 'Bạn đã được phân công phụ trách môn Cơ sở dữ liệu.',
-                'type' => 'assign_teacher',
-                'related_type' => 'subjects',
-                'related_id' => null,
-            ],
-            [
-                'user_id' => $lecturerBId,
-                'title' => 'Thông báo phân công giảng viên',
-                'content' => 'Bạn đã được phân công phụ trách môn Lập trình Web.',
-                'type' => 'assign_teacher',
-                'related_type' => 'subjects',
-                'related_id' => null,
-            ],
-        ];
+       $notifications = [
+    [
+        'user_id' => $lecturerAId,
+        'title' => 'Thông báo phân công giảng viên',
+        'content' => 'Bạn đã được phân công phụ trách môn Cơ sở dữ liệu.',
+        'type' => 'assign_teacher',
+        'related_type' => 'subject',
+        'related_id' => 'CTDLGT',
+    ],
+    [
+        'user_id' => $lecturerBId,
+        'title' => 'Thông báo phân công giảng viên',
+        'content' => 'Bạn đã được phân công phụ trách môn Lập trình Web.',
+        'type' => 'assign_teacher',
+        'related_type' => 'subject',
+        'related_id' => 'WEB101',
+    ],
+];
 
         foreach ($notifications as $notification) {
             DB::table('notifications')->insert([

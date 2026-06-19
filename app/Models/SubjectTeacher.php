@@ -10,6 +10,8 @@ class SubjectTeacher extends Model
 
     protected $primaryKey = 'id';
 
+    public $timestamps = true;
+
     protected $fillable = [
         'user_id',
         'subject_code',
@@ -22,16 +24,13 @@ class SubjectTeacher extends Model
         'updated_at' => 'datetime',
     ];
 
-    public function lecturer()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'user_id');
-    }
-
+    // Giảng viên (User)
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
+    // Môn học
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'subject_code', 'subject_code');
