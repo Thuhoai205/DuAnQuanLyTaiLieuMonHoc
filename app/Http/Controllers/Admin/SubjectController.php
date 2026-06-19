@@ -252,30 +252,45 @@ $this->syncLecturers($subject, $teacherIds);
     /* =========================
      * SYNC + NOTIFICATION
      * ========================= */
-    private function syncLecturers(Subject $subject, array $teacherIds): void
-    {
-        // sync bảng pivot
-        $subject->lecturers()->sync($teacherIds);
+   private function syncLecturers(Subject $subject, array $teacherIds): void
+{
+    // OLD lecturers
+    $oldTeacherIds = $subject->lecturers()
+        ->select('users.user_id')
+        ->pluck('user_id')
+        ->toArray();
 
-        foreach ($teacherIds as $teacherId) {
+    // sync pivot
+    $subject->lecturers()->sync($teacherIds);
 
-            // tránh spam notification
-            $exists = Notification::where('user_id', $teacherId)
-                ->where('type', 'subject_assignment')
-                ->where('related_id', $subject->subject_code)
-                ->exists();
+    // ADD
+    $added = array_diff($teacherIds, $oldTeacherIds);
 
-            if ($exists) continue;
-
-            Notification::create([
-                'user_id' => $teacherId,
-                'title' => 'Bạn được phân công môn học',
-                'content' => 'Bạn đã được phân công giảng dạy môn: ' . $subject->subject_name,
-                'type' => 'subject_assignment',
-                'related_type' => 'subject',
-'related_id' => $subject->getKey(),    
+    foreach ($added as $teacherId) {
+        Notification::create([
+            'user_id' => $teacherId,
+            'title' => 'Bạn được phân công môn học',
+            'content' => 'Bạn đã được phân công giảng dạy môn: ' . $subject->subject_name,
+            'type' => 'subject_assigned',
+            'related_type' => 'subject',
+            'related_id' => $subject->subject_code,
             'is_read' => false,
-            ]);
-        }
+        ]);
     }
+
+    // REMOVE
+    $removed = array_diff($oldTeacherIds, $teacherIds);
+
+    foreach ($removed as $teacherId) {
+        Notification::create([
+            'user_id' => $teacherId,
+            'title' => 'Bạn bị gỡ khỏi môn học',
+            'content' => 'Bạn không còn phụ trách môn: ' . $subject->subject_name,
+            'type' => 'subject_removed',
+            'related_type' => 'subject',
+            'related_id' => $subject->subject_code,
+            'is_read' => false,
+        ]);
+    }
+}
 }

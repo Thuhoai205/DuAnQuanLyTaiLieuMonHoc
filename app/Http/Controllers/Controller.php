@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Document;
 
-public function dashboard()
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    public function dashboard()
 {
     $myDocuments = Document::with('subject')
         ->where('uploaded_by', Auth::id())
@@ -30,4 +38,5 @@ public function dashboard()
         'totalSubjects',
         'featuredDocument'
     ));
+}
 }
