@@ -1,176 +1,458 @@
 @extends('layouts.admin')
 
 @section('title', 'Tổng quan hệ thống')
-@section('page-title', 'Tổng quan hệ thống')
+@section('page-title', 'Dashboard')
 
 @section('content')
 
 @php
 $totalUsers = $totalUsers ?? 0;
 $totalSubjects = $totalSubjects ?? 0;
-$totalDocuments = $totalDocuments ?? 0;
-$totalDownloads = $totalDownloads ?? 0;
+$totalDocumentTypes = $totalDocumentTypes ?? 0;
+
+$totalLogs = $totalLogs ?? 0;
+$totalLoginLogs = $totalLoginLogs ?? 0;
+$totalLogoutLogs = $totalLogoutLogs ?? 0;
+$todayLogs = $todayLogs ?? 0;
+
 $recentActivities = $recentActivities ?? collect();
+
+$chartLabels = $chartLabels ?? [];
+$userChartData = $userChartData ?? [];
+$subjectChartData = $subjectChartData ?? [];
+$documentTypeChartData = $documentTypeChartData ?? [];
+
+$usersUrl = \Illuminate\Support\Facades\Route::has('admin.users.index')
+? route('admin.users.index')
+: '#';
+
+$subjectsUrl = \Illuminate\Support\Facades\Route::has('admin.subjects.index')
+? route('admin.subjects.index')
+: '#';
+
+$documentTypesUrl = \Illuminate\Support\Facades\Route::has('admin.document-types.index')
+? route('admin.document-types.index')
+: '#';
+
+$logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
+? route('admin.logs.index')
+: '#';
 @endphp
 
-<div class="max-w-7xl mx-auto px-2 lg:px-4">
+<div class="space-y-6">
 
-    <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-        <div>
-            <h1 class="text-3xl font-black text-slate-900">
-                Tổng quan hệ thống
-            </h1>
-            <p class="text-slate-500 font-semibold mt-2">
-                Theo dõi người dùng, môn học, tài liệu và hoạt động trong hệ thống.
-            </p>
-        </div>
+    <!-- TOP SUMMARY -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-        <div
-            class="inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-cyan-100 text-cyan-700 font-black shadow-sm">
-            <span class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                <i class="fa-solid fa-circle-check"></i>
-            </span>
-            <span>Hệ thống đang hoạt động</span>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-5 mb-8">
-        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
-            <p class="text-xs font-black uppercase text-slate-400">Người dùng</p>
-            <h3 class="text-4xl font-black text-cyan-700 mt-2">{{ number_format($totalUsers) }}</h3>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
-            <p class="text-xs font-black uppercase text-slate-400">Môn học</p>
-            <h3 class="text-4xl font-black text-cyan-700 mt-2">{{ number_format($totalSubjects) }}</h3>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
-            <p class="text-xs font-black uppercase text-slate-400">Tài liệu</p>
-            <h3 class="text-4xl font-black text-cyan-700 mt-2">{{ number_format($totalDocuments) }}</h3>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
-            <p class="text-xs font-black uppercase text-slate-400">Lượt tải</p>
-            <h3 class="text-4xl font-black text-cyan-700 mt-2">{{ number_format($totalDownloads) }}</h3>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
-
-        <div class="xl:col-span-2 bg-white rounded-2xl border border-cyan-100 shadow-sm overflow-hidden">
-            <div
-                class="px-6 py-5 border-b border-cyan-100 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <!-- USERS -->
+        <a href="{{ $usersUrl }}"
+            class="block bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md cursor-pointer">
+            <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-xl font-black text-slate-900">Tăng trưởng hệ thống</h2>
-                    <p class="text-sm text-slate-500 font-semibold mt-1">
-                        So sánh số tài liệu mới và người dùng đăng ký theo từng tháng.
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Người dùng
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalUsers) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Quản lý tài khoản hệ thống
                     </p>
                 </div>
 
-                <span
-                    class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black border border-cyan-100 w-fit">
+                <div class="w-11 h-11 rounded-md bg-sky-500 text-white flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- SUBJECTS -->
+        <a href="{{ $subjectsUrl }}"
+            class="block bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md cursor-pointer">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Môn học
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalSubjects) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Quản lý danh sách môn học
+                    </p>
+                </div>
+
+                <div class="w-11 h-11 rounded-md bg-emerald-500 text-white flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-book-open"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- DOCUMENT TYPES -->
+        <a href="{{ $documentTypesUrl }}"
+            class="block bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md cursor-pointer">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Loại tài liệu
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalDocumentTypes) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Quản lý danh mục loại tài liệu
+                    </p>
+                </div>
+
+                <div class="w-11 h-11 rounded-md bg-amber-500 text-white flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+
+        <!-- CHART -->
+        <div class="xl:col-span-8 bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden self-start">
+            <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+                <div>
+                    <h2 class="text-sm font-black text-slate-700">
+                        Thống kê tăng trưởng
+                    </h2>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Người dùng, môn học và loại tài liệu mới theo tháng
+                    </p>
+                </div>
+
+                <span class="px-3 py-1 rounded bg-slate-100 text-slate-500 text-xs font-black">
                     Năm {{ now()->year }}
                 </span>
             </div>
 
-            <div class="p-6">
-                <div class="h-80 rounded-2xl bg-white border border-cyan-100 p-5">
-                    <canvas id="growthChart"></canvas>
+            <div class="p-5">
+                <div class="h-[320px]">
+                    <canvas id="adminGrowthChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-cyan-100 shadow-sm overflow-hidden">
-            <div class="px-6 py-5 border-b border-cyan-100">
-                <h2 class="text-xl font-black text-slate-900">Hoạt động gần đây</h2>
-                <p class="text-sm text-slate-500 font-semibold mt-1">
-                    Lịch sử đăng nhập và đăng xuất.
+        <!-- QUICK OVERVIEW -->
+        <div class="xl:col-span-4 space-y-5 self-start">
+
+            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
+                <div class="px-5 py-4 border-b border-slate-200">
+                    <h2 class="text-sm font-black text-slate-700">
+                        Tổng quan hoạt động
+                    </h2>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Theo dõi nhanh trạng thái quản trị
+                    </p>
+                </div>
+
+                <div class="p-5 space-y-4">
+
+                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center">
+                                <i class="fa-solid fa-clock-rotate-left"></i>
+                            </div>
+
+                            <div>
+                                <p class="text-sm font-black text-slate-700">
+                                    Nhật ký hôm nay
+                                </p>
+
+                                <p class="text-xs font-semibold text-slate-400">
+                                    Đăng ký / đăng nhập / đăng xuất
+                                </p>
+                            </div>
+                        </div>
+
+                        <span class="text-lg font-black text-slate-700">
+                            {{ number_format($todayLogs) }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-md bg-emerald-500 text-white flex items-center justify-center">
+                                <i class="fa-solid fa-right-to-bracket"></i>
+                            </div>
+
+                            <div>
+                                <p class="text-sm font-black text-slate-700">
+                                    Lượt đăng nhập
+                                </p>
+
+                                <p class="text-xs font-semibold text-slate-400">
+                                    Tổng lượt đăng nhập
+                                </p>
+                            </div>
+                        </div>
+
+                        <span class="text-lg font-black text-slate-700">
+                            {{ number_format($totalLoginLogs) }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-md bg-orange-500 text-white flex items-center justify-center">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                            </div>
+
+                            <div>
+                                <p class="text-sm font-black text-slate-700">
+                                    Lượt đăng xuất
+                                </p>
+
+                                <p class="text-xs font-semibold text-slate-400">
+                                    Tổng lượt đăng xuất
+                                </p>
+                            </div>
+                        </div>
+
+                        <span class="text-lg font-black text-slate-700">
+                            {{ number_format($totalLogoutLogs) }}
+                        </span>
+                    </div>
+
+                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-md bg-green-500 text-white flex items-center justify-center">
+                                <i class="fa-solid fa-circle-check"></i>
+                            </div>
+
+                            <div>
+                                <p class="text-sm font-black text-slate-700">
+                                    Trạng thái
+                                </p>
+
+                                <p class="text-xs font-semibold text-slate-400">
+                                    Hệ thống đang vận hành
+                                </p>
+                            </div>
+                        </div>
+
+                        <span class="px-3 py-1 rounded bg-emerald-50 text-emerald-600 text-xs font-black">
+                            Online
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- RECENT ACTIVITIES -->
+    <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden self-start h-fit">
+        <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+            <div>
+                <h2 class="text-sm font-black text-slate-700">
+                    Hoạt động gần đây
+                </h2>
+
+                <p class="text-xs font-semibold text-slate-400 mt-1">
+                    Lịch sử đăng ký, đăng nhập và đăng xuất
                 </p>
             </div>
 
-            <div class="p-6 space-y-6">
+            <a href="{{ $logsUrl }}" class="text-xs font-black text-sky-500 hover:text-sky-600">
+                Xem tất cả
+            </a>
+        </div>
+
+        <div class="p-5">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 @forelse($recentActivities as $log)
-                <div class="flex gap-4">
-                    <div
-                        class="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center shrink-0">
-                        @if($log->logout_at)
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        @else
-                        <i class="fa-solid fa-right-to-bracket"></i>
-                        @endif
+                @php
+                $isLogin = !empty($log->login_at);
+                $isLogout = !empty($log->logout_at);
+
+                $time = $log->logout_at ?? $log->login_at ?? $log->created_at;
+
+                if ($isLogout) {
+                $iconClass = 'fa-solid fa-right-from-bracket';
+                $boxClass = 'bg-orange-50 text-orange-500';
+                $defaultDescription = 'Đăng xuất hệ thống';
+                } elseif ($isLogin) {
+                $iconClass = 'fa-solid fa-right-to-bracket';
+                $boxClass = 'bg-emerald-50 text-emerald-500';
+                $defaultDescription = 'Đăng nhập hệ thống';
+                } else {
+                $iconClass = 'fa-solid fa-user-plus';
+                $boxClass = 'bg-sky-50 text-sky-500';
+                $defaultDescription = 'Đăng ký tài khoản';
+                }
+                @endphp
+
+                <div class="rounded-md border border-slate-200 bg-slate-50 p-4 flex gap-3">
+                    <div class="w-10 h-10 rounded-md {{ $boxClass }} flex items-center justify-center shrink-0">
+                        <i class="{{ $iconClass }}"></i>
                     </div>
 
-                    <div>
-                        <h4 class="font-black text-slate-800">
+                    <div class="min-w-0">
+                        <h4 class="text-sm font-black text-slate-700 truncate">
                             {{ $log->user->full_name ?? 'Người dùng không xác định' }}
                         </h4>
 
-                        <p class="text-sm text-slate-500 font-semibold mt-1">
-                            @if($log->logout_at)
-                            Đăng xuất hệ thống • {{ $log->logout_at->diffForHumans() }}
-                            @elseif($log->login_at)
-                            Đăng nhập hệ thống • {{ $log->login_at->diffForHumans() }}
+                        <p class="text-xs font-semibold text-slate-500 mt-1">
+                            {{ $log->description ?? $defaultDescription }}
+                        </p>
+
+                        <p class="text-[11px] font-bold text-slate-400 mt-1">
+                            @if($time)
+                            {{ \Carbon\Carbon::parse($time)->diffForHumans() }}
                             @else
-                            Hoạt động hệ thống
+                            Không rõ thời gian
                             @endif
                         </p>
                     </div>
                 </div>
                 @empty
-                <div class="text-center py-10">
-                    <i class="fa-solid fa-clock-rotate-left text-4xl text-slate-300 mb-3"></i>
-                    <p class="text-slate-500 font-bold">
+                <div class="col-span-full text-center py-8">
+                    <div
+                        class="w-14 h-14 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                        <i class="fa-solid fa-clock-rotate-left text-xl"></i>
+                    </div>
+
+                    <p class="text-sm font-bold text-slate-500">
                         Chưa có hoạt động nào.
                     </p>
                 </div>
                 @endforelse
             </div>
         </div>
-
     </div>
 
 </div>
-</div>
 
 @endsection
-<input type="hidden" id="chartLabelsData" value='@json($chartLabels ?? [])'>
-<input type="hidden" id="documentChartData" value='@json($documentChartData ?? [])'>
-<input type="hidden" id="userChartData" value='@json($userChartData ?? [])'>
+
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script type="application/json" id="chartLabelsJson">
+@json($chartLabels ?? [])
+</script>
+
+<script type="application/json" id="userChartDataJson">
+@json($userChartData ?? [])
+</script>
+
+<script type="application/json" id="subjectChartDataJson">
+@json($subjectChartData ?? [])
+</script>
+
+<script type="application/json" id="documentTypeChartDataJson">
+@json($documentTypeChartData ?? [])
+</script>
 
 <script>
-const ctx = document.getElementById('growthChart');
+document.addEventListener('DOMContentLoaded', function() {
+    function readJsonData(id) {
+        const element = document.getElementById(id);
 
-const chartLabels = JSON.parse(document.getElementById('chartLabelsData').value || '[]');
-const documentChartData = JSON.parse(document.getElementById('documentChartData').value || '[]');
-const userChartData = JSON.parse(document.getElementById('userChartData').value || '[]');
+        if (!element) {
+            return [];
+        }
 
-if (ctx) {
+        try {
+            return JSON.parse(element.textContent.trim() || '[]');
+        } catch (error) {
+            console.error('JSON không hợp lệ:', id, error);
+            return [];
+        }
+    }
+
+    let chartLabels = readJsonData('chartLabelsJson');
+    let userChartData = readJsonData('userChartDataJson');
+    let subjectChartData = readJsonData('subjectChartDataJson');
+    let documentTypeChartData = readJsonData('documentTypeChartDataJson');
+
+    if (!Array.isArray(chartLabels) || chartLabels.length === 0) {
+        chartLabels = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
+    }
+
+    userChartData = Array.isArray(userChartData) ? userChartData.map(Number) : [];
+    subjectChartData = Array.isArray(subjectChartData) ? subjectChartData.map(Number) : [];
+    documentTypeChartData = Array.isArray(documentTypeChartData) ? documentTypeChartData.map(Number) : [];
+
+    while (userChartData.length < chartLabels.length) {
+        userChartData.push(0);
+    }
+
+    while (subjectChartData.length < chartLabels.length) {
+        subjectChartData.push(0);
+    }
+
+    while (documentTypeChartData.length < chartLabels.length) {
+        documentTypeChartData.push(0);
+    }
+
+    const ctx = document.getElementById('adminGrowthChart');
+
+    if (!ctx) {
+        console.error('Không tìm thấy canvas adminGrowthChart.');
+        return;
+    }
+
+    if (typeof Chart === 'undefined') {
+        console.error('Chart.js chưa được load. Kiểm tra layouts/admin.blade.php.');
+        return;
+    }
+
+    const maxValue = Math.max(...userChartData, ...subjectChartData, ...documentTypeChartData, 1);
+
     new Chart(ctx, {
         type: 'line',
         data: {
             labels: chartLabels,
             datasets: [{
-                    label: 'Tài liệu mới',
-                    data: documentChartData,
-                    borderColor: '#06b6d4',
-                    backgroundColor: 'rgba(6, 182, 212, 0.12)',
-                    tension: 0.4,
+                    label: 'Người dùng mới',
+                    data: userChartData,
+                    borderColor: '#0ea5e9',
+                    backgroundColor: 'rgba(14, 165, 233, 0.10)',
+                    tension: 0.38,
                     fill: true,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    borderWidth: 3
                 },
                 {
-                    label: 'Người đăng ký',
-                    data: userChartData,
-                    borderColor: '#8b5cf6',
-                    backgroundColor: 'rgba(139, 92, 246, 0.10)',
-                    tension: 0.4,
+                    label: 'Môn học mới',
+                    data: subjectChartData,
+                    borderColor: '#10b981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.10)',
+                    tension: 0.38,
                     fill: true,
-                    pointRadius: 4,
-                    pointHoverRadius: 6
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    borderWidth: 3
+                },
+                {
+                    label: 'Loại tài liệu mới',
+                    data: documentTypeChartData,
+                    borderColor: '#f59e0b',
+                    backgroundColor: 'rgba(245, 158, 11, 0.10)',
+                    tension: 0.38,
+                    fill: true,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+                    borderWidth: 3
                 }
             ]
         },
@@ -184,14 +466,24 @@ if (ctx) {
             plugins: {
                 legend: {
                     display: true,
+                    position: 'top',
                     labels: {
                         usePointStyle: true,
+                        boxWidth: 8,
+                        boxHeight: 8,
+                        color: '#64748b',
                         font: {
-                            weight: 'bold'
+                            size: 12,
+                            weight: '700'
                         }
                     }
                 },
                 tooltip: {
+                    backgroundColor: '#1e293b',
+                    titleColor: '#ffffff',
+                    bodyColor: '#ffffff',
+                    padding: 12,
+                    cornerRadius: 8,
                     callbacks: {
                         label: function(context) {
                             return context.dataset.label + ': ' + context.raw;
@@ -202,14 +494,27 @@ if (ctx) {
             scales: {
                 y: {
                     beginAtZero: true,
+                    suggestedMax: maxValue,
                     ticks: {
-                        precision: 0
+                        precision: 0,
+                        color: '#94a3b8',
+                        font: {
+                            size: 11,
+                            weight: '600'
+                        }
                     },
                     grid: {
                         color: '#e2e8f0'
                     }
                 },
                 x: {
+                    ticks: {
+                        color: '#94a3b8',
+                        font: {
+                            size: 11,
+                            weight: '600'
+                        }
+                    },
                     grid: {
                         display: false
                     }
@@ -217,6 +522,7 @@ if (ctx) {
             }
         }
     });
-}
+});
 </script>
+
 @endpush

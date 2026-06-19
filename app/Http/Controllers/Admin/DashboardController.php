@@ -3,58 +3,67 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use App\Models\Subject;
-use App\Models\Document;
-use App\Models\DownloadHistory;
 use App\Models\ActivityLog;
-use Illuminate\Support\Facades\DB;
+use App\Models\DocumentType;
+use App\Models\Subject;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Thống kê tài liệu theo tháng trong năm hiện tại
-        $documentsByMonth = Document::select(
-                DB::raw('MONTH(created_at) as month'),
-                DB::raw('COUNT(*) as total')
-            )
-            ->whereYear('created_at', now()->year)
-            ->groupBy(DB::raw('MONTH(created_at)'))
+        $totalUsers = User::count();
+        $totalSubjects = Subject::count();
+        $totalDocumentTypes = DocumentType::count();
+
+        $currentYear = now()->year;
+
+        // Người dùng mới theo tháng
+        $usersByMonth = User::query()
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->whereNotNull('created_at')
+            ->whereYear('created_at', $currentYear)
+            ->groupByRaw('MONTH(created_at)')
             ->pluck('total', 'month');
 
-        // Thống kê người dùng theo tháng trong năm hiện tại
-        $usersByMonth = User::select(
-                DB::raw('MONTH(created_at) as month'),
-                DB::raw('COUNT(*) as total')
-            )
-            ->whereYear('created_at', now()->year)
-            ->groupBy(DB::raw('MONTH(created_at)'))
+        // Môn học mới theo tháng
+        $subjectsByMonth = Subject::query()
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->whereNotNull('created_at')
+            ->whereYear('created_at', $currentYear)
+            ->groupByRaw('MONTH(created_at)')
+            ->pluck('total', 'month');
+
+        // Loại tài liệu mới theo tháng
+        $documentTypesByMonth = DocumentType::query()
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as total')
+            ->whereNotNull('created_at')
+            ->whereYear('created_at', $currentYear)
+            ->groupByRaw('MONTH(created_at)')
             ->pluck('total', 'month');
 
         $chartLabels = [];
-        $documentChartData = [];
         $userChartData = [];
+        $subjectChartData = [];
+        $documentTypeChartData = [];
 
         for ($i = 1; $i <= 12; $i++) {
             $chartLabels[] = 'T' . $i;
-            $documentChartData[] = $documentsByMonth[$i] ?? 0;
-            $userChartData[] = $usersByMonth[$i] ?? 0;
+            $userChartData[] = (int) ($usersByMonth[$i] ?? 0);
+            $subjectChartData[] = (int) ($subjectsByMonth[$i] ?? 0);
+            $documentTypeChartData[] = (int) ($documentTypesByMonth[$i] ?? 0);
         }
 
-        // Hoạt động gần đây
         $recentActivities = ActivityLog::with('user')
             ->latest('created_at')
-            ->take(5)
+            ->take(6)
             ->get();
 
         return view('admin.dashboard', [
-            'totalUsers' => User::count(),
-            'totalSubjects' => Subject::count(),
-            'totalDocuments' => Document::count(),
-            'totalDownloads' => DownloadHistory::count(),
+            'totalUsers' => $totalUsers,
+            'totalSubjects' => $totalSubjects,
+            'totalDocumentTypes' => $totalDocumentTypes,
 
-            // Thống kê nhật ký đăng nhập / đăng xuất
             'totalLogs' => ActivityLog::count(),
             'totalLoginLogs' => ActivityLog::whereNotNull('login_at')->count(),
             'totalLogoutLogs' => ActivityLog::whereNotNull('logout_at')->count(),
@@ -63,8 +72,9 @@ class DashboardController extends Controller
             'recentActivities' => $recentActivities,
 
             'chartLabels' => $chartLabels,
-            'documentChartData' => $documentChartData,
             'userChartData' => $userChartData,
+            'subjectChartData' => $subjectChartData,
+            'documentTypeChartData' => $documentTypeChartData,
         ]);
     }
 }

@@ -33,7 +33,7 @@ class UserController extends Controller
 
         $users = $query
             ->orderByDesc('user_id')
-            ->paginate(3)
+            ->paginate(5)
             ->withQueryString();
 
         $roles = Role::all();
@@ -56,12 +56,12 @@ class UserController extends Controller
         ));
     }
 
-    public function create()
-    {
-        $roles = Role::all();
-
-        return view('admin.users.create', compact('roles'));
-    }
+  public function create()
+{
+    return view('admin.users.create', [
+        'roles' => Role::all()
+    ]);
+}
 
     public function store(Request $request)
     {

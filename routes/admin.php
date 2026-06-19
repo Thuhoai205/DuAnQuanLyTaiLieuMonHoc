@@ -17,66 +17,72 @@ Route::middleware('auth')
             ->name('dashboard');
 
         /*
-        |--------------------------------------------------------------------------
-        | Users
-        |--------------------------------------------------------------------------
+        | USERS TRASH (ĐẶT TRƯỚC RESOURCE)
         */
-
         Route::get('/users/trashed', [UserController::class, 'trashed'])
             ->name('users.trashed');
 
         Route::post('/users/restore-multiple', [UserController::class, 'restoreMultiple'])
             ->name('users.restoreMultiple');
 
-        Route::patch('/users/{id}/restore', [UserController::class, 'restore'])
+        Route::patch('/users/{user}/restore', [UserController::class, 'restore'])
             ->name('users.restore');
 
-        Route::patch('/users/{id}/status', [UserController::class, 'toggleStatus'])
+        Route::patch('/users/{user}/status', [UserController::class, 'toggleStatus'])
             ->name('users.status');
 
-        Route::resource('users', UserController::class);
-
         /*
-        |--------------------------------------------------------------------------
-        | Subjects
-        |--------------------------------------------------------------------------
+        | RESOURCE
         */
-
-        Route::patch('/subjects/{id}/status', [SubjectController::class, 'toggleStatus'])
-            ->name('subjects.status');
-
+        Route::resource('users', UserController::class);
+        /*
+        |--------------------------
+        | SUBJECTS
+        |--------------------------
+        */
         Route::resource('subjects', SubjectController::class);
 
+        Route::get('/subjects/trashed', [SubjectController::class, 'trashed'])
+            ->name('subjects.trashed');
+
+        Route::post('/subjects/restore-multiple', [SubjectController::class, 'restoreMultiple'])
+            ->name('subjects.restoreMultiple');
+
+        Route::patch('/subjects/{subject}/restore', [SubjectController::class, 'restore'])
+            ->name('subjects.restore');
+
+        Route::delete('/subjects/{subject}/force-delete', [SubjectController::class, 'forceDelete'])
+            ->name('subjects.forceDelete');
+
+        Route::patch('/subjects/{subject}/status', [SubjectController::class, 'toggleStatus'])
+            ->name('subjects.status');
+
         /*
-        |--------------------------------------------------------------------------
-        | Document Types
-        |--------------------------------------------------------------------------
+        |--------------------------
+        | DOCUMENT TYPES
+        |--------------------------
         */
-
-        Route::patch('/document-types/{id}/status', [DocumentTypeController::class, 'toggleStatus'])
-            ->name('document-types.status');
-
         Route::resource('document-types', DocumentTypeController::class);
 
-        /*
-        |--------------------------------------------------------------------------
-        | Statistics
-        |--------------------------------------------------------------------------
-        */
+        Route::patch('/document-types/{document_type}/status', [DocumentTypeController::class, 'toggleStatus'])
+            ->name('document-types.status');
 
+        /*
+        |--------------------------
+        | STATISTICS
+        |--------------------------
+        */
         Route::get('/statistics', [StatisticsController::class, 'index'])
             ->name('statistics.index');
 
         /*
-        |--------------------------------------------------------------------------
-        | Logs
-        |--------------------------------------------------------------------------
+        |--------------------------
+        | LOGS
+        |--------------------------
         */
-
         Route::get('/logs', [LogController::class, 'index'])
             ->name('logs.index');
 
-Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
-    ->name('logs.readAll');
-
+        Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
+            ->name('logs.readAll');
     });

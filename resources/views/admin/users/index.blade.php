@@ -12,187 +12,261 @@ $totalStudents = $totalStudents ?? 0;
 $totalTrashedUsers = $totalTrashedUsers ?? 0;
 @endphp
 
-<div class="max-w-7xl mx-auto px-2 lg:px-4">
+<div class="space-y-6">
 
-    <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
-        <div>
-            <h1 class="text-3xl font-black text-slate-900">
-                Quản lý người dùng
-            </h1>
-            <p class="text-slate-500 font-semibold mt-2">
-                Quản lý tài khoản admin, giảng viên và sinh viên.
-            </p>
-        </div>
+    <!-- PAGE ACTIONS -->
+    <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div>
+                <h2 class="text-lg font-black text-slate-700">
+                    Danh sách người dùng
+                </h2>
 
-        <div class="flex flex-wrap items-center gap-3">
+                <p class="text-sm text-slate-500 font-semibold mt-1">
+                    Quản lý tài khoản Admin, Giảng viên và Sinh viên trong hệ thống.
+                </p>
+            </div>
 
-            <a href="{{ route('admin.users.trashed') }}"
-                class="group inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-white border border-red-100 text-red-500 font-black shadow-sm hover:bg-red-500 hover:text-white hover:shadow-lg hover:shadow-red-100 transition-all">
+            <div class="flex flex-wrap items-center gap-3">
 
-                <span
-                    class="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center group-hover:bg-white/20 group-hover:text-white transition">
-                    <i class="fa-solid fa-trash-restore"></i>
-                </span>
+                <a href="{{ route('admin.users.trashed') }}"
+                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
+                    <i class="fa-solid fa-trash-can-arrow-up"></i>
 
-                <span>Người dùng đã xóa</span>
+                    <span>Đã xóa</span>
 
-                @if($totalTrashedUsers > 0)
-                <span
-                    class="min-w-7 h-7 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center group-hover:bg-white group-hover:text-red-500 transition">
-                    {{ $totalTrashedUsers }}
-                </span>
-                @endif
-            </a>
+                    @if($totalTrashedUsers > 0)
+                    <span
+                        class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
+                        {{ $totalTrashedUsers }}
+                    </span>
+                    @endif
+                </a>
 
-            <a href="{{ route('admin.users.create') }}"
-                class="group inline-flex items-center gap-3 px-5 py-3 rounded-2xl bg-cyan-600 text-white font-black shadow-lg shadow-cyan-100 hover:bg-cyan-700 hover:-translate-y-0.5 transition-all">
-
-                <span class="w-10 h-10 rounded-xl bg-white/20 text-white flex items-center justify-center">
+                <a href="{{ route('admin.users.create') }}"
+                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-sm font-black hover:bg-sky-600 transition">
                     <i class="fa-solid fa-user-plus"></i>
-                </span>
+                    <span>Thêm người dùng</span>
+                </a>
 
-                <span>Thêm người dùng</span>
-            </a>
-
+            </div>
         </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
-        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
-            <p class="text-xs font-black uppercase text-slate-400">Tổng người dùng</p>
-            <h3 class="text-4xl font-black text-cyan-700 mt-2">
-                {{ number_format($totalUsers) }}
-            </h3>
+    <!-- SUMMARY CARDS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Tổng người dùng
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalUsers) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Tài khoản trong hệ thống
+                    </p>
+                </div>
+
+                <div class="w-11 h-11 rounded-md bg-sky-500 text-white flex items-center justify-center">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
-            <p class="text-xs font-black uppercase text-slate-400">Giảng viên</p>
-            <h3 class="text-4xl font-black text-cyan-700 mt-2">
-                {{ number_format($totalTeachers) }}
-            </h3>
+        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Giảng viên
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalTeachers) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Tài khoản giảng viên
+                    </p>
+                </div>
+
+                <div class="w-11 h-11 rounded-md bg-emerald-500 text-white flex items-center justify-center">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+            </div>
         </div>
 
-        <div class="bg-white rounded-2xl border border-cyan-100 p-6 shadow-sm">
-            <p class="text-xs font-black uppercase text-slate-400">Sinh viên</p>
-            <h3 class="text-4xl font-black text-cyan-700 mt-2">
-                {{ number_format($totalStudents) }}
-            </h3>
+        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Sinh viên
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalStudents) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Tài khoản sinh viên
+                    </p>
+                </div>
+
+                <div class="w-11 h-11 rounded-md bg-amber-500 text-white flex items-center justify-center">
+                    <i class="fa-solid fa-user-graduate"></i>
+                </div>
+            </div>
         </div>
+
     </div>
 
-    <div class="bg-white rounded-2xl border border-cyan-100 p-5 mb-8 shadow-sm">
+    <!-- FILTER -->
+    <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
         <form id="user-filter-form" method="GET" action="{{ route('admin.users.index') }}"
             class="grid grid-cols-1 md:grid-cols-5 gap-4">
 
-            <input type="text" name="search" value="{{ request('search') }}"
-                placeholder="Tìm theo tên, email, username..."
-                class="md:col-span-2 h-12 px-4 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500">
+            <div class="md:col-span-2">
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Tìm theo tên, email, username..."
+                    class="w-full h-11 px-4 rounded-md bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500">
+            </div>
 
-            <select name="role_id"
-                class="h-12 px-4 rounded-xl bg-slate-50 border border-slate-200 outline-none focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500">
-                <option value="">Tất cả vai trò</option>
+            <div>
+                <select name="role_id"
+                    class="w-full h-11 px-4 rounded-md bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500">
+                    <option value="">Tất cả vai trò</option>
 
-                @foreach($roles as $role)
-                <option value="{{ $role->role_id }}" @selected(request('role_id')==$role->role_id)>
-                    {{ $role->role_name }}
-                </option>
-                @endforeach
-            </select>
+                    @foreach($roles as $role)
+                    <option value="{{ $role->role_id }}" @selected(request('role_id')==$role->role_id)>
+                        {{ $role->role_name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
 
             <button type="submit"
-                class="h-12 rounded-xl bg-cyan-600 text-white font-black hover:bg-cyan-700 transition">
+                class="h-11 rounded-md bg-sky-500 text-white text-sm font-black hover:bg-sky-600 transition">
                 <i class="fa-solid fa-filter mr-2"></i>
                 Lọc
             </button>
 
             <a href="{{ route('admin.users.index') }}" id="reset-user-filter"
-                class="h-12 rounded-xl bg-slate-100 text-slate-700 font-black flex items-center justify-center hover:bg-slate-200 transition">
+                class="h-11 rounded-md bg-slate-100 text-slate-600 text-sm font-black flex items-center justify-center hover:bg-slate-200 transition">
                 Reset
             </a>
+
         </form>
     </div>
 
+    <!-- USERS LIST -->
     <div id="users-list-wrapper">
 
-        <div id="users-table-wrapper" class="bg-white rounded-2xl border border-cyan-100 shadow-sm overflow-hidden">
+        <div id="users-table-wrapper" class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
-            <div class="px-6 py-5 border-b border-cyan-100 flex items-center justify-between">
+            <div
+                class="px-5 py-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
-                    <h2 class="text-xl font-black text-slate-900">Người dùng hệ thống</h2>
-                    <p class="text-sm text-slate-500 font-semibold mt-1">
+                    <h2 class="text-sm font-black text-slate-700">
+                        Người dùng hệ thống
+                    </h2>
+
+                    <p class="text-xs text-slate-400 font-semibold mt-1">
                         Danh sách tài khoản đang hoạt động trong hệ thống.
                     </p>
                 </div>
 
-                <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black border border-cyan-100">
+                <span class="px-3 py-1 rounded bg-sky-50 text-sky-600 text-xs font-black border border-sky-100 w-fit">
                     {{ number_format($users->total()) }} tài khoản
                 </span>
             </div>
 
             <div class="overflow-x-auto">
                 <table class="w-full text-left">
-                    <thead class="bg-cyan-50">
+                    <thead class="bg-slate-50 border-b border-slate-200">
                         <tr>
-                            <th class="px-6 py-4 text-xs font-black uppercase text-slate-500">Người dùng</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase text-slate-500">Email</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase text-slate-500">Vai trò</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase text-slate-500">Trạng thái</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase text-slate-500 text-right">Hành động</th>
+                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                                Người dùng
+                            </th>
+
+                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                                Email
+                            </th>
+
+                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                                Vai trò
+                            </th>
+
+                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                                Trạng thái
+                            </th>
+
+                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500 text-right">
+                                Hành động
+                            </th>
                         </tr>
                     </thead>
 
-                    <tbody class="divide-y divide-cyan-100">
+                    <tbody class="divide-y divide-slate-100">
                         @forelse($users as $user)
-                        <tr class="hover:bg-cyan-50/50 transition">
-                            <td class="px-6 py-5">
-                                <div class="flex items-center gap-4">
-                                    <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=06b6d4&color=fff' }}"
-                                        class="w-12 h-12 rounded-2xl object-cover">
+                        <tr class="hover:bg-slate-50 transition">
 
-                                    <div>
-                                        <h4 class="font-black text-slate-800">
+                            <td class="px-5 py-4">
+                                <div class="flex items-center gap-3">
+                                    <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=0ea5e9&color=fff' }}"
+                                        class="w-11 h-11 rounded-md object-cover border border-slate-200">
+
+                                    <div class="min-w-0">
+                                        <h4 class="font-black text-slate-700 truncate">
                                             {{ $user->full_name }}
                                         </h4>
-                                        <p class="text-sm text-slate-400 font-semibold">
+
+                                        <p class="text-xs text-slate-400 font-semibold mt-1 truncate">
                                             {{ '@' . $user->username }}
                                         </p>
                                     </div>
                                 </div>
                             </td>
 
-                            <td class="px-6 py-5 font-semibold text-slate-600">
-                                {{ $user->email }}
+                            <td class="px-5 py-4">
+                                <span class="text-sm font-semibold text-slate-600">
+                                    {{ $user->email }}
+                                </span>
                             </td>
 
-                            <td class="px-6 py-5">
-                                <span
-                                    class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black border border-cyan-100">
+                            <td class="px-5 py-4">
+                                <span class="px-3 py-1 rounded bg-slate-100 text-slate-600 text-xs font-black">
                                     {{ $user->role->role_name ?? 'Chưa có role' }}
                                 </span>
                             </td>
 
-                            <td class="px-6 py-5">
+                            <td class="px-5 py-4">
                                 <form action="{{ route('admin.users.status', $user->user_id) }}" method="POST">
                                     @csrf
                                     @method('PATCH')
 
-                                    <button type="submit"
-                                        class="px-4 py-2 rounded-full text-xs font-black transition
-                                            {{ $user->is_active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white' : 'bg-red-50 text-red-500 hover:bg-red-500 hover:text-white' }}">
+                                    <button type="submit" class="px-3 py-1 rounded text-xs font-black transition
+                                                {{ $user->is_active
+                                                    ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white'
+                                                    : 'bg-red-50 text-red-500 hover:bg-red-500 hover:text-white' }}">
                                         {{ $user->is_active ? 'Hoạt động' : 'Bị khóa' }}
                                     </button>
                                 </form>
                             </td>
 
-                            <td class="px-6 py-5">
+                            <td class="px-5 py-4">
                                 <div class="flex items-center justify-end gap-2">
+
                                     <a href="{{ route('admin.users.show', $user->user_id) }}"
-                                        class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition">
+                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
 
                                     <a href="{{ route('admin.users.edit', $user->user_id) }}"
-                                        class="w-10 h-10 rounded-xl bg-amber-50 text-amber-500 hover:bg-amber-500 hover:text-white flex items-center justify-center transition">
+                                        class="w-9 h-9 rounded-md bg-amber-50 text-amber-500 hover:bg-amber-500 hover:text-white flex items-center justify-center transition">
                                         <i class="fa-solid fa-pen"></i>
                                     </a>
 
@@ -203,18 +277,27 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                                         @method('DELETE')
 
                                         <button type="submit"
-                                            class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
+                                            class="w-9 h-9 rounded-md bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
                                     @endif
+
                                 </div>
                             </td>
+
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-slate-500 font-bold">
-                                Không tìm thấy người dùng nào.
+                            <td colspan="5" class="px-5 py-12 text-center">
+                                <div
+                                    class="w-14 h-14 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                                    <i class="fa-solid fa-users text-xl"></i>
+                                </div>
+
+                                <p class="text-sm font-bold text-slate-500">
+                                    Không tìm thấy người dùng nào.
+                                </p>
                             </td>
                         </tr>
                         @endforelse
@@ -224,28 +307,30 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
 
         </div>
 
+        <!-- PAGINATION -->
         <div
-            class="mt-8 px-7 py-6 bg-white rounded-[30px] border border-cyan-100 flex flex-col md:flex-row items-center justify-between gap-5 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+            class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
             <p class="text-sm font-bold text-slate-500">
                 Hiển thị
-                <span class="text-cyan-700">{{ $users->firstItem() ?? 0 }}</span>
+                <span class="text-sky-600">{{ $users->firstItem() ?? 0 }}</span>
                 -
-                <span class="text-cyan-700">{{ $users->lastItem() ?? 0 }}</span>
+                <span class="text-sky-600">{{ $users->lastItem() ?? 0 }}</span>
                 trong tổng
-                <span class="text-cyan-700">{{ $users->total() }}</span>
+                <span class="text-sky-600">{{ $users->total() }}</span>
                 người dùng
             </p>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
+
                 @if ($users->onFirstPage())
                 <span
-                    class="w-12 h-12 rounded-2xl bg-white border border-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
+                    class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
                     <i class="fa-solid fa-angle-left"></i>
                 </span>
                 @else
                 <a href="{{ $users->previousPageUrl() }}"
-                    class="ajax-user-page w-12 h-12 rounded-2xl bg-white border border-cyan-100 text-slate-500 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all">
+                    class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
                     <i class="fa-solid fa-angle-left"></i>
                 </a>
                 @endif
@@ -253,12 +338,12 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                 @for ($page = 1; $page <= max($users->lastPage(), 1); $page++)
                     @if ($page == $users->currentPage())
                     <span
-                        class="w-12 h-12 rounded-2xl bg-cyan-500 text-white shadow-lg shadow-cyan-200 flex items-center justify-center font-black">
+                        class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center font-black">
                         {{ $page }}
                     </span>
                     @else
                     <a href="{{ $users->url($page) }}"
-                        class="ajax-user-page w-12 h-12 rounded-2xl bg-white border border-cyan-100 text-slate-500 hover:bg-cyan-500 hover:text-white flex items-center justify-center font-bold transition-all">
+                        class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center font-bold transition">
                         {{ $page }}
                     </a>
                     @endif
@@ -266,48 +351,50 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
 
                     @if ($users->hasMorePages())
                     <a href="{{ $users->nextPageUrl() }}"
-                        class="ajax-user-page w-12 h-12 rounded-2xl bg-white border border-cyan-100 text-slate-500 hover:bg-cyan-500 hover:text-white flex items-center justify-center transition-all">
+                        class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
                         <i class="fa-solid fa-angle-right"></i>
                     </a>
                     @else
                     <span
-                        class="w-12 h-12 rounded-2xl bg-white border border-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
+                        class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
                         <i class="fa-solid fa-angle-right"></i>
                     </span>
                     @endif
+
             </div>
         </div>
 
     </div>
 </div>
 
+<!-- DELETE MODAL -->
 <div id="delete-user-modal"
     class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
 
-    <div class="w-full max-w-md bg-white rounded-[28px] shadow-2xl border border-red-100 overflow-hidden">
+    <div class="w-full max-w-md bg-white rounded-md shadow-2xl border border-slate-200 overflow-hidden">
 
-        <div class="p-7 text-center">
-            <div class="w-16 h-16 mx-auto rounded-2xl bg-red-50 text-red-500 flex items-center justify-center mb-5">
-                <i class="fa-solid fa-triangle-exclamation text-2xl"></i>
+        <div class="p-6 text-center">
+            <div class="w-14 h-14 mx-auto rounded-md bg-red-50 text-red-500 flex items-center justify-center mb-4">
+                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
             </div>
 
-            <h3 class="text-2xl font-black text-slate-900">
+            <h3 class="text-xl font-black text-slate-700">
                 Xóa người dùng?
             </h3>
 
-            <p class="text-slate-500 font-semibold mt-3 leading-relaxed">
+            <p class="text-sm text-slate-500 font-semibold mt-3 leading-relaxed">
                 Người dùng sẽ bị xóa mềm và có thể khôi phục lại trong mục người dùng đã xóa.
             </p>
         </div>
 
-        <div class="px-7 pb-7 grid grid-cols-2 gap-3">
+        <div class="px-6 pb-6 grid grid-cols-2 gap-3">
             <button type="button" id="cancel-delete-user"
-                class="h-12 rounded-2xl bg-slate-100 text-slate-700 font-black hover:bg-slate-200 transition">
+                class="h-11 rounded-md bg-slate-100 text-slate-600 text-sm font-black hover:bg-slate-200 transition">
                 Hủy
             </button>
 
             <button type="button" id="confirm-delete-user"
-                class="h-12 rounded-2xl bg-red-500 text-white font-black hover:bg-red-600 transition">
+                class="h-11 rounded-md bg-red-500 text-white text-sm font-black hover:bg-red-600 transition">
                 Xóa
             </button>
         </div>
@@ -331,7 +418,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function loadUsers(url) {
         const wrapper = document.getElementById('users-list-wrapper');
-        if (!wrapper) return;
+
+        if (!wrapper) {
+            return;
+        }
 
         wrapper.classList.add('opacity-50', 'pointer-events-none');
 
@@ -350,6 +440,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 wrapper.innerHTML = newWrapper.innerHTML;
                 window.history.pushState({}, '', url);
             }
+        } catch (error) {
+            console.error('Không thể tải danh sách người dùng:', error);
         } finally {
             wrapper.classList.remove('opacity-50', 'pointer-events-none');
         }
@@ -383,7 +475,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('click', function(e) {
         const link = e.target.closest('.ajax-user-page');
-        if (!link) return;
+
+        if (!link) {
+            return;
+        }
 
         e.preventDefault();
         loadUsers(link.href);
@@ -391,7 +486,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('submit', function(e) {
         const currentDeleteForm = e.target.closest('.delete-user-form');
-        if (!currentDeleteForm) return;
+
+        if (!currentDeleteForm) {
+            return;
+        }
 
         e.preventDefault();
         openDeleteModal(currentDeleteForm);

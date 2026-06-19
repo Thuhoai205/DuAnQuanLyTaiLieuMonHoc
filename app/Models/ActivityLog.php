@@ -13,17 +13,15 @@ class ActivityLog extends Model
 
     protected $fillable = [
         'user_id',
-        'action',
         'description',
-        'is_read',
         'ip_address',
         'user_agent',
         'login_at',
         'logout_at',
+        'created_at',
     ];
 
     protected $casts = [
-        'is_read' => 'boolean',
         'login_at' => 'datetime',
         'logout_at' => 'datetime',
         'created_at' => 'datetime',
