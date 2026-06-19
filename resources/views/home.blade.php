@@ -47,9 +47,12 @@
                         <select name="subject_id"
                             class="px-5 py-4 rounded-2xl bg-cyan-800/50 text-white font-bold outline-none">
                             <option value="">Tất cả môn học</option>
-                            <option value="1">Lập trình Web</option>
-                            <option value="2">Cơ sở dữ liệu</option>
-                            <option value="3">Mạng máy tính</option>
+
+                            @foreach($subjects as $subject)
+                            <option value="{{ $subject->subject_id }}">
+                                {{ $subject->subject_name }}
+                            </option>
+                            @endforeach
                         </select>
 
                         <button
@@ -70,7 +73,9 @@
 
                         <div class="absolute -bottom-8 -left-8 bg-cyan-300 text-cyan-950 rounded-[28px] p-6 shadow-2xl">
                             <i class="fa-solid fa-book-open text-4xl mb-3"></i>
-                            <p class="text-3xl font-black">1.2K+</p>
+                            <p class="text-3xl font-black">
+                                {{ $totalDocuments }}
+                            </p>
                             <p class="text-sm font-bold">Tài liệu học tập</p>
                         </div>
                     </div>
@@ -399,17 +404,17 @@ setInterval(() => {
                     <!-- STATS -->
                     <div class="grid grid-cols-3 gap-3 max-w-xl">
                         <div class="rounded-2xl bg-white border border-cyan-100 p-4 shadow-sm">
-                            <p class="text-2xl font-black text-cyan-600">1.2K+</p>
+                            <p class="text-2xl font-black text-cyan-600">{{ $totalDocuments }}</p>
                             <p class="text-xs font-bold text-slate-500 mt-1">Tài liệu</p>
                         </div>
 
                         <div class="rounded-2xl bg-white border border-cyan-100 p-4 shadow-sm">
-                            <p class="text-2xl font-black text-cyan-600">50+</p>
+                            <p class="text-2xl font-black text-cyan-600">{{ $totalSubjects }}</p>
                             <p class="text-xs font-bold text-slate-500 mt-1">Môn học</p>
                         </div>
 
                         <div class="rounded-2xl bg-white border border-cyan-100 p-4 shadow-sm">
-                            <p class="text-2xl font-black text-cyan-600">6</p>
+                            <p class="text-2xl font-black text-cyan-600">{{ $totalFaculties }}</p>
                             <p class="text-xs font-bold text-slate-500 mt-1">Khoa</p>
                         </div>
                     </div>
@@ -544,78 +549,32 @@ setInterval(() => {
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
 
             <!-- ITEM -->
-            <a href="{{ route('subjects.show', ['id' => 1]) }}"
-                class="group bg-white home-card p-6 rounded-2xl shadow-sm text-center cursor-pointer">
+            @foreach($subjects as $subject)
 
-                <div
-                    class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                <a href="{{ route('subjects.show', $subject->subject_code) }}"
+                    class="group bg-white home-card p-6 rounded-2xl shadow-sm text-center cursor-pointer">
 
-                    <i class="fa-solid fa-laptop-code text-2xl"></i>
-                </div>
+                    <div
+                        class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
 
-                <h6 class="font-bold text-slate-800 mb-1 group-hover:text-cyan-600 transition-colors">
-                    Lập trình Web
-                </h6>
+                        <i class="fa-solid fa-book text-2xl"></i>
+                    </div>
 
-                <p class="text-xs text-slate-400 font-medium">
-                    120 tài liệu
-                </p>
-            </a>
+                    <h6 class="font-bold text-slate-800 mb-1 group-hover:text-cyan-600 transition-colors">
+                        {{ $subject->subject_name }}
+                    </h6>
 
-            <!-- ITEM -->
-            <a href="#" class="group bg-white home-card p-6 rounded-2xl shadow-sm text-center cursor-pointer">
+                    <p class="text-xs text-slate-400 font-medium">
+                        {{ $subject->subject_code }}
+                    </p>
 
-                <div
-                    class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <p class="text-xs text-cyan-600 font-semibold mt-2">
+                        {{ $subject->documents_count }} tài liệu
+                    </p>
 
-                    <i class="fa-solid fa-database text-2xl"></i>
-                </div>
+                </a>
 
-                <h6 class="font-bold text-slate-800 mb-1 group-hover:text-cyan-600 transition-colors">
-                    Cơ sở dữ liệu
-                </h6>
-
-                <p class="text-xs text-slate-400 font-medium">
-                    85 tài liệu
-                </p>
-            </a>
-
-            <!-- ITEM -->
-            <a href="#" class="group bg-white home-card p-6 rounded-2xl shadow-sm text-center cursor-pointer">
-
-                <div
-                    class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-
-                    <i class="fa-solid fa-network-wired text-2xl"></i>
-                </div>
-
-                <h6 class="font-bold text-slate-800 mb-1 group-hover:text-cyan-600 transition-colors">
-                    Mạng máy tính
-                </h6>
-
-                <p class="text-xs text-slate-400 font-medium">
-                    64 tài liệu
-                </p>
-            </a>
-
-            <!-- ITEM -->
-            <a href="#" class="group bg-white home-card p-6 rounded-2xl shadow-sm text-center cursor-pointer">
-
-                <div
-                    class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-
-                    <i class="fa-solid fa-diagram-project text-2xl"></i>
-                </div>
-
-                <h6 class="font-bold text-slate-800 mb-1 group-hover:text-cyan-600 transition-colors">
-                    Cấu trúc dữ liệu
-                </h6>
-
-                <p class="text-xs text-slate-400 font-medium">
-                    150 tài liệu
-                </p>
-            </a>
-
+            @endforeach
         </div>
     </div>
     <!-- Phần Tài liệu sẽ chia quyền sinh viên -->
@@ -650,163 +609,70 @@ setInterval(() => {
             <!-- CARD -->
             <div class="bg-white rounded-[32px] border border-cyan-100 overflow-hidden
             shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
-                <a href="{{ route('documents.show', 1) }}" class="group p-6 flex items-center gap-5 border-b border-cyan-100
-                hover:bg-cyan-50/60 transition-all duration-300">
-
-                    <!-- ICON -->
-                    <div class="w-16 h-16 rounded-2xl
-                    bg-red-50 text-red-500
-                    flex items-center justify-center shrink-0">
-
-                        <i class="fa-solid fa-file-pdf text-2xl"></i>
-                    </div>
 
                     <!-- CONTENT -->
-                    <div class="flex-1">
+                    @foreach($latestDocuments as $document)
 
-                        <h3
-                            class="text-lg font-black leading-relaxed text-slate-80 group-hover:text-cyan-600 transition-colors">
+                    <a href="{{ route('documents.show', $document->document_id) }}"
+                        class="group p-6 flex items-center gap-5 border-b border-cyan-100
+                        hover:bg-cyan-50/60 transition-all duration-300">
 
-                            Slide Bài 1: Tổng quan Laravel Framework
-                        </h3>
+                        <div class="w-16 h-16 rounded-2xl bg-red-50 text-red-500
+                            flex items-center justify-center shrink-0">
 
-                        <div class="flex flex-wrap gap-3 mt-3 text-sm text-slate-500 font-semibold">
+                            <i class="fa-solid fa-file-pdf text-2xl"></i>
 
-                            <span>
-                                <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
-                                Môn: Lập trình Web
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i>
-                                GV: ThS. Trần Văn B
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
-                                Hôm nay
-                            </span>
                         </div>
-                    </div>
 
-                    <!-- BUTTON -->
-                    <button class="shrink-0 px-6 py-3 rounded-2xl
-                    bg-cyan-500 text-white font-black
-                    hover:bg-cyan-600
-                    shadow-lg shadow-cyan-200
-                    transition-all duration-300 flex items-center gap-2">
+                        <div class="flex-1">
 
-                        <i class="fa-solid fa-download"></i>
-                        Tải về
-                    </button>
-                </a>
-                <!-- ITEM -->
-                <div class="group p-6 flex items-center gap-5 border-b border-cyan-100
-                hover:bg-cyan-50/60 transition-all duration-300">
+                            <h3 class="text-lg font-black leading-relaxed text-slate-800
+                                group-hover:text-cyan-600 transition-colors">
 
-                    <div class="w-16 h-16 rounded-2xl
-                    bg-blue-50 text-blue-500
-                    flex items-center justify-center shrink-0">
+                                {{ $document->title }}
 
-                        <i class="fa-solid fa-file-word text-2xl"></i>
-                    </div>
+                            </h3>
 
-                    <div class="flex-1">
+                            <div class="flex flex-wrap gap-3 mt-3 text-sm text-slate-500 font-semibold">
 
-                        <h3 class="text-lg font-black leading-relaxed text-slate-800
-    group-hover:text-cyan-600 transition-colors">
-                            Đề cương ôn tập giữa kỳ CSDL 2023-2024
-                        </h3>
+                                <span>
+                                    <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
+                                    {{ $document->subject?->subject_name ?? 'Chưa có môn học' }}
+                                </span>
 
-                        <div class="flex flex-wrap gap-3 mt-3 text-sm text-slate-500 font-semibold">
+                                <span>•</span>
 
-                            <span>
-                                <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
-                                Môn: Cơ sở dữ liệu
-                            </span>
+                                <span>
+                                    <i class="fa-solid fa-download mr-1 text-cyan-600"></i>
+                                    {{ $document->download_count }} lượt tải
+                                </span>
 
-                            <span>•</span>
+                                <span>•</span>
 
-                            <span>
-                                <i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i>
-                                GV: TS. Lê Thị C
-                            </span>
+                                <span>
+                                    <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
+                                    {{ $document->created_at->format('d/m/Y') }}
+                                </span>
 
-                            <span>•</span>
+                            </div>
 
-                            <span>
-                                <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
-                                Hôm qua
-                            </span>
                         </div>
-                    </div>
 
-                    <button class="shrink-0 px-6 py-3 rounded-2xl
-                    bg-cyan-500 text-white font-black
-                    hover:bg-cyan-600
-                    shadow-lg shadow-cyan-200
-                    transition-all duration-300 flex items-center gap-2">
+                        <button
+                            class="shrink-0 px-6 py-3 rounded-2xl
+                            bg-cyan-500 text-white font-black
+                            hover:bg-cyan-600
+                            shadow-lg shadow-cyan-200
+                            transition-all duration-300 flex items-center gap-2">
 
-                        <i class="fa-solid fa-download"></i>
-                        Tải về
-                    </button>
-                </div>
+                            <i class="fa-solid fa-eye"></i>
+                            Xem
 
-                <!-- ITEM -->
-                <div class="group p-6 flex items-center gap-5
-                hover:bg-cyan-50/60 transition-all duration-300">
+                        </button>
 
-                    <div class="w-16 h-16 rounded-2xl
-                    bg-emerald-50 text-emerald-500
-                    flex items-center justify-center shrink-0">
+                    </a>
 
-                        <i class="fa-solid fa-file-excel text-2xl"></i>
-                    </div>
-
-                    <div class="flex-1">
-
-                        <h3 class="text-lg font-black leading-relaxed text-slate-800
-    group-hover:text-cyan-600 transition-colors">
-                            Danh sách chia nhóm & Bài tập lớn Mạng máy tính
-                        </h3>
-
-                        <div class="flex flex-wrap gap-3 mt-3 text-sm text-slate-500 font-semibold">
-
-                            <span>
-                                <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
-                                Môn: Mạng máy tính
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i>
-                                GV: Phạm Văn D
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
-                                2 ngày trước
-                            </span>
-                        </div>
-                    </div>
-
-                    <button class="shrink-0 px-6 py-3 rounded-2xl
-                    bg-cyan-500 text-white font-black
-                    hover:bg-cyan-600
-                    shadow-lg shadow-cyan-200
-                    transition-all duration-300 flex items-center gap-2">
-
-                        <i class="fa-solid fa-download"></i>
-                        Tải về
-                    </button>
-                </div>
+                    @endforeach
 
                 <!-- FOOTER -->
                 <div class="border-t border-cyan-100 p-5 text-center bg-cyan-50/40">
@@ -850,64 +716,57 @@ setInterval(() => {
             <div class="rounded-[32px] bg-white border border-cyan-100 p-5 shadow-[0_20px_60px_rgba(8,145,178,0.12)]">
 
                 <div class="space-y-4">
+                    
 
-                    <div class="rounded-2xl p-5 bg-cyan-50 border border-cyan-100 hover:bg-cyan-100 transition">
+                    @foreach($topDocuments as $index => $document)
+
+                    <a href="{{ route('documents.show', $document->document_id) }}"
+                        class="block rounded-2xl p-5 bg-cyan-50 border border-cyan-100 hover:bg-cyan-100 transition">
+
                         <div class="flex items-start gap-4">
-                            <span class="text-4xl font-black text-cyan-500">1</span>
+
+                            <span class="text-4xl font-black text-cyan-500">
+                                {{ $index + 1 }}
+                            </span>
 
                             <div class="flex-1">
+
                                 <div class="flex items-center gap-2">
-                                    <h3
-                                        class="text-lg font-black leading-relaxed text-slate-800  group-hover:text-cyan-600 transition-colors">
-                                        Đề thi mẫu cuối kỳ CSDL...
+
+                                    <h3 class="text-lg font-black leading-relaxed text-slate-800">
+
+                                        {{ \Illuminate\Support\Str::limit($document->title, 35) }}
+
                                     </h3>
 
+                                    @if($index == 0)
                                     <span class="px-2 py-1 rounded-full bg-cyan-500 text-white text-[10px] font-black">
                                         HOT
                                     </span>
+                                    @endif
+
                                 </div>
 
-                                <p class="text-cyan-600 text-sm mt-2 font-semibold">
-                                    <i class="fa-solid fa-download mr-1"></i>
-                                    1,245 lượt tải
+                                <p class="text-slate-500 text-sm mt-2 font-semibold">
+                                    <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
+
+                                    {{ $document->subject?->subject_name ?? 'Chưa có môn học' }}
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rounded-2xl p-5 bg-cyan-50 border border-cyan-100 hover:bg-cyan-100 transition">
-                        <div class="flex items-start gap-4">
-                            <span class="text-4xl font-black text-cyan-500">2</span>
-
-                            <div>
-                                <h3 class="text-lg font-black leading-relaxed text-slate-800
-    group-hover:text-cyan-600 transition-colors"> Đồ án mẫu Lập trình Web...
-                                </h3>
 
                                 <p class="text-cyan-600 text-sm mt-2 font-semibold">
                                     <i class="fa-solid fa-download mr-1"></i>
-                                    980 lượt tải
+
+                                    {{ number_format($document->download_count) }}
+                                    lượt tải
                                 </p>
+
                             </div>
+
                         </div>
-                    </div>
 
-                    <div class="rounded-2xl p-5 bg-cyan-50 border border-cyan-100 hover:bg-cyan-100 transition">
-                        <div class="flex items-start gap-4">
-                            <span class="text-4xl font-black text-cyan-500">3</span>
+                    </a>
 
-                            <div>
-                                <h3 class="text-lg font-black leading-relaxed text-slate-800
-    group-hover:text-cyan-600 transition-colors"> Giáo trình Mạng máy tính...
-                                </h3>
-
-                                <p class="text-cyan-600 text-sm mt-2 font-semibold">
-                                    <i class="fa-solid fa-download mr-1"></i>
-                                    750 lượt tải
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
 
                 </div>
             </div>
@@ -948,19 +807,13 @@ setInterval(() => {
             </div>
 
             <!-- CARD -->
-            <div class="bg-white rounded-[32px]
-            border border-cyan-100 overflow-hidden
-            shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+            <div class="bg-white rounded-[32px] border border-cyan-100 overflow-hidden shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
 
                 <!-- ITEM -->
-                <a href="{{ route('documents.show', 1) }}" class="group p-6 flex items-center gap-5
-                border-b border-cyan-100
-                hover:bg-cyan-50/60 transition-all duration-300">
+                <a href="{{ route('documents.show', 1) }}" class="group p-6 flex items-center gap-5 border-b border-cyan-100 hover:bg-cyan-50/60 transition-all duration-300">
 
                     <!-- FILE ICON -->
-                    <div class="w-16 h-16 rounded-2xl
-                    bg-red-50 text-red-500
-                    flex items-center justify-center shrink-0">
+                    <div class="w-16 h-16 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
 
                         <i class="fa-solid fa-file-pdf text-2xl"></i>
                     </div>
@@ -968,15 +821,12 @@ setInterval(() => {
                     <!-- CONTENT -->
                     <div class="flex-1">
 
-                        <h3 class="text-lg font-black leading-relaxed
-                        text-slate-800
-                        group-hover:text-cyan-600 transition-colors">
+                        <h3 class="text-lg font-black leading-relaxed text-slate-800 group-hover:text-cyan-600 transition-colors">
 
                             Slide Bài 1: Tổng quan Laravel Framework
                         </h3>
 
-                        <div class="flex flex-wrap gap-3 mt-3
-                        text-sm text-slate-500 font-semibold">
+                        <div class="flex flex-wrap gap-3 mt-3 text-sm text-slate-500 font-semibold">
 
                             <span>
                                 <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
@@ -1000,12 +850,7 @@ setInterval(() => {
                     </div>
 
                     <!-- BUTTON -->
-                    <button class="shrink-0 px-6 py-3 rounded-2xl
-                    bg-cyan-500 text-white font-black
-                    hover:bg-cyan-600
-                    shadow-lg shadow-cyan-200
-                    transition-all duration-300
-                    flex items-center gap-2">
+                    <button class="shrink-0 px-6 py-3 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition-all duration-300 flex items-center gap-2">
 
                         <i class="fa-solid fa-download"></i>
                         Tải về
@@ -1014,14 +859,10 @@ setInterval(() => {
                 </a>
 
                 <!-- ITEM -->
-                <div class="group p-6 flex items-center gap-5
-                border-b border-cyan-100
-                hover:bg-cyan-50/60 transition-all duration-300">
+                <div class="group p-6 flex items-center gap-5 border-b border-cyan-100 hover:bg-cyan-50/60 transition-all duration-300">
 
                     <!-- FILE ICON -->
-                    <div class="w-16 h-16 rounded-2xl
-                    bg-blue-50 text-blue-500
-                    flex items-center justify-center shrink-0">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-500  flex items-center justify-center shrink-0">
 
                         <i class="fa-solid fa-file-word text-2xl"></i>
                     </div>
@@ -1029,15 +870,11 @@ setInterval(() => {
                     <!-- CONTENT -->
                     <div class="flex-1">
 
-                        <h3 class="text-lg font-black leading-relaxed
-                        text-slate-800
-                        group-hover:text-cyan-600 transition-colors">
-
+                        <h3 class="text-lg font-black leading-relaxed text-slate-800 group-hover:text-cyan-600 transition-colors">
                             Đề cương ôn tập giữa kỳ CSDL 2023-2024
                         </h3>
 
-                        <div class="flex flex-wrap gap-3 mt-3
-                        text-sm text-slate-500 font-semibold">
+                        <div class="flex flex-wrap gap-3 mt-3 text-sm text-slate-500 font-semibold">
 
                             <span>
                                 <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
@@ -1061,12 +898,7 @@ setInterval(() => {
                     </div>
 
                     <!-- BUTTON -->
-                    <button class="shrink-0 px-6 py-3 rounded-2xl
-                    bg-cyan-500 text-white font-black
-                    hover:bg-cyan-600
-                    shadow-lg shadow-cyan-200
-                    transition-all duration-300
-                    flex items-center gap-2">
+                    <button class="shrink-0 px-6 py-3 rounded-2xl bg-cyan-500 text-white font-black  hover:bg-cyan-600  shadow-lg shadow-cyan-200 transition-all duration-300 flex items-center gap-2">
 
                         <i class="fa-solid fa-download"></i>
                         Tải về
@@ -1074,13 +906,10 @@ setInterval(() => {
                 </div>
 
                 <!-- ITEM -->
-                <div class="group p-6 flex items-center gap-5
-                hover:bg-cyan-50/60 transition-all duration-300">
+                <div class="group p-6 flex items-center gap-5  hover:bg-cyan-50/60 transition-all duration-300">
 
                     <!-- FILE ICON -->
-                    <div class="w-16 h-16 rounded-2xl
-                    bg-emerald-50 text-emerald-500
-                    flex items-center justify-center shrink-0">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500  flex items-center justify-center shrink-0">
 
                         <i class="fa-solid fa-file-excel text-2xl"></i>
                     </div>
@@ -1088,15 +917,12 @@ setInterval(() => {
                     <!-- CONTENT -->
                     <div class="flex-1">
 
-                        <h3 class="text-lg font-black leading-relaxed
-                        text-slate-800
-                        group-hover:text-cyan-600 transition-colors">
+                        <h3 class="text-lg font-black leading-relaxed text-slate-800 group-hover:text-cyan-600 transition-colors">
 
                             Danh sách chia nhóm & Bài tập lớn Mạng máy tính
                         </h3>
 
-                        <div class="flex flex-wrap gap-3 mt-3
-                        text-sm text-slate-500 font-semibold">
+                        <div class="flex flex-wrap gap-3 mt-3   text-sm text-slate-500 font-semibold">
 
                             <span>
                                 <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
@@ -1174,8 +1000,7 @@ setInterval(() => {
 
             <!-- STATS CARD -->
             <!-- STATS CARD -->
-            <div class="rounded-[32px] bg-white border border-cyan-100
-    p-6 shadow-[0_20px_60px_rgba(8,145,178,0.12)]">
+            <div class="rounded-[32px] bg-white border border-cyan-100 p-6 shadow-[0_20px_60px_rgba(8,145,178,0.12)]">
 
                 <!-- TOP -->
                 <div class="grid grid-cols-2 gap-4">
@@ -1225,9 +1050,7 @@ setInterval(() => {
                             </p>
                         </div>
 
-                        <div class="w-14 h-14 rounded-2xl bg-cyan-500 text-white
-                flex items-center justify-center shadow-lg shadow-cyan-200 shrink-0">
-
+                        <div class="w-14 h-14 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 shrink-0">
                             <i class="fa-solid fa-fire text-xl"></i>
                         </div>
 
