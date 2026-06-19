@@ -273,8 +273,8 @@ $this->syncLecturers($subject, $teacherIds);
                 'content' => 'Bạn đã được phân công giảng dạy môn: ' . $subject->subject_name,
                 'type' => 'subject_assignment',
                 'related_type' => 'subject',
-                'related_id' => $subject->subject_code,
-                'is_read' => false,
+'related_id' => $subject->getKey(),    
+            'is_read' => false,
             ]);
         }
     }

@@ -30,9 +30,7 @@ return new class extends Migration
             // system
 
             $table->string('related_type', 50)->nullable();
-
-            $table->unsignedBigInteger('related_id')->nullable();
-
+            $table->string('related_id', 255)->nullable();
             $table->boolean('is_read')->default(false);
 
             $table->timestamp('created_at')->useCurrent();
