@@ -33,8 +33,6 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                     class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
                     <i class="fa-solid fa-trash-can-arrow-up"></i>
 
-                    <span>Đã xóa</span>
-
                     @if($totalTrashedUsers > 0)
                     <span
                         class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
@@ -167,6 +165,7 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
 
         <div id="users-table-wrapper" class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
+            <!-- HEADER -->
             <div
                 class="px-5 py-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
@@ -185,9 +184,18 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
             </div>
 
             <div class="overflow-x-auto">
+
                 <table class="w-full text-left">
+
+                    <!-- TABLE HEADER -->
                     <thead class="bg-slate-50 border-b border-slate-200">
                         <tr>
+
+                            <!-- STT (THÊM MỚI) -->
+                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                                STT
+                            </th>
+
                             <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
                                 Người dùng
                             </th>
@@ -207,13 +215,22 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                             <th class="px-5 py-4 text-xs font-black uppercase text-slate-500 text-right">
                                 Hành động
                             </th>
+
                         </tr>
                     </thead>
 
+                    <!-- TABLE BODY -->
                     <tbody class="divide-y divide-slate-100">
+
                         @forelse($users as $user)
                         <tr class="hover:bg-slate-50 transition">
 
+                            <!-- STT (THÊM MỚI) -->
+                            <td class="px-5 py-4 text-sm font-black text-slate-500">
+                                {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}
+                            </td>
+
+                            <!-- USER -->
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
                                     <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=0ea5e9&color=fff' }}"
@@ -249,9 +266,9 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                                     @method('PATCH')
 
                                     <button type="submit" class="px-3 py-1 rounded text-xs font-black transition
-                                                {{ $user->is_active
-                                                    ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white'
-                                                    : 'bg-red-50 text-red-500 hover:bg-red-500 hover:text-white' }}">
+                                    {{ $user->is_active
+                                        ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white'
+                                        : 'bg-red-50 text-red-500 hover:bg-red-500 hover:text-white' }}">
                                         {{ $user->is_active ? 'Hoạt động' : 'Bị khóa' }}
                                     </button>
                                 </form>
@@ -289,7 +306,7 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="px-5 py-12 text-center">
+                            <td colspan="6" class="px-5 py-12 text-center">
                                 <div
                                     class="w-14 h-14 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
                                     <i class="fa-solid fa-users text-xl"></i>
@@ -301,7 +318,9 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                             </td>
                         </tr>
                         @endforelse
+
                     </tbody>
+
                 </table>
             </div>
 

@@ -18,7 +18,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
     body {
         font-family: 'Inter', sans-serif;
@@ -108,29 +108,36 @@
         <aside class="w-[230px] min-w-[230px] h-screen bg-[#263445] text-slate-300 flex flex-col">
 
             <!-- LOGO -->
-            <div class="relative h-20 min-h-20 px-6 border-b border-slate-800/80 flex items-center overflow-hidden">
-                <div class="absolute -top-16 -right-16 w-36 h-36 rounded-full bg-cyan-500/10 blur-2xl"></div>
-                <div class="absolute -bottom-16 -left-16 w-36 h-36 rounded-full bg-sky-500/10 blur-2xl"></div>
+            <div class="relative h-16 min-h-16 px-5 border-b border-slate-800/70 flex items-center overflow-hidden">
 
-                <a href="{{ route('admin.dashboard') }}" class="relative flex items-center gap-4 group">
+                <!-- background glow -->
+                <div class="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-cyan-500/10 blur-2xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-sky-500/10 blur-2xl"></div>
+
+                <a href="{{ route('admin.dashboard') }}" class="relative flex items-center gap-3 group">
+
+                    <!-- ICON -->
                     <div
-                        class="w-12 h-12 rounded-[18px] bg-gradient-to-br from-cyan-400 via-cyan-500 to-sky-600 text-white flex items-center justify-center shadow-lg shadow-cyan-500/25 ring-1 ring-white/10 group-hover:scale-105 transition-all duration-300">
-                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                        class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-sky-600 text-white flex items-center justify-center shadow-md shadow-cyan-500/20 ring-1 ring-white/10 group-hover:scale-105 transition">
+
+                        <i class="fa-solid fa-graduation-cap text-base"></i>
                     </div>
 
+                    <!-- TEXT -->
                     <div class="leading-none">
-                        <h1 class="text-[26px] font-black tracking-[-0.06em]">
-                            <span class="text-white drop-shadow-sm">EDU</span><span
-                                class="text-cyan-400 drop-shadow-sm">DOC</span>
+
+                        <h1 class="text-lg font-black tracking-[-0.04em]">
+                            <span class="text-white">EDU</span><span class="text-cyan-400">DOC</span>
                         </h1>
 
-                        <p class="mt-2 text-[10px] font-black uppercase tracking-[0.32em] text-slate-500">
+                        <p class="mt-1 text-[9px] font-bold uppercase tracking-[0.28em] text-slate-500">
                             Admin Panel
                         </p>
+
                     </div>
+
                 </a>
             </div>
-
 
             <!-- NAVIGATION -->
             <nav class="sidebar-scroll flex-1 overflow-y-auto py-3">
@@ -144,7 +151,6 @@
                     <i class="nav-icon fa-solid fa-house"></i>
                     <span>Dashboard</span>
 
-                    <i class="fa-solid fa-chevron-down ml-auto text-[10px] opacity-50"></i>
                 </a>
 
                 <div class="menu-title">

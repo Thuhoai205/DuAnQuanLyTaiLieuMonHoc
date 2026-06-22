@@ -9,43 +9,45 @@ class DocumentTypeSeeder extends Seeder
 {
     public function run(): void
     {
-        $adminId = DB::table('users')->where('email', 'admin@gmail.com')->value('user_id');
+        $adminId = DB::table('users')
+            ->where('email', 'admin@gmail.com')
+            ->value('user_id');
 
         $types = [
             [
                 'type_name' => 'Đề cương',
                 'description' => 'Tài liệu mô tả nội dung, mục tiêu và kế hoạch học tập của môn học.',
-                'icon' => 'clipboard-list',
+                'icon' => 'fa-solid fa-clipboard-list',
                 'color' => 'blue',
             ],
             [
                 'type_name' => 'Bài giảng',
                 'description' => 'Slide hoặc tài liệu bài giảng do giảng viên cung cấp.',
-                'icon' => 'presentation',
+                'icon' => 'fa-solid fa-chalkboard-user',
                 'color' => 'green',
             ],
             [
                 'type_name' => 'Bài tập',
                 'description' => 'Bài tập thực hành, bài tập về nhà hoặc bài tập nhóm.',
-                'icon' => 'pencil',
+                'icon' => 'fa-solid fa-pencil',
                 'color' => 'orange',
             ],
             [
                 'type_name' => 'Tài liệu tham khảo',
                 'description' => 'Tài liệu mở rộng phục vụ quá trình học tập và nghiên cứu.',
-                'icon' => 'book-open',
+                'icon' => 'fa-solid fa-book-open',
                 'color' => 'purple',
             ],
             [
                 'type_name' => 'Đề ôn tập',
                 'description' => 'Tài liệu ôn tập trước kiểm tra hoặc thi kết thúc môn.',
-                'icon' => 'file-search',
+                'icon' => 'fa-solid fa-file-lines',
                 'color' => 'yellow',
             ],
             [
                 'type_name' => 'Đề thi',
                 'description' => 'Đề kiểm tra, đề thi giữa kỳ hoặc cuối kỳ.',
-                'icon' => 'file-check',
+                'icon' => 'fa-solid fa-file-circle-check',
                 'color' => 'red',
             ],
         ];
@@ -60,10 +62,8 @@ class DocumentTypeSeeder extends Seeder
                     'is_active' => true,
                     'created_by' => $adminId,
                     'updated_by' => $adminId,
-                    'deleted_by' => null,
                     'created_at' => now(),
                     'updated_at' => now(),
-                    'deleted_at' => null,
                 ]
             );
         }

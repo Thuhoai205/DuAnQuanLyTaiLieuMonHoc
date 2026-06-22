@@ -266,7 +266,45 @@ $previewColor = $colorMap[old('color', 'blue')] ?? 'sky';
                             Chọn 1 ảnh đại diện cho môn học
                         </p>
                     </div>
+                    <div>
+                        <label class="text-xs font-black text-slate-500 uppercase">
+                            Giảng viên phụ trách
+                        </label>
 
+                        <!-- SEARCH -->
+                        <div class="mt-2 relative">
+                            <i
+                                class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+
+                            <input type="text" id="teacher-search" placeholder="Tìm giảng viên..."
+                                class="w-full h-10 pl-9 pr-3 rounded-md bg-slate-50 border text-sm font-semibold">
+                        </div>
+
+                        <!-- LIST -->
+                        <div id="teacher-list" class="mt-3 border rounded-md bg-white max-h-52 overflow-y-auto">
+
+                            @foreach($teachers as $lecturer)
+                            <label
+                                class="teacher-item flex items-center gap-3 px-3 py-2 hover:bg-slate-50 cursor-pointer border-b last:border-b-0">
+
+                                <input type="checkbox" name="teacher_ids[]" value="{{ $lecturer->user_id }}"
+                                    class="accent-sky-500 w-4 h-4" @checked(in_array($lecturer->user_id,
+                                $selectedLecturers ?? []))>
+
+                                <div class="min-w-0">
+                                    <p class="teacher-name text-sm font-black text-slate-700 truncate">
+                                        {{ $lecturer->full_name }}
+                                    </p>
+                                    <p class="teacher-email text-xs text-slate-400 truncate">
+                                        {{ $lecturer->email }}
+                                    </p>
+                                </div>
+
+                            </label>
+                            @endforeach
+
+                        </div>
+                    </div>
                     {{-- FOOTER --}}
                     <div class="px-6 py-4 border-t border-slate-200 flex justify-end gap-3">
 
@@ -296,5 +334,43 @@ document.getElementById('subjectIconInput')?.addEventListener('change', function
     const icon = document.getElementById('iconPreview');
     if (!icon) return;
     icon.className = this.value + ' text-slate-600';
+});
+document.addEventListener('DOMContentLoaded', function() {
+
+    const searchInput = document.getElementById('teacher-search');
+    const items = document.querySelectorAll('.teacher-item');
+
+    // Hàm bỏ dấu tiếng Việt
+    function removeVietnameseTones(str) {
+        return str
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd')
+            .replace(/Đ/g, 'D')
+            .toLowerCase();
+    }
+
+    searchInput.addEventListener('input', function() {
+
+        const keyword = removeVietnameseTones(this.value);
+
+        items.forEach(item => {
+
+            const name = removeVietnameseTones(
+                item.querySelector('.teacher-name').textContent
+            );
+
+            const email = removeVietnameseTones(
+                item.querySelector('.teacher-email').textContent
+            );
+
+            if (name.includes(keyword) || email.includes(keyword)) {
+                item.style.display = 'flex';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+
 });
 </script>
