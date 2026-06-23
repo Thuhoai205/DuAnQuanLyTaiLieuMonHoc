@@ -45,6 +45,7 @@ class SubjectController extends Controller
         $subjects = $query->orderBy('subject_name')
             ->paginate(6)
             ->withQueryString();
+        $totalTrashedSubjects = Subject::onlyTrashed()->count();
 
         return view('admin.subjects.index', [
             'subjects' => $subjects,
@@ -56,7 +57,7 @@ class SubjectController extends Controller
             'totalTeachers' => User::where('role_id', 2)->where('is_active', true)->count(),
             'totalDocuments' => Document::count(),
 
-            'totalTrashedSubjects' => Subject::onlyTrashed()->count(),
+            'totalTrashedSubjects'
         ]);
     }
 

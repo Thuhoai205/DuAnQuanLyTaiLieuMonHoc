@@ -25,18 +25,15 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
 
             <div class="flex items-center gap-3">
 
-                <a href="{{ route('admin.subjects.trashed') }}" class="relative inline-flex items-center gap-2 h-11 px-4 rounded-md
-          bg-red-50 text-red-600 border border-red-200
-          font-black hover:bg-red-100 transition">
-
-                    <!-- ICON -->
+                <a href="{{ route('admin.subjects.trashed') }}"
+                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
                     <i class="fa-solid fa-trash-can-arrow-up"></i>
-                    <!-- BADGE -->
-
-                    <span id="trash-count"
-                        class="min-w-5 h-5 px-2 rounded-full bg-red-500 text-white text-[10px] flex items-center justify-center">
+                    @if($totalTrashedSubjects> 0)
+                    <span
+                        class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
                         {{ $totalTrashedSubjects }}
                     </span>
+                    @endif
                 </a>
 
                 <a href="{{ route('admin.subjects.create') }}"

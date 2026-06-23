@@ -18,6 +18,8 @@ $colorMap = [
 'purple' => 'bg-purple-50 text-purple-600',
 'emerald' => 'bg-emerald-50 text-emerald-600',
 ];
+$totalTrashedDocumentTypes = $totalTrashedDocumentTypes ?? 0;
+
 @endphp
 
 <div class="space-y-6">
@@ -33,19 +35,21 @@ $colorMap = [
         <div class="flex gap-3">
 
             <a href="{{ route('admin.document-types.trashed') }}"
-                class="relative h-11 px-4 flex items-center gap-2 bg-red-50 text-red-600 rounded-md font-black">
-
-                <i class="fa-solid fa-trash"></i>
-
-                <span id="trash-count"
-                    class="min-w-5 h-5 px-2 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">
+                class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
+                <i class="fa-solid fa-trash-can-arrow-up"></i>
+                @if($totalTrashedDocumentTypes> 0)
+                <span
+                    class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
                     {{ $totalTrashedDocumentTypes }}
                 </span>
+                @endif
             </a>
 
             <a href="{{ route('admin.document-types.create') }}"
-                class="h-11 px-4 flex items-center bg-sky-500 text-white rounded-md font-black">
-                + Thêm loại
+                class="h-11 px-4 flex items-center bg-sky-500 text-white rounded-md font-black hover:bg-sky-600 transition">
+
+                <i class="fa-solid fa-plus mr-2"></i>
+                Thêm môn học
             </a>
 
         </div>

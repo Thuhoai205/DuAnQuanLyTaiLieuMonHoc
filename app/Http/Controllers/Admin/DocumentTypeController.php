@@ -14,39 +14,47 @@ class DocumentTypeController extends Controller
     /* =========================
      * INDEX
      * ========================= */
-    public function index(Request $request)
-    {
-        $query = DocumentType::withCount('documents');
+  public function index(Request $request)
+{
+    $query = DocumentType::withCount('documents');
 
-        // SEARCH
-        if ($request->filled('search')) {
-            $query->where('type_name', 'like', '%' . $request->search . '%');
-        }
-
-        // STATUS
-        if ($request->filled('status')) {
-            $query->where('is_active', $request->status);
-        }
-
-        // SORT
-        if ($request->sort === 'az') {
-            $query->orderBy('type_name', 'asc');
-        } elseif ($request->sort === 'za') {
-            $query->orderBy('type_name', 'desc');
-        } else {
-            $query->orderByDesc('document_type_id');
-        }
-
-        $documentTypes = $query->paginate(5)->withQueryString();
-
-        return view('admin.document-types.index', [
-            'documentTypes' => $documentTypes,
-            'totalTypes' => DocumentType::count(),
-            'totalDocuments' => Document::count(),
-            'totalTrashedDocumentTypes' => DocumentType::onlyTrashed()->count(),
-        ]);
+    // SEARCH
+    if ($request->filled('search')) {
+        $query->where('type_name', 'like', '%' . $request->search . '%');
     }
 
+    // STATUS (0/1)
+    if ($request->filled('status')) {
+        $query->where('is_active', (int) $request->status);
+    }
+
+    // SORT
+    $sort = $request->get('sort', 'newest');
+
+    if ($sort === 'az') {
+        $query->orderBy('type_name', 'asc');
+    } elseif ($sort === 'za') {
+        $query->orderBy('type_name', 'desc');
+    } else {
+        $query->orderByDesc('document_type_id');
+    }
+
+    $documentTypes = $query->paginate(5)->withQueryString();
+
+    // AJAX SUPPORT
+    if ($request->ajax()) {
+        return view('admin.document-types.index', compact(
+            'documentTypes'
+        ))->render();
+    }
+
+    return view('admin.document-types.index', [
+        'documentTypes' => $documentTypes,
+        'totalTypes' => DocumentType::count(),
+        'totalDocuments' => Document::count(),
+        'totalTrashedDocumentTypes' => DocumentType::onlyTrashed()->count(),
+    ]);
+}
     /* =========================
      * TRASH
      * ========================= */
