@@ -48,6 +48,9 @@ $icons = [
         <!-- LEFT -->
         <div class="xl:col-span-4">
             <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
+                <div class="h-48 w-full overflow-hidden">
+                    <img src="{{ $subject->thumbnail_url }}">
+                </div>
 
                 <div class="p-6 text-center bg-slate-50 border-b border-slate-200">
 
@@ -155,7 +158,53 @@ $icons = [
 
                         </select>
                     </div>
+                    {{-- THUMBNAIL SELECT --}}
+                    <div class="mt-6">
+                        <label class="text-xs font-black text-slate-500 uppercase">
+                            Ảnh môn học
+                        </label>
 
+                        <div class="mt-3 grid grid-cols-5 gap-4">
+
+                            @foreach($subjectImages as $key => $img)
+
+                            <label class="cursor-pointer group relative">
+
+                                <input type="radio" name="thumbnail" value="{{ $img }}" class="hidden peer"
+                                    @checked(old('thumbnail', $subject->thumbnail ?? '01.jpg') == $img)>
+
+                                <div class="relative rounded-xl overflow-hidden border-2 border-slate-200
+                        transition-all duration-200
+                        group-hover:shadow-lg
+                        peer-checked:border-sky-500
+                        peer-checked:shadow-md
+                        peer-checked:scale-[1.03]">
+
+                                    <img src="{{ asset('img/subjects/' . $img) }}" class="w-full h-20 object-cover">
+
+                                    <div class="absolute inset-0 bg-sky-500/0
+                            peer-checked:bg-sky-500/10 transition"></div>
+
+                                    <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-sky-500 text-white
+                            flex items-center justify-center text-[10px]
+                            opacity-0 scale-75
+                            peer-checked:opacity-100 peer-checked:scale-100 transition">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+
+                                </div>
+
+                                <p
+                                    class="text-[11px] text-center mt-1 font-semibold text-slate-500 group-hover:text-slate-700">
+                                    Ảnh {{ $key }}
+                                </p>
+
+                            </label>
+
+                            @endforeach
+
+                        </div>
+                    </div>
                     <!-- LECTURERS -->
                     <div>
                         <label class="text-xs font-black text-slate-500 uppercase">

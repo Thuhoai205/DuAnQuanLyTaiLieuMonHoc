@@ -63,11 +63,20 @@ class SubjectController extends Controller
     /* =========================
      * CREATE
      * ========================= */
-    public function create()
+   public function create()
     {
+        $subjectImages = [
+            '01' => '01.jpg',
+            '02' => '02.jpg',
+            '03' => '03.jpg',
+            '04' => '04.jpg',
+            '05' => '05.jpg',
+        ];
+
         return view('admin.subjects.create', [
             'faculties' => Faculty::where('is_active', true)->get(),
             'teachers' => User::where('role_id', 2)->where('is_active', true)->get(),
+            'subjectImages' => $subjectImages,
         ]);
     }
 
@@ -106,38 +115,51 @@ class SubjectController extends Controller
      * SHOW
      * ========================= */
     public function show(string $id)
-    {
-        $subject = Subject::with([
-            'faculty',
-            'lecturers',
-            'documents.documentType',
-            'documents.currentVersion',
-            'documents.uploader'
-        ])
-            ->withCount(['documents', 'lecturers'])
-            ->where('subject_code', $id)
-            ->firstOrFail();
+{
+    $subject = Subject::with([
+        'faculty',
+        'lecturers',
+        'documents.documentType',
+        'documents.currentVersion',
+        'documents.uploader'
+    ])
+    ->withCount(['documents', 'lecturers'])
+    ->where('subject_code', $id)
+    ->firstOrFail();
 
-        return view('admin.subjects.show', compact('subject'));
-    }
+    // FIX THUMBNAIL PATH
+   $subject->thumbnail_url = $subject->thumbnail
+    ? asset('img/subjects/' . $subject->thumbnail)
+    : asset('img/subjects/01.jpg');
+    return view('admin.subjects.show', compact('subject'));
+}
 
     /* =========================
      * EDIT
      * ========================= */
-    public function edit(string $id)
-    {
-        $subject = Subject::with(['faculty', 'lecturers'])
-            ->withCount(['documents', 'lecturers'])
-            ->where('subject_code', $id)
-            ->firstOrFail();
+   public function edit(string $id)
+{
+    $subject = Subject::with(['faculty', 'lecturers'])
+        ->withCount(['documents', 'lecturers'])
+        ->where('subject_code', $id)
+        ->firstOrFail();
 
-        return view('admin.subjects.edit', [
-            'subject' => $subject,
-            'teachers' => User::where('role_id', 2)->where('is_active', true)->get(),
-            'selectedLecturers' => $subject->lecturers->pluck('user_id')->toArray(),
-            'faculties' => Faculty::where('is_active', true)->get(),
-        ]);
-    }
+    $subjectImages = [
+        '01' => '01.jpg',
+        '02' => '02.jpg',
+        '03' => '03.jpg',
+        '04' => '04.jpg',
+        '05' => '05.jpg',
+    ];
+
+    return view('admin.subjects.edit', [
+        'subject' => $subject,
+        'teachers' => User::where('role_id', 2)->where('is_active', true)->get(),
+        'selectedLecturers' => $subject->lecturers->pluck('user_id')->toArray(),
+        'faculties' => Faculty::where('is_active', true)->get(),
+        'subjectImages' => $subjectImages,
+    ]);
+}
 
     /* =========================
      * UPDATE

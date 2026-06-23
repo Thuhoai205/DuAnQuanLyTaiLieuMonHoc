@@ -210,7 +210,7 @@ $previewColor = $colorMap[old('color', 'blue')] ?? 'sky';
 
                     </div>
 
-                    {{-- THUMBNAIL (GOOGLE CLASSROOM FINAL FIX) --}}
+                    {{-- THUMBNAIL --}}
                     <div>
                         <label class="text-xs font-black text-slate-500 uppercase">
                             Ảnh môn học
@@ -223,9 +223,8 @@ $previewColor = $colorMap[old('color', 'blue')] ?? 'sky';
                             <label class="cursor-pointer group relative">
 
                                 <input type="radio" name="thumbnail" value="{{ $img }}" class="hidden peer"
-                                    @checked(old('thumbnail')==$img)>
+                                    @checked(old('thumbnail', '01.jpg' )==$img)>
 
-                                {{-- CARD --}}
                                 <div class="relative rounded-xl overflow-hidden border-2 border-slate-200
                         transition-all duration-200
                         group-hover:shadow-lg
@@ -234,26 +233,22 @@ $previewColor = $colorMap[old('color', 'blue')] ?? 'sky';
                         peer-checked:scale-[1.03]">
 
                                     <img src="{{ asset('img/subjects/' . $img) }}" class="w-full h-20 object-cover">
-                                    {{-- overlay --}}
-                                    <div class="absolute inset-0 bg-sky-500/0
-                            peer-checked:bg-sky-500/10
-                            transition"></div>
 
-                                    {{-- check icon --}}
+                                    <div class="absolute inset-0 bg-sky-500/0
+                            peer-checked:bg-sky-500/10 transition"></div>
+
                                     <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-sky-500 text-white
                             flex items-center justify-center text-[10px]
                             opacity-0 scale-75
-                            peer-checked:opacity-100 peer-checked:scale-100
-                            transition">
+                            peer-checked:opacity-100 peer-checked:scale-100 transition">
                                         <i class="fa-solid fa-check"></i>
                                     </div>
 
                                 </div>
 
-                                {{-- LABEL --}}
                                 <p class="text-[11px] text-center mt-1 font-semibold text-slate-500
                       group-hover:text-slate-700">
-                                    {{ ucfirst($key) }}
+                                    Ảnh {{ $key }}
                                 </p>
 
                             </label>
