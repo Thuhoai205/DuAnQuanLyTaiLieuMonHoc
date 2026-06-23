@@ -13,19 +13,19 @@ class HomeController extends Controller
         // Danh sách môn học
         $subjects = Subject::withCount('documents')
             ->latest()
-            ->take(8)
+            ->take(4)
             ->get();
 
         // Tài liệu mới nhất
         $latestDocuments = Document::with('subject')
             ->latest()
-            ->take(5)
+            ->take(4)
             ->get();
 
         // Tài liệu tải nhiều
         $topDocuments = Document::with('subject')
             ->orderByDesc('download_count')
-            ->take(5)
+            ->take(4)
             ->get();
 
         // Thống kê
