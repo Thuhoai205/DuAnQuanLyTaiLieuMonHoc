@@ -132,8 +132,7 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
             @php
             $documentCount = $subject->documents_count ?? 0;
             $teacherCount = $subject->lecturers->count();
-            $isActive = $subject->status === 'active';
-
+            $active = $subject->status === 'active';
             $colorMap = [
             'blue' => ['bg' => 'bg-sky-50', 'text' => 'text-sky-600'],
             'green' => ['bg' => 'bg-emerald-50', 'text' => 'text-emerald-600'],
@@ -184,17 +183,18 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
                     <div class="col-span-2 font-black text-slate-700">{{ $documentCount }}</div>
                     <div class="col-span-2 font-black text-slate-700">{{ $teacherCount }}</div>
 
+                    <!-- STATUS -->
+                    <!-- STATUS -->
                     <div class="col-span-2">
                         <span id="status-{{ $subject->subject_code }}" class="text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1
-    {{ $isActive ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500' }}">
+                            {{ $active ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500' }}">
 
-                            <span
-                                class="w-1.5 h-1.5 rounded-full {{ $isActive ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                            <span class="w-1.5 h-1.5 rounded-full
+                                {{ $active ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
 
-                            {{ $isActive ? 'Hoạt động' : 'Ẩn' }}
+                            {{ $active ? 'Hoạt động' : 'Ẩn' }}
                         </span>
                     </div>
-
                     <div class="col-span-1 flex justify-end">
                         <div class="flex items-center gap-2">
 
@@ -211,17 +211,12 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
                             </a>
 
                             <!-- TOGGLE STATUS (AJAX) -->
-                            <button type="button" onclick="toggleSubjectStatus('{{ $subject->subject_code }}', this)"
-                                class="w-9 h-9 flex items-center justify-center rounded-md {{ $isActive ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100' : 'bg-yellow-50 text-yellow-600 hover:bg-yellow-100' }}">
+                            <button type="button" onclick="toggleStatus('{{ $subject->subject_code }}', this)" class="w-9 h-9 flex items-center justify-center rounded-md
+                            {{ $active ? 'bg-emerald-50 text-emerald-600' : 'bg-yellow-50 text-yellow-600' }}">
 
-                                @if($isActive)
-                                <!-- ACTIVE = UNLOCK -->
-                                <i class="fa-solid fa-lock-open text-sm"></i>
-                                @else
-                                <!-- INACTIVE = LOCK -->
-                                <i class="fa-solid fa-lock text-sm"></i>
-                                @endif
+                                <i class="fa-solid {{ $active ? 'fa-lock-open' : 'fa-lock' }}"></i>
                             </button>
+
 
                             <!-- DELETE -->
                             <form action="{{ route('admin.subjects.destroy', $subject->subject_code) }}" method="POST">
@@ -294,7 +289,9 @@ async function loadSubjects(url) {
 
     area.classList.remove('opacity-50');
 }
-async function toggleSubjectStatus(id, btn) {
+async function toggleStatus(id, btn) {
+    console.log('Clicked:', id);
+
     const res = await fetch(`/admin/subjects/${id}/status`, {
         method: 'PATCH',
         headers: {
@@ -307,36 +304,35 @@ async function toggleSubjectStatus(id, btn) {
     if (!data.success) return;
 
     const badge = document.getElementById(`status-${id}`);
+    const icon = btn.querySelector('i');
 
     if (data.status === 'active') {
 
+        // ACTIVE
         badge.className =
             "text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1 bg-emerald-50 text-emerald-600";
 
-        badge.innerHTML = `
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-            Hoạt động
-        `;
+        badge.innerHTML =
+            `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Hoạt động`;
 
         btn.className =
-            "w-9 h-9 flex items-center justify-center rounded-md bg-yellow-50 text-yellow-600 hover:bg-yellow-100 transition";
+            "w-9 h-9 flex items-center justify-center rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100";
 
-        btn.innerHTML = `<i class="fa-solid fa-lock text-sm"></i>`;
+        icon.className = "fa-solid fa-lock-open text-sm";
 
     } else {
 
+        // INACTIVE
         badge.className =
             "text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1 bg-red-50 text-red-500";
 
-        badge.innerHTML = `
-            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-            Ẩn
-        `;
+        badge.innerHTML =
+            `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Ẩn`;
 
         btn.className =
-            "w-9 h-9 flex items-center justify-center rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition";
+            "w-9 h-9 flex items-center justify-center rounded-md bg-yellow-50 text-yellow-600 hover:bg-yellow-100";
 
-        btn.innerHTML = `<i class="fa-solid fa-lock-open text-sm"></i>`;
+        icon.className = "fa-solid fa-lock text-sm";
     }
 }
 
@@ -344,7 +340,10 @@ async function deleteSubject(id, btn) {
 
     if (!confirm('Bạn có chắc muốn xóa?')) return;
 
-    const res = await fetch(`/admin/subjects/${id}`, {
+    const res = await fetch(` / admin / subjects / $ {
+    id
+}
+`, {
         method: 'DELETE',
         headers: {
             'X-CSRF-TOKEN': '{{ csrf_token() }}',

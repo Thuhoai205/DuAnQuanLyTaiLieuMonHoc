@@ -7,7 +7,8 @@ use App\Models\ActivityLog;
 use App\Models\DocumentType;
 use App\Models\Subject;
 use App\Models\User;
-
+use App\Models\Document;
+use App\Models\DownloadHistory;
 class DashboardController extends Controller
 {
     public function index()
@@ -42,6 +43,13 @@ class DashboardController extends Controller
             ->groupByRaw('MONTH(created_at)')
             ->pluck('total', 'month');
 
+        $latestDocuments = Document::with([
+        'subject',
+        'uploader'
+    ])
+    ->latest()
+    ->take(5)
+    ->get();
         $chartLabels = [];
         $userChartData = [];
         $subjectChartData = [];
@@ -70,11 +78,19 @@ class DashboardController extends Controller
             'todayLogs' => ActivityLog::whereDate('created_at', today())->count(),
 
             'recentActivities' => $recentActivities,
-
+'latestDocuments' => $latestDocuments,
             'chartLabels' => $chartLabels,
             'userChartData' => $userChartData,
             'subjectChartData' => $subjectChartData,
             'documentTypeChartData' => $documentTypeChartData,
+            'totalDocuments' => Document::count(),
+
+'totalDownloads' => DownloadHistory::count(),
+
+'topDocuments' => Document::with('subject')
+    ->orderByDesc('download_count')
+    ->take(5)
+    ->get(),
         ]);
     }
 }

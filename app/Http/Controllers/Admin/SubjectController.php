@@ -37,10 +37,10 @@ class SubjectController extends Controller
             $query->where('faculty_id', $request->faculty_id);
         }
 
-        // STATUS FILTER
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
+        // STATUS (0/1)
+    if ($request->filled('status')) {
+        $query->where('is_active', (int) $request->status);
+    }
 
         $subjects = $query->orderBy('subject_name')
             ->paginate(6)
@@ -49,6 +49,7 @@ class SubjectController extends Controller
 
         return view('admin.subjects.index', [
             'subjects' => $subjects,
+            
             'faculties' => Faculty::where('is_active', true)
                 ->orderBy('faculty_name')
                 ->get(),
@@ -247,21 +248,30 @@ class SubjectController extends Controller
     /* =========================
      * TOGGLE STATUS (AJAX)
      * ========================= */
-    public function toggleStatus(string $id)
-    {
-        $subject = Subject::where('subject_code', $id)->firstOrFail();
+  public function toggleStatus(string $id)
+{
+    $subject = Subject::where(
+        'subject_code',
+        $id
+    )->firstOrFail();
 
-        $subject->status = $subject->status === 'active' ? 'archived' : 'active';
-        $subject->updated_by = Auth::id();
-        $subject->save();
+    $subject->status =
+        $subject->status === 'active'
+        ? 'archived'
+        : 'active';
 
-        return response()->json([
-            'success' => true,
-            'status' => $subject->status,
-            'label' => $subject->status === 'active' ? 'Hoạt động' : 'Ẩn'
-        ]);
-    }
+    $subject->updated_by = Auth::id();
 
+    $subject->save();
+
+    return response()->json([
+        'success' => true,
+        'status' => $subject->status,
+        'label' => $subject->status === 'active'
+            ? 'Hoạt động'
+            : 'Đã khóa'
+    ]);
+}
     /* =========================
      * SYNC LECTURERS + NOTIFICATION
      * ========================= */

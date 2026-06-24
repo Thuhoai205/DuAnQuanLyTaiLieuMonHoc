@@ -168,15 +168,19 @@
                     <i class="nav-icon fa-solid fa-book-open"></i>
                     <span>Môn học</span>
                 </a>
+                <a href="{{ route('admin.documents.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.documents.*') ? 'active' : '' }}">
 
+                    <i class="nav-icon fa-solid fa-file-lines"></i>
+                    <span>Tài liệu</span>
+
+                </a>
                 <a href="{{ route('admin.document-types.index') }}"
                     class="nav-link {{ request()->routeIs('admin.document-types.*') ? 'active' : '' }}">
                     <i class="nav-icon fa-solid fa-layer-group"></i>
                     <span>Loại tài liệu</span>
 
-                    <span class="ml-auto text-[10px] px-2 py-0.5 rounded bg-orange-400 text-white font-black">
-                        New
-                    </span>
+
                 </a>
 
                 <div class="menu-title">
@@ -188,9 +192,7 @@
                     <i class="nav-icon fa-solid fa-chart-pie"></i>
                     <span>Thống kê</span>
 
-                    <span class="ml-auto text-[10px] px-2 py-0.5 rounded bg-cyan-500 text-white font-black">
-                        Info
-                    </span>
+
                 </a>
 
                 <a href="{{ route('admin.logs.index') }}"

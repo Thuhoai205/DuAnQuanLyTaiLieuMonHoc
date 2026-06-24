@@ -7,7 +7,22 @@
 
 @php
 $colors = ['blue','green','red','yellow','purple','cyan','gray'];
+/**
+* COLOR MAP (FIX TAILWIND DYNAMIC CLASS ISSUE)
+*/
+$colorClassMap = [
+'blue' => 'bg-sky-50 text-sky-600',
+'red' => 'bg-red-50 text-red-600',
+'green' => 'bg-emerald-50 text-emerald-600',
+'yellow' => 'bg-amber-50 text-amber-600',
+'purple' => 'bg-violet-50 text-violet-600',
+'cyan' => 'bg-cyan-50 text-cyan-600',
+'gray' => 'bg-slate-50 text-slate-600',
+];
 
+$color = $colorClassMap[$subject->color] ?? $colorClassMap['blue'];
+
+$subjectIcon = $subject->icon ?: 'fa-solid fa-book-open';
 $icons = [
 'fa-solid fa-book-open' => 'Book',
 'fa-solid fa-code' => 'Code',
@@ -54,10 +69,9 @@ $icons = [
 
                 <div class="p-6 text-center bg-slate-50 border-b border-slate-200">
 
-                    <div class="w-16 h-16 mx-auto rounded-md bg-sky-50 flex items-center justify-center">
-                        <i class="{{ $subject->icon ?? 'fa-solid fa-book-open' }} text-sky-600 text-xl"></i>
+                    <div class="w-14 h-14 mx-auto rounded-xl flex items-center justify-center {{ $color }}">
+                        <i class="{{ $subjectIcon }} text-xl"></i>
                     </div>
-
                     <h3 class="mt-4 text-lg font-black text-slate-700">
                         {{ $subject->subject_name }}
                     </h3>
@@ -121,8 +135,15 @@ $icons = [
                         </select>
 
                         <select name="status" class="h-11 px-4 rounded-md bg-slate-50 border text-sm font-semibold">
-                            <option value="active" @selected($subject->status=='active')>Hoạt động</option>
-                            <option value="inactive" @selected($subject->status=='inactive')>Ẩn</option>
+
+                            <option value="active" @selected($subject->status == 'active')>
+                                Hoạt động
+                            </option>
+
+                            <option value="archived" @selected($subject->status == 'archived')>
+                                Đã khóa
+                            </option>
+
                         </select>
 
                     </div>

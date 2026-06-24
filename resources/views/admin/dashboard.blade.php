@@ -10,6 +10,10 @@ $totalUsers = $totalUsers ?? 0;
 $totalSubjects = $totalSubjects ?? 0;
 $totalDocumentTypes = $totalDocumentTypes ?? 0;
 
+$totalDocuments = $totalDocuments ?? 0;
+$totalDownloads = $totalDownloads ?? 0;
+$topDocuments = $topDocuments ?? collect();
+
 $totalLogs = $totalLogs ?? 0;
 $totalLoginLogs = $totalLoginLogs ?? 0;
 $totalLogoutLogs = $totalLogoutLogs ?? 0;
@@ -42,12 +46,14 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 <div class="space-y-6">
 
     <!-- TOP SUMMARY -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5 items-stretch">
 
         <!-- USERS -->
         <a href="{{ $usersUrl }}"
-            class="block bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md cursor-pointer">
+            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+
             <div class="flex items-center justify-between">
+
                 <div>
                     <p class="text-xs font-bold uppercase text-slate-400">
                         Người dùng
@@ -65,13 +71,16 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 <div class="w-11 h-11 rounded-md bg-sky-500 text-white flex items-center justify-center shadow-sm">
                     <i class="fa-solid fa-users"></i>
                 </div>
+
             </div>
         </a>
 
         <!-- SUBJECTS -->
         <a href="{{ $subjectsUrl }}"
-            class="block bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md cursor-pointer">
+            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+
             <div class="flex items-center justify-between">
+
                 <div>
                     <p class="text-xs font-bold uppercase text-slate-400">
                         Môn học
@@ -82,20 +91,50 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                     </h3>
 
                     <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Quản lý danh sách môn học
+                        Quản lý môn học
                     </p>
                 </div>
 
                 <div class="w-11 h-11 rounded-md bg-emerald-500 text-white flex items-center justify-center shadow-sm">
                     <i class="fa-solid fa-book-open"></i>
                 </div>
+
             </div>
         </a>
 
+        <!-- DOCUMENTS -->
+        <div
+            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Tài liệu
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalDocuments) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Quản lý tài liệu
+                    </p>
+                </div>
+
+                <div class="w-11 h-11 rounded-md bg-purple-500 text-white flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-file-lines"></i>
+                </div>
+
+            </div>
+        </div>
+
         <!-- DOCUMENT TYPES -->
         <a href="{{ $documentTypesUrl }}"
-            class="block bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md cursor-pointer">
+            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+
             <div class="flex items-center justify-between">
+
                 <div>
                     <p class="text-xs font-bold uppercase text-slate-400">
                         Loại tài liệu
@@ -106,15 +145,43 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                     </h3>
 
                     <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Quản lý danh mục loại tài liệu
+                        Phân loại tài liệu
                     </p>
                 </div>
 
                 <div class="w-11 h-11 rounded-md bg-amber-500 text-white flex items-center justify-center shadow-sm">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
+
             </div>
         </a>
+
+        <!-- DOWNLOADS -->
+        <div
+            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+                    <p class="text-xs font-bold uppercase text-slate-400">
+                        Lượt tải
+                    </p>
+
+                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                        {{ number_format($totalDownloads) }}
+                    </h3>
+
+                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                        Thống kê tải xuống
+                    </p>
+                </div>
+
+                <div class="w-11 h-11 rounded-md bg-rose-500 text-white flex items-center justify-center shadow-sm">
+                    <i class="fa-solid fa-download"></i>
+                </div>
+
+            </div>
+        </div>
 
     </div>
 
@@ -258,6 +325,169 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 
     </div>
 
+    <div class="overflow-x-auto">
+
+        <table class="w-full">
+
+            <thead class="bg-slate-50 border-b border-slate-200">
+
+                <tr class="text-xs font-black uppercase text-slate-500">
+
+                    <th class="px-5 py-3 text-center w-16">STT</th>
+                    <th class="px-5 py-3">Tài liệu</th>
+                    <th class="px-5 py-3">Môn học</th>
+                    <th class="px-5 py-3">Người đăng</th>
+                    <th class="px-5 py-3">Ngày đăng</th>
+                    <th class="px-5 py-3 text-center">Thao tác</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody class="divide-y divide-slate-100">
+
+                @forelse($latestDocuments as $index => $document)
+
+                <tr class="hover:bg-slate-50 transition">
+
+                    <!-- STT -->
+                    <td class="px-5 py-4 text-center">
+
+                        <span
+                            class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-slate-100 text-slate-600 text-xs font-black">
+
+                            {{ $index + 1 }}
+
+                        </span>
+
+                    </td>
+
+                    <!-- TÀI LIỆU -->
+                    <td class="px-5 py-4">
+
+                        <div class="flex items-start gap-3">
+
+                            <div
+                                class="w-10 h-10 rounded-md bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
+
+                                <i class="fa-solid fa-file-lines"></i>
+
+                            </div>
+
+                            <div>
+
+                                <h4 class="font-black text-slate-700">
+                                    {{ $document->title }}
+                                </h4>
+
+                                <p class="text-xs text-slate-400 mt-1">
+                                    {{ \Illuminate\Support\Str::limit($document->description, 60) }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <!-- MÔN HỌC -->
+                    <td class="px-5 py-4">
+
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
+
+                            {{ $document->subject->subject_name ?? 'Chưa phân loại' }}
+
+                        </span>
+
+                    </td>
+
+                    <!-- NGƯỜI ĐĂNG -->
+                    <td class="px-5 py-4">
+
+                        <div class="flex items-center gap-2">
+
+                            <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center">
+
+                                <i class="fa-solid fa-user"></i>
+
+                            </div>
+
+                            <span class="font-semibold text-slate-600">
+
+                                {{ $document->uploader->full_name ?? 'Không xác định' }}
+
+                            </span>
+
+                        </div>
+
+                    </td>
+
+                    <!-- NGÀY ĐĂNG -->
+                    <td class="px-5 py-4">
+
+                        <div class="text-sm font-semibold text-slate-600">
+
+                            {{ $document->created_at->format('d/m/Y') }}
+
+                        </div>
+
+                        <div class="text-xs text-slate-400">
+
+                            {{ $document->created_at->format('H:i') }}
+
+                        </div>
+
+                    </td>
+
+                    <!-- ACTION -->
+                    <td class="px-5 py-4">
+
+                        <div class="flex justify-center gap-2">
+
+                            <a href="{{ route('admin.documents.show', $document->document_id) }}"
+                                class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-100 transition">
+
+                                <i class="fa-solid fa-eye"></i>
+
+                            </a>
+
+
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                @empty
+
+                <tr>
+
+                    <td colspan="6" class="py-12 text-center">
+
+                        <div
+                            class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+
+                            <i class="fa-solid fa-file-circle-xmark text-2xl"></i>
+
+                        </div>
+
+                        <p class="text-sm font-black text-slate-500">
+                            Chưa có tài liệu nào được tải lên
+                        </p>
+
+                    </td>
+
+                </tr>
+
+                @endforelse
+
+            </tbody>
+
+        </table>
+
+    </div>
     <!-- RECENT ACTIVITIES -->
     <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden self-start h-fit">
         <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
@@ -316,7 +546,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 
                         <p class="text-[11px] font-bold text-slate-400 mt-1">
                             @if($time)
-                            {{ \Carbon\Carbon::parse($time)->diffForHumans() }}
+                            {{ \Carbon\Carbon::parse($time)->locale('vi')->diffForHumans() }}
                             @else
                             Không rõ thời gian
                             @endif

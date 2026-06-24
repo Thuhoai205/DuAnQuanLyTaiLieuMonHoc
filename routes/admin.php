@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\DocumentTypeController;
+use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\Admin\LogController;
 
@@ -99,6 +100,26 @@ Route::middleware('auth')
 
         Route::resource('document-types', DocumentTypeController::class);
 
+
+        Route::prefix('documents')->name('documents.')->group(function () {
+
+    Route::get('/trashed', [DocumentController::class, 'trashed'])
+        ->name('trashed');
+
+    Route::post('/restore-multiple', [DocumentController::class, 'restoreMultiple'])
+        ->name('restoreMultiple');
+
+    Route::patch('/{document}/restore', [DocumentController::class, 'restore'])
+        ->name('restore');
+
+    Route::delete('/{document}/force-delete', [DocumentController::class, 'forceDelete'])
+        ->name('forceDelete');
+
+    Route::patch('/{document}/status', [DocumentController::class, 'toggleStatus'])
+        ->name('status');
+});
+
+Route::resource('documents', DocumentController::class);
         /*
         |--------------------------
         | STATISTICS

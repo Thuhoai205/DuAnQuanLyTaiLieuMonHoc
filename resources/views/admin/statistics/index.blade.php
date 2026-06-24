@@ -200,11 +200,11 @@
              class="px-5 py-4 border-b border-slate-200from-amber-50 to-orange-50 border-b rounded-md flex items-center justify-between">
              <div>
                  <h2 class="text-xl font-black text-slate-900">
-                     Top 5 Download
+                     Top 3 Download
                  </h2>
 
                  <p class="text-sm text-slate-500 font-semibold mt-1">
-                     5 tài liệu có lượt tải cao nhất.
+                     3 tài liệu có lượt tải cao nhất.
                  </p>
              </div>
 
@@ -317,11 +317,11 @@
          class="px-5 py-4 border-b border-slate-200from-emerald-50 to-green-50 border-b rounded-md flex items-center justify-between">
          <div>
              <h2 class="text-xl font-black text-slate-900">
-                 5 hoạt động tải gần đây
+                 4 hoạt động tải gần đây
              </h2>
 
              <p class="text-sm text-slate-500 font-semibold mt-1">
-                 5 lượt tải tài liệu mới nhất.
+                 4 lượt tải tài liệu mới nhất.
              </p>
          </div>
 
