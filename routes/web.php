@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Teacher\DocumentController;
+use App\Http\Controllers\DocumentController;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
@@ -76,9 +76,8 @@ Route::get('/documents/{id}/edit', function ($id) {
 Route::get('/tai-lieu-cua-toi', [DocumentController::class, 'myDocuments'])
     ->name('documents.my-documents');
 
-Route::get('/search', function () {
-    return view('documents.search');
-})->name('documents.search');
+Route::get('/search', [DocumentController::class, 'search'])
+    ->name('documents.search');
 
 /*
 |--------------------------------------------------------------------------
