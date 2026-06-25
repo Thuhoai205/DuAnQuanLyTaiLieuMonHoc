@@ -4,7 +4,9 @@
 @section('page-title', 'Chi tiết tài liệu')
 
 @section('content')
-
+@php
+$versionExt = strtolower($document->currentVersion->file_extension ?? '');
+@endphp
 <div class="space-y-6">
 
 
@@ -15,10 +17,41 @@
 
             <div class="flex items-center gap-4">
 
-                <div class="w-16 h-16 rounded-md bg-sky-50 text-sky-500 flex items-center justify-center">
-                    <i class="fa-solid fa-file-lines text-2xl"></i>
-                </div>
 
+
+                <div class="w-10 h-10 rounded-md flex items-center justify-center shrink-0
+
+    @if(in_array(  $versionExt,['pdf']))
+        bg-red-50 text-red-500
+    @elseif(in_array(  $versionExt,['doc','docx']))
+        bg-blue-50 text-blue-600
+    @elseif(in_array(  $versionExt,['xls','xlsx']))
+        bg-green-50 text-green-600
+    @elseif(in_array(  $versionExt,['ppt','pptx']))
+        bg-orange-50 text-orange-600
+    @else
+        bg-slate-100 text-slate-500
+    @endif
+">
+
+                    @if(in_array( $versionExt,['pdf']))
+                    <i class="fa-solid fa-file-pdf"></i>
+
+                    @elseif(in_array( $versionExt,['doc','docx']))
+                    <i class="fa-solid fa-file-word"></i>
+
+                    @elseif(in_array( $versionExt,['xls','xlsx']))
+                    <i class="fa-solid fa-file-excel"></i>
+
+                    @elseif(in_array( $versionExt,['ppt','pptx']))
+                    <i class="fa-solid fa-file-powerpoint"></i>
+
+                    @else
+                    <i class="fa-solid fa-file"></i>
+                    @endif
+
+
+                </div>
                 <div>
 
                     <h1 class="text-xl font-black text-slate-700">
@@ -44,12 +77,11 @@
                 </a>
 
 
-                <a href="{{ url()->previous() }}"
-                    class="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-600 text-sm font-black hover:bg-slate-100 transition">
-                    <i class="fa-solid fa-arrow-left mr-1"></i>
-                    Quay lại
+                {{-- BACK --}}
+                <a href="{{ route('admin.documents.index') }}"
+                    class="h-10 px-4 flex items-center bg-slate-100 text-slate-700 rounded-md font-black hover:bg-slate-200 transition">
+                    ← Quay lại
                 </a>
-
 
             </div>
 
@@ -105,8 +137,7 @@
 
                     <div>
                         <p class="text-xs font-bold uppercase text-slate-400">
-                            Người đăng
-                        </p>
+                            Người đăng </p>
 
                         <p class="mt-1 font-semibold text-slate-700">
                             {{ $document->uploader->full_name ?? '-' }}
@@ -184,9 +215,39 @@
 
                     <div class="flex items-center gap-4">
 
-                        <div
-                            class="w-14 h-14 rounded-md bg-red-50 text-red-500 flex items-center justify-center shrink-0">
-                            <i class="fa-solid fa-file-pdf text-2xl"></i>
+
+
+                        <div class="w-10 h-10 rounded-md flex items-center justify-center shrink-0
+
+    @if(in_array(  $versionExt,['pdf']))
+        bg-red-50 text-red-500
+    @elseif(in_array(  $versionExt,['doc','docx']))
+        bg-blue-50 text-blue-600
+    @elseif(in_array(  $versionExt,['xls','xlsx']))
+        bg-green-50 text-green-600
+    @elseif(in_array(  $versionExt,['ppt','pptx']))
+        bg-orange-50 text-orange-600
+    @else
+        bg-slate-100 text-slate-500
+    @endif
+">
+
+                            @if(in_array( $versionExt,['pdf']))
+                            <i class="fa-solid fa-file-pdf"></i>
+
+                            @elseif(in_array( $versionExt,['doc','docx']))
+                            <i class="fa-solid fa-file-word"></i>
+
+                            @elseif(in_array( $versionExt,['xls','xlsx']))
+                            <i class="fa-solid fa-file-excel"></i>
+
+                            @elseif(in_array( $versionExt,['ppt','pptx']))
+                            <i class="fa-solid fa-file-powerpoint"></i>
+
+                            @else
+                            <i class="fa-solid fa-file"></i>
+                            @endif
+
                         </div>
 
                         <div>
@@ -226,9 +287,6 @@
         </div>
 
         @endif
-
-
-        <!-- DANH SÁCH PHIÊN BẢN -->
         <!-- DANH SÁCH PHIÊN BẢN -->
 
         <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
@@ -283,7 +341,9 @@
                     <tbody class="divide-y divide-slate-100">
 
                         @forelse($document->documentVersions as $version)
-
+                        @php
+                        $versionExt = strtolower($version->file_extension ?? '');
+                        @endphp
                         <tr class="hover:bg-slate-50 transition">
 
                             <!-- STT -->
@@ -304,8 +364,7 @@
                                 <span
                                     class="inline-flex items-center justify-center min-w-[60px] px-3 py-1 rounded-md bg-sky-50 text-sky-600 text-xs font-black">
 
-                                    {{ $version->version_name }}
-
+                                    1.{{ $loop->index }}
                                 </span>
 
                             </td>
@@ -314,9 +373,32 @@
                             <td class="px-5 py-5">
                                 <div class="flex items-center gap-3">
 
-                                    <div
-                                        class="w-10 h-10 rounded-md bg-red-50 text-red-500 flex items-center justify-center shrink-0">
+                                    <div class="w-10 h-10 rounded-md flex items-center justify-center shrink-0
+
+                @if(in_array(  $versionExt,['pdf']))
+                    bg-red-50 text-red-500
+                @elseif(in_array(  $versionExt,['doc','docx']))
+                    bg-blue-50 text-blue-600
+                @elseif(in_array(  $versionExt,['xls','xlsx']))
+                    bg-green-50 text-green-600
+                @elseif(in_array(  $versionExt,['ppt','pptx']))
+                    bg-orange-50 text-orange-600
+                @else
+                    bg-slate-100 text-slate-500
+                @endif">
+
+                                        @if(in_array( $versionExt,['pdf']))
                                         <i class="fa-solid fa-file-pdf"></i>
+                                        @elseif(in_array( $versionExt,['doc','docx']))
+                                        <i class="fa-solid fa-file-word"></i>
+                                        @elseif(in_array( $versionExt,['xls','xlsx']))
+                                        <i class="fa-solid fa-file-excel"></i>
+                                        @elseif(in_array( $versionExt,['ppt','pptx']))
+                                        <i class="fa-solid fa-file-powerpoint"></i>
+                                        @else
+                                        <i class="fa-solid fa-file"></i>
+                                        @endif
+
                                     </div>
 
                                     <div>
@@ -331,6 +413,7 @@
 
                                 </div>
                             </td>
+
                             <!-- KÍCH THƯỚC -->
                             <td class="px-5 py-5 text-center whitespace-nowrap">
 

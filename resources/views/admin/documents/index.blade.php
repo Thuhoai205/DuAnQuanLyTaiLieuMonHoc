@@ -7,84 +7,51 @@
 
 <div class="space-y-6">
 
+    <!-- HEADER -->
+    <div class="bg-white border rounded-md shadow-sm p-5 flex justify-between items-center">
 
-    <!-- THỐNG KÊ -->
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+        <div>
+            <h2 class="text-lg font-black">
+                Danh sách tài liệu
+            </h2>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs uppercase font-bold text-slate-400">
-                        Tổng tài liệu
-                    </p>
-
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
-                        {{ number_format($totalDocuments) }}
-                    </h3>
-                </div>
-
-                <div class="w-11 h-11 rounded-md bg-purple-500 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-            </div>
+            <p class="text-sm text-slate-500">
+                Quản lý tài liệu môn học
+            </p>
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs uppercase font-bold text-slate-400">
-                        Lượt tải
-                    </p>
+        <div class="flex gap-3">
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
-                        {{ number_format($totalDownloads) }}
-                    </h3>
-                </div>
+            <!-- THÙNG RÁC -->
+            <a href="#"
+                class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
 
-                <div class="w-11 h-11 rounded-md bg-rose-500 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-download"></i>
-                </div>
-            </div>
-        </div>
+                <i class="fa-solid fa-trash-can-arrow-up"></i>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs uppercase font-bold text-slate-400">
-                        Đang hoạt động
-                    </p>
+                @if($totalTrashedDocuments > 0)
+                <span
+                    class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
-                        {{ \App\Models\Document::where('is_active',1)->count() }}
-                    </h3>
-                </div>
+                    {{ $totalTrashedDocuments }}
 
-                <div class="w-11 h-11 rounded-md bg-emerald-500 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-circle-check"></i>
-                </div>
-            </div>
-        </div>
+                </span>
+                @endif
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <div class="flex justify-between items-center">
-                <div>
-                    <p class="text-xs uppercase font-bold text-slate-400">
-                        Thùng rác
-                    </p>
+            </a>
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
-                        {{ $totalTrashedDocuments }}
-                    </h3>
-                </div>
+            <!-- THÊM TÀI LIỆU -->
+            <a href="#"
+                class="h-11 px-4 flex items-center bg-sky-500 text-white rounded-md font-black hover:bg-sky-600 transition">
 
-                <div class="w-11 h-11 rounded-md bg-orange-500 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-trash"></i>
-                </div>
-            </div>
+                <i class="fa-solid fa-plus mr-2"></i>
+
+                Thêm tài liệu
+
+            </a>
+
         </div>
 
     </div>
-
     <!-- FILTER -->
     <div class="bg-white border rounded-md shadow-sm p-5">
 
@@ -166,36 +133,55 @@
         <div id="table-body">
             <div class="px-5 py-4 border-b flex justify-between items-center">
 
-                <h2 class="font-black text-slate-700">
-                    Danh sách tài liệu
-                </h2>
+                <div>
+                    <h2 class="font-black text-slate-700">
+                        Danh sách tài liệu
+                    </h2>
 
-                <a href="{{ route('admin.documents.create') }}"
-                    class="h-10 px-4 bg-sky-500 hover:bg-sky-600 text-white rounded-md text-sm font-black flex items-center">
+                    <p class="text-xs text-slate-400 mt-1">
+                        Quản lý tài liệu môn học
+                    </p>
+                </div>
 
-                    <i class="fa-solid fa-plus mr-2"></i>
-                    Thêm tài liệu
+                <span class="px-3 py-1 rounded-md bg-sky-50 text-sky-600 text-xs font-black">
 
-                </a>
+                    {{ $totalDocuments }} tài liệu
+
+                </span>
 
             </div>
 
             <div class="overflow-x-auto">
 
-                <table class="w-full">
+                <table class="w-full table-fixed">
 
-                    <thead class="bg-slate-50 border-b">
+                    <thead class="bg-slate-50 border-b border-slate-200">
 
-                        <tr class="text-xs uppercase font-black text-slate-500">
+                        <tr class="text-xs font-black uppercase text-slate-500">
 
-                            <th class="px-5 py-3 text-center w-16">STT</th>
-                            <th class="px-5 py-3">Tài liệu</th>
-                            <th class="px-5 py-3">Môn học</th>
-                            <th class="px-5 py-3">Loại</th>
-                            <th class="px-5 py-3">Người đăng</th>
-                            <th class="px-5 py-3 text-center">Lượt tải</th>
-                            <th class="px-5 py-3 text-center">Trạng thái</th>
-                            <th class="px-5 py-3 text-center">Thao tác</th>
+                            <th class="w-16 px-5 py-4 text-center">
+                                STT
+                            </th>
+
+                            <th class="px-5 py-4 text-left">
+                                Tài liệu
+                            </th>
+
+                            <th class="w-[250px] px-5 py-4 text-left">
+                                Người tạo
+                            </th>
+
+                            <th class="w-[120px] px-5 py-4 text-center">
+                                Lượt tải
+                            </th>
+
+                            <th class="w-[140px] px-5 py-4 text-center">
+                                Trạng thái
+                            </th>
+
+                            <th class="w-[120px] px-5 py-4 text-center">
+                                Thao tác
+                            </th>
 
                         </tr>
 
@@ -205,64 +191,206 @@
 
                         @forelse($documents as $document)
 
-                        <tr class="hover:bg-slate-50">
+                        @php
+                        $ext = strtolower(
+                        $document->currentVersion->file_extension ?? ''
+                        );
+                        @endphp
 
-                            <td class="px-5 py-4 text-center">
-                                {{ $documents->firstItem() + $loop->index }}
-                            </td>
+                        <tr class="hover:bg-slate-50 transition align-middle">
+                            <!-- STT -->
+                            <td class="px-5 py-5 align-middle">
 
-                            <td class="px-5 py-4">
-                                <div class="font-black text-slate-700">
-                                    {{ $document->title }}
+                                <div class="flex items-center justify-center">
+
+                                    <span class="inline-flex items-center justify-center
+                   w-8 h-8 rounded-md
+                   bg-slate-100 text-slate-600
+                   text-xs font-black">
+
+                                        {{ $documents->firstItem() + $loop->index }}
+
+                                    </span>
+
                                 </div>
 
-                                <div class="text-xs text-slate-400 mt-1">
-                                    {{ Str::limit($document->description,60) }}
+                            </td>
+
+                            <!-- TÀI LIỆU -->
+                            <td class="px-5 py-5 align-middle">
+                                <div class="flex items-center gap-4">
+                                    <!-- ICON -->
+                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0
+
+                            @if(in_array($ext,['pdf']))
+                                bg-red-50 text-red-500
+                            @elseif(in_array($ext,['doc','docx']))
+                                bg-blue-50 text-blue-600
+                            @elseif(in_array($ext,['xls','xlsx']))
+                                bg-green-50 text-green-600
+                            @elseif(in_array($ext,['ppt','pptx']))
+                                bg-orange-50 text-orange-600
+                            @elseif(in_array($ext,['zip','rar']))
+                                bg-yellow-50 text-yellow-600
+                            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
+                                bg-pink-50 text-pink-600
+                            @elseif(in_array($ext,['mp4','avi','mov']))
+                                bg-purple-50 text-purple-600
+                            @else
+                                bg-slate-100 text-slate-500
+                            @endif">
+
+                                        @if(in_array($ext,['pdf']))
+                                        <i class="fa-solid fa-file-pdf text-lg"></i>
+
+                                        @elseif(in_array($ext,['doc','docx']))
+                                        <i class="fa-solid fa-file-word text-lg"></i>
+
+                                        @elseif(in_array($ext,['xls','xlsx']))
+                                        <i class="fa-solid fa-file-excel text-lg"></i>
+
+                                        @elseif(in_array($ext,['ppt','pptx']))
+                                        <i class="fa-solid fa-file-powerpoint text-lg"></i>
+
+                                        @elseif(in_array($ext,['zip','rar']))
+                                        <i class="fa-solid fa-file-zipper text-lg"></i>
+
+                                        @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
+                                        <i class="fa-solid fa-file-image text-lg"></i>
+
+                                        @elseif(in_array($ext,['mp4','avi','mov']))
+                                        <i class="fa-solid fa-file-video text-lg"></i>
+
+                                        @else
+                                        <i class="fa-solid fa-file text-lg"></i>
+                                        @endif
+
+                                    </div>
+
+                                    <!-- THÔNG TIN -->
+                                    <div class="flex-1 min-w-0">
+
+                                        <h4 class="font-black text-slate-700 text-[15px] truncate"
+                                            title="{{ $document->title }}">
+
+                                            {{ $document->title }}
+
+                                        </h4>
+
+                                        <p class="text-sm text-slate-400 truncate mt-1"
+                                            title="{{ $document->description }}">
+
+                                            {{ $document->description ?? 'Không có mô tả' }}
+
+                                        </p>
+
+                                        <div class="flex flex-wrap gap-2 mt-2">
+
+                                            <span
+                                                class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-[11px] font-bold">
+
+                                                {{ $document->subject->subject_code ?? '-' }}
+
+                                            </span>
+
+                                            <span
+                                                class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 text-[11px] font-bold">
+
+                                                {{ $document->subject->subject_name ?? '-' }}
+
+                                            </span>
+
+                                            <span
+                                                class="px-2 py-0.5 rounded bg-sky-50 text-sky-600 text-[11px] font-bold">
+
+                                                {{ $document->documentType->type_name ?? '-' }}
+
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
                                 </div>
+
                             </td>
 
-                            <td class="px-5 py-4">
-                                {{ $document->subject->subject_name ?? '-' }}
+                            <!-- NGƯỜI TẠO -->
+                            <td class="px-5 py-5">
+
+                                <div class="flex items-center gap-3">
+
+                                    <div
+                                        class="w-9 h-9 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+
+                                        <i class="fa-solid fa-user text-sm"></i>
+
+                                    </div>
+
+                                    <span class="text-sm font-semibold text-slate-700">
+
+                                        {{ $document->uploader->full_name ?? '-' }}
+
+                                    </span>
+
+                                </div>
+
                             </td>
 
-                            <td class="px-5 py-4">
-                                {{ $document->documentType->type_name ?? '-' }}
+                            <!-- LƯỢT TẢI -->
+                            <td class="px-5 py-5 text-center">
+
+                                <span class="font-black text-slate-700">
+
+                                    {{ number_format($document->download_count) }}
+
+                                </span>
+
                             </td>
 
-                            <td class="px-5 py-4 whitespace-nowrap">
-                                {{ $document->uploader->full_name ?? '-' }}
-                            </td>
-
-                            <td class="px-5 py-4 text-center">
-                                {{ number_format($document->download_count) }}
-                            </td>
-
-                            <td class="px-5 py-4 text-center">
+                            <td class="px-5 py-5 text-center">
 
                                 @if($document->is_active)
-                                <span class="px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
+
+                                <span
+                                    class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
+
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                                     Hoạt động
+
                                 </span>
+
                                 @else
-                                <span class="px-3 py-1 rounded-md bg-red-50 text-red-500 text-xs font-black">
+
+                                <span
+                                    class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-red-50 text-red-500 text-xs font-black">
+
+                                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
                                     Đã khóa
+
                                 </span>
+
                                 @endif
 
                             </td>
 
-                            <td class="px-5 py-4">
+                            <!-- THAO TÁC -->
+                            <td class="px-5 py-5">
 
-                                <div class="flex justify-center gap-2">
+                                <div class="flex justify-center items-center gap-2">
 
                                     <a href="{{ route('admin.documents.show',$document->document_id) }}"
-                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center">
+                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-100 transition">
+
                                         <i class="fa-solid fa-eye"></i>
+
                                     </a>
 
                                     <a href="{{ route('admin.documents.edit',$document->document_id) }}"
-                                        class="w-9 h-9 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center">
+                                        class="w-9 h-9 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center hover:bg-amber-100 transition">
+
                                         <i class="fa-solid fa-pen"></i>
+
                                     </a>
 
                                 </div>
@@ -274,9 +402,24 @@
                         @empty
 
                         <tr>
-                            <td colspan="8" class="py-10 text-center text-slate-500">
-                                Chưa có tài liệu nào.
+
+                            <td colspan="6" class="py-12 text-center">
+
+                                <div
+                                    class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+
+                                    <i class="fa-solid fa-file-circle-xmark text-2xl"></i>
+
+                                </div>
+
+                                <p class="text-sm font-black text-slate-500">
+
+                                    Chưa có tài liệu nào
+
+                                </p>
+
                             </td>
+
                         </tr>
 
                         @endforelse
@@ -287,19 +430,10 @@
 
             </div>
 
-            <div class="p-5 border-t">
-                {{ $documents->links() }}
-            </div>
-
         </div>
     </div>
-
-
 </div>
-
-@endsection
-@push('scripts')
-<script>
+@endsection @push('scripts') <script>
 document.addEventListener('DOMContentLoaded', function() {
 
     const form = document.getElementById('filter-form');

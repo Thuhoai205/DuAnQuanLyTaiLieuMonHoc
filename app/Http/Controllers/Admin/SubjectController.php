@@ -166,28 +166,49 @@ class SubjectController extends Controller
     /* =========================
      * UPDATE
      * ========================= */
-    public function update(Request $request, string $id)
-    {
-        $subject = Subject::where('subject_code', $id)->firstOrFail();
+   public function update(Request $request, string $id)
+{
+    $subject = Subject::where(
+        'subject_code',
+        $id
+    )->firstOrFail();
+$subject->update([
+    'subject_name' => $request->subject_name,
+    'slug' => Str::slug($request->subject_name),
+    'description' => $request->description,
+    'thumbnail' => $request->thumbnail ?? $subject->thumbnail,
+    'icon' => $request->icon ?? $subject->icon,
+    'color' => $request->color ?? $subject->color,
+    'status' => $request->status,
+    'faculty_id' => $request->faculty_id,
+    'updated_by' => Auth::id(),
+]);
 
-        $subject->update([
-            'subject_name' => $request->subject_name,
-            'slug' => Str::slug($request->subject_name),
-            'description' => $request->description,
-            'thumbnail' => $request->thumbnail ?? $subject->thumbnail,
-            'icon' => $request->icon ?? $subject->icon,
-            'color' => $request->color ?? $subject->color,
-            'status' => $request->status ?? $subject->status,
-            'faculty_id' => $request->faculty_id,
-            'updated_by' => Auth::id(),
-        ]);
+$subject->refresh();
 
-        $this->syncLecturers($subject, $request->teacher_ids ?? []);
+Document::where(
+    'subject_code',
+    $subject->subject_code
+)->update([
+    'is_active' => $subject->status === 'active'
+]);
 
-        return redirect()->route('admin.subjects.index')
-            ->with('success', 'Cập nhật môn học thành công.');
-    }
+dd('da chay');
 
+    // Đồng bộ trạng thái tài liệu theo môn học
+  
+    $this->syncLecturers(
+        $subject,
+        $request->teacher_ids ?? []
+    );
+
+    return redirect()
+        ->route('admin.subjects.index')
+        ->with(
+            'success',
+            'Cập nhật môn học thành công.'
+        );
+}
     /* =========================
      * SOFT DELETE (AJAX SUPPORT)
      * ========================= */
@@ -248,7 +269,7 @@ class SubjectController extends Controller
     /* =========================
      * TOGGLE STATUS (AJAX)
      * ========================= */
-  public function toggleStatus(string $id)
+ public function toggleStatus(string $id)
 {
     $subject = Subject::where(
         'subject_code',
@@ -261,8 +282,15 @@ class SubjectController extends Controller
         : 'active';
 
     $subject->updated_by = Auth::id();
-
     $subject->save();
+
+    // Đồng bộ trạng thái tài liệu
+    Document::where(
+        'subject_code',
+        $subject->subject_code
+    )->update([
+        'is_active' => $subject->status === 'active' ? 1 : 0
+    ]);
 
     return response()->json([
         'success' => true,

@@ -164,15 +164,26 @@ class DocumentTypeController extends Controller
      * ========================= */
     public function toggleStatus(string $id)
 {
-    $type = DocumentType::findOrFail($id);
+    $document = Document::with('subject')
+        ->findOrFail($id);
 
-    $type->is_active = !$type->is_active;
-    $type->updated_by = Auth::id();
-    $type->save();
+    if (
+        $document->subject &&
+        $document->subject->status !== 'active'
+    ) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Môn học đã bị khóa, không thể kích hoạt tài liệu.'
+        ]);
+    }
+
+    $document->is_active = ! $document->is_active;
+    $document->updated_by = Auth::id();
+    $document->save();
 
     return response()->json([
         'success' => true,
-        'status' => $type->is_active
+        'status' => $document->is_active
     ]);
 }
     /* =========================

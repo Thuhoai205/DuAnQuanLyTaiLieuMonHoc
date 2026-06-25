@@ -325,167 +325,179 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 
     </div>
 
-    <div class="overflow-x-auto">
+    <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
-        <table class="w-full">
+        <!-- HEADER -->
+        <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
 
-            <thead class="bg-slate-50 border-b border-slate-200">
+            <div>
+                <h2 class="text-sm font-black text-slate-700">
+                    Tài liệu mới nhất
+                </h2>
 
-                <tr class="text-xs font-black uppercase text-slate-500">
+                <p class="text-xs text-slate-400 mt-1">
+                    Danh sách tài liệu được tải lên gần đây
+                </p>
+            </div>
 
-                    <th class="px-5 py-3 text-center w-16">STT</th>
-                    <th class="px-5 py-3">Tài liệu</th>
-                    <th class="px-5 py-3">Môn học</th>
-                    <th class="px-5 py-3">Người đăng</th>
-                    <th class="px-5 py-3">Ngày đăng</th>
-                    <th class="px-5 py-3 text-center">Thao tác</th>
+            <span class="px-3 py-1 rounded-md bg-sky-50 text-sky-600 text-xs font-black">
+                {{ count($latestDocuments) }} tài liệu
+            </span>
 
-                </tr>
+        </div>
 
-            </thead>
+        <!-- HEADER GRID -->
+        <div class="px-5 py-3 bg-slate-50 border-b grid grid-cols-12 text-xs font-black uppercase text-slate-500">
 
-            <tbody class="divide-y divide-slate-100">
+            <div class="col-span-1">
+                STT
+            </div>
 
-                @forelse($latestDocuments as $index => $document)
+            <div class="col-span-5">
+                Tài liệu
+            </div>
 
-                <tr class="hover:bg-slate-50 transition">
+            <div class="col-span-2">
+                Môn học
+            </div>
 
-                    <!-- STT -->
-                    <td class="px-5 py-4 text-center">
+            <div class="col-span-2">
+                Người đăng
+            </div>
 
-                        <span
-                            class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-slate-100 text-slate-600 text-xs font-black">
+            <div class="col-span-1 text-center">
+                Ngày
+            </div>
 
-                            {{ $index + 1 }}
+            <div class="col-span-1 text-right">
+                Xem
+            </div>
 
-                        </span>
+        </div>
 
-                    </td>
+        <!-- BODY -->
+        <div class="divide-y divide-slate-100">
 
-                    <!-- TÀI LIỆU -->
-                    <td class="px-5 py-4">
+            @forelse($latestDocuments as $index => $document)
 
-                        <div class="flex items-start gap-3">
+            <div class="grid grid-cols-12 px-5 py-4 items-center hover:bg-slate-50 transition">
 
-                            <div
-                                class="w-10 h-10 rounded-md bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
+                <!-- STT -->
+                <div class="col-span-1">
 
-                                <i class="fa-solid fa-file-lines"></i>
+                    <span
+                        class="w-8 h-8 rounded-md bg-slate-100 text-slate-600 text-xs font-black flex items-center justify-center">
 
-                            </div>
+                        {{ $index + 1 }}
 
-                            <div>
+                    </span>
 
-                                <h4 class="font-black text-slate-700">
-                                    {{ $document->title }}
-                                </h4>
+                </div>
 
-                                <p class="text-xs text-slate-400 mt-1">
-                                    {{ \Illuminate\Support\Str::limit($document->description, 60) }}
-                                </p>
+                <!-- TÀI LIỆU -->
+                <div class="col-span-5 flex items-start gap-3">
 
-                            </div>
+                    <div
+                        class="w-10 h-10 rounded-md bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
 
-                        </div>
+                        <i class="fa-solid fa-file-lines"></i>
 
-                    </td>
+                    </div>
 
-                    <!-- MÔN HỌC -->
-                    <td class="px-5 py-4">
+                    <div class="min-w-0">
 
-                        <span
-                            class="inline-flex items-center px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
+                        <h4 class="font-black text-slate-700 truncate">
+                            {{ $document->title }}
+                        </h4>
 
-                            {{ $document->subject->subject_name ?? 'Chưa phân loại' }}
-
-                        </span>
-
-                    </td>
-
-                    <!-- NGƯỜI ĐĂNG -->
-                    <td class="px-5 py-4">
-
-                        <div class="flex items-center gap-2">
-
-                            <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center">
-
-                                <i class="fa-solid fa-user"></i>
-
-                            </div>
-
-                            <span class="font-semibold text-slate-600">
-
-                                {{ $document->uploader->full_name ?? 'Không xác định' }}
-
-                            </span>
-
-                        </div>
-
-                    </td>
-
-                    <!-- NGÀY ĐĂNG -->
-                    <td class="px-5 py-4">
-
-                        <div class="text-sm font-semibold text-slate-600">
-
-                            {{ $document->created_at->format('d/m/Y') }}
-
-                        </div>
-
-                        <div class="text-xs text-slate-400">
-
-                            {{ $document->created_at->format('H:i') }}
-
-                        </div>
-
-                    </td>
-
-                    <!-- ACTION -->
-                    <td class="px-5 py-4">
-
-                        <div class="flex justify-center gap-2">
-
-                            <a href="{{ route('admin.documents.show', $document->document_id) }}"
-                                class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-100 transition">
-
-                                <i class="fa-solid fa-eye"></i>
-
-                            </a>
-
-
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-                @empty
-
-                <tr>
-
-                    <td colspan="6" class="py-12 text-center">
-
-                        <div
-                            class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
-
-                            <i class="fa-solid fa-file-circle-xmark text-2xl"></i>
-
-                        </div>
-
-                        <p class="text-sm font-black text-slate-500">
-                            Chưa có tài liệu nào được tải lên
+                        <p class="text-xs text-slate-400 mt-1 truncate">
+                            {{ \Illuminate\Support\Str::limit($document->description, 70) }}
                         </p>
 
-                    </td>
+                    </div>
 
-                </tr>
+                </div>
 
-                @endforelse
+                <!-- MÔN HỌC -->
+                <div class="col-span-2">
 
-            </tbody>
+                    <span
+                        class="inline-flex items-center px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
 
-        </table>
+                        {{ $document->subject->subject_name ?? 'Chưa phân loại' }}
+
+                    </span>
+
+                </div>
+
+                <!-- NGƯỜI ĐĂNG -->
+                <div class="col-span-2">
+
+                    <div class="flex items-center gap-2">
+
+                        <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center">
+
+                            <i class="fa-solid fa-user"></i>
+
+                        </div>
+
+                        <span class="font-semibold text-slate-600 whitespace-nowrap">
+
+                            {{ $document->uploader->full_name ?? 'Không xác định' }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <!-- NGÀY -->
+                <div class="col-span-1 text-center">
+
+                    <div class="text-sm font-semibold text-slate-700">
+                        {{ $document->created_at->format('d/m') }}
+                    </div>
+
+                    <div class="text-xs text-slate-400">
+                        {{ $document->created_at->format('H:i') }}
+                    </div>
+
+                </div>
+
+                <!-- ACTION -->
+                <div class="col-span-1 flex justify-end">
+
+                    <a href="{{ route('admin.documents.show', $document->document_id) }}"
+                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-100 transition">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            @empty
+
+            <div class="py-14 text-center">
+
+                <div
+                    class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+
+                    <i class="fa-solid fa-file-circle-xmark text-2xl"></i>
+
+                </div>
+
+                <p class="text-sm font-black text-slate-500">
+                    Chưa có tài liệu nào được tải lên
+                </p>
+
+            </div>
+
+            @endforelse
+
+        </div>
 
     </div>
     <!-- RECENT ACTIVITIES -->

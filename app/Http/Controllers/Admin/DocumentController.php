@@ -217,55 +217,188 @@ class DocumentController extends Controller
     /**
      * Form sửa
      */
-    public function edit(string $id)
-    {
-        $document = Document::findOrFail($id);
+   public function edit(string $id)
+{
+    $document = Document::with([
+        'subject',
+        'documentType',
+        'currentVersion'
+    ])->findOrFail($id);
 
-        return view('admin.documents.edit', [
-            'document' => $document,
-            'subjects' => Subject::where('status', 'active')->get(),
-            'documentTypes' => DocumentType::where('is_active', true)->get(),
-        ]);
-    }
+    return view('admin.documents.edit', [
+        'document' => $document,
 
+        'subjects' => Subject::where(
+            'status',
+            'active'
+        )->get(),
+
+        'documentTypes' => DocumentType::where(
+            'is_active',
+            true
+        )->get(),
+    ]);
+}
     /**
      * Cập nhật
      */
-    public function update(Request $request, string $id)
-    {
-        $document = Document::findOrFail($id);
+ public function update(Request $request, string $id)
+{
+    $document = Document::with('subject')
+        ->findOrFail($id);
 
+    // Môn học đã khóa
+    if (
+        $document->subject &&
+        $document->subject->status !== 'active'
+    ) {
+        return back()
+            ->with(
+                'error',
+                'Môn học đã bị khóa, không thể cập nhật tài liệu.'
+            );
+    }
+
+    $request->validate([
+        'title'            => 'required|max:255',
+        'subject_code'     => 'required|exists:subjects,subject_code',
+        'document_type_id' => 'required|exists:document_types,document_type_id',
+        'file'             => 'nullable|file|max:51200',
+    ]);
+
+    DB::beginTransaction();
+
+    try {
+
+        // Cập nhật thông tin tài liệu
         $document->update([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'description' => $request->description,
-            'subject_code' => $request->subject_code,
+            'title'            => $request->title,
+            'slug'             => Str::slug($request->title),
+            'description'      => $request->description,
+            'subject_code'     => $request->subject_code,
             'document_type_id' => $request->document_type_id,
-            'updated_by' => Auth::id(),
+            'is_active'        => $request->is_active,
+            'updated_by'       => Auth::id(),
         ]);
 
+        // Upload file mới => tạo version mới
+        if ($request->hasFile('file')) {
+
+            // Bỏ version hiện tại
+            DocumentVersion::where(
+                'document_id',
+                $document->document_id
+            )->update([
+                'is_current' => false
+            ]);
+
+            $file = $request->file('file');
+
+            $storedName =
+                time() . '_' .
+                $file->getClientOriginalName();
+
+            $path = $file->storeAs(
+                'documents',
+                $storedName,
+                'public'
+            );
+
+            // Lấy version gần nhất
+            $lastVersion = DocumentVersion::where(
+                'document_id',
+                $document->document_id
+            )
+            ->orderByDesc('version_id')
+            ->first();
+
+            if ($lastVersion) {
+
+                $parts = explode(
+                    '.',
+                    $lastVersion->version_name
+                );
+
+                $major = (int) ($parts[0] ?? 1);
+                $minor = (int) ($parts[1] ?? 0);
+
+                $minor++;
+
+                $newVersion =
+                    $major . '.' . $minor;
+
+            } else {
+
+                $newVersion = '1.0';
+            }
+
+            // Tạo version mới
+            DocumentVersion::create([
+                'document_id'        => $document->document_id,
+                'version_name'       => $newVersion,
+                'original_file_name' => $file->getClientOriginalName(),
+                'stored_file_name'   => $storedName,
+                'file_path'          => $path,
+                'file_extension'     => $file->getClientOriginalExtension(),
+                'file_size'          => $file->getSize(),
+                'uploaded_by'        => Auth::id(),
+                'is_current'         => true,
+            ]);
+        }
+
+        DB::commit();
+
         return redirect()
-            ->route('admin.documents.show', $document->document_id)
-            ->with('success', 'Cập nhật thành công');
+            ->route(
+                'admin.documents.show',
+                $document->document_id
+            )
+            ->with(
+                'success',
+                'Cập nhật tài liệu thành công'
+            );
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()
+            ->withInput()
+            ->with(
+                'error',
+                $e->getMessage()
+            );
     }
+}
 
     /**
      * Khóa / Mở khóa
      */
-    public function toggleStatus(string $id)
-    {
-        $document = Document::findOrFail($id);
+   public function toggleStatus(string $id)
+{
+    $document = Document::with('subject')
+        ->findOrFail($id);
 
-        $document->is_active = !$document->is_active;
-        $document->updated_by = Auth::id();
-        $document->save();
-
+    // Môn học đã khóa
+    if (
+        $document->subject &&
+        $document->subject->status !== 'active'
+    ) {
         return response()->json([
-            'success' => true,
-            'status' => $document->is_active,
-        ]);
+            'success' => false,
+            'message' => 'Môn học đã bị khóa, không thể thay đổi trạng thái tài liệu.'
+        ], 422);
     }
 
+    $document->is_active = ! $document->is_active;
+    $document->updated_by = Auth::id();
+    $document->save();
+
+    return response()->json([
+        'success' => true,
+        'status' => $document->is_active,
+    ]);
+}
     /**
      * Xóa mềm
      */
