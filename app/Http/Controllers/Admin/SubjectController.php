@@ -193,7 +193,6 @@ Document::where(
     'is_active' => $subject->status === 'active'
 ]);
 
-dd('da chay');
 
     // Đồng bộ trạng thái tài liệu theo môn học
   
