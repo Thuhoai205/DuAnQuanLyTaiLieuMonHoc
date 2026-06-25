@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Teacher\DocumentController;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
@@ -54,17 +55,19 @@ Route::get('/documents/latest', function () {
     return view('documents.latest');
 })->name('documents.latest');
 
-Route::get('/documents/{id}', function ($id) {
-    return view('documents.show', compact('id'));
-})->name('documents.show');
+
+
+Route::get(
+    '/documents/{id}',
+    [DocumentController::class, 'show']
+)->name('documents.show');
 
 Route::get('/documents/{id}/edit', function ($id) {
     return view('documents.edit', compact('id'));
 })->name('documents.edit');
 
-Route::get('/tai-lieu-cua-toi', function () {
-    return view('documents.my-documents');
-})->name('documents.my-documents');
+Route::get('/tai-lieu-cua-toi', [DocumentController::class, 'myDocuments'])
+    ->name('documents.my-documents');
 
 Route::get('/search', function () {
     return view('documents.search');

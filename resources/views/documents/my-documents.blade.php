@@ -199,44 +199,27 @@
                     <tbody class="divide-y divide-slate-100">
 
                         {{-- DÒNG MẪU 1: Tài liệu của mình nên có nút Sửa/Xóa --}}
+                        @forelse($myDocuments as $document)
+
                         <tr class="group hover:bg-cyan-50/50 transition-all duration-300">
+
                             <td class="px-8 py-6">
 
-                                <a href="{{ route('documents.show', 1) }}"
+                                <a href="{{ route('documents.show', $document->document_id) }}"
                                     class="group flex items-center rounded-2xl hover:bg-cyan-50/70 transition-all duration-300 p-3 -m-3">
 
-                                    <!-- ICON -->
-                                    <div class="w-14 h-14 rounded-2xl
-            bg-red-50 text-red-500
-            flex items-center justify-center
-            shadow-sm
-            group-hover:bg-red-500
-            group-hover:text-white
-            transition-all duration-300">
-
+                                    <div class="w-14 h-14 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shadow-sm">
                                         <i class="fas fa-file-pdf text-2xl"></i>
                                     </div>
 
-                                    <!-- CONTENT -->
                                     <div class="ml-5">
 
-                                        <h4 class="text-[16px] font-bold text-slate-800
-                leading-tight
-                group-hover:text-cyan-600
-                transition-colors">
-
-                                            Đề cương ôn tập cuối kỳ
+                                        <h4 class="text-[16px] font-bold text-slate-800">
+                                            {{ $document->title }}
                                         </h4>
 
                                         <p class="text-[12px] text-slate-400 mt-1.5 font-semibold">
-
-                                            PDF
-                                            <span class="mx-1">•</span>
-
-                                            2.4 MB
-                                            <span class="mx-1">•</span>
-
-                                            20/10/2026
+                                            {{ $document->created_at->format('d/m/Y') }}
                                         </p>
 
                                     </div>
@@ -248,7 +231,9 @@
                             <td class="px-8 py-6">
                                 <span
                                     class="inline-flex items-center px-4 py-1.5 rounded-xl bg-indigo-50 text-indigo-600 text-[11px] font-black uppercase tracking-wider border border-indigo-100">
-                                    Lập trình Web
+
+                                    {{ $document->subject?->subject_name ?? 'Chưa có môn học' }}
+
                                 </span>
                             </td>
 
@@ -257,36 +242,46 @@
                             </td>
 
                             <td class="px-8 py-6 text-center">
-                                <div
-                                    class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-700 rounded-2xl text-xs font-black">
+                                <div class="inline-flex items-center px-4 py-2 bg-slate-100 text-slate-700 rounded-2xl text-xs font-black">
+
                                     <i class="fas fa-download mr-2 text-blue-500"></i>
-                                    142
+
+                                    {{ $document->download_count }}
+
                                 </div>
                             </td>
 
                             <td class="px-8 py-6 text-right">
                                 <div class="flex justify-end items-center gap-3">
-                                    <button
-                                        class="w-10 h-10 flex items-center justify-center text-blue-500 hover:bg-cyan-500 hover:text-white rounded-xl transition-all shadow-sm bg-white border border-blue-100"
-                                        title="Tải xuống">
-                                        <i class="fas fa-cloud-download-alt"></i>
-                                    </button>
 
-                                    <a href="{{ route('documents.edit', 1) }}" class="w-10 h-10 flex items-center justify-center
-    text-amber-500 hover:bg-amber-500 hover:text-white
-    rounded-xl transition-all duration-300
-    shadow-sm bg-white border border-amber-100" title="Sửa">
+                                    <a href="{{ route('documents.show', $document->document_id) }}"
+                                        class="w-10 h-10 flex items-center justify-center text-blue-500 hover:bg-cyan-500 hover:text-white rounded-xl transition-all shadow-sm bg-white border border-blue-100">
+
+                                        <i class="fas fa-eye"></i>
+
+                                    </a>
+
+                                    <a href="{{ route('documents.edit', $document->document_id) }}"
+                                        class="w-10 h-10 flex items-center justify-center text-amber-500 hover:bg-amber-500 hover:text-white rounded-xl transition-all duration-300 shadow-sm bg-white border border-amber-100">
 
                                         <i class="fa-solid fa-pen-to-square text-sm"></i>
+
                                     </a>
-                                    <button
-                                        class="w-10 h-10 flex items-center justify-center text-red-500 hover:bg-red-600 hover:text-white rounded-xl transition-all shadow-sm bg-white border border-red-100"
-                                        title="Xóa">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </button>
+
                                 </div>
                             </td>
+
                         </tr>
+
+                        @empty
+
+                        <tr>
+                            <td colspan="5" class="text-center py-10 text-slate-500">
+                                Bạn chưa đăng tài liệu nào.
+                            </td>
+                        </tr>
+
+                        @endforelse
 
 
                     </tbody>
