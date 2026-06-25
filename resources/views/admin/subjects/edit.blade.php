@@ -7,7 +7,22 @@
 
 @php
 $colors = ['blue','green','red','yellow','purple','cyan','gray'];
+/**
+* COLOR MAP (FIX TAILWIND DYNAMIC CLASS ISSUE)
+*/
+$colorClassMap = [
+'blue' => 'bg-sky-50 text-sky-600',
+'red' => 'bg-red-50 text-red-600',
+'green' => 'bg-emerald-50 text-emerald-600',
+'yellow' => 'bg-amber-50 text-amber-600',
+'purple' => 'bg-violet-50 text-violet-600',
+'cyan' => 'bg-cyan-50 text-cyan-600',
+'gray' => 'bg-slate-50 text-slate-600',
+];
 
+$color = $colorClassMap[$subject->color] ?? $colorClassMap['blue'];
+
+$subjectIcon = $subject->icon ?: 'fa-solid fa-book-open';
 $icons = [
 'fa-solid fa-book-open' => 'Book',
 'fa-solid fa-code' => 'Code',
@@ -48,13 +63,15 @@ $icons = [
         <!-- LEFT -->
         <div class="xl:col-span-4">
             <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
+                <div class="h-48 w-full overflow-hidden">
+                    <img src="{{ $subject->thumbnail_url }}">
+                </div>
 
                 <div class="p-6 text-center bg-slate-50 border-b border-slate-200">
 
-                    <div class="w-16 h-16 mx-auto rounded-md bg-sky-50 flex items-center justify-center">
-                        <i class="{{ $subject->icon ?? 'fa-solid fa-book-open' }} text-sky-600 text-xl"></i>
+                    <div class="w-14 h-14 mx-auto rounded-xl flex items-center justify-center {{ $color }}">
+                        <i class="{{ $subjectIcon }} text-xl"></i>
                     </div>
-
                     <h3 class="mt-4 text-lg font-black text-slate-700">
                         {{ $subject->subject_name }}
                     </h3>
@@ -118,8 +135,15 @@ $icons = [
                         </select>
 
                         <select name="status" class="h-11 px-4 rounded-md bg-slate-50 border text-sm font-semibold">
-                            <option value="active" @selected($subject->status=='active')>Hoạt động</option>
-                            <option value="inactive" @selected($subject->status=='inactive')>Ẩn</option>
+
+                            <option value="active" @selected($subject->status == 'active')>
+                                Hoạt động
+                            </option>
+
+                            <option value="archived" @selected($subject->status == 'archived')>
+                                Đã khóa
+                            </option>
+
                         </select>
 
                     </div>
@@ -155,7 +179,53 @@ $icons = [
 
                         </select>
                     </div>
+                    {{-- THUMBNAIL SELECT --}}
+                    <div class="mt-6">
+                        <label class="text-xs font-black text-slate-500 uppercase">
+                            Ảnh môn học
+                        </label>
 
+                        <div class="mt-3 grid grid-cols-5 gap-4">
+
+                            @foreach($subjectImages as $key => $img)
+
+                            <label class="cursor-pointer group relative">
+
+                                <input type="radio" name="thumbnail" value="{{ $img }}" class="hidden peer"
+                                    @checked(old('thumbnail', $subject->thumbnail ?? '01.jpg') == $img)>
+
+                                <div class="relative rounded-xl overflow-hidden border-2 border-slate-200
+                        transition-all duration-200
+                        group-hover:shadow-lg
+                        peer-checked:border-sky-500
+                        peer-checked:shadow-md
+                        peer-checked:scale-[1.03]">
+
+                                    <img src="{{ asset('img/subjects/' . $img) }}" class="w-full h-20 object-cover">
+
+                                    <div class="absolute inset-0 bg-sky-500/0
+                            peer-checked:bg-sky-500/10 transition"></div>
+
+                                    <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-sky-500 text-white
+                            flex items-center justify-center text-[10px]
+                            opacity-0 scale-75
+                            peer-checked:opacity-100 peer-checked:scale-100 transition">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+
+                                </div>
+
+                                <p
+                                    class="text-[11px] text-center mt-1 font-semibold text-slate-500 group-hover:text-slate-700">
+                                    Ảnh {{ $key }}
+                                </p>
+
+                            </label>
+
+                            @endforeach
+
+                        </div>
+                    </div>
                     <!-- LECTURERS -->
                     <div>
                         <label class="text-xs font-black text-slate-500 uppercase">

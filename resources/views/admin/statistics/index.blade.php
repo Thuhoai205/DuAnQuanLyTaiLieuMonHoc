@@ -36,10 +36,9 @@
 
  <div class="max-w-7xl mx-auto px-2 lg:px-4">
 
-     <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+     <div class="mb-6 flex items-center justify-between">
          <div>
-             <h1 class="text-3xl font-black text-slate-900">
-                 Thống kê hệ thống
+             <h1 class="text-2xl font-black text-slate-700"> Thống kê hệ thống
              </h1>
 
              <p class="text-slate-500 font-semibold mt-2">
@@ -48,7 +47,7 @@
          </div>
 
          <div
-             class="w-16 h-16 rounded-3xl bg-cyan-50 text-cyan-600 border border-cyan-100 flex items-center justify-center shadow-sm">
+             class="w-16 h-16 rounded-3xl bg-cyan-50 text-cyan-600 border rounded-md flex items-center justify-center shadow-sm">
              <i class="fa-solid fa-chart-column text-2xl"></i>
          </div>
      </div>
@@ -56,7 +55,7 @@
      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
 
          <div
-             class="group bg-white rounded-[28px] border border-cyan-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-100/70 transition-all">
+             class="group bg-white rounded-md border rounded-md p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-100/70 transition-all">
              <div class="flex items-center justify-between">
                  <div>
                      <p class="text-xs font-black uppercase tracking-wider text-slate-400">
@@ -69,14 +68,14 @@
                  </div>
 
                  <div
-                     class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white transition">
+                     class="w-11 h-11 rounded-md bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white transition">
                      <i class="fa-solid fa-file-lines text-xl"></i>
                  </div>
              </div>
          </div>
 
          <div
-             class="group bg-white rounded-[28px] border border-amber-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/70 transition-all">
+             class="group bg-white rounded-md border rounded-md p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-amber-100/70 transition-all">
              <div class="flex items-center justify-between">
                  <div>
                      <p class="text-xs font-black uppercase tracking-wider text-slate-400">
@@ -89,14 +88,14 @@
                  </div>
 
                  <div
-                     class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition">
+                     class="w-11 h-11 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition">
                      <i class="fa-solid fa-download text-xl"></i>
                  </div>
              </div>
          </div>
 
          <div
-             class="group bg-white rounded-[28px] border border-purple-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-100/70 transition-all">
+             class="group bg-white rounded-md border rounded-md p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-purple-100/70 transition-all">
              <div class="flex items-center justify-between">
                  <div>
                      <p class="text-xs font-black uppercase tracking-wider text-slate-400">
@@ -109,14 +108,14 @@
                  </div>
 
                  <div
-                     class="w-14 h-14 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition">
+                     class="w-11 h-11 rounded-md bg-purple-50 text-purple-600 flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition">
                      <i class="fa-solid fa-folder-tree text-xl"></i>
                  </div>
              </div>
          </div>
 
          <div
-             class="group bg-white rounded-[28px] border border-emerald-100 p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-100/70 transition-all">
+             class="group bg-white rounded-md border rounded-md p-6 shadow-sm hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-100/70 transition-all">
              <div class="flex items-center justify-between">
                  <div>
                      <p class="text-xs font-black uppercase tracking-wider text-slate-400">
@@ -129,7 +128,7 @@
                  </div>
 
                  <div
-                     class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition">
+                     class="w-11 h-11 rounded-md bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-slate-1000 group-hover:text-white transition">
                      <i class="fa-solid fa-users text-xl"></i>
                  </div>
              </div>
@@ -140,9 +139,9 @@
      <div class="grid grid-cols-1 xl:grid-cols-12 gap-8">
 
          <div
-             class="xl:col-span-8 bg-white rounded-[34px] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
+             class="xl:col-span-8 bg-white rounded-md border rounded-md shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
              <div
-                 class="px-7 py-6 bg-gradient-to-r from-cyan-50 to-sky-50 border-b border-cyan-100 flex items-center justify-between gap-4">
+                 class="px-5 py-4 border-b border-slate-200from-cyan-50 to-sky-50 border-b rounded-md flex items-center justify-between gap-4">
                  <div>
                      <h2 class="text-xl font-black text-slate-900">
                          Biểu đồ lượt tải
@@ -153,9 +152,7 @@
                      </p>
                  </div>
 
-                 <span
-                     class="px-4 py-2 rounded-full bg-white text-cyan-700 text-xs font-black border border-cyan-100 shadow-sm">
-                     {{ now()->year }}
+                 <span class="px-3 py-1 rounded bg-slate-100 text-slate-500 text-xs font-black"> {{ now()->year }}
                  </span>
              </div>
 
@@ -189,8 +186,7 @@
              </div>
 
              @if(($totalDownloads ?? 0) == 0)
-             <div
-                 class="mt-5 rounded-2xl bg-amber-50 border border-amber-100 px-5 py-4 text-sm font-bold text-amber-700">
+             <div class="mt-5 rounded-md bg-amber-50 border rounded-md px-5 py-4 text-sm font-bold text-amber-700">
                  <i class="fa-solid fa-circle-info mr-2"></i>
                  Chưa có dữ liệu lượt tải. Hãy seed dữ liệu vào bảng <span class="font-black">download_histories</span>.
              </div>
@@ -199,16 +195,16 @@
      </div>
 
      <div
-         class="xl:col-span-4 bg-white rounded-[34px] border border-amber-100 shadow-[0_15px_45px_rgba(245,158,11,0.08)] overflow-hidden">
+         class="xl:col-span-4 bg-white rounded-md border rounded-md shadow-[0_15px_45px_rgba(245,158,11,0.08)] overflow-hidden">
          <div
-             class="px-7 py-6 bg-gradient-to-r from-amber-50 to-orange-50 border-b border-amber-100 flex items-center justify-between">
+             class="px-5 py-4 border-b border-slate-200from-amber-50 to-orange-50 border-b rounded-md flex items-center justify-between">
              <div>
                  <h2 class="text-xl font-black text-slate-900">
-                     Top 5 Download
+                     Top 3 Download
                  </h2>
 
                  <p class="text-sm text-slate-500 font-semibold mt-1">
-                     5 tài liệu có lượt tải cao nhất.
+                     3 tài liệu có lượt tải cao nhất.
                  </p>
              </div>
 
@@ -223,9 +219,9 @@
              @endphp
 
              <div
-                 class="flex items-center gap-4 rounded-2xl bg-slate-50 border border-slate-100 p-4 hover:bg-amber-50 hover:border-amber-100 transition">
+                 class="flex items-center gap-4 rounded-md bg-slate-50 border border-slate-100 p-4 hover:bg-amber-50 hover:rounded-md transition">
                  <div
-                     class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center text-sm font-black">
+                     class="w-11 h-11 rounded-md bg-slate-100 text-amber-700 flex items-center justify-center text-sm font-black">
                      #{{ $index + 1 }}
                  </div>
 
@@ -259,9 +255,9 @@
  <div class="mt-8 grid grid-cols-1 xl:grid-cols-12 gap-8">
 
      <div
-         class="xl:col-span-7 bg-white rounded-[34px] border border-purple-100 shadow-[0_15px_45px_rgba(168,85,247,0.08)] overflow-hidden">
+         class="xl:col-span-7 bg-white rounded-md border rounded-md shadow-[0_15px_45px_rgba(168,85,247,0.08)] overflow-hidden">
          <div
-             class="px-7 py-6 bg-gradient-to-r from-purple-50 to-violet-50 border-b border-purple-100 flex items-center justify-between">
+             class="px-5 py-4 border-b border-slate-200from-purple-50 to-violet-50 border-b rounded-md flex items-center justify-between">
              <div>
                  <h2 class="text-xl font-black text-slate-900">
                      Top 5 loại tài liệu
@@ -296,7 +292,7 @@
                  </div>
 
                  <div class="h-4 overflow-hidden rounded-full bg-slate-100">
-                     <div class="h-full {{ $widthClass }} rounded-full bg-gradient-to-r from-purple-500 to-violet-400">
+                     <div class="h-full {{ $widthClass }} rounded-full bg-sky-500">
                      </div>
                  </div>
          </div>
@@ -316,16 +312,16 @@
  </div>
 
  <div
-     class="xl:col-span-5 bg-white rounded-[34px] border border-emerald-100 shadow-[0_15px_45px_rgba(16,185,129,0.08)] overflow-hidden">
+     class="xl:col-span-5 bg-white rounded-md border rounded-md shadow-[0_15px_45px_rgba(16,185,129,0.08)] overflow-hidden">
      <div
-         class="px-7 py-6 bg-gradient-to-r from-emerald-50 to-green-50 border-b border-emerald-100 flex items-center justify-between">
+         class="px-5 py-4 border-b border-slate-200from-emerald-50 to-green-50 border-b rounded-md flex items-center justify-between">
          <div>
              <h2 class="text-xl font-black text-slate-900">
-                 5 hoạt động tải gần đây
+                 4 hoạt động tải gần đây
              </h2>
 
              <p class="text-sm text-slate-500 font-semibold mt-1">
-                 5 lượt tải tài liệu mới nhất.
+                 4 lượt tải tài liệu mới nhất.
              </p>
          </div>
 
@@ -341,7 +337,7 @@
          @endphp
 
          <div
-             class="flex gap-4 rounded-2xl bg-slate-50 border border-slate-100 p-4 hover:bg-emerald-50 hover:border-emerald-100 transition">
+             class="flex gap-4 rounded-md bg-slate-50 border border-slate-100 p-4 hover:bg-slate-100 hover:rounded-md transition">
              <div class="mt-1 w-3 h-3 rounded-full bg-emerald-500 shrink-0"></div>
 
              <div class="min-w-0 flex-1">

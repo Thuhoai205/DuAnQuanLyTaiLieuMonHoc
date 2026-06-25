@@ -22,6 +22,7 @@ class SubjectController extends Controller
         $query = Subject::with(['faculty', 'lecturers'])
             ->withCount(['documents', 'lecturers']);
 
+        // SEARCH
         if ($request->filled('search')) {
             $search = $request->search;
 
@@ -31,34 +32,40 @@ class SubjectController extends Controller
             });
         }
 
+        // FACULTY FILTER
         if ($request->filled('faculty_id')) {
             $query->where('faculty_id', $request->faculty_id);
         }
 
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
+        // STATUS (0/1)
+    if ($request->filled('status')) {
+        $query->where('is_active', (int) $request->status);
+    }
 
         $subjects = $query->orderBy('subject_name')
             ->paginate(6)
             ->withQueryString();
+        $totalTrashedSubjects = Subject::onlyTrashed()->count();
 
         return view('admin.subjects.index', [
             'subjects' => $subjects,
-            'faculties' => Faculty::where('is_active', true)->orderBy('faculty_name')->get(),
+            
+            'faculties' => Faculty::where('is_active', true)
+                ->orderBy('faculty_name')
+                ->get(),
 
             'totalSubjects' => Subject::count(),
             'totalTeachers' => User::where('role_id', 2)->where('is_active', true)->count(),
             'totalDocuments' => Document::count(),
 
-            'totalTrashedSubjects' => Subject::onlyTrashed()->count(),
+            'totalTrashedSubjects'
         ]);
     }
 
     /* =========================
      * CREATE
      * ========================= */
-    public function create()
+   public function create()
     {
         $subjectImages = [
             '01' => '01.jpg',
@@ -84,8 +91,6 @@ class SubjectController extends Controller
             'subject_code' => 'required|string|max:20|unique:subjects,subject_code',
             'subject_name' => 'required|string|max:150',
             'faculty_id' => 'required|exists:faculties,faculty_id',
-            'thumbnail' => 'nullable|string',
-            'teacher_ids' => 'nullable|array',
         ]);
 
         $subject = Subject::create([
@@ -96,43 +101,51 @@ class SubjectController extends Controller
             'thumbnail' => $request->thumbnail ?? '01.jpg',
             'icon' => $request->icon ?? 'fa-solid fa-book-open',
             'color' => $request->color ?? 'blue',
-            'status' => $request->status ?? 'active',
+            'status' => 'active',
             'faculty_id' => $request->faculty_id,
             'created_by' => Auth::id(),
             'updated_by' => Auth::id(),
         ]);
 
-        // 🔔 sync + notification
         $this->syncLecturers($subject, $request->teacher_ids ?? []);
 
-        return redirect()
-            ->route('admin.subjects.index')
+        return redirect()->route('admin.subjects.index')
             ->with('success', 'Thêm môn học thành công.');
     }
 
     /* =========================
      * SHOW
      * ========================= */
-   public function show(string $id)
+    public function show(string $id)
 {
     $subject = Subject::with([
-    'faculty',
-    'lecturers',
-    'documents.documentType',
-    'documents.currentVersion',
-    'documents.uploader' 
-])
-->withCount(['documents', 'lecturers'])
-->where('subject_code', $id)
-->firstOrFail();
+        'faculty',
+        'lecturers',
+        'documents.documentType',
+        'documents.currentVersion',
+        'documents.uploader'
+    ])
+    ->withCount(['documents', 'lecturers'])
+    ->where('subject_code', $id)
+    ->firstOrFail();
 
+    // FIX THUMBNAIL PATH
+   $subject->thumbnail_url = $subject->thumbnail
+    ? asset('img/subjects/' . $subject->thumbnail)
+    : asset('img/subjects/01.jpg');
     return view('admin.subjects.show', compact('subject'));
 }
+
     /* =========================
      * EDIT
      * ========================= */
-    public function edit(string $id)
+   public function edit(string $id)
 {
+    $subject = Subject::with(['faculty', 'lecturers'])
+        ->withCount(['documents', 'lecturers'])
+        ->where('subject_code', $id)
+        ->firstOrFail();
+
     $subjectImages = [
         '01' => '01.jpg',
         '02' => '02.jpg',
@@ -141,22 +154,11 @@ class SubjectController extends Controller
         '05' => '05.jpg',
     ];
 
-    $subject = Subject::with(['faculty', 'lecturers'])
-        ->withCount(['documents', 'lecturers'])
-        ->findOrFail($id);
-
     return view('admin.subjects.edit', [
         'subject' => $subject,
-
-        // danh sách giảng viên để chọn checkbox
-        'teachers' => User::where('role_id', 2)
-            ->where('is_active', true)
-            ->get(),
-
-        // ⭐ FIX QUAN TRỌNG: danh sách ID giảng viên đã gán
-'selectedLecturers' => $subject->lecturers->pluck('user_id')->toArray(),
+        'teachers' => User::where('role_id', 2)->where('is_active', true)->get(),
+        'selectedLecturers' => $subject->lecturers->pluck('user_id')->toArray(),
         'faculties' => Faculty::where('is_active', true)->get(),
-
         'subjectImages' => $subjectImages,
     ]);
 }
@@ -164,59 +166,73 @@ class SubjectController extends Controller
     /* =========================
      * UPDATE
      * ========================= */
-    public function update(Request $request, string $id)
-    {
-        $subject = Subject::findOrFail($id);
+   public function update(Request $request, string $id)
+{
+    $subject = Subject::where(
+        'subject_code',
+        $id
+    )->firstOrFail();
+$subject->update([
+    'subject_name' => $request->subject_name,
+    'slug' => Str::slug($request->subject_name),
+    'description' => $request->description,
+    'thumbnail' => $request->thumbnail ?? $subject->thumbnail,
+    'icon' => $request->icon ?? $subject->icon,
+    'color' => $request->color ?? $subject->color,
+    'status' => $request->status,
+    'faculty_id' => $request->faculty_id,
+    'updated_by' => Auth::id(),
+]);
 
-        $subject->update([
-            'subject_name' => $request->subject_name,
-            'slug' => Str::slug($request->subject_name),
-            'description' => $request->description,
-            'thumbnail' => $request->thumbnail ?? $subject->thumbnail,
-            'icon' => $request->icon ?? $subject->icon,
-            'color' => $request->color ?? $subject->color,
-            'status' => $request->status,
-            'faculty_id' => $request->faculty_id,
-            'updated_by' => Auth::id(),
-        ]);
+$subject->refresh();
 
-        // 🔔 chỉ sync khi có gửi teacher_ids
-       $teacherIds = $request->input('teacher_ids', []);
-$this->syncLecturers($subject, $teacherIds);
-        return redirect()
-            ->route('admin.subjects.index')
-            ->with('success', 'Cập nhật môn học thành công.');
-    }
+Document::where(
+    'subject_code',
+    $subject->subject_code
+)->update([
+    'is_active' => $subject->status === 'active'
+]);
 
+
+    // Đồng bộ trạng thái tài liệu theo môn học
+  
+    $this->syncLecturers(
+        $subject,
+        $request->teacher_ids ?? []
+    );
+
+    return redirect()
+        ->route('admin.subjects.index')
+        ->with(
+            'success',
+            'Cập nhật môn học thành công.'
+        );
+}
     /* =========================
-     * DELETE
+     * SOFT DELETE (AJAX SUPPORT)
      * ========================= */
     public function destroy(string $id)
-    {
-        $subject = Subject::withCount(['lecturers', 'documents'])
-            ->findOrFail($id);
+{
+    $subject = Subject::findOrFail($id);
 
-        if ($subject->lecturers_count > 0 || $subject->documents_count > 0) {
-            $subject->update([
-                'status' => 'inactive',
-                'updated_by' => Auth::id(),
-            ]);
+    $subject->delete();
 
-            return back()->with('success', 'Môn học đã được ẩn.');
-        }
+    $trashedCount = Subject::onlyTrashed()->count();
 
-        $subject->delete();
-
-        return back()->with('success', 'Đã xóa môn học.');
-    }
+    return response()->json([
+        'success' => true,
+        'trashed_count' => $trashedCount
+    ]);
+}
 
     /* =========================
-     * TRASH
+     * TRASH LIST
      * ========================= */
     public function trashed()
     {
         $subjects = Subject::onlyTrashed()
             ->with('faculty')
+            ->withCount(['documents', 'lecturers'])
             ->latest('deleted_at')
             ->paginate(10);
 
@@ -250,47 +266,64 @@ $this->syncLecturers($subject, $teacherIds);
     }
 
     /* =========================
-     * SYNC + NOTIFICATION
+     * TOGGLE STATUS (AJAX)
      * ========================= */
-   private function syncLecturers(Subject $subject, array $teacherIds): void
+ public function toggleStatus(string $id)
 {
-    // OLD lecturers
-    $oldTeacherIds = $subject->lecturers()
-        ->select('users.user_id')
-        ->pluck('user_id')
-        ->toArray();
+    $subject = Subject::where(
+        'subject_code',
+        $id
+    )->firstOrFail();
 
-    // sync pivot
-    $subject->lecturers()->sync($teacherIds);
+    $subject->status =
+        $subject->status === 'active'
+        ? 'archived'
+        : 'active';
 
-    // ADD
-    $added = array_diff($teacherIds, $oldTeacherIds);
+    $subject->updated_by = Auth::id();
+    $subject->save();
 
-    foreach ($added as $teacherId) {
-        Notification::create([
-            'user_id' => $teacherId,
-            'title' => 'Bạn được phân công môn học',
-            'content' => 'Bạn đã được phân công giảng dạy môn: ' . $subject->subject_name,
-            'type' => 'subject_assigned',
-            'related_type' => 'subject',
-            'related_id' => $subject->subject_code,
-            'is_read' => false,
-        ]);
-    }
+    // Đồng bộ trạng thái tài liệu
+    Document::where(
+        'subject_code',
+        $subject->subject_code
+    )->update([
+        'is_active' => $subject->status === 'active' ? 1 : 0
+    ]);
 
-    // REMOVE
-    $removed = array_diff($oldTeacherIds, $teacherIds);
-
-    foreach ($removed as $teacherId) {
-        Notification::create([
-            'user_id' => $teacherId,
-            'title' => 'Bạn bị gỡ khỏi môn học',
-            'content' => 'Bạn không còn phụ trách môn: ' . $subject->subject_name,
-            'type' => 'subject_removed',
-            'related_type' => 'subject',
-            'related_id' => $subject->subject_code,
-            'is_read' => false,
-        ]);
-    }
+    return response()->json([
+        'success' => true,
+        'status' => $subject->status,
+        'label' => $subject->status === 'active'
+            ? 'Hoạt động'
+            : 'Đã khóa'
+    ]);
 }
+    /* =========================
+     * SYNC LECTURERS + NOTIFICATION
+     * ========================= */
+    private function syncLecturers(Subject $subject, array $teacherIds): void
+    {
+        $subject->lecturers()->sync($teacherIds);
+
+        foreach ($teacherIds as $teacherId) {
+
+            $exists = Notification::where('user_id', $teacherId)
+                ->where('type', 'subject_assignment')
+                ->where('related_id', $subject->subject_code)
+                ->exists();
+
+            if ($exists) continue;
+
+            Notification::create([
+                'user_id' => $teacherId,
+                'title' => 'Bạn được phân công môn học',
+                'content' => 'Bạn được phân công dạy: ' . $subject->subject_name,
+                'type' => 'subject_assignment',
+                'related_type' => 'subject',
+                'related_id' => $subject->subject_code,
+                'is_read' => false,
+            ]);
+        }
+    }
 }

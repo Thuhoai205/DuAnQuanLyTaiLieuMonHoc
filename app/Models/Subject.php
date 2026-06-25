@@ -121,4 +121,10 @@ class Subject extends Model
             }
         });
     }
+    public function getThumbnailUrlAttribute()
+{
+    return $this->thumbnail
+        ? asset('img/subjects/' . $this->thumbnail)
+        : asset('img/subjects/01.jpg');
+}
 }

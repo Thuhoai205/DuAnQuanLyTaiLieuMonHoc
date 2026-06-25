@@ -10,59 +10,64 @@ use Illuminate\Support\Facades\Auth;
 class LogController extends Controller
 {
     public function index(Request $request)
-    {
-        $query = ActivityLog::with('user')
-            ->orderByDesc('created_at');
+{
+    $query = ActivityLog::with('user')
+        ->orderByDesc('created_at');
 
-        // Tìm kiếm nhật ký
-        if ($request->filled('keyword')) {
-            $keyword = $request->keyword;
+    // ======================
+    // SEARCH
+    // ======================
+    if ($request->filled('keyword')) {
+        $keyword = $request->keyword;
 
-            $query->where(function ($q) use ($keyword) {
-                $q->where('description', 'like', '%' . $keyword . '%')
-                    ->orWhere('ip_address', 'like', '%' . $keyword . '%')
-                    ->orWhere('user_agent', 'like', '%' . $keyword . '%')
-                    ->orWhereHas('user', function ($userQuery) use ($keyword) {
-                        $userQuery->where('full_name', 'like', '%' . $keyword . '%')
-                            ->orWhere('username', 'like', '%' . $keyword . '%')
-                            ->orWhere('email', 'like', '%' . $keyword . '%');
-                    });
-            });
-        }
-
-        // Lọc theo loại: login / logout
-        if ($request->filled('action')) {
-            if ($request->action === 'login') {
-                $query->whereNotNull('login_at');
-            }
-
-            if ($request->action === 'logout') {
-                $query->whereNotNull('logout_at');
-            }
-        }
-
-        $logs = $query
-            ->paginate(10)
-            ->withQueryString();
-
-        // Thống kê nhật ký
-        $totalLogs = ActivityLog::count();
-
-        $totalLoginLogs = ActivityLog::whereNotNull('login_at')->count();
-
-        $totalLogoutLogs = ActivityLog::whereNotNull('logout_at')->count();
-
-        // Bảng activity_logs hiện tại không có cột is_read
-        $unreadLogsCount = 0;
-
-        return view('admin.logs.index', compact(
-            'logs',
-            'totalLogs',
-            'totalLoginLogs',
-            'totalLogoutLogs',
-            'unreadLogsCount'
-        ));
+        $query->where(function ($q) use ($keyword) {
+            $q->where('description', 'like', "%{$keyword}%")
+              ->orWhere('ip_address', 'like', "%{$keyword}%")
+              ->orWhereHas('user', function ($u) use ($keyword) {
+                  $u->where('full_name', 'like', "%{$keyword}%")
+                    ->orWhere('username', 'like', "%{$keyword}%")
+                    ->orWhere('email', 'like', "%{$keyword}%");
+              });
+        });
     }
+
+    // ======================
+    // FILTER ACTION (FIX CHUẨN)
+    // ======================
+    if ($request->filled('action')) {
+
+        switch ($request->action) {
+
+            case 'login':
+                $query->whereNotNull('login_at')
+                      ->whereNull('logout_at');
+                break;
+
+            case 'logout':
+                $query->whereNotNull('logout_at');
+                break;
+
+            case 'register':
+                $query->whereNull('login_at')
+                      ->whereNull('logout_at')
+                      ->whereNull('user_id'); // thêm chặt hơn (system register fix)
+                break;
+        }
+    }
+
+    // ======================
+    // PAGINATION
+    // ======================
+    $logs = $query->paginate(10)->withQueryString();
+
+    return view('admin.logs.index', [
+        'logs' => $logs,
+        'totalLogs' => ActivityLog::count(),
+        'totalLoginLogs' => ActivityLog::whereNotNull('login_at')->count(),
+        'totalLogoutLogs' => ActivityLog::whereNotNull('logout_at')->count(),
+        'unreadLogsCount' => 0,
+    ]);
+}
 
     public function markAllAsRead()
     {

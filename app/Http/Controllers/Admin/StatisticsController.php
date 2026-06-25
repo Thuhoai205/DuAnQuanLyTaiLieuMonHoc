@@ -24,11 +24,11 @@ class StatisticsController extends Controller
         // Tổng người dùng
         $totalUsers = User::count();
 
-        // Top 5 tài liệu có lượt tải nhiều nhất
+        // Top 3 tài liệu có lượt tải nhiều nhất
         $topDownloads = Document::query()
             ->select('document_id', 'title', 'download_count')
             ->orderByDesc('download_count')
-            ->take(5)
+            ->take(3)
             ->get();
 
         // Top 5 loại tài liệu có nhiều tài liệu nhất

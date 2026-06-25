@@ -10,18 +10,29 @@ $totalDocuments = $subject->documents_count ?? ($subject->documents?->count() ??
 $totalLecturers = $subject->lecturers?->count() ?? 0;
 $isActive = $subject->status === 'active';
 
-$colorMap = [
-'blue' => 'sky',
-'red' => 'red',
-'green' => 'emerald',
-'yellow' => 'amber',
-'purple' => 'violet',
-'cyan' => 'cyan',
-'gray' => 'slate',
+/**
+* COLOR MAP (FIX TAILWIND DYNAMIC CLASS ISSUE)
+*/
+$colorClassMap = [
+'blue' => 'bg-sky-50 text-sky-600',
+'red' => 'bg-red-50 text-red-600',
+'green' => 'bg-emerald-50 text-emerald-600',
+'yellow' => 'bg-amber-50 text-amber-600',
+'purple' => 'bg-violet-50 text-violet-600',
+'cyan' => 'bg-cyan-50 text-cyan-600',
+'gray' => 'bg-slate-50 text-slate-600',
 ];
 
-$color = $colorMap[$subject->color] ?? 'sky';
+$color = $colorClassMap[$subject->color] ?? $colorClassMap['blue'];
+
 $subjectIcon = $subject->icon ?: 'fa-solid fa-book-open';
+
+/**
+* THUMBNAIL DEFAULT
+*/
+$thumbnail = $subject->thumbnail
+? asset($subject->thumbnail)
+: asset('img/subjects/01.jpg');
 @endphp
 
 <div class="min-h-screen bg-slate-50 px-4 lg:px-8 py-6">
@@ -46,10 +57,9 @@ $subjectIcon = $subject->icon ?: 'fa-solid fa-book-open';
                     <i class="fa-solid fa-pen mr-1"></i> Chỉnh sửa
                 </a>
 
-                <a href="{{ url()->previous() }}"
+                <a href="{{ route('admin.subjects.index')}}"
                     class="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-600 text-sm font-black hover:bg-slate-100 transition">
-                    <i class="fa-solid fa-arrow-left mr-1"></i>
-                    Quay lại
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Quay lại
                 </a>
             </div>
 
@@ -77,36 +87,41 @@ $subjectIcon = $subject->icon ?: 'fa-solid fa-book-open';
 
         </div>
 
-        {{-- MAIN CONTENT --}}
+        {{-- MAIN --}}
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
             {{-- LEFT --}}
-            <div class="lg:col-span-1 space-y-6">
+            <div class="space-y-6">
 
-                {{-- SUBJECT CARD --}}
-                <div class="bg-white border rounded-xl shadow-sm p-6 text-center">
+                {{-- THUMBNAIL CARD --}}
+                <div class="bg-white border rounded-xl shadow-sm overflow-hidden">
 
-                    <div class="w-16 h-16 mx-auto rounded-xl flex items-center justify-center
-                        bg-{{ $color }}-50 text-{{ $color }}-600">
-
-                        <i class="{{ $subjectIcon }} text-xl"></i>
+                    <div class="h-48 w-full overflow-hidden">
+                        <img src="{{ $subject->thumbnail_url }}">
                     </div>
 
-                    <h2 class="mt-4 font-black text-lg text-slate-800">
-                        {{ $subject->subject_code }}
-                    </h2>
+                    <div class="p-5 text-center">
 
-                    <p class="text-sm text-slate-500 mt-1">
-                        {{ $subject->faculty->faculty_name ?? 'Chưa có khoa' }}
-                    </p>
+                        <div class="w-14 h-14 mx-auto rounded-xl flex items-center justify-center {{ $color }}">
+                            <i class="{{ $subjectIcon }} text-xl"></i>
+                        </div>
 
-                    <div class="mt-4">
-                        <span class="px-3 py-1 rounded-full text-xs font-black
+                        <h2 class="mt-3 font-black text-lg text-slate-800">
+                            {{ $subject->subject_code }}
+                        </h2>
+
+                        <p class="text-sm text-slate-500 mt-1">
+                            {{ $subject->faculty->faculty_name ?? 'Chưa có khoa' }}
+                        </p>
+
+                        <div class="mt-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-black
                             {{ $isActive ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500' }}">
-                            {{ $isActive ? 'Hoạt động' : 'Ẩn' }}
-                        </span>
-                    </div>
+                                {{ $isActive ? 'Hoạt động' : 'Ẩn' }}
+                            </span>
+                        </div>
 
+                    </div>
                 </div>
 
                 {{-- DESCRIPTION --}}
@@ -125,17 +140,16 @@ $subjectIcon = $subject->icon ?: 'fa-solid fa-book-open';
                 {{-- LECTURERS --}}
                 <div class="bg-white border rounded-xl shadow-sm p-6">
 
-                    <h3 class="font-black text-slate-700 mb-4">
-                        Giảng viên phụ trách
-                    </h3>
+                    <h3 class="font-black text-slate-700 mb-4">Giảng viên phụ trách</h3>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                         @forelse($subject->lecturers as $teacher)
-
                         <div class="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border">
 
-                            <img src="{{ $teacher->avatar ? asset('storage/'.$teacher->avatar) : 'https://ui-avatars.com/api/?name='.$teacher->full_name }}"
+                            <img src="{{ $teacher->avatar
+                            ? asset('storage/'.$teacher->avatar)
+                            : 'https://ui-avatars.com/api/?name='.$teacher->full_name }}"
                                 class="w-10 h-10 rounded-lg object-cover">
 
                             <div>
@@ -148,69 +162,52 @@ $subjectIcon = $subject->icon ?: 'fa-solid fa-book-open';
                             </div>
 
                         </div>
-
                         @empty
-                        <p class="text-sm text-slate-500 col-span-2">
-                            Chưa có giảng viên
-                        </p>
+                        <p class="text-sm text-slate-500 col-span-2">Chưa có giảng viên</p>
                         @endforelse
 
                     </div>
 
                 </div>
 
-                {{-- INFO CARD --}}
+                {{-- INFO --}}
                 <div class="bg-white border rounded-xl shadow-sm p-6">
 
-                    <h3 class="font-black text-slate-700 mb-3">
-                        Thông tin môn học
-                    </h3>
+                    <h3 class="font-black text-slate-700 mb-3">Thông tin môn học</h3>
 
-                    <div class="text-sm text-slate-600 space-y-2">
+                    <div class="text-sm space-y-2 text-slate-600">
                         <p><b>Mã môn:</b> {{ $subject->subject_code }}</p>
                         <p><b>Khoa:</b> {{ $subject->faculty->faculty_name ?? '---' }}</p>
                         <p><b>Trạng thái:</b> {{ $subject->status }}</p>
                     </div>
 
                 </div>
-                {{-- DOCUMENT PREVIEW --}}
+
+                {{-- DOCUMENTS --}}
                 <div class="bg-white border rounded-xl shadow-sm p-6">
 
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="font-black text-slate-700">
-                            Tài liệu gần đây
-                        </h3>
+                    <h3 class="font-black text-slate-700 mb-4">Tài liệu gần đây</h3>
 
-                        <a href="#" class="text-sm font-black text-sky-600 hover:underline">
-                            Xem tất cả
-                        </a>
-                    </div>
-
-                    <div class="space-y-2">
+                    <div class="space-y-3">
 
                         @forelse($subject->documents->take(5) as $doc)
-
-                        <div class="p-3 bg-slate-50 rounded-lg border">
+                        <div class="p-4 bg-slate-50 rounded-lg border">
 
                             <p class="font-semibold text-slate-800">
                                 {{ $doc->title }}
                             </p>
 
-                            {{-- DATE --}}
-                            <p class="text-xs text-slate-500">
+                            <p class="text-xs text-slate-500 mt-1">
                                 {{ $doc->created_at->format('d/m/Y') }}
                             </p>
 
-                            {{-- ⭐ ADD LECTURER --}}
                             <p class="text-xs text-slate-400 mt-1">
-                                👨‍🏫 {{ $doc->uploader->full_name ?? 'Không rõ giảng viên' }} </p>
+                                👨‍🏫 {{ $doc->uploader->full_name ?? 'Không rõ' }}
+                            </p>
 
                         </div>
-
                         @empty
-                        <p class="text-sm text-slate-500">
-                            Chưa có tài liệu
-                        </p>
+                        <p class="text-sm text-slate-500">Chưa có tài liệu</p>
                         @endforelse
 
                     </div>
