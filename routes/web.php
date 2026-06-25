@@ -55,7 +55,14 @@ Route::get('/documents/latest', function () {
     return view('documents.latest');
 })->name('documents.latest');
 
+Route::middleware('auth')->group(function () {
 
+    Route::get('/documents/create', [DocumentController::class, 'create'])
+        ->name('documents.create');
+
+    Route::post('/documents/store', [DocumentController::class, 'store'])
+        ->name('documents.store');
+});
 
 Route::get(
     '/documents/{id}',
