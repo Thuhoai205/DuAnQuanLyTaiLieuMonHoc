@@ -22,6 +22,17 @@ $subjectUrl = \Illuminate\Support\Facades\Route::has('subjects.index')
 $documentUrl = \Illuminate\Support\Facades\Route::has('documents.index')
 ? route('documents.index')
 : url('/documents');
+
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
+
+$unreadNotifications = 0;
+
+if (Auth::check()) {
+$unreadNotifications = Notification::where('user_id', Auth::id())
+->where('is_read', false)
+->count();
+}
 @endphp
 
 <nav
@@ -88,7 +99,25 @@ $documentUrl = \Illuminate\Support\Facades\Route::has('documents.index')
                     Đăng tải
                 </button>
                 @endif
+                <a href="{{ route('notifications.index') }}" class="relative flex items-center justify-center
+           w-12 h-12 rounded-2xl
+           bg-white
+           border border-gray-200
+           shadow hover:shadow-md
+           transition-all duration-200">
 
+                    <i class="fa-regular fa-bell text-[22px] text-gray-500"></i>
+
+                    @if($unreadNotifications > 0)
+                    <span class="absolute -bottom-1 -right-1
+                   w-4 h-4
+                   bg-red-500
+                   rounded-full
+                   border-2 border-white">
+                    </span>
+                    @endif
+
+                </a>
                 <!-- USER DROPDOWN -->
                 <div class="relative group">
                     <div

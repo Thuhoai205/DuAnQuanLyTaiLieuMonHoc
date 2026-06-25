@@ -5,7 +5,8 @@ use App\Http\Controllers\AuthController;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentController;
-
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SubjectTeacherController;
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
@@ -110,4 +111,36 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/avatar', [AuthController::class, 'updateAvatar'])
         ->name('profile.update.avatar');
 });
- 
+
+
+
+
+
+Route::middleware('auth')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/notifications', [NotificationController::class, 'index'])
+        ->name('notifications.index');
+
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'read'])
+        ->name('notifications.read');
+
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])
+        ->name('notifications.readAll');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Subject Teacher
+    |--------------------------------------------------------------------------
+    */
+    Route::post('/subject-teachers/assign', [SubjectTeacherController::class, 'assign'])
+        ->name('subject-teachers.assign');
+
+    Route::delete('/subject-teachers/{id}', [SubjectTeacherController::class, 'remove'])
+        ->name('subject-teachers.remove');
+});
