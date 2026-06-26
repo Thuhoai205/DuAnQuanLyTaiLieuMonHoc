@@ -7,9 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class DocumentVersion extends Model
 {
     protected $table = 'document_versions';
+
     protected $primaryKey = 'version_id';
 
-    public $timestamps = true; 
+    public $timestamps = false;
 
     protected $fillable = [
         'document_id',
@@ -19,6 +20,7 @@ class DocumentVersion extends Model
         'stored_file_name',
         'file_path',
         'file_extension',
+        'mime_type',
         'file_size',
         'uploaded_by',
         'is_current',
@@ -28,48 +30,41 @@ class DocumentVersion extends Model
         'file_size' => 'integer',
         'is_current' => 'boolean',
         'created_at' => 'datetime',
-        'updated_at' => 'datetime',
     ];
 
-    /*
-    |-----------------------------
-    | RELATIONS
-    |-----------------------------
-    */
-
-    // thuộc document
+    /**
+     * Tài liệu cha
+     */
     public function document()
     {
-        return $this->belongsTo(Document::class, 'document_id', 'document_id');
+        return $this->belongsTo(
+            Document::class,
+            'document_id',
+            'document_id'
+        );
     }
 
-    // người upload
+    /**
+     * Người upload phiên bản này
+     */
     public function uploader()
     {
-        return $this->belongsTo(User::class, 'uploaded_by', 'user_id');
+        return $this->belongsTo(
+            User::class,
+            'uploaded_by',
+            'user_id'
+        );
     }
 
-    // lịch sử download
+    /**
+     * Lịch sử tải phiên bản này
+     */
     public function downloadHistories()
     {
-        return $this->hasMany(DownloadHistory::class, 'version_id', 'version_id');
-    }
-
-    /*
-    |-----------------------------
-    | SCOPES (RẤT QUAN TRỌNG)
-    |-----------------------------
-    */
-
-    // version hiện tại
-    public function scopeCurrent($query)
-    {
-        return $query->where('is_current', true);
-    }
-
-    // sort mới nhất
-    public function scopeLatest($query)
-    {
-        return $query->orderByDesc('created_at');
+        return $this->hasMany(
+            DownloadHistory::class,
+            'version_id',
+            'version_id'
+        );
     }
 }

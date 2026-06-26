@@ -90,7 +90,7 @@
                             class="w-full rounded-2xl border px-5 py-4
                             @error('title') border-red-400 @else border-cyan-100 @enderror
                             focus:ring-2 focus:ring-cyan-400">
-
+                    </div>
                     <!-- MÔN HỌC -->
                     <div>
 

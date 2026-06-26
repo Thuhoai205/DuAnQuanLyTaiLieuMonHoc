@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubjectTeacherController;
+
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
@@ -52,6 +53,13 @@ Route::get('/documents', function () {
     return view('documents.index');
 })->name('documents.index');
 
+  Route::get('/documents/create', [DocumentController::class, 'create'])
+        ->name('documents.create');
+
+    Route::post('/documents', [DocumentController::class, 'store'])
+        ->name('documents.store');
+
+
 Route::get('/documents/latest', function () {
     return view('documents.latest');
 })->name('documents.latest');
@@ -70,6 +78,12 @@ Route::get('/tai-lieu-cua-toi', [DocumentController::class, 'myDocuments'])
 
 Route::get('/search', [DocumentController::class, 'search'])
     ->name('documents.search');
+
+
+
+
+
+  
 
 /*
 |--------------------------------------------------------------------------
