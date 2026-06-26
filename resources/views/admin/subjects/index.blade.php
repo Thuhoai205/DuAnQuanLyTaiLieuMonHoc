@@ -184,7 +184,6 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
                     <div class="col-span-2 font-black text-slate-700">{{ $teacherCount }}</div>
 
                     <!-- STATUS -->
-                    <!-- STATUS -->
                     <div class="col-span-2">
                         <span id="status-{{ $subject->subject_code }}" class="text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1
                             {{ $active ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500' }}">
@@ -338,34 +337,36 @@ async function toggleStatus(id, btn) {
 
 async function deleteSubject(id, btn) {
 
-    if (!confirm('Bạn có chắc muốn xóa?')) return;
+    if (!confirm("Bạn có chắc muốn xóa môn học này?")) {
+        return;
+    }
 
-    const res = await fetch(` / admin / subjects / $ {
-    id
-}
-`, {
-        method: 'DELETE',
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'X-Requested-With': 'XMLHttpRequest',
-            'Accept': 'application/json'
+    try {
+
+        const response = await fetch(`/admin/subjects/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+            alert("Không thể xóa môn học.");
+            return;
         }
-    });
 
-    const data = await res.json();
+        // Load lại danh sách bằng Ajax (không reload cả trang)
+        loadSubjects(window.location.href);
 
-    if (data.success) {
+    } catch (error) {
 
-        // remove row
-        const row = btn.closest('.px-5');
-        if (row) row.remove();
+        console.error(error);
+        alert("Có lỗi xảy ra, vui lòng thử lại.");
 
-        // update trash badge
-        const badge = document.querySelector('.trash-count, #trash-count');
-
-        if (badge) {
-            badge.textContent = data.trashed_count;
-        }
     }
 }
 </script>

@@ -237,11 +237,11 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                                         class="w-11 h-11 rounded-md object-cover border border-slate-200">
 
                                     <div class="min-w-0">
-                                        <h4 class="font-black text-slate-700 truncate">
+                                        <h4 class="font-black text-slate-700 truncate text-sm">
                                             {{ $user->full_name }}
                                         </h4>
 
-                                        <p class="text-xs text-slate-400 font-semibold mt-1 truncate">
+                                        <p class="text-xs text-slate-500 truncate">
                                             {{ '@' . $user->username }}
                                         </p>
                                     </div>
@@ -249,7 +249,7 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                             </td>
 
                             <td class="px-5 py-4">
-                                <span class="text-sm font-semibold text-slate-600">
+                                <span class="font-black text-slate-700 truncate text-sm">
                                     {{ $user->email }}
                                 </span>
                             </td>

@@ -41,6 +41,8 @@ $documentTypesUrl = \Illuminate\Support\Facades\Route::has('admin.document-types
 $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 ? route('admin.logs.index')
 : '#';
+
+
 @endphp
 
 <div class="space-y-6">
@@ -184,141 +186,223 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
         </div>
 
     </div>
-
     <!-- MAIN CONTENT -->
     <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-
-        <!-- CHART -->
+        <!-- BIỂU ĐỒ -->
         <div class="xl:col-span-8 bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden self-start">
-            <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+
                 <div>
-                    <h2 class="text-sm font-black text-slate-700">
+
+                    <h2 class="text-base font-bold text-slate-800">
                         Thống kê tăng trưởng
                     </h2>
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                    <p class="mt-1 text-xs text-slate-400">
                         Người dùng, môn học và loại tài liệu mới theo tháng
                     </p>
+
                 </div>
 
-                <span class="px-3 py-1 rounded bg-slate-100 text-slate-500 text-xs font-black">
+                <span class="px-3 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold">
+
                     Năm {{ now()->year }}
+
                 </span>
+
             </div>
 
+            <!-- Chart -->
             <div class="p-5">
-                <div class="h-[320px]">
+
+                <div class="h-[280px]">
+
                     <canvas id="adminGrowthChart"></canvas>
+
                 </div>
+
             </div>
+
         </div>
 
-        <!-- QUICK OVERVIEW -->
+        <!-- TỔNG QUAN -->
         <div class="xl:col-span-4 space-y-5 self-start">
-
             <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-                <div class="px-5 py-4 border-b border-slate-200">
-                    <h2 class="text-sm font-black text-slate-700">
+                <!-- Header -->
+                <div class="px-6 py-4 border-b border-slate-200">
+
+                    <h2 class="text-base font-bold text-slate-800">
+
                         Tổng quan hoạt động
+
                     </h2>
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
+                    <p class="mt-1 text-xs text-slate-400">
+
                         Theo dõi nhanh trạng thái quản trị
+
                     </p>
+
                 </div>
 
-                <div class="p-5 space-y-4">
+                <!-- Body -->
+                <div class="p-4 space-y-3">
 
-                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                    <!-- Nhật ký -->
+                    <div
+                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-sky-300 hover:shadow-sm transition">
+
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center">
+
+                            <div class="w-9 h-9 rounded-lg bg-sky-500 text-white flex items-center justify-center">
+
                                 <i class="fa-solid fa-clock-rotate-left"></i>
+
                             </div>
 
                             <div>
-                                <p class="text-sm font-black text-slate-700">
+
+                                <p class="text-sm font-bold text-slate-700">
+
                                     Nhật ký hôm nay
+
                                 </p>
 
-                                <p class="text-xs font-semibold text-slate-400">
+                                <p class="text-xs text-slate-400">
+
                                     Đăng ký / đăng nhập / đăng xuất
+
                                 </p>
+
                             </div>
+
                         </div>
 
-                        <span class="text-lg font-black text-slate-700">
+                        <span class="text-base font-bold text-slate-700">
+
                             {{ number_format($todayLogs) }}
+
                         </span>
+
                     </div>
 
-                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                    <!-- Login -->
+                    <div
+                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-emerald-300 hover:shadow-sm transition">
+
                         <div class="flex items-center gap-3">
-                            <div
-                                class="w-10 h-10 rounded-md bg-emerald-500 text-white flex items-center justify-center">
+
+                            <div class="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center">
+
                                 <i class="fa-solid fa-right-to-bracket"></i>
+
                             </div>
 
                             <div>
-                                <p class="text-sm font-black text-slate-700">
+
+                                <p class="text-sm font-bold text-slate-700">
+
                                     Lượt đăng nhập
+
                                 </p>
 
-                                <p class="text-xs font-semibold text-slate-400">
+                                <p class="text-xs text-slate-400">
+
                                     Tổng lượt đăng nhập
+
                                 </p>
+
                             </div>
+
                         </div>
 
-                        <span class="text-lg font-black text-slate-700">
+                        <span class="text-base font-bold text-slate-700">
+
                             {{ number_format($totalLoginLogs) }}
+
                         </span>
+
                     </div>
 
-                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                    <!-- Logout -->
+                    <div
+                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-orange-300 hover:shadow-sm transition">
+
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-md bg-orange-500 text-white flex items-center justify-center">
+
+                            <div class="w-9 h-9 rounded-lg bg-orange-500 text-white flex items-center justify-center">
+
                                 <i class="fa-solid fa-right-from-bracket"></i>
+
                             </div>
 
                             <div>
-                                <p class="text-sm font-black text-slate-700">
+
+                                <p class="text-sm font-bold text-slate-700">
+
                                     Lượt đăng xuất
+
                                 </p>
 
-                                <p class="text-xs font-semibold text-slate-400">
+                                <p class="text-xs text-slate-400">
+
                                     Tổng lượt đăng xuất
+
                                 </p>
+
                             </div>
+
                         </div>
 
-                        <span class="text-lg font-black text-slate-700">
+                        <span class="text-base font-bold text-slate-700">
+
                             {{ number_format($totalLogoutLogs) }}
+
                         </span>
+
                     </div>
 
-                    <div class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 p-4">
+                    <!-- Status -->
+                    <div
+                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-green-300 hover:shadow-sm transition">
+
                         <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-md bg-green-500 text-white flex items-center justify-center">
+
+                            <div class="w-9 h-9 rounded-lg bg-green-500 text-white flex items-center justify-center">
+
                                 <i class="fa-solid fa-circle-check"></i>
+
                             </div>
 
                             <div>
-                                <p class="text-sm font-black text-slate-700">
+
+                                <p class="text-sm font-bold text-slate-700">
+
                                     Trạng thái
+
                                 </p>
 
-                                <p class="text-xs font-semibold text-slate-400">
+                                <p class="text-xs text-slate-400">
+
                                     Hệ thống đang vận hành
+
                                 </p>
+
                             </div>
+
                         </div>
 
-                        <span class="px-3 py-1 rounded bg-emerald-50 text-emerald-600 text-xs font-black">
+                        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 text-xs font-bold">
+
                             Online
+
                         </span>
+
                     </div>
 
                 </div>
+
             </div>
 
         </div>
@@ -326,6 +410,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
     </div>
 
     <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
+
 
         <!-- HEADER -->
         <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
@@ -347,17 +432,19 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
         </div>
 
         <!-- HEADER GRID -->
-        <div class="px-5 py-3 bg-slate-50 border-b grid grid-cols-12 text-xs font-black uppercase text-slate-500">
+        <div class="px-6 py-4 bg-slate-50 border-b border-slate-200
+            grid grid-cols-12 gap-4
+            text-xs font-bold uppercase tracking-wide text-slate-500">
 
-            <div class="col-span-1">
+            <div class="col-span-1 text-center">
                 STT
             </div>
 
-            <div class="col-span-5">
+            <div class="col-span-4">
                 Tài liệu
             </div>
 
-            <div class="col-span-2">
+            <div class="col-span-3">
                 Môn học
             </div>
 
@@ -369,7 +456,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 Ngày
             </div>
 
-            <div class="col-span-1 text-right">
+            <div class="col-span-1 text-center">
                 Xem
             </div>
 
@@ -380,13 +467,18 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 
             @forelse($latestDocuments as $index => $document)
 
-            <div class="grid grid-cols-12 px-5 py-4 items-center hover:bg-slate-50 transition">
+            @php
+            $ext = strtolower($document->currentVersion->file_extension ?? '');
+            @endphp
+            <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-slate-50 transition">
 
                 <!-- STT -->
-                <div class="col-span-1">
+                <div class="col-span-1 flex justify-center">
 
-                    <span
-                        class="w-8 h-8 rounded-md bg-slate-100 text-slate-600 text-xs font-black flex items-center justify-center">
+                    <span class="w-8 h-8 rounded-lg
+                     bg-slate-100 text-slate-600
+                     text-sm font-bold
+                     flex items-center justify-center">
 
                         {{ $index + 1 }}
 
@@ -395,23 +487,66 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 </div>
 
                 <!-- TÀI LIỆU -->
-                <div class="col-span-5 flex items-start gap-3">
+                <div class="col-span-4 flex items-center gap-3 min-w-0">
 
-                    <div
-                        class="w-10 h-10 rounded-md bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
+                    <div class="w-9 h-9 rounded-md flex items-center justify-center shrink-0
 
-                        <i class="fa-solid fa-file-lines"></i>
+                            @if(in_array($ext,['pdf']))
+                                bg-red-50 text-red-500
+                            @elseif(in_array($ext,['doc','docx']))
+                                bg-blue-50 text-blue-600
+                            @elseif(in_array($ext,['xls','xlsx']))
+                                bg-green-50 text-green-600
+                            @elseif(in_array($ext,['ppt','pptx']))
+                                bg-orange-50 text-orange-600
+                            @elseif(in_array($ext,['zip','rar']))
+                                bg-yellow-50 text-yellow-600
+                            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
+                                bg-pink-50 text-pink-600
+                            @elseif(in_array($ext,['mp4','avi','mov']))
+                                bg-purple-50 text-purple-600
+                            @else
+                                bg-slate-100 text-slate-500
+                            @endif">
+
+                        @if(in_array($ext,['pdf']))
+                        <i class="fa-solid fa-file-pdf text-lg"></i>
+
+                        @elseif(in_array($ext,['doc','docx']))
+                        <i class="fa-solid fa-file-word text-lg"></i>
+
+                        @elseif(in_array($ext,['xls','xlsx']))
+                        <i class="fa-solid fa-file-excel text-lg"></i>
+
+                        @elseif(in_array($ext,['ppt','pptx']))
+                        <i class="fa-solid fa-file-powerpoint text-lg"></i>
+
+                        @elseif(in_array($ext,['zip','rar']))
+                        <i class="fa-solid fa-file-zipper text-lg"></i>
+
+                        @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
+                        <i class="fa-solid fa-file-image text-lg"></i>
+
+                        @elseif(in_array($ext,['mp4','avi','mov']))
+                        <i class="fa-solid fa-file-video text-lg"></i>
+
+                        @else
+                        <i class="fa-solid fa-file text-lg"></i>
+                        @endif
 
                     </div>
+                    <div class="flex-1 min-w-0">
 
-                    <div class="min-w-0">
+                        <h4 class="font-bold text-[15px] text-slate-700 truncate" title="{{ $document->title }}">
 
-                        <h4 class="font-black text-slate-700 truncate">
                             {{ $document->title }}
+
                         </h4>
 
-                        <p class="text-xs text-slate-400 mt-1 truncate">
-                            {{ \Illuminate\Support\Str::limit($document->description, 70) }}
+                        <p class="mt-1 text-xs text-slate-400 truncate" title="{{ $document->description }}">
+
+                            {{ $document->description }}
+
                         </p>
 
                     </div>
@@ -419,12 +554,17 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 </div>
 
                 <!-- MÔN HỌC -->
-                <div class="col-span-2">
+                <div class="col-span-3 min-w-0">
 
-                    <span
-                        class="inline-flex items-center px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
+                    <span class="block w-full
+                     px-3 py-1
+                     rounded-full
+                     bg-emerald-50
+                     text-emerald-600
+                     text-xs font-semibold
+                     truncate" title="{{ $document->subject->subject_name }}">
 
-                        {{ $document->subject->subject_name ?? 'Chưa phân loại' }}
+                        {{ $document->subject->subject_name }}
 
                     </span>
 
@@ -435,15 +575,17 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 
                     <div class="flex items-center gap-2">
 
-                        <div class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center">
+                        <div class="w-8 h-8 rounded-full
+                        bg-sky-100 text-sky-600
+                        flex items-center justify-center shrink-0">
 
-                            <i class="fa-solid fa-user"></i>
+                            <i class="fa-solid fa-user text-xs"></i>
 
                         </div>
 
-                        <span class="font-semibold text-slate-600 whitespace-nowrap">
+                        <span class="text-sm font-medium text-slate-700 whitespace-nowrap">
 
-                            {{ $document->uploader->full_name ?? 'Không xác định' }}
+                            {{ $document->uploader->full_name }}
 
                         </span>
 
@@ -455,20 +597,27 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 <div class="col-span-1 text-center">
 
                     <div class="text-sm font-semibold text-slate-700">
+
                         {{ $document->created_at->format('d/m') }}
+
                     </div>
 
                     <div class="text-xs text-slate-400">
+
                         {{ $document->created_at->format('H:i') }}
+
                     </div>
 
                 </div>
 
-                <!-- ACTION -->
-                <div class="col-span-1 flex justify-end">
+                <!-- XEM -->
+                <div class="col-span-1 flex justify-center">
 
-                    <a href="{{ route('admin.documents.show', $document->document_id) }}"
-                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-100 transition">
+                    <a href="{{ route('admin.documents.show', $document->document_id) }}" class="w-9 h-9 rounded-lg
+                  bg-sky-50 text-sky-600
+                  hover:bg-sky-100
+                  transition
+                  flex items-center justify-center">
 
                         <i class="fa-solid fa-eye"></i>
 
@@ -480,17 +629,20 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 
             @empty
 
-            <div class="py-14 text-center">
+            <div class="py-16 text-center">
 
-                <div
-                    class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                <div class="w-16 h-16 mx-auto rounded-xl
+                bg-slate-100 text-slate-400
+                flex items-center justify-center mb-4">
 
                     <i class="fa-solid fa-file-circle-xmark text-2xl"></i>
 
                 </div>
 
-                <p class="text-sm font-black text-slate-500">
-                    Chưa có tài liệu nào được tải lên
+                <p class="font-black text-slate-500">
+
+                    Chưa có tài liệu nào được tải lên.
+
                 </p>
 
             </div>
@@ -498,7 +650,6 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
             @endforelse
 
         </div>
-
     </div>
     <!-- RECENT ACTIVITIES -->
     <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden self-start h-fit">
@@ -582,15 +733,11 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
     </div>
 
 </div>
-
 @endsection
-
 @push('scripts')
-
 <script type="application/json" id="chartLabelsJson">
 @json($chartLabels ?? [])
 </script>
-
 <script type="application/json" id="userChartDataJson">
 @json($userChartData ?? [])
 </script>

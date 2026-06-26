@@ -211,17 +211,16 @@ Document::where(
     /* =========================
      * SOFT DELETE (AJAX SUPPORT)
      * ========================= */
-    public function destroy(string $id)
+   public function destroy(string $id)
 {
-    $subject = Subject::findOrFail($id);
+    $subject = Subject::where('subject_code', $id)
+        ->firstOrFail();
 
     $subject->delete();
 
-    $trashedCount = Subject::onlyTrashed()->count();
-
     return response()->json([
         'success' => true,
-        'trashed_count' => $trashedCount
+        'trashed_count' => Subject::onlyTrashed()->count()
     ]);
 }
 
@@ -302,28 +301,59 @@ Document::where(
     /* =========================
      * SYNC LECTURERS + NOTIFICATION
      * ========================= */
-    private function syncLecturers(Subject $subject, array $teacherIds): void
-    {
-        $subject->lecturers()->sync($teacherIds);
+   private function syncLecturers(Subject $subject, array $teacherIds): void
+{
+    // Danh sách giảng viên cũ
+    $oldTeacherIds = $subject->lecturers()
+        ->pluck('users.user_id')
+        ->toArray();
 
-        foreach ($teacherIds as $teacherId) {
+    // Cập nhật phân công
+    $subject->lecturers()->sync($teacherIds);
 
-            $exists = Notification::where('user_id', $teacherId)
-                ->where('type', 'subject_assignment')
-                ->where('related_id', $subject->subject_code)
-                ->exists();
+    /*
+    |--------------------------------------------------------------------------
+    | Thông báo phân công mới
+    |--------------------------------------------------------------------------
+    */
+    foreach ($teacherIds as $teacherId) {
 
-            if ($exists) continue;
+        if (!in_array($teacherId, $oldTeacherIds)) {
 
             Notification::create([
                 'user_id' => $teacherId,
                 'title' => 'Bạn được phân công môn học',
-                'content' => 'Bạn được phân công dạy: ' . $subject->subject_name,
+                'content' => 'Bạn được phân công giảng dạy môn "' .
+                    $subject->subject_name . '".',
                 'type' => 'subject_assignment',
                 'related_type' => 'subject',
                 'related_id' => $subject->subject_code,
                 'is_read' => false,
             ]);
+
         }
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Thông báo hủy phân công
+    |--------------------------------------------------------------------------
+    */
+    $removedTeacherIds = array_diff($oldTeacherIds, $teacherIds);
+
+    foreach ($removedTeacherIds as $teacherId) {
+
+        Notification::create([
+            'user_id' => $teacherId,
+            'title' => 'Hủy phân công môn học',
+            'content' => 'Bạn không còn phụ trách môn "' .
+                $subject->subject_name . '".',
+            'type' => 'subject_removed',
+            'related_type' => 'subject',
+            'related_id' => $subject->subject_code,
+            'is_read' => false,
+        ]);
+
+    }
+}
 }

@@ -123,16 +123,16 @@ $totalTrashedDocumentTypes = $totalTrashedDocumentTypes ?? 0;
                 <!-- NAME + ICON + COLOR -->
                 <div class="col-span-4 flex items-center gap-2">
 
-                    <span class="w-8 h-8 flex items-center justify-center rounded-md {{ $colorClass }}">
+                    <span class="w-9 h-9 rounded-md flex items-center justify-center shrink-0 {{ $colorClass }}">
                         <i class="{{ $type->icon }} text-sm"></i>
                     </span>
-                    <span class="font-semibold">
+                    <span class="font-black text-slate-700 truncate text-sm">
                         {{ $type->type_name }}
                     </span>
                 </div>
 
                 <!-- COUNT -->
-                <div class="col-span-2 font-black">
+                <div class="col-span-2 font-black text-slate-700 truncate text-sm">
                     {{ $type->documents_count }}
                 </div>
 

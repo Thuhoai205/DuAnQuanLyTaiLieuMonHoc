@@ -129,7 +129,7 @@
 
     </div>
     <!-- BẢNG -->
-    <div id="documentTable" class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
+    <div id="documentTable" class="bg-white border rounded-md shadow-sm overflow-hidden">
         <div id="table-body">
             <div class="px-5 py-4 border-b flex justify-between items-center">
 
@@ -155,9 +155,9 @@
 
                 <table class="w-full table-fixed">
 
-                    <thead class="bg-slate-50 border-b border-slate-200">
+                    <thead class="px-5 py-3 bg-slate-50 border-b">
 
-                        <tr class="text-xs font-black uppercase text-slate-500">
+                        <tr class=" text-xs font-black text-slate-500 uppercase">
 
                             <th class="w-16 px-5 py-4 text-center">
                                 STT
@@ -203,10 +203,7 @@
 
                                 <div class="flex items-center justify-center">
 
-                                    <span class="inline-flex items-center justify-center
-                   w-8 h-8 rounded-md
-                   bg-slate-100 text-slate-600
-                   text-xs font-black">
+                                    <span class="col-span-1 font-black text-slate-500">
 
                                         {{ $documents->firstItem() + $loop->index }}
 
@@ -220,7 +217,7 @@
                             <td class="px-5 py-5 align-middle">
                                 <div class="flex items-center gap-4">
                                     <!-- ICON -->
-                                    <div class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0
+                                    <div class="w-9 h-9 rounded-md flex items-center justify-center shrink-0
 
                             @if(in_array($ext,['pdf']))
                                 bg-red-50 text-red-500
@@ -270,15 +267,14 @@
                                     <!-- THÔNG TIN -->
                                     <div class="flex-1 min-w-0">
 
-                                        <h4 class="font-black text-slate-700 text-[15px] truncate"
+                                        <h4 class="font-black text-slate-700 truncate text-sm"
                                             title="{{ $document->title }}">
 
                                             {{ $document->title }}
 
                                         </h4>
 
-                                        <p class="text-sm text-slate-400 truncate mt-1"
-                                            title="{{ $document->description }}">
+                                        <p class="text-xs text-slate-500 truncate" title="{{ $document->description }}">
 
                                             {{ $document->description ?? 'Không có mô tả' }}
 
@@ -286,22 +282,19 @@
 
                                         <div class="flex flex-wrap gap-2 mt-2">
 
-                                            <span
-                                                class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-[11px] font-bold">
+                                            <span class="text-[10px] bg-slate-100 px-2 rounded">
 
                                                 {{ $document->subject->subject_code ?? '-' }}
 
                                             </span>
 
-                                            <span
-                                                class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 text-[11px] font-bold">
+                                            <span class="text-[10px] bg-slate-100 px-2 rounded">
 
                                                 {{ $document->subject->subject_name ?? '-' }}
 
                                             </span>
 
-                                            <span
-                                                class="px-2 py-0.5 rounded bg-sky-50 text-sky-600 text-[11px] font-bold">
+                                            <span class="text-[10px] bg-slate-100 px-2 rounded">
 
                                                 {{ $document->documentType->type_name ?? '-' }}
 
@@ -327,7 +320,7 @@
 
                                     </div>
 
-                                    <span class="text-sm font-semibold text-slate-700">
+                                    <span class="font-black text-slate-700 truncate text-sm">
 
                                         {{ $document->uploader->full_name ?? '-' }}
 
