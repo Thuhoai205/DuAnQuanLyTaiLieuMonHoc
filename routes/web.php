@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubjectTeacherController;
+use App\Http\Controllers\FacultyController;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
@@ -91,11 +92,11 @@ Route::get('/search', [DocumentController::class, 'search'])
 |--------------------------------------------------------------------------
 */
 
-Route::view('/faculties', 'faculties.index')->name('faculties.index');
+Route::get('/faculties', [FacultyController::class, 'index'])
+    ->name('faculties.index');
 
-Route::get('/faculties/{code}', function ($code) {
-    return view('faculties.show', compact('code'));
-})->name('faculties.show');
+Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])
+    ->name('faculties.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -148,4 +149,8 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/subject-teachers/{id}', [SubjectTeacherController::class, 'remove'])
         ->name('subject-teachers.remove');
+
+
+
+
 });

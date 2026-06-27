@@ -3,11 +3,11 @@
 @section('title', 'Chi tiết tài liệu')
 
 @section('content')
- 
+
 <main class="min-h-screen bg-[#EAFBFF] py-12">
 
     <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-        @if(auth()->check() && auth()->user()->role->role_name == 'admin')
+        @if(auth()->check() && auth()->user()->role_id == 1)
 
         <a href="{{ url()->previous() }}"
             class="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full bg-white border border-cyan-100 text-cyan-700 font-bold text-sm hover:bg-cyan-50 transition">
@@ -43,7 +43,7 @@
 
                         <div>
                             <h1 class="text-3xl font-black text-slate-900">
-                                {{ $document->title }}
+                                Slide HTML CSS
                             </h1>
 
                             <p class="text-slate-500 mt-2 font-semibold">
@@ -84,7 +84,7 @@
                             <!-- PDF VIEWER MOCK -->
                             <div class="min-h-[560px] bg-slate-100 p-6 flex justify-center">
 
-                                <a href="{{ route('documents.show', $related->document_id) }}"
+                                <a href="{{ route('documents.show', 1) }}"
                                     class="w-full max-w-3xl bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
 
                                     <!-- Mock page -->
@@ -164,28 +164,22 @@
                 <div
                     class="bg-white rounded-[32px] border border-cyan-100 p-6 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
                     @if(Auth::check())
-                    <a href="{{ route('documents.download', $document->document_id) }}"
+                    <button
                         class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
                         <i class="fa-solid fa-cloud-arrow-down"></i>
                         Tải về
-                    </a>
+                    </button>
                     @else
-                    <div id="loginRequiredModal"
-                        class="hidden fixed inset-0 bg-black/50 items-center justify-center">
-                        <div class="bg-white p-6 rounded-2xl">
-                            <p class="font-bold">Bạn cần đăng nhập để tải tài liệu</p>
-
-                            <button onclick="closeLoginRequiredModal()"
-                                    class="mt-4 px-4 py-2 bg-cyan-500 text-white rounded-xl">
-                                Đóng
-                            </button>
-                        </div>
-                    </div>
+                    <button onclick="showLoginRequiredModal()"
+                        class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-lock"></i>
+                        Đăng nhập để tải
+                    </button>
                     @endif
 
-                    @if(Auth::check() && Auth::user()->role->role_name == 'teacher')
+                    @if(Auth::check() && Auth::user()->role_id == 2)
                     <div class="grid grid-cols-2 gap-3 mt-4">
-                        <a href="{{ route('documents.edit', $document->document_id) }}"
+                        <a href="{{ route('documents.edit', 1) }}"
                             class="py-3 rounded-2xl bg-amber-50 text-amber-600 font-black border border-amber-100 hover:bg-amber-500 hover:text-white transition text-center">
                             <i class="fa-solid fa-pen-to-square mr-1"></i>
                             Sửa
@@ -217,7 +211,7 @@
                             </div>
                             <div>
                                 <p class="text-xs text-slate-400 font-black uppercase">Môn học</p>
-                                <p class="text-slate-800 font-bold">{{ $document->subject->subject_code }} - {{ $document->subject->subject_name }}</p>
+                                <p class="text-slate-800 font-bold">WEB101 - Lập trình Web</p>
                             </div>
                         </div>
 
@@ -228,7 +222,7 @@
                             </div>
                             <div>
                                 <p class="text-xs text-slate-400 font-black uppercase">Loại tài liệu</p>
-                                <p class="text-slate-800 font-bold">{{ $document->documentType->type_name }}</p>
+                                <p class="text-slate-800 font-bold">Slide bài giảng</p>
                             </div>
                         </div>
 
@@ -239,7 +233,7 @@
                             </div>
                             <div>
                                 <p class="text-xs text-slate-400 font-black uppercase">Người upload</p>
-                                <p class="text-slate-800 font-bold">{{ $document->uploader->full_name }}</p>
+                                <p class="text-slate-800 font-bold">Giảng viên #2</p>
                             </div>
                         </div>
 
@@ -282,57 +276,12 @@
                 <!-- DESCRIPTION -->
                 <div
                     class="bg-white rounded-[32px] border border-cyan-100 p-6 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
-                    <!-- VERSION HISTORY -->
-                    <div class="bg-white rounded-[32px] border border-cyan-100 p-6 mt-6">
-                        <h3 class="text-xl font-black text-cyan-950 mb-4">
-                            Lịch sử phiên bản
-                        </h3>
-
-                        @foreach($document->versions()->latest()->get() as $version)
-                            <div class="p-3 border rounded-xl mb-3
-                                {{ $version->is_current ? 'bg-cyan-50 border-cyan-300' : '' }}">
-
-                                <p class="font-bold">
-                                    Version {{ $version->version_name }}
-                                </p>
-
-                                <p class="text-sm text-slate-500">
-                                    {{ $version->original_file_name }}
-                                </p>
-
-                                @if($version->is_current)
-                                    <span class="text-green-600 text-xs font-bold">Current</span>
-                                @endif
-
-                                <div class="flex gap-2 mt-2">
-
-                                    <!-- DOWNLOAD -->
-                                    <a href="{{ asset('storage/'.$version->file_path) }}"
-                                    class="text-xs px-3 py-1 bg-gray-100 rounded-lg">
-                                        Download
-                                    </a>
-
-                                    <!-- RESTORE -->
-                                    @if(!$version->is_current)
-                                        <form method="POST"
-                                            action="{{ route('documents.version.restore', $version->id) }}">
-                                            @csrf
-                                            <button class="text-xs px-3 py-1 bg-cyan-500 text-white rounded-lg">
-                                                Restore
-                                            </button>
-                                        </form>
-                                    @endif
-
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
                     <h3 class="text-xl font-black text-cyan-950 mb-3">
                         Mô tả
                     </h3>
 
                     <p class="text-slate-600 leading-relaxed font-medium">
-                        {{ $document->description }}
+                        Slide HTML CSS cơ bản, phù hợp cho sinh viên bắt đầu học lập trình giao diện web.
                     </p>
                 </div>
 
@@ -347,7 +296,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <a href="{{ route('documents.show', $document->document_id) }}"
+                <a href="{{ route('documents.show', 1) }}"
                     class="bg-white rounded-[28px] border border-cyan-100 p-6 shadow-sm hover:shadow-lg hover:-translate-y-1 transition">
                     <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center mb-4">
                         <i class="fa-solid fa-file-word text-2xl"></i>

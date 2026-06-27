@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\DocumentVersion;
-
+use App\Models\User;
 class DocumentController extends Controller
 {
     public function search(Request $request)
@@ -238,19 +238,38 @@ class DocumentController extends Controller
 
         return view('documents.show', compact('document'));
     }
+public function create()
+{
+    $user = Auth::user();
 
-    public function create()
-    {
-        $user = Auth::user();
+    if ($user->role->role_name === 'admin') {
 
-        $subjects = $user->subjects()->orderBy('subject_name')->get();
-
-        $documentTypes = DocumentType::where('is_active', true)
-            ->orderBy('type_name')
+        $subjects = Subject::where('status', 'active')
+            ->orderBy('subject_name')
             ->get();
 
-        return view('documents.create', compact('subjects', 'documentTypes'));
+    } elseif ($user->role->role_name === 'lecturer') {
+
+        $subjects = $user->subjects()
+            ->where('status', 'active')
+            ->orderBy('subject_name')
+            ->get();
+
+    } else {
+
+        abort(403);
+
     }
+
+    $documentTypes = DocumentType::where('is_active', true)
+        ->orderBy('type_name')
+        ->get();
+
+    return view('documents.create', compact(
+        'subjects',
+        'documentTypes'
+    ));
+}
 
     /*
     |-----------------------------

@@ -1,145 +1,8 @@
  @extends('layouts.app')
 
- @section('title', 'Chi tiết khoa - EDU DOC')
+ @section('title', 'Chi tiết khoa')
 
  @section('content')
- @php
- $faculties = [
- 'cntt' => [
- 'code' => 'CNTT',
- 'name' => 'Công nghệ thông tin',
- 'description' => 'Khoa Công nghệ thông tin quản lý các môn học liên quan đến lập trình, cơ sở dữ liệu, mạng máy tính,
- phân tích thiết kế hệ thống và phát triển phần mềm.',
- 'icon' => 'fa-solid fa-laptop-code',
- 'subjects' => 8,
- 'documents' => 126,
- ],
- 'qtkd' => [
- 'code' => 'QTKD',
- 'name' => 'Quản trị kinh doanh',
- 'description' => 'Khoa Quản trị kinh doanh cung cấp học liệu về quản trị, marketing, kinh doanh, tài chính và kỹ năng
- quản lý.',
- 'icon' => 'fa-solid fa-briefcase',
- 'subjects' => 6,
- 'documents' => 84,
- ],
- 'kt' => [
- 'code' => 'KT',
- 'name' => 'Kế toán',
- 'description' => 'Khoa Kế toán lưu trữ tài liệu về nguyên lý kế toán, kế toán tài chính, kiểm toán và phân tích báo cáo
- tài chính.',
- 'icon' => 'fa-solid fa-calculator',
- 'subjects' => 5,
- 'documents' => 73,
- ],
- 'nn' => [
- 'code' => 'NN',
- 'name' => 'Ngoại ngữ',
- 'description' => 'Khoa Ngoại ngữ cung cấp tài liệu tiếng Anh, kỹ năng giao tiếp, ngữ pháp và tài liệu học ngoại ngữ.',
- 'icon' => 'fa-solid fa-language',
- 'subjects' => 4,
- 'documents' => 58,
- ],
- ];
-
- $faculty = $faculties[$code] ?? null;
-
- $subjectsByFaculty = [
- 'cntt' => [
- [
- 'id' => 'lap-trinh-web',
- 'name' => 'Lập trình Web',
- 'description' => 'Tài liệu HTML, CSS, JavaScript, Laravel và các kiến thức xây dựng website.',
- 'icon' => 'fa-solid fa-globe',
- 'documents' => 32,
- 'teachers' => 2,
- ],
- [
- 'id' => 'co-so-du-lieu',
- 'name' => 'Cơ sở dữ liệu',
- 'description' => 'Học liệu về mô hình dữ liệu, SQL, thiết kế CSDL và quản trị cơ sở dữ liệu.',
- 'icon' => 'fa-solid fa-database',
- 'documents' => 28,
- 'teachers' => 2,
- ],
- [
- 'id' => 'lap-trinh-java',
- 'name' => 'Lập trình Java',
- 'description' => 'Tài liệu về lập trình hướng đối tượng, class, object, kế thừa và xử lý ngoại lệ.',
- 'icon' => 'fa-brands fa-java',
- 'documents' => 24,
- 'teachers' => 1,
- ],
- [
- 'id' => 'phan-tich-thiet-ke',
- 'name' => 'Phân tích thiết kế hệ thống',
- 'description' => 'Tài liệu về UML, use case, activity diagram, class diagram và thiết kế hệ thống.',
- 'icon' => 'fa-solid fa-diagram-project',
- 'documents' => 21,
- 'teachers' => 1,
- ],
- ],
-
- 'qtkd' => [
- [
- 'id' => 'quan-tri-hoc',
- 'name' => 'Quản trị học',
- 'description' => 'Tài liệu về nguyên lý quản trị, lập kế hoạch, tổ chức, lãnh đạo và kiểm soát.',
- 'icon' => 'fa-solid fa-briefcase',
- 'documents' => 20,
- 'teachers' => 1,
- ],
- [
- 'id' => 'marketing-can-ban',
- 'name' => 'Marketing căn bản',
- 'description' => 'Học liệu về thị trường, khách hàng, sản phẩm, giá, phân phối và truyền thông.',
- 'icon' => 'fa-solid fa-bullhorn',
- 'documents' => 18,
- 'teachers' => 1,
- ],
- ],
-
- 'kt' => [
- [
- 'id' => 'nguyen-ly-ke-toan',
- 'name' => 'Nguyên lý kế toán',
- 'description' => 'Tài liệu về tài khoản, chứng từ, định khoản và lập báo cáo kế toán cơ bản.',
- 'icon' => 'fa-solid fa-calculator',
- 'documents' => 19,
- 'teachers' => 1,
- ],
- [
- 'id' => 'ke-toan-tai-chinh',
- 'name' => 'Kế toán tài chính',
- 'description' => 'Học liệu về báo cáo tài chính, tài sản, nguồn vốn, doanh thu và chi phí.',
- 'icon' => 'fa-solid fa-chart-line',
- 'documents' => 16,
- 'teachers' => 1,
- ],
- ],
-
- 'nn' => [
- [
- 'id' => 'tieng-anh-co-ban',
- 'name' => 'Tiếng Anh cơ bản',
- 'description' => 'Tài liệu từ vựng, ngữ pháp, đọc hiểu và luyện tập tiếng Anh nền tảng.',
- 'icon' => 'fa-solid fa-language',
- 'documents' => 15,
- 'teachers' => 1,
- ],
- [
- 'id' => 'tieng-anh-giao-tiep',
- 'name' => 'Tiếng Anh giao tiếp',
- 'description' => 'Học liệu luyện nghe, nói, hội thoại và giao tiếp trong tình huống thực tế.',
- 'icon' => 'fa-solid fa-comments',
- 'documents' => 14,
- 'teachers' => 1,
- ],
- ],
- ];
-
- $subjects = $subjectsByFaculty[$code] ?? [];
- @endphp
 
  <main class="min-h-screen bg-[#EAFBFF]">
 
@@ -150,208 +13,237 @@
              <a href="{{ route('faculties.index') }}"
                  class="inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-cyan-100 text-cyan-700 hover:text-cyan-800 font-bold text-xs uppercase tracking-wider rounded-full shadow-sm hover:shadow-cyan-200 transition-all duration-300">
                  <i class="fa-solid fa-arrow-left"></i>
-                 Quay lại danh sách khoa
+                 Quay lại
              </a>
          </div>
 
-         @if($faculty)
+         @if($faculty !== null)
 
          <!-- HEADER -->
          <div
              class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-12 pb-8 border-b border-cyan-100">
 
+             <!-- LEFT -->
              <div>
-                 <div class="flex items-center mb-3">
-                     <div
-                         class="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center text-white mr-4 shadow-lg shadow-cyan-200">
-                         <i class="{{ $faculty['icon'] }}"></i>
-                     </div>
 
-                     <div>
-                         <h1 class="text-3xl font-black text-cyan-950 tracking-tight">
-                             Khoa {{ $faculty['name'] }}
-                         </h1>
+                 <div class="flex items-center gap-4 mb-4">
 
-                         <p class="text-xs font-black text-cyan-600 uppercase tracking-widest mt-1">
-                             {{ $faculty['code'] }}
-                         </p>
-                     </div>
+                     <span
+                         class="inline-flex items-center px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black uppercase tracking-wider">
+                         {{ $faculty->faculty_code }}
+                     </span>
+
+                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black
+                {{ $faculty->is_active
+                    ? 'bg-emerald-50 text-emerald-600'
+                    : 'bg-red-50 text-red-500' }}">
+                         {{ $faculty->is_active ? 'Đang hoạt động' : 'Đã khóa' }}
+                     </span>
+
                  </div>
 
-                 <p class="text-slate-500 font-medium text-sm pl-[64px] max-w-3xl leading-relaxed">
-                     {{ $faculty['description'] }}
+                 <h1 class="text-4xl font-black text-cyan-950 tracking-tight">
+                     {{ $faculty->faculty_name }}
+                 </h1>
+
+                 <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-500">
+                     {{ $faculty->description ?: 'Chưa có mô tả cho khoa này.' }}
                  </p>
+
              </div>
 
+             <!-- RIGHT -->
              <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
 
                  <!-- SEARCH -->
-                 <div class="relative w-full lg:w-72">
-                     <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-600 text-xs"></i>
+                 <div class="relative w-full lg:w-80">
+                     <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-500 text-sm"></i>
 
-                     <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm môn học..."
-                         class="w-full pl-11 pr-4 py-3 bg-white border border-cyan-100 rounded-2xl text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-500 transition-all">
+                     <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm kiếm môn học..."
+                         class="w-full pl-11 pr-4 py-3 bg-white border border-cyan-100 rounded-2xl
+                   text-sm font-semibold text-slate-700 shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-500 transition">
                  </div>
 
-                 <a href="{{ route('subjects.index') }}"
-                     class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-2xl text-sm font-black shadow-lg shadow-cyan-200 transition-all">
-                     <i class="fa-solid fa-book-open"></i>
-                     Xem tất cả môn học
-                 </a>
-             </div>
-         </div>
+                 @if(auth()->check() && auth()->user()->role->role_name === 'lecturer')
 
-         <!-- STATS -->
-         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                 <div class="inline-flex p-1 bg-cyan-50 border border-cyan-100 rounded-2xl">
 
-             <div class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-7">
-                 <div class="flex items-center justify-between">
-                     <div>
-                         <p class="text-sm font-bold text-slate-500">Số môn học</p>
-                         <h3 class="text-3xl font-black text-cyan-950 mt-2">
-                             {{ $faculty['subjects'] }}
-                         </h3>
-                     </div>
+                     <button id="btnAssigned" type="button" onclick="filterSubjects('assigned')"
+                         class="px-6 py-3 rounded-xl text-cyan-700 text-sm font-black transition">
 
-                     <div class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                         <i class="fa-solid fa-book-open text-2xl"></i>
-                     </div>
+                         Phụ trách ({{ auth()->user()->subjects->count() }})
+
+                     </button>
+
+                     <button id="btnAll" type="button" onclick="filterSubjects('all')"
+                         class="px-6 py-3 rounded-xl bg-cyan-500 text-white text-sm font-black transition">
+
+                         Tất cả ({{ $faculty->subjects_count }})
+
+                     </button>
+
                  </div>
+
+                 @endif
+
              </div>
-
-             <div class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-7">
-                 <div class="flex items-center justify-between">
-                     <div>
-                         <p class="text-sm font-bold text-slate-500">Số tài liệu</p>
-                         <h3 class="text-3xl font-black text-cyan-950 mt-2">
-                             {{ $faculty['documents'] }}
-                         </h3>
-                     </div>
-
-                     <div class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                         <i class="fa-solid fa-file-lines text-2xl"></i>
-                     </div>
-                 </div>
-             </div>
-
-             <div class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-7">
-                 <div class="flex items-center justify-between">
-                     <div>
-                         <p class="text-sm font-bold text-slate-500">Trạng thái</p>
-                         <h3 class="text-2xl font-black text-cyan-950 mt-2">
-                             Hoạt động
-                         </h3>
-                     </div>
-
-                     <div class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                         <i class="fa-solid fa-circle-check text-2xl"></i>
-                     </div>
-                 </div>
-             </div>
-
          </div>
 
          <!-- SECTION TITLE -->
-         <div class="mb-7">
-             <h2 class="text-2xl font-black text-cyan-950 tracking-tight">
-                 Môn học thuộc khoa {{ $faculty['name'] }}
-             </h2>
+         <div class="mb-7 flex items-center justify-between gap-6">
 
-             <p class="text-slate-500 font-medium text-sm mt-2">
-                 Danh sách các môn học và tài liệu liên quan thuộc khoa này.
-             </p>
+             <!-- LEFT -->
+             <div>
+                 <h2 class="text-2xl font-black text-cyan-950 tracking-tight">
+                     Môn học thuộc khoa {{ $faculty->faculty_name }}
+                 </h2>
+
+                 <p class="text-slate-500 font-medium text-sm mt-2">
+                     Danh sách các môn học và tài liệu thuộc khoa này.
+                 </p>
+             </div>
+
+             <!-- RIGHT -->
+             <div class="shrink-0">
+                 <span
+                     class="inline-flex items-center px-5 py-2 rounded-full bg-cyan-50 text-cyan-700 text-sm font-black border border-cyan-100">
+
+                     {{ $faculty->subjects_count }} môn học
+
+                 </span>
+             </div>
          </div>
 
          <!-- SUBJECT GRID -->
          <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
 
-             @foreach($subjects as $subject)
-             <div
-                 class="subject-card group relative bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+             @forelse($faculty->subjects as $subject)
 
+             <div class="subject-card group relative bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] hover:-translate-y-2 transition-all duration-500 overflow-hidden"
+                 data-assigned="{{ Auth::check()
+        && Auth::user()->role->role_name === 'lecturer'
+        && Auth::user()->subjects->contains('subject_code', $subject->subject_code)
+            ? '1'
+            : '0' }}">
                  <div
                      class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-100 rounded-full group-hover:scale-125 transition-transform duration-700">
                  </div>
 
                  <div class="p-8 relative z-10">
+
+                     <!-- Header -->
                      <div class="flex items-start justify-between gap-4 mb-6">
+
                          <div
-                             class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center border border-cyan-100 group-hover:bg-cyan-500 group-hover:text-white transition-all">
-                             <i class="{{ $subject['icon'] }} text-2xl"></i>
+                             class="w-16 h-16 bg-cyan-50 rounded-2xl border border-cyan-100 flex items-center justify-center">
+
+                             <i class="{{ $subject->icon ?? 'fa-solid fa-book-open' }} text-2xl text-cyan-600"></i>
+
                          </div>
 
                          <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
-                             {{ $faculty['code'] }}
+                             {{ $subject->subject_code }}
                          </span>
+
                      </div>
 
+                     <!-- Subject -->
                      <h3 class="subject-name text-xl font-black text-slate-900 group-hover:text-cyan-600 transition">
-                         {{ $subject['name'] }}
+                         {{ $subject->subject_name }}
                      </h3>
 
                      <p class="text-slate-500 text-sm mt-3 leading-relaxed min-h-[72px]">
-                         {{ $subject['description'] }}
+                         {{ $subject->description ?: 'Chưa có mô tả môn học.' }}
                      </p>
 
+                     <!-- Statistics -->
                      <div class="mt-6 grid grid-cols-2 gap-3">
+
                          <div class="rounded-2xl bg-cyan-50/70 border border-cyan-100 p-4">
+
                              <p class="text-2xl font-black text-cyan-950">
-                                 {{ $subject['documents'] }}
+                                 {{ $subject->documents_count }}
                              </p>
+
                              <p class="text-xs font-bold text-slate-500 mt-1">
                                  Tài liệu
                              </p>
+
                          </div>
 
                          <div class="rounded-2xl bg-cyan-50/70 border border-cyan-100 p-4">
+
                              <p class="text-2xl font-black text-cyan-950">
-                                 {{ $subject['teachers'] }}
+                                 {{ $subject->lecturers->count() }}
                              </p>
+
                              <p class="text-xs font-bold text-slate-500 mt-1">
                                  Giảng viên
                              </p>
+
                          </div>
+
                      </div>
 
+                     <!-- Footer -->
                      <div class="mt-7 flex items-center justify-between">
-                         <span class="text-xs font-black text-cyan-700 uppercase tracking-wider">
-                             Có tài liệu
+
+                         <span class="text-xs font-black uppercase tracking-wider
+                    {{ $subject->documents_count > 0 ? 'text-cyan-700' : 'text-red-500' }}">
+
+                             {{ $subject->documents_count > 0 ? 'Có tài liệu' : 'Chưa có tài liệu' }}
+
                          </span>
 
-                         <a href="{{ route('subjects.show', $subject['id']) }}"
+                         <a href="{{ route('subjects.show', $subject->subject_code) }}"
                              class="w-11 h-11 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 hover:bg-cyan-600 transition">
+
                              <i class="fa-solid fa-arrow-right"></i>
+
                          </a>
+
                      </div>
+
                  </div>
+
              </div>
-             @endforeach
+
+             @empty
+
+             <div class="col-span-full py-16 text-center">
+
+                 <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
+
+                     <i class="fa-solid fa-book-open text-3xl text-cyan-500"></i>
+
+                 </div>
+
+                 <p class="mt-5 text-slate-500 font-bold">
+                     Khoa này chưa có môn học nào.
+                 </p>
+
+             </div>
+
+             @endforelse
 
          </div>
+         <div id="emptySubjectResult" class="hidden col-span-full py-16 text-center">
 
-         @else
-
-         <!-- NOT FOUND -->
-         <div
-             class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-10 text-center">
-             <div class="w-20 h-20 mx-auto rounded-3xl bg-red-50 text-red-500 flex items-center justify-center mb-5">
-                 <i class="fa-solid fa-triangle-exclamation text-3xl"></i>
+             <div class="w-20 h-20 mx-auto rounded-full bg-red-50 flex items-center justify-center">
+                 <i class="fa-solid fa-magnifying-glass text-3xl text-red-500"></i>
              </div>
 
-             <h1 class="text-2xl font-black text-slate-900">
-                 Không tìm thấy khoa
-             </h1>
+             <h3 class="mt-5 text-xl font-black text-slate-800">
+                 Không tìm thấy môn học
+             </h3>
 
-             <p class="text-sm font-semibold text-slate-500 mt-3">
-                 Khoa bạn đang truy cập không tồn tại trong giao diện mẫu.
+             <p class="mt-2 text-sm text-slate-500">
+                 Không có môn học nào phù hợp với từ khóa bạn nhập.
              </p>
 
-             <a href="{{ route('faculties.index') }}"
-                 class="inline-flex items-center gap-2 mt-6 px-6 py-3 bg-cyan-500 hover:bg-cyan-600 text-white rounded-2xl text-sm font-black shadow-lg shadow-cyan-200 transition-all">
-                 <i class="fa-solid fa-arrow-left"></i>
-                 Quay lại danh sách khoa
-             </a>
          </div>
+
 
          @endif
 
@@ -363,18 +255,76 @@
  @push('scripts')
  <script>
 function searchSubjects() {
-    const keyword = document.getElementById('subjectSearch').value.toLowerCase();
+
+    const keyword = document.getElementById('subjectSearch').value.trim().toLowerCase();
     const cards = document.querySelectorAll('.subject-card');
+    const empty = document.getElementById('emptySubjectResult');
+
+    let hasVisible = false;
 
     cards.forEach(function(card) {
+
         const name = card.querySelector('.subject-name').innerText.toLowerCase();
 
         if (name.includes(keyword)) {
+
             card.style.display = '';
+            hasVisible = true;
+
         } else {
+
             card.style.display = 'none';
+
         }
+
     });
+
+    if (empty) {
+
+        if (hasVisible) {
+
+            empty.classList.add('hidden');
+
+        } else {
+
+            empty.classList.remove('hidden');
+
+        }
+
+    }
+}
+
+function filterSubjects(type) {
+
+    const cards = document.querySelectorAll('.subject-card');
+
+    cards.forEach(card => {
+
+        if (type === 'all') {
+
+            card.style.display = '';
+
+        } else {
+
+            card.style.display =
+                card.dataset.assigned === '1' ?
+                '' :
+                'none';
+
+        }
+
+    });
+
+    // Đổi màu nút
+    document.getElementById('btnAssigned').className =
+        type === 'assigned' ?
+        'px-6 py-3 rounded-xl bg-cyan-500 text-white text-sm font-black' :
+        'px-6 py-3 rounded-xl text-cyan-700 text-sm font-black';
+
+    document.getElementById('btnAll').className =
+        type === 'all' ?
+        'px-6 py-3 rounded-xl bg-cyan-500 text-white text-sm font-black' :
+        'px-6 py-3 rounded-xl text-cyan-700 text-sm font-black';
 }
  </script>
  @endpush
