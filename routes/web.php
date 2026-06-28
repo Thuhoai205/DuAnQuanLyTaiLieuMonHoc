@@ -8,6 +8,7 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubjectTeacherController;
 use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\SubjectController;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
@@ -36,13 +37,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 
-Route::get('/subjects', function () {
-    return view('subjects.index');
-})->name('subjects.index');
+Route::get('/subjects', [SubjectController::class, 'index'])
+    ->name('subjects.index');
 
-Route::get('/subjects/{id}', function ($id) {
-    return view('subjects.show', compact('id'));
-})->name('subjects.show');
+Route::get('/subjects/{subject_code}', [SubjectController::class, 'show'])
+    ->name('subjects.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -50,10 +49,8 @@ Route::get('/subjects/{id}', function ($id) {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/documents', function () {
-    return view('documents.index');
-})->name('documents.index');
-
+Route::get('/documents', [DocumentController::class, 'index'])
+    ->name('documents.index');
   Route::get('/documents/create', [DocumentController::class, 'create'])
         ->name('documents.create');
 
@@ -77,10 +74,13 @@ Route::get('/documents/{id}/edit', function ($id) {
 Route::get('/tai-lieu-cua-toi', [DocumentController::class, 'myDocuments'])
     ->name('documents.my-documents');
 
-Route::get('/search', [DocumentController::class, 'search'])
+Route::get('/documents/search', [DocumentController::class, 'search'])
     ->name('documents.search');
 
-
+Route::get(
+    '/documents/{document}/download',
+    [DocumentController::class, 'download']
+)->name('documents.download');
 
 
 

@@ -12,9 +12,128 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\DocumentVersion;
+use App\Models\DownloadHistory;
 use App\Models\User;
 class DocumentController extends Controller
 {
+    public function index(Request $request)
+    {
+        $query = Document::with([
+            'subject',
+            'documentType',
+            'uploader',
+            'currentVersion'
+        ])
+        ->where('is_active', true);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Keyword
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('keyword')) {
+
+            $keyword = trim($request->keyword);
+
+            $query->where(function ($q) use ($keyword) {
+
+                $q->where('title', 'like', "%{$keyword}%")
+                ->orWhere('description', 'like', "%{$keyword}%")
+
+                ->orWhereHas('subject', function ($sub) use ($keyword) {
+
+                        $sub->where('subject_name', 'like', "%{$keyword}%")
+                            ->orWhere('subject_code', 'like', "%{$keyword}%");
+
+                })
+
+                ->orWhereHas('documentType', function ($type) use ($keyword) {
+
+                        $type->where('type_name', 'like', "%{$keyword}%");
+
+                })
+
+                ->orWhereHas('uploader', function ($user) use ($keyword) {
+
+                        $user->where('full_name', 'like', "%{$keyword}%");
+
+                });
+
+            });
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Subject
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('subject_code')) {
+
+            $query->where('subject_code', $request->subject_code);
+
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Document Type
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('document_type_id')) {
+
+            $query->where(
+                'document_type_id',
+                $request->document_type_id
+            );
+
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Sort
+        |--------------------------------------------------------------------------
+        */
+
+        switch ($request->sort) {
+
+            case 'download':
+                $query->orderByDesc('download_count');
+                break;
+
+            case 'az':
+                $query->orderBy('title');
+                break;
+
+            default:
+                $query->latest();
+                break;
+        }
+
+        $documents = $query
+            ->paginate(12)
+            ->withQueryString();
+
+        $subjects = Subject::where('status', 'active')
+            ->orderBy('subject_name')
+            ->get();
+
+        $documentTypes = DocumentType::where('is_active', true)
+            ->orderBy('type_name')
+            ->get();
+
+        $faculties = Faculty::where('is_active', true)
+            ->orderBy('faculty_name')
+            ->get();
+
+        return view('documents.index', compact(
+            'documents',
+            'subjects',
+            'documentTypes',
+            'faculties'
+        ));
+    }
     public function search(Request $request)
     {
         /*
@@ -238,39 +357,46 @@ class DocumentController extends Controller
 
         return view('documents.show', compact('document'));
     }
-public function create()
-{
-    $user = Auth::user();
+    public function create()
+    {
+        $user = Auth::user();
 
-    if ($user->role->role_name === 'admin') {
+        if (!$user instanceof User) {
+            abort(403);
+        }
 
-        $subjects = Subject::where('status', 'active')
-            ->orderBy('subject_name')
+        $role = $user->role?->role_name;
+
+        if ($role === 'admin') {
+
+            // Admin được xem tất cả môn học
+            $subjects = Subject::where('status', 'active')
+                ->orderBy('subject_name')
+                ->get();
+
+        } elseif ($role === 'lecturer') {
+
+            // Giảng viên chỉ xem môn được phân công
+            $subjects = $user->subjects()
+                ->where('subjects.status', 'active')
+                ->orderBy('subjects.subject_name')
+                ->get();
+
+        } else {
+
+            abort(403);
+
+        }
+
+        $documentTypes = DocumentType::where('is_active', true)
+            ->orderBy('type_name')
             ->get();
 
-    } elseif ($user->role->role_name === 'lecturer') {
-
-        $subjects = $user->subjects()
-            ->where('status', 'active')
-            ->orderBy('subject_name')
-            ->get();
-
-    } else {
-
-        abort(403);
-
+        return view('documents.create', compact(
+            'subjects',
+            'documentTypes'
+        ));
     }
-
-    $documentTypes = DocumentType::where('is_active', true)
-        ->orderBy('type_name')
-        ->get();
-
-    return view('documents.create', compact(
-        'subjects',
-        'documentTypes'
-    ));
-}
-
     /*
     |-----------------------------
     | STORE (VERSION 1)
@@ -279,64 +405,157 @@ public function create()
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|max:255',
-            'file' => 'required|file|max:51200',
-            'subject_code' => 'required',
-            'document_type_id' => 'required',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'subject_code' => 'required|exists:subjects,subject_code',
+            'document_type_id' => 'required|exists:document_types,document_type_id',
+            'file' => 'required|file|max:51200', // 50MB
         ]);
 
         $user = Auth::user();
+
+        if (!$user instanceof User) {
+            abort(403);
+        }
+
+        // Lấy môn học
+        $subject = Subject::where(
+            'subject_code',
+            $request->subject_code
+        )->firstOrFail();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Kiểm tra quyền upload
+        |--------------------------------------------------------------------------
+        */
+
+        $canUpload = false;
+
+        if ($user->role->role_name === 'admin') {
+
+            $canUpload = true;
+
+        } elseif ($user->role->role_name === 'lecturer') {
+
+           $canUpload = \App\Models\SubjectTeacher::where(
+        'user_id',
+        $user->user_id
+    )
+    ->where(
+        'subject_code',
+        $subject->subject_code
+    )
+    ->exists();
+        }
+
+        if (!$canUpload) {
+
+            abort(403, 'Bạn không có quyền upload tài liệu cho môn học này.');
+
+        }
 
         DB::beginTransaction();
 
         try {
 
+            /*
+            |--------------------------------------------------------------------------
+            | Upload file
+            |--------------------------------------------------------------------------
+            */
+
             $file = $request->file('file');
+
             $originalName = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
 
-            $storedName = time().'_'.Str::random(10).'.'.$extension;
+            $extension = strtolower(
+                $file->getClientOriginalExtension()
+            );
 
-            $filePath = $file->storeAs('documents', $storedName, 'public');
+            $storedName = time() . '_' . Str::random(10) . '.' . $extension;
+
+            $filePath = $file->storeAs(
+                'documents',
+                $storedName,
+                'public'
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | Tạo tài liệu
+            |--------------------------------------------------------------------------
+            */
 
             $document = Document::create([
+
                 'title' => $request->title,
-                'slug' => Str::slug($request->title).'-'.time(),
+
+                'slug' => Str::slug($request->title) . '-' . Str::random(6),
+
                 'description' => $request->description,
-                'subject_code' => $request->subject_code,
+
+                'subject_code' => $subject->subject_code,
+
                 'document_type_id' => $request->document_type_id,
+
                 'uploaded_by' => $user->user_id,
+
                 'is_active' => true,
+
             ]);
 
-            // tắt tất cả (an toàn)
-            DocumentVersion::where('document_id', $document->document_id)
-                ->update(['is_current' => false]);
+            /*
+            |--------------------------------------------------------------------------
+            | Version đầu tiên
+            |--------------------------------------------------------------------------
+            */
 
             DocumentVersion::create([
+
                 'document_id' => $document->document_id,
+
                 'version_name' => '1.0',
+
                 'version_note' => 'Initial version',
+
                 'original_file_name' => $originalName,
+
                 'stored_file_name' => $storedName,
+
                 'file_path' => $filePath,
+
                 'file_extension' => $extension,
+
                 'file_size' => $file->getSize(),
+
                 'uploaded_by' => $user->user_id,
+
                 'is_current' => true,
+
             ]);
 
             DB::commit();
 
-            return redirect()->route('documents.show', $document->document_id)
-                ->with('success', 'Upload thành công');
+            return redirect()
+                ->route('subjects.show', $subject->subject_code)
+                ->with('success', 'Upload tài liệu thành công.');
 
         } catch (\Exception $e) {
+
             DB::rollBack();
-            return back()->with('error', $e->getMessage());
+
+            // Xóa file nếu đã upload
+            if (isset($filePath) && Storage::disk('public')->exists($filePath)) {
+                Storage::disk('public')->delete($filePath);
+            }
+
+            return back()
+                ->withInput()
+                ->with('error', $e->getMessage());
+
         }
     }
-
     /*
     |-----------------------------
     | UPLOAD VERSION (FIXED)
@@ -418,17 +637,36 @@ public function create()
     | DOWNLOAD (SAFE)
     |-----------------------------
     */
-    public function download($id)
-    {
-        $document = Document::with('currentVersion')->findOrFail($id);
-
-        if (!$document->currentVersion) {
-            return back()->with('error', 'Không có file');
-        }
-
-        return Storage::disk('public')->download(
-            $document->currentVersion->file_path,
-            $document->currentVersion->original_file_name
-        );
+  public function download(Document $document)
+{
+    if (!$document->is_active) {
+        abort(404);
     }
+
+    $version = $document->currentVersion;
+
+    if (!$version) {
+        abort(404, 'Không tìm thấy file.');
+    }
+
+    if (!Storage::disk('public')->exists($version->file_path)) {
+        abort(404, 'File không tồn tại.');
+    }
+
+    // Tăng lượt tải
+    $document->increment('download_count');
+
+    // Lưu lịch sử tải
+    DownloadHistory::create([
+        'user_id'       => Auth::id(),
+        'version_id'    => $version->version_id,
+        'downloaded_at' => now(),
+    ]);
+
+    // Trả file về cho người dùng
+    return Storage::disk('public')->download(
+        $version->file_path,
+        $version->original_file_name
+    );
+}
 }

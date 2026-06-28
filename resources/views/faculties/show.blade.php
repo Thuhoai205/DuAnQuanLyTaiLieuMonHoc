@@ -72,8 +72,13 @@
                      <button id="btnAssigned" type="button" onclick="filterSubjects('assigned')"
                          class="px-6 py-3 rounded-xl text-cyan-700 text-sm font-black transition">
 
-                         Phụ trách ({{ auth()->user()->subjects->count() }})
-
+                         Phụ trách (
+                         {{
+    auth()->user()->subjects
+        ->where('faculty_id', $faculty->faculty_id)
+        ->count()
+}}
+                         )
                      </button>
 
                      <button id="btnAll" type="button" onclick="filterSubjects('all')"
@@ -122,8 +127,8 @@
 
              <div class="subject-card group relative bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] hover:-translate-y-2 transition-all duration-500 overflow-hidden"
                  data-assigned="{{ Auth::check()
-        && Auth::user()->role->role_name === 'lecturer'
-        && Auth::user()->subjects->contains('subject_code', $subject->subject_code)
+            && Auth::user()->role->role_name === 'lecturer'
+            && Auth::user()->subjects->contains('subject_code', $subject->subject_code)
             ? '1'
             : '0' }}">
                  <div
@@ -134,11 +139,25 @@
 
                      <!-- Header -->
                      <div class="flex items-start justify-between gap-4 mb-6">
+                         @php
+                         $documentCount = $subject->documents_count ?? 0;
+                         $teacherCount = $subject->lecturers->count();
+                         $active = $subject->status === 'active';
+                         $colorMap = [
+                         'blue' => ['bg' => 'bg-sky-50', 'text' => 'text-sky-600'],
+                         'green' => ['bg' => 'bg-emerald-50', 'text' => 'text-emerald-600'],
+                         'red' => ['bg' => 'bg-red-50', 'text' => 'text-red-600'],
+                         'yellow' => ['bg' => 'bg-yellow-50', 'text' => 'text-yellow-600'],
+                         'purple' => ['bg' => 'bg-purple-50', 'text' => 'text-purple-600'],
+                         ];
 
+                         $color = $subject->color ?? 'blue';
+                         $cls = $colorMap[$color] ?? $colorMap['blue'];
+                         @endphp
                          <div
-                             class="w-16 h-16 bg-cyan-50 rounded-2xl border border-cyan-100 flex items-center justify-center">
+                             class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6 border border-cyan-100 group-hover:bg-cyan-500 group-hover:text-white transition-all">
 
-                             <i class="{{ $subject->icon ?? 'fa-solid fa-book-open' }} text-2xl text-cyan-600"></i>
+                             <i class="{{ $subject->icon ?? 'fa-solid fa-book' }} {{ $cls['text'] }} text-2xl"></i>
 
                          </div>
 
