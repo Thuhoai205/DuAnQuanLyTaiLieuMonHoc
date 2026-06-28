@@ -51,41 +51,38 @@ Route::get('/subjects/{subject_code}', [SubjectController::class, 'show'])
 
 Route::get('/documents', [DocumentController::class, 'index'])
     ->name('documents.index');
-  Route::get('/documents/create', [DocumentController::class, 'create'])
-        ->name('documents.create');
 
-    Route::post('/documents', [DocumentController::class, 'store'])
-        ->name('documents.store');
+Route::get('/documents/create', [DocumentController::class, 'create'])
+    ->name('documents.create');
 
+Route::post('/documents', [DocumentController::class, 'store'])
+    ->name('documents.store');
 
 Route::get('/documents/latest', function () {
     return view('documents.latest');
 })->name('documents.latest');
 
-Route::get(
-    '/documents/{id}',
-    [DocumentController::class, 'show']
-)->name('documents.show');
+
+// ===== ĐƯA SEARCH LÊN TRƯỚC =====
+Route::get('/documents/search', [DocumentController::class, 'search'])
+    ->name('documents.search');
+
+Route::get('/tai-lieu-cua-toi', [DocumentController::class, 'myDocuments'])
+    ->name('documents.my-documents');
+
+Route::get('/documents/{document}/download', [DocumentController::class, 'download'])
+    ->name('documents.download');
+
+Route::get('/documents/{document}/view', [DocumentController::class, 'view'])
+    ->name('documents.view');
 
 Route::get('/documents/{id}/edit', function ($id) {
     return view('documents.edit', compact('id'));
 })->name('documents.edit');
 
-Route::get('/tai-lieu-cua-toi', [DocumentController::class, 'myDocuments'])
-    ->name('documents.my-documents');
-
-Route::get('/documents/search', [DocumentController::class, 'search'])
-    ->name('documents.search');
-
-Route::get(
-    '/documents/{document}/download',
-    [DocumentController::class, 'download']
-)->name('documents.download');
-
-
-
-  
-
+// ===== SHOW LUÔN ĐỂ CUỐI =====
+Route::get('/documents/{id}', [DocumentController::class, 'show'])
+    ->name('documents.show');
 /*
 |--------------------------------------------------------------------------
 | Faculties

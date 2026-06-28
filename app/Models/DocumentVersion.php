@@ -16,24 +16,31 @@ class DocumentVersion extends Model
         'document_id',
         'version_name',
         'version_note',
+
         'original_file_name',
         'stored_file_name',
+
         'file_path',
+
+        // File PDF dùng để xem trước
+        'preview_file',
+
         'file_extension',
-        'mime_type',
         'file_size',
+
         'uploaded_by',
+
         'is_current',
     ];
 
     protected $casts = [
-        'file_size' => 'integer',
+        'file_size'  => 'integer',
         'is_current' => 'boolean',
         'created_at' => 'datetime',
     ];
 
     /**
-     * Tài liệu cha
+     * Tài liệu
      */
     public function document()
     {
@@ -45,7 +52,7 @@ class DocumentVersion extends Model
     }
 
     /**
-     * Người upload phiên bản này
+     * Người upload
      */
     public function uploader()
     {
@@ -57,7 +64,7 @@ class DocumentVersion extends Model
     }
 
     /**
-     * Lịch sử tải phiên bản này
+     * Lịch sử tải
      */
     public function downloadHistories()
     {
@@ -66,5 +73,74 @@ class DocumentVersion extends Model
             'version_id',
             'version_id'
         );
+    }
+
+    /**
+     * Có xem trực tiếp được không
+     */
+    public function canPreview(): bool
+    {
+        return !empty($this->preview_file);
+    }
+
+    /**
+     * Có phải PDF
+     */
+    public function isPdf(): bool
+    {
+        return strtolower($this->file_extension) === 'pdf';
+    }
+
+    /**
+     * Có phải ảnh
+     */
+    public function isImage(): bool
+    {
+        return in_array(
+            strtolower($this->file_extension),
+            [
+                'jpg',
+                'jpeg',
+                'png',
+                'gif',
+                'webp',
+            ]
+        );
+    }
+
+    /**
+     * Có phải Office
+     */
+    public function isOffice(): bool
+    {
+        return in_array(
+            strtolower($this->file_extension),
+            [
+                'doc',
+                'docx',
+                'xls',
+                'xlsx',
+                'ppt',
+                'pptx',
+            ]
+        );
+    }
+
+    /**
+     * Link file gốc
+     */
+    public function getFileUrlAttribute()
+    {
+        return asset('storage/' . $this->file_path);
+    }
+
+    /**
+     * Link file xem trước
+     */
+    public function getPreviewUrlAttribute()
+    {
+        return $this->preview_file
+            ? asset('storage/' . $this->preview_file)
+            : null;
     }
 }

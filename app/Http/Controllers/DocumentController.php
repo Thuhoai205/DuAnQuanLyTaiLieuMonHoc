@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Models\DocumentVersion;
 use App\Models\DownloadHistory;
 use App\Models\User;
+use App\Models\SubjectTeacher;
 class DocumentController extends Controller
 {
     public function index(Request $request)
@@ -344,18 +345,50 @@ class DocumentController extends Controller
 
         return view('documents.my-documents', compact('myDocuments'));
     }
+    public function view(Document $document)
+    {
+        $version = $document->currentVersion;
 
+        if (!$version) {
+            abort(404);
+        }
+
+        $path = storage_path('app/public/' . $version->file_path);
+
+        if (!file_exists($path)) {
+            abort(404);
+        }
+
+        return response()->file($path);
+    }
     public function show($id)
     {
         $document = Document::with([
-            'subject',
+            'subject.faculty',
             'documentType',
             'uploader',
             'currentVersion',
-            'versions'
+            'documentVersions'
         ])->findOrFail($id);
 
-        return view('documents.show', compact('document'));
+        // Tài liệu liên quan
+        $relatedDocuments = Document::with([
+                'subject',
+                'documentType',
+                'uploader',
+                'currentVersion'
+            ])
+            ->where('document_id', '!=', $document->document_id)
+            ->where('subject_code', $document->subject_code)
+            ->where('is_active', true)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('documents.show', compact(
+            'document',
+            'relatedDocuments'
+        ));
     }
     public function create()
     {
@@ -397,19 +430,14 @@ class DocumentController extends Controller
             'documentTypes'
         ));
     }
-    /*
-    |-----------------------------
-    | STORE (VERSION 1)
-    |-----------------------------
-    */
-    public function store(Request $request)
+   public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'subject_code' => 'required|exists:subjects,subject_code',
+            'title'            => 'required|string|max:255',
+            'description'      => 'nullable|string',
+            'subject_code'     => 'required|exists:subjects,subject_code',
             'document_type_id' => 'required|exists:document_types,document_type_id',
-            'file' => 'required|file|max:51200', // 50MB
+            'file'             => 'required|file|max:51200',
         ]);
 
         $user = Auth::user();
@@ -418,7 +446,6 @@ class DocumentController extends Controller
             abort(403);
         }
 
-        // Lấy môn học
         $subject = Subject::where(
             'subject_code',
             $request->subject_code
@@ -430,29 +457,23 @@ class DocumentController extends Controller
         |--------------------------------------------------------------------------
         */
 
-        $canUpload = false;
+        $canUpload = $user->role->role_name === 'admin';
 
-        if ($user->role->role_name === 'admin') {
+        if (!$canUpload && $user->role->role_name === 'lecturer') {
 
-            $canUpload = true;
-
-        } elseif ($user->role->role_name === 'lecturer') {
-
-           $canUpload = \App\Models\SubjectTeacher::where(
-        'user_id',
-        $user->user_id
-    )
-    ->where(
-        'subject_code',
-        $subject->subject_code
-    )
-    ->exists();
+            $canUpload = SubjectTeacher::where(
+                'user_id',
+                $user->user_id
+            )
+            ->where(
+                'subject_code',
+                $subject->subject_code
+            )
+            ->exists();
         }
 
         if (!$canUpload) {
-
             abort(403, 'Bạn không có quyền upload tài liệu cho môn học này.');
-
         }
 
         DB::beginTransaction();
@@ -467,13 +488,14 @@ class DocumentController extends Controller
 
             $file = $request->file('file');
 
-            $originalName = $file->getClientOriginalName();
-
             $extension = strtolower(
                 $file->getClientOriginalExtension()
             );
 
-            $storedName = time() . '_' . Str::random(10) . '.' . $extension;
+            $storedName =
+                time() . '_' .
+                Str::random(10) .
+                '.' . $extension;
 
             $filePath = $file->storeAs(
                 'documents',
@@ -483,55 +505,67 @@ class DocumentController extends Controller
 
             /*
             |--------------------------------------------------------------------------
+            | Chỉ PDF và ảnh mới xem trực tiếp
+            |--------------------------------------------------------------------------
+            */
+
+            $previewFile = null;
+
+            if (
+                $extension === 'pdf' ||
+                in_array($extension, [
+                    'jpg',
+                    'jpeg',
+                    'png',
+                    'gif',
+                    'webp',
+                ])
+            ) {
+                $previewFile = $filePath;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
             | Tạo tài liệu
             |--------------------------------------------------------------------------
             */
 
             $document = Document::create([
 
-                'title' => $request->title,
-
-                'slug' => Str::slug($request->title) . '-' . Str::random(6),
-
-                'description' => $request->description,
-
-                'subject_code' => $subject->subject_code,
-
+                'title'            => $request->title,
+                'slug'             => Str::slug($request->title) . '-' . Str::random(6),
+                'description'      => $request->description,
+                'subject_code'     => $subject->subject_code,
                 'document_type_id' => $request->document_type_id,
-
-                'uploaded_by' => $user->user_id,
-
-                'is_active' => true,
+                'uploaded_by'      => $user->user_id,
+                'is_active'        => true,
 
             ]);
 
             /*
             |--------------------------------------------------------------------------
-            | Version đầu tiên
+            | Phiên bản đầu tiên
             |--------------------------------------------------------------------------
             */
 
             DocumentVersion::create([
 
-                'document_id' => $document->document_id,
+                'document_id'       => $document->document_id,
+                'version_name'      => '1.0',
+                'version_note'      => 'Initial version',
 
-                'version_name' => '1.0',
+                'original_file_name'=> $file->getClientOriginalName(),
+                'stored_file_name'  => $storedName,
 
-                'version_note' => 'Initial version',
+                'file_path'         => $filePath,
+                'preview_file'      => $previewFile,
 
-                'original_file_name' => $originalName,
+                'mime_type'         => $file->getMimeType(),
+                'file_extension'    => $extension,
+                'file_size'         => $file->getSize(),
 
-                'stored_file_name' => $storedName,
-
-                'file_path' => $filePath,
-
-                'file_extension' => $extension,
-
-                'file_size' => $file->getSize(),
-
-                'uploaded_by' => $user->user_id,
-
-                'is_current' => true,
+                'uploaded_by'       => $user->user_id,
+                'is_current'        => true,
 
             ]);
 
@@ -545,15 +579,13 @@ class DocumentController extends Controller
 
             DB::rollBack();
 
-            // Xóa file nếu đã upload
-            if (isset($filePath) && Storage::disk('public')->exists($filePath)) {
+            if (isset($filePath)) {
                 Storage::disk('public')->delete($filePath);
             }
 
             return back()
                 ->withInput()
                 ->with('error', $e->getMessage());
-
         }
     }
     /*
@@ -581,7 +613,20 @@ class DocumentController extends Controller
             $storedName = time().'_'.Str::random(10).'.'.$extension;
 
             $filePath = $file->storeAs('documents', $storedName, 'public');
+            $previewFile = null;
 
+            if (
+                $extension === 'pdf' ||
+                in_array($extension, [
+                    'jpg',
+                    'jpeg',
+                    'png',
+                    'gif',
+                    'webp'
+                ])
+            ) {
+                $previewFile = $filePath;
+            }
             // 1. disable old version
             DocumentVersion::where('document_id', $document->document_id)
                 ->update(['is_current' => false]);
@@ -664,8 +709,8 @@ class DocumentController extends Controller
     ]);
 
     // Trả file về cho người dùng
-    return Storage::disk('public')->download(
-        $version->file_path,
+    return response()->download(
+        Storage::disk('public')->path($version->file_path),
         $version->original_file_name
     );
 }
