@@ -436,15 +436,15 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
             grid grid-cols-12 gap-4
             text-xs font-bold uppercase tracking-wide text-slate-500">
 
-            <div class="col-span-1 text-center">
+            <div class="col-span-1 ">
                 STT
             </div>
 
-            <div class="col-span-4">
+            <div class="col-span-5">
                 Tài liệu
             </div>
 
-            <div class="col-span-3">
+            <div class="col-span-2">
                 Môn học
             </div>
 
@@ -473,7 +473,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
             <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-slate-50 transition">
 
                 <!-- STT -->
-                <div class="col-span-1 flex justify-center">
+                <div class="col-span-1 flex ">
 
                     <span class="w-8 h-8 rounded-lg
                      bg-slate-100 text-slate-600
@@ -487,7 +487,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 </div>
 
                 <!-- TÀI LIỆU -->
-                <div class="col-span-4 flex items-center gap-3 min-w-0">
+                <div class="col-span-5 flex items-center gap-3 min-w-0">
 
                     <div class="w-9 h-9 rounded-md flex items-center justify-center shrink-0
 
@@ -554,7 +554,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 </div>
 
                 <!-- MÔN HỌC -->
-                <div class="col-span-3 min-w-0">
+                <div class="col-span-2 min-w-0">
 
                     <span class="block w-full
                      px-3 py-1

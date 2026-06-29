@@ -18,83 +18,96 @@ class DocumentController extends Controller
     /**
      * Danh sách tài liệu
      */
-  public function index(Request $request)
-{
-    $query = Document::with([
-        'subject',
-        'documentType',
-        'uploader',
-        'currentVersion'
-    ]);
+    public function index(Request $request)
+    {
+        $query = Document::with([
+            'subject',
+            'documentType',
+            'uploader',
+            'currentVersion'
+        ]);
 
-    // Search
-    if ($request->filled('search')) {
+        // Search
+        if ($request->filled('search')) {
 
-        $search = $request->search;
+            $search = $request->search;
 
-        $query->where(function ($q) use ($search) {
+            $query->where(function ($q) use ($search) {
 
-            $q->where('title', 'like', "%{$search}%")
-                ->orWhere('description', 'like', "%{$search}%");
-        });
-    }
+                $q->where('title', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
 
-    // Subject filter
-    if ($request->filled('subject_code')) {
+        // Subject filter
+        if ($request->filled('subject_code')) {
 
-        $query->where(
-            'subject_code',
-            $request->subject_code
-        );
-    }
+            $query->where(
+                'subject_code',
+                $request->subject_code
+            );
+        }
 
-    // Document type filter
-    if ($request->filled('document_type_id')) {
+        // Document type filter
+        if ($request->filled('document_type_id')) {
 
-        $query->where(
-            'document_type_id',
-            $request->document_type_id
-        );
-    }
+            $query->where(
+                'document_type_id',
+                $request->document_type_id
+            );
+        }
 
-    // Status filter
-    if (
-        $request->status !== null &&
-        $request->status !== ''
-    ) {
+        // Status filter
+        if (
+            $request->status !== null &&
+            $request->status !== ''
+        ) {
 
-        $query->where(
+            $query->where(
+                'is_active',
+                $request->status
+            );
+        }
+
+        $documents = $query
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $subjects = Subject::where(
+            'status',
+            'active'
+        )->get();
+
+        $documentTypes = DocumentType::where(
             'is_active',
-            $request->status
+            true
+        )->get();
+
+        $totalDocuments = Document::count();
+
+        $totalDownloads = Document::sum(
+            'download_count'
         );
-    }
 
-    $documents = $query
-        ->latest()
-        ->paginate(10)
-        ->withQueryString();
+        $totalTrashedDocuments = Document::onlyTrashed()
+            ->count();
 
-    $subjects = Subject::where(
-        'status',
-        'active'
-    )->get();
+        // AJAX request
+        if ($request->ajax()) {
 
-    $documentTypes = DocumentType::where(
-        'is_active',
-        true
-    )->get();
-
-    $totalDocuments = Document::count();
-
-    $totalDownloads = Document::sum(
-        'download_count'
-    );
-
-    $totalTrashedDocuments = Document::onlyTrashed()
-        ->count();
-
-    // AJAX request
-    if ($request->ajax()) {
+            return view(
+                'admin.documents.index',
+                compact(
+                    'documents',
+                    'subjects',
+                    'documentTypes',
+                    'totalDocuments',
+                    'totalDownloads',
+                    'totalTrashedDocuments'
+                )
+            )->render();
+        }
 
         return view(
             'admin.documents.index',
@@ -106,39 +119,26 @@ class DocumentController extends Controller
                 'totalDownloads',
                 'totalTrashedDocuments'
             )
-        )->render();
+        );
     }
-
-    return view(
-        'admin.documents.index',
-        compact(
-            'documents',
-            'subjects',
-            'documentTypes',
-            'totalDocuments',
-            'totalDownloads',
-            'totalTrashedDocuments'
-        )
-    );
-}
     /**
      * Show tài liệu
      */
-   public function show(string $id)
-{
-    $document = Document::with([
-        'subject',
-        'documentType',
-        'uploader',
-        'updater',
-        'currentVersion',
-        'documentVersions.uploader'
-    ])
-    ->where('document_id', $id)
-    ->firstOrFail();
+    public function show(string $id)
+    {
+        $document = Document::with([
+            'subject',
+            'documentType',
+            'uploader',
+            'updater',
+            'currentVersion',
+            'documentVersions.uploader'
+        ])
+        ->where('document_id', $id)
+        ->firstOrFail();
 
-    return view('admin.documents.show', compact('document'));
-}
+        return view('admin.documents.show', compact('document'));
+    }
     /**
      * Form thêm
      */
@@ -188,57 +188,58 @@ class DocumentController extends Controller
             );
 
             DocumentVersion::create([
-                'document_id' => $document->document_id,
-                'version_name' => '1.0',
-                'original_file_name' => $file->getClientOriginalName(),
-                'stored_file_name' => $storedName,
-                'file_path' => $path,
-                'file_extension' => $file->getClientOriginalExtension(),
-                'file_size' => $file->getSize(),
-                'uploaded_by' => Auth::id(),
-                'is_current' => true,
+            'document_id'        => $document->document_id,
+            'version_name'       => '1.0',
+            'version_note'       => 'Phiên bản đầu tiên',
+            'original_file_name' => $file->getClientOriginalName(),
+            'stored_file_name'   => $storedName,
+            'file_path'          => $path,
+            'file_extension'     => $file->getClientOriginalExtension(),
+            'file_size'          => $file->getSize(),
+            'uploaded_by'        => Auth::id(),
+            'is_current'         => true,
             ]);
 
-            DB::commit();
+                DB::commit();
 
-            return redirect()
-                ->route('admin.documents.index')
-                ->with('success', 'Thêm tài liệu thành công');
-        } catch (\Exception $e) {
+                return redirect()
+                    ->route('admin.documents.index')
+                    ->with('success', 'Thêm tài liệu thành công');
+            } catch (\Exception $e) {
 
-            DB::rollBack();
+                DB::rollBack();
 
-            return back()
-                ->withInput()
-                ->with('error', $e->getMessage());
+                return back()
+                    ->withInput()
+                    ->with('error', $e->getMessage());
+            }
         }
-    }
 
     /**
      * Form sửa
      */
-   public function edit(string $id)
-{
-    $document = Document::with([
-        'subject',
-        'documentType',
-        'currentVersion'
-    ])->findOrFail($id);
+    public function edit(string $id)
+    {
+        $document = Document::with([
+            'subject',
+            'documentType',
+            'currentVersion'
+        ])->findOrFail($id);
 
-    return view('admin.documents.edit', [
-        'document' => $document,
+        return view('admin.documents.edit', [
+            'document' => $document,
 
-        'subjects' => Subject::where(
-            'status',
-            'active'
-        )->get(),
+            'subjects' => Subject::where(
+                'status',
+                'active'
+            )->get(),
 
-        'documentTypes' => DocumentType::where(
-            'is_active',
-            true
-        )->get(),
-    ]);
-}
+            'documentTypes' => DocumentType::where(
+                'is_active',
+                true
+            )->get(),
+        ]);
+    }
     /**
      * Cập nhật
      */
@@ -333,17 +334,20 @@ class DocumentController extends Controller
             }
 
             // Tạo version mới
-            DocumentVersion::create([
-                'document_id'        => $document->document_id,
-                'version_name'       => $newVersion,
-                'original_file_name' => $file->getClientOriginalName(),
-                'stored_file_name'   => $storedName,
-                'file_path'          => $path,
-                'file_extension'     => $file->getClientOriginalExtension(),
-                'file_size'          => $file->getSize(),
-                'uploaded_by'        => Auth::id(),
-                'is_current'         => true,
-            ]);
+           DocumentVersion::create([
+    'document_id'        => $document->document_id,
+    'version_name'       => $newVersion,
+
+    // thêm dòng này
+'version_note' => $request->version_note ?: 'Cập nhật phiên bản',
+    'original_file_name' => $file->getClientOriginalName(),
+    'stored_file_name'   => $storedName,
+    'file_path'          => $path,
+    'file_extension'     => $file->getClientOriginalExtension(),
+    'file_size'          => $file->getSize(),
+    'uploaded_by'        => Auth::id(),
+    'is_current'         => true,
+]);
         }
 
         DB::commit();

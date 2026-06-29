@@ -146,7 +146,7 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
             @endphp
 
             <div class="px-5 py-4 hover:bg-slate-50 transition">
-                <div class="grid grid-cols-12 items-center gap-4">
+                <div id="subject-{{ $subject->subject_code }}" class="grid grid-cols-12 items-center gap-4">
 
                     <div class="col-span-1 font-black text-slate-500">
                         {{ $loop->iteration }}
@@ -198,8 +198,10 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
                         <div class="flex items-center gap-2">
 
                             <!-- VIEW -->
-                            <a href="{{ route('admin.subjects.show', $subject->subject_code) }}"
-                                class="w-9 h-9 flex items-center justify-center rounded-md bg-sky-50 text-sky-600 hover:bg-sky-100 transition">
+                            <a href="{{ route('admin.subjects.show', [
+    'subject' => $subject->subject_code,
+    'return' => urlencode(request()->fullUrl() . '#subject-' . $subject->subject_code)
+]) }}" class="w-9 h-9 flex items-center justify-center rounded-md bg-sky-50 text-sky-600 hover:bg-sky-100 transition">
                                 <i class="fa-solid fa-eye text-sm"></i>
                             </a>
 

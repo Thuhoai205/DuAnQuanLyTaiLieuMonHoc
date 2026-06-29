@@ -43,7 +43,7 @@
                     <i class="fa-solid fa-pen mr-1"></i> Chỉnh sửa
                 </a>
 
-                <a href="{{ route('admin.faculties.index')}}"
+                <a href="{{ urldecode(request('return', route('admin.faculties.index'))) }}"
                     class="px-4 py-2 rounded-md bg-white border border-slate-200 text-slate-600 text-sm font-black hover:bg-slate-100 transition">
                     <i class="fa-solid fa-arrow-left mr-1"></i> Quay lại
                 </a>

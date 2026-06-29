@@ -223,7 +223,7 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                     <tbody class="divide-y divide-slate-100">
 
                         @forelse($users as $user)
-                        <tr class="hover:bg-slate-50 transition">
+                        <tr id="user-{{ $user->user_id }}" class="hover:bg-slate-50 transition">
 
                             <!-- STT (THÊM MỚI) -->
                             <td class="px-5 py-4 text-sm font-black text-slate-500">
@@ -277,8 +277,10 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                             <td class="px-5 py-4">
                                 <div class="flex items-center justify-end gap-2">
 
-                                    <a href="{{ route('admin.users.show', $user->user_id) }}"
-                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
+                                    <a href="{{ route('admin.users.show', [
+    'user' => $user->user_id,
+    'return' => urlencode(request()->fullUrl() . '#user-' . $user->user_id)
+]) }}" class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
 

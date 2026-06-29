@@ -36,7 +36,7 @@ $isActive = $documentType->is_active;
             </span>
 
             {{-- BACK --}}
-            <a href="{{ route('admin.document-types.index') }}"
+            <a href="{{ urldecode(request('return', route('admin.document-types.index'))) }}"
                 class="h-10 px-4 flex items-center bg-slate-100 text-slate-700 rounded-md font-black hover:bg-slate-200 transition">
                 ← Quay lại
             </a>

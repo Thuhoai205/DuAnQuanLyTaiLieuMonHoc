@@ -334,22 +334,46 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
 
                         <div class="p-5">
 
-                            <label class="block text-sm font-bold text-slate-700 mb-2">
-                                Chọn file mới
-                            </label>
+                            <!-- FILE -->
+                            <div>
 
-                            <input type="file" name="file" class="block w-full text-sm text-slate-600
-                           file:mr-4
-                           file:px-4
-                           file:py-2
-                           file:rounded-md
-                           file:border-0
-                           file:bg-sky-50
-                           file:text-sky-600
-                           file:font-black
-                           hover:file:bg-sky-100">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">
+                                    Chọn file mới
+                                </label>
 
-                            <div class="mt-4 p-3 rounded-md bg-amber-50 border border-amber-200">
+                                <input type="file" name="file" class="block w-full text-sm text-slate-600
+            file:mr-4
+            file:px-4
+            file:py-2
+            file:rounded-md
+            file:border-0
+            file:bg-sky-50
+            file:text-sky-600
+            file:font-black
+            hover:file:bg-sky-100">
+
+                            </div>
+
+                            <!-- VERSION NOTE -->
+                            <div class="mt-5">
+
+                                <label class="block text-sm font-bold text-slate-700 mb-2">
+                                    Ghi chú phiên bản
+                                </label>
+
+                                <textarea name="version_note" rows="3"
+                                    placeholder="Ví dụ: Chuyển tài liệu sang PDF, cập nhật chương 5, sửa lỗi nội dung..."
+                                    class="w-full rounded-md border border-slate-300 px-4 py-3 text-sm
+            focus:border-sky-500 focus:ring-2 focus:ring-sky-200">{{ old('version_note') }}</textarea>
+
+                                <p class="mt-2 text-xs text-slate-400">
+                                    Ghi chú giúp theo dõi những thay đổi của từng phiên bản tài liệu.
+                                </p>
+
+                            </div>
+
+                            <!-- INFO -->
+                            <div class="mt-5 p-3 rounded-md bg-amber-50 border border-amber-200">
 
                                 <div class="flex gap-2">
 
@@ -362,9 +386,8 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
                                         </p>
 
                                         <p class="mt-1">
-                                            Nếu chọn file mới, hệ thống sẽ tự tạo
-                                            phiên bản tiếp theo và lưu lại lịch sử
-                                            các phiên bản cũ.
+                                            Nếu chọn file mới, hệ thống sẽ tự tạo phiên bản tiếp theo
+                                            và lưu lại toàn bộ lịch sử các phiên bản cũ.
                                         </p>
 
                                     </div>

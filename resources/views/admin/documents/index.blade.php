@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="space-y-6">
+<div id="documents-area" class="space-y-6">
 
     <!-- HEADER -->
     <div class="bg-white border rounded-md shadow-sm p-5 flex justify-between items-center">
@@ -23,18 +23,22 @@
         <div class="flex gap-3">
 
             <!-- THÙNG RÁC -->
-            <a href="#"
-                class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
+            <a href="{{ route('admin.documents.trashed') }}" class="inline-flex items-center gap-2 h-11 px-4 rounded-md
+                bg-white border border-red-200 text-red-500 text-sm font-black
+                hover:bg-red-500 hover:text-white transition">
 
                 <i class="fa-solid fa-trash-can-arrow-up"></i>
 
                 @if($totalTrashedDocuments > 0)
-                <span
-                    class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
+
+                <span class="min-w-6 h-6 px-2 rounded-full
+        bg-red-500 text-white text-xs font-black
+        flex items-center justify-center">
 
                     {{ $totalTrashedDocuments }}
 
                 </span>
+
                 @endif
 
             </a>
@@ -155,111 +159,89 @@
 
                 <table class="w-full table-fixed">
 
-                    <thead class="px-5 py-3 bg-slate-50 border-b">
 
-                        <tr class=" text-xs font-black text-slate-500 uppercase">
+                    <!-- HEADER -->
+                    <div class="grid grid-cols-12 px-6 py-4 bg-slate-50 text-xs font-black uppercase text-slate-500">
 
-                            <th class="w-16 px-5 py-4 text-center">
-                                STT
-                            </th>
+                        <div class="col-span-1">STT</div>
 
-                            <th class="px-5 py-4 text-left">
-                                Tài liệu
-                            </th>
+                        <div class="col-span-4">Tài liệu</div>
 
-                            <th class="w-[250px] px-5 py-4 text-left">
-                                Người tạo
-                            </th>
+                        <div class="col-span-2 "> Người tạo</div>
 
-                            <th class="w-[120px] px-5 py-4 text-center">
-                                Lượt tải
-                            </th>
+                        <div class="col-span-2 text-center"> Trạng thái</div>
 
-                            <th class="w-[140px] px-5 py-4 text-center">
-                                Trạng thái
-                            </th>
+                        <div class="col-span-1 text-center">Lượt tải</div>
+                        <div class="col-span-2 text-right">Thao tác</div>
 
-                            <th class="w-[120px] px-5 py-4 text-center">
-                                Thao tác
-                            </th>
 
-                        </tr>
+                    </div>
 
-                    </thead>
-
-                    <tbody class="divide-y divide-slate-100">
+                    <div class="divide-y divide-slate-100">
 
                         @forelse($documents as $document)
 
                         @php
-                        $ext = strtolower(
-                        $document->currentVersion->file_extension ?? ''
-                        );
+                        $ext = strtolower($document->currentVersion->file_extension ?? '');
+                        $active = $document->is_active;
                         @endphp
 
-                        <tr class="hover:bg-slate-50 transition align-middle">
+                        <div id="document-{{ $document->document_id }}"
+                            class="grid grid-cols-12 items-center px-6 py-4 hover:bg-slate-50 transition">
+
                             <!-- STT -->
-                            <td class="px-5 py-5 align-middle">
+                            <div class="col-span-1 ">
 
-                                <div class="flex items-center justify-center">
+                                <span class="font-black text-slate-500">
 
-                                    <span class="col-span-1 font-black text-slate-500">
+                                    {{ $documents->firstItem() + $loop->index }}
 
-                                        {{ $documents->firstItem() + $loop->index }}
+                                </span>
 
-                                    </span>
-
-                                </div>
-
-                            </td>
+                            </div>
 
                             <!-- TÀI LIỆU -->
-                            <td class="px-5 py-5 align-middle">
-                                <div class="flex items-center gap-4">
+                            <div class="col-span-4">
+
+                                <div class="flex items-center gap-3">
+
                                     <!-- ICON -->
                                     <div class="w-9 h-9 rounded-md flex items-center justify-center shrink-0
 
-                            @if(in_array($ext,['pdf']))
-                                bg-red-50 text-red-500
-                            @elseif(in_array($ext,['doc','docx']))
-                                bg-blue-50 text-blue-600
-                            @elseif(in_array($ext,['xls','xlsx']))
-                                bg-green-50 text-green-600
-                            @elseif(in_array($ext,['ppt','pptx']))
-                                bg-orange-50 text-orange-600
-                            @elseif(in_array($ext,['zip','rar']))
-                                bg-yellow-50 text-yellow-600
-                            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                                bg-pink-50 text-pink-600
-                            @elseif(in_array($ext,['mp4','avi','mov']))
-                                bg-purple-50 text-purple-600
-                            @else
-                                bg-slate-100 text-slate-500
-                            @endif">
+                    @if(in_array($ext,['pdf']))
+                        bg-red-50 text-red-500
+                    @elseif(in_array($ext,['doc','docx']))
+                        bg-blue-50 text-blue-600
+                    @elseif(in_array($ext,['xls','xlsx']))
+                        bg-green-50 text-green-600
+                    @elseif(in_array($ext,['ppt','pptx']))
+                        bg-orange-50 text-orange-600
+                    @elseif(in_array($ext,['zip','rar']))
+                        bg-yellow-50 text-yellow-600
+                    @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
+                        bg-pink-50 text-pink-600
+                    @elseif(in_array($ext,['mp4','avi','mov']))
+                        bg-purple-50 text-purple-600
+                    @else
+                        bg-slate-100 text-slate-500
+                    @endif">
 
                                         @if(in_array($ext,['pdf']))
-                                        <i class="fa-solid fa-file-pdf text-lg"></i>
-
+                                        <i class="fa-solid fa-file-pdf"></i>
                                         @elseif(in_array($ext,['doc','docx']))
-                                        <i class="fa-solid fa-file-word text-lg"></i>
-
+                                        <i class="fa-solid fa-file-word"></i>
                                         @elseif(in_array($ext,['xls','xlsx']))
-                                        <i class="fa-solid fa-file-excel text-lg"></i>
-
+                                        <i class="fa-solid fa-file-excel"></i>
                                         @elseif(in_array($ext,['ppt','pptx']))
-                                        <i class="fa-solid fa-file-powerpoint text-lg"></i>
-
+                                        <i class="fa-solid fa-file-powerpoint"></i>
                                         @elseif(in_array($ext,['zip','rar']))
-                                        <i class="fa-solid fa-file-zipper text-lg"></i>
-
+                                        <i class="fa-solid fa-file-zipper"></i>
                                         @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                                        <i class="fa-solid fa-file-image text-lg"></i>
-
+                                        <i class="fa-solid fa-file-image"></i>
                                         @elseif(in_array($ext,['mp4','avi','mov']))
-                                        <i class="fa-solid fa-file-video text-lg"></i>
-
+                                        <i class="fa-solid fa-file-video"></i>
                                         @else
-                                        <i class="fa-solid fa-file text-lg"></i>
+                                        <i class="fa-solid fa-file"></i>
                                         @endif
 
                                     </div>
@@ -267,7 +249,7 @@
                                     <!-- THÔNG TIN -->
                                     <div class="flex-1 min-w-0">
 
-                                        <h4 class="font-black text-slate-700 truncate text-sm"
+                                        <h4 class="font-black text-sm text-slate-700 truncate"
                                             title="{{ $document->title }}">
 
                                             {{ $document->title }}
@@ -306,21 +288,21 @@
 
                                 </div>
 
-                            </td>
+                            </div>
 
                             <!-- NGƯỜI TẠO -->
-                            <td class="px-5 py-5">
+                            <div class="col-span-2">
 
                                 <div class="flex items-center gap-3">
 
                                     <div
-                                        class="w-9 h-9 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+                                        class="w-9 h-9 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center">
 
                                         <i class="fa-solid fa-user text-sm"></i>
 
                                     </div>
 
-                                    <span class="font-black text-slate-700 truncate text-sm">
+                                    <span class="font-black text-sm text-slate-700 truncate">
 
                                         {{ $document->uploader->full_name ?? '-' }}
 
@@ -328,20 +310,10 @@
 
                                 </div>
 
-                            </td>
+                            </div>
 
-                            <!-- LƯỢT TẢI -->
-                            <td class="px-5 py-5 text-center">
-
-                                <span class="font-black text-slate-700">
-
-                                    {{ number_format($document->download_count) }}
-
-                                </span>
-
-                            </td>
-
-                            <td class="px-5 py-5 text-center">
+                            <!-- TRẠNG THÁI -->
+                            <div class="col-span-2 flex justify-center">
 
                                 @if($document->is_active)
 
@@ -349,6 +321,7 @@
                                     class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
 
                                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+
                                     Hoạt động
 
                                 </span>
@@ -359,65 +332,94 @@
                                     class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-red-50 text-red-500 text-xs font-black">
 
                                     <span class="w-2 h-2 rounded-full bg-red-500"></span>
+
                                     Đã khóa
 
                                 </span>
 
                                 @endif
 
-                            </td>
+                            </div>
+
+                            <!-- LƯỢT TẢI -->
+                            <div class="col-span-1 text-center">
+
+                                <span class="font-black text-slate-700">
+
+                                    {{ number_format($document->download_count) }}
+
+                                </span>
+
+                            </div>
 
                             <!-- THAO TÁC -->
-                            <td class="px-5 py-5">
+                            <div class="col-span-2">
 
-                                <div class="flex justify-center items-center gap-2">
+                                <div class="flex justify-end gap-2">
 
-                                    <a href="{{ route('admin.documents.show',$document->document_id) }}"
-                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 flex items-center justify-center hover:bg-sky-100 transition">
+                                    <a href="{{ route('admin.documents.show', [
+                                        'document' => $document->document_id,
+                                        'return' => urlencode(request()->fullUrl() . '#document-' . $document->document_id)
+                                    ]) }}"
+                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
 
                                         <i class="fa-solid fa-eye"></i>
 
                                     </a>
 
                                     <a href="{{ route('admin.documents.edit',$document->document_id) }}"
-                                        class="w-9 h-9 rounded-md bg-amber-50 text-amber-600 flex items-center justify-center hover:bg-amber-100 transition">
+                                        class="w-9 h-9 rounded-md bg-amber-50 text-amber-600 hover:bg-amber-500 hover:text-white flex items-center justify-center transition">
 
                                         <i class="fa-solid fa-pen"></i>
 
                                     </a>
 
+                                    <button type="button" onclick="toggleStatus('{{ $document->document_id }}',this)"
+                                        class="w-9 h-9 rounded-md flex items-center justify-center
+                                        {{ $active ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white' : 'bg-yellow-50 text-yellow-600 hover:bg-yellow-500 hover:text-white' }}
+                                        transition">
+
+                                        <i class="fa-solid {{ $active ? 'fa-lock-open' : 'fa-lock' }}"></i>
+
+                                    </button>
+
+                                    <form action="{{ route('admin.documents.destroy', $document->document_id) }}"
+                                        method="POST">
+
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="button"
+                                            onclick="deleteDocument('{{ $document->document_id }}', this)" class="w-9 h-9 rounded-md
+                                                bg-red-50 text-red-500
+                                                hover:bg-red-500 hover:text-white
+                                                flex items-center justify-center transition">
+
+                                            <i class="fa-solid fa-trash"></i>
+
+                                        </button>
+
+                                    </form>
+
                                 </div>
 
-                            </td>
+                            </div>
 
-                        </tr>
+                        </div>
 
                         @empty
 
-                        <tr>
+                        <div class="py-20 text-center text-slate-500">
 
-                            <td colspan="6" class="py-12 text-center">
+                            <i class="fa-solid fa-file-circle-xmark text-5xl mb-4"></i>
 
-                                <div
-                                    class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                            <p>Chưa có tài liệu nào.</p>
 
-                                    <i class="fa-solid fa-file-circle-xmark text-2xl"></i>
-
-                                </div>
-
-                                <p class="text-sm font-black text-slate-500">
-
-                                    Chưa có tài liệu nào
-
-                                </p>
-
-                            </td>
-
-                        </tr>
+                        </div>
 
                         @endforelse
 
-                    </tbody>
+                    </div>
 
                 </table>
 
@@ -426,21 +428,19 @@
         </div>
     </div>
 </div>
-@endsection @push('scripts') <script>
-document.addEventListener('DOMContentLoaded', function() {
+@endsection
+@push('scripts')
+<script>
+const form = document.getElementById('filter-form');
 
-    const form = document.getElementById('filter-form');
-    const resetBtn = document.getElementById('btnReset');
+async function load(url = null) {
 
-    async function load(url = null) {
+    const params = new URLSearchParams(new FormData(form));
 
-        const params = new URLSearchParams(
-            new FormData(form)
-        );
+    const requestUrl = url ??
+        "{{ route('admin.documents.index') }}?" + params.toString();
 
-        let requestUrl = url ??
-            "{{ route('admin.documents.index') }}?" +
-            params.toString();
+    try {
 
         const response = await fetch(requestUrl, {
             headers: {
@@ -450,29 +450,124 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const html = await response.text();
 
-        const doc = new DOMParser()
-            .parseFromString(html, 'text/html');
+        const doc = new DOMParser().parseFromString(html, 'text/html');
 
-        document.getElementById('documentTable').innerHTML =
-            doc.getElementById('documentTable').innerHTML;
+        const newArea = doc.getElementById('documents-area');
 
-        history.pushState({}, '', requestUrl);
+        if (newArea) {
+
+            document.getElementById('documents-area').innerHTML =
+                newArea.innerHTML;
+
+            history.pushState({}, '', requestUrl);
+
+        }
+
+    } catch (e) {
+
+        console.error(e);
+
     }
 
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    const resetBtn = document.getElementById('btnReset');
+
     form.addEventListener('submit', function(e) {
+
         e.preventDefault();
+
         load();
+
     });
 
-    resetBtn.addEventListener('click', function() {
+    resetBtn.addEventListener('click', function(e) {
+
+        e.preventDefault();
 
         form.reset();
 
-        load(
-            "{{ route('admin.documents.index') }}"
-        );
+        load("{{ route('admin.documents.index') }}");
+
     });
 
 });
+
+async function deleteDocument(id, btn) {
+
+    if (!confirm("Bạn có chắc muốn xóa tài liệu này?")) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(`/admin/documents/${id}`, {
+            method: "DELETE",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "X-Requested-With": "XMLHttpRequest",
+                "Accept": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            alert("Không thể xóa tài liệu.");
+
+            return;
+
+        }
+
+        // Load lại toàn bộ vùng danh sách
+        await load();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Có lỗi xảy ra.");
+
+    }
+
+}
+
+async function toggleStatus(id, btn) {
+
+    try {
+
+        const response = await fetch(`/admin/documents/${id}/status`, {
+            method: "PATCH",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Accept": "application/json"
+            }
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+
+            alert(data.message ?? "Không thể thay đổi trạng thái.");
+
+            return;
+
+        }
+
+        // Load lại danh sách
+        await load();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Có lỗi xảy ra.");
+
+    }
+
+}
 </script>
 @endpush

@@ -49,7 +49,7 @@ $lecturerDownloadCount = $isLecturer ? $userDocuments->sum('download_count') : $
                     Chỉnh sửa
                 </a>
 
-                <a href="{{ route('admin.users.index') }}"
+                <a href="{{ urldecode(request('return', route('admin.users.index'))) }}"
                     class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-slate-200 text-slate-600 text-sm font-black hover:bg-slate-100 transition">
                     <i class="fa-solid fa-arrow-left"></i>
                     Quay lại

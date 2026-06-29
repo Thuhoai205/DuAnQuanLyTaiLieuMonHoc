@@ -49,59 +49,49 @@ Route::middleware('auth')
         });
 
         Route::resource('users', UserController::class);
-        /*
-        |--------------------------
-        | 
-        |--------------------------
-        */
-
         
             /*
         |--------------------------------------------------------------------------
         | FACULTIES
         |--------------------------------------------------------------------------
         */
-        /*
-|--------------------------------------------------------------------------
-| FACULTIES
-|--------------------------------------------------------------------------
-*/
+                
 
-Route::get('/faculties', [FacultyController::class, 'index'])
-    ->name('faculties.index');
+        Route::get('/faculties', [FacultyController::class, 'index'])
+            ->name('faculties.index');
 
-Route::get('/faculties/create', [FacultyController::class, 'create'])
-    ->name('faculties.create');
+        Route::get('/faculties/create', [FacultyController::class, 'create'])
+            ->name('faculties.create');
 
-Route::post('/faculties', [FacultyController::class, 'store'])
-    ->name('faculties.store');
+        Route::post('/faculties', [FacultyController::class, 'store'])
+            ->name('faculties.store');
 
-Route::get('/faculties/trashed', [FacultyController::class, 'trashed'])
-    ->name('faculties.trashed');
+        Route::get('/faculties/trashed', [FacultyController::class, 'trashed'])
+            ->name('faculties.trashed');
 
-Route::post('/faculties/restore-multiple', [FacultyController::class, 'restoreMultiple'])
-    ->name('faculties.restoreMultiple');
+        Route::post('/faculties/restore-multiple', [FacultyController::class, 'restoreMultiple'])
+            ->name('faculties.restoreMultiple');
 
-Route::patch('/faculties/{faculty}/restore', [FacultyController::class, 'restore'])
-    ->name('faculties.restore');
+        Route::patch('/faculties/{faculty}/restore', [FacultyController::class, 'restore'])
+            ->name('faculties.restore');
 
-Route::delete('/faculties/{faculty}/force-delete', [FacultyController::class, 'forceDelete'])
-    ->name('faculties.forceDelete');
+        Route::delete('/faculties/{faculty}/force-delete', [FacultyController::class, 'forceDelete'])
+            ->name('faculties.forceDelete');
 
-Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])
-    ->name('faculties.show');
+        Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])
+            ->name('faculties.show');
 
-Route::get('/faculties/{faculty}/edit', [FacultyController::class, 'edit'])
-    ->name('faculties.edit');
+        Route::get('/faculties/{faculty}/edit', [FacultyController::class, 'edit'])
+            ->name('faculties.edit');
 
-Route::put('/faculties/{faculty}', [FacultyController::class, 'update'])
-    ->name('faculties.update');
+        Route::put('/faculties/{faculty}', [FacultyController::class, 'update'])
+            ->name('faculties.update');
 
-Route::patch('/faculties/{faculty}/status', [FacultyController::class, 'toggleStatus'])
-    ->name('faculties.toggle-status');
+        Route::patch('/faculties/{faculty}/status', [FacultyController::class, 'toggleStatus'])
+            ->name('faculties.toggle-status');
 
-Route::delete('/faculties/{faculty}', [FacultyController::class, 'destroy'])
-    ->name('faculties.destroy');
+        Route::delete('/faculties/{faculty}', [FacultyController::class, 'destroy'])
+            ->name('faculties.destroy');
         
         /*
         |--------------------------
@@ -152,8 +142,11 @@ Route::delete('/faculties/{faculty}', [FacultyController::class, 'destroy'])
         });
 
         Route::resource('document-types', DocumentTypeController::class);
-
-
+        /*
+        |--------------------------
+        | DOCUMENT 
+        |--------------------------
+        */
         Route::prefix('documents')->name('documents.')->group(function () {
 
         Route::get('/trashed', [DocumentController::class, 'trashed'])
@@ -173,7 +166,9 @@ Route::delete('/faculties/{faculty}', [FacultyController::class, 'destroy'])
          });
 
         Route::resource('documents', DocumentController::class);
-            /*
+
+        
+        /*
         |--------------------------
         | STATISTICS
         |--------------------------

@@ -21,18 +21,18 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
 
                 <div class="w-10 h-10 rounded-md flex items-center justify-center shrink-0
 
-    @if(in_array(  $versionExt,['pdf']))
-        bg-red-50 text-red-500
-    @elseif(in_array(  $versionExt,['doc','docx']))
-        bg-blue-50 text-blue-600
-    @elseif(in_array(  $versionExt,['xls','xlsx']))
-        bg-green-50 text-green-600
-    @elseif(in_array(  $versionExt,['ppt','pptx']))
-        bg-orange-50 text-orange-600
-    @else
-        bg-slate-100 text-slate-500
-    @endif
-">
+                        @if(in_array(  $versionExt,['pdf']))
+                            bg-red-50 text-red-500
+                        @elseif(in_array(  $versionExt,['doc','docx']))
+                            bg-blue-50 text-blue-600
+                        @elseif(in_array(  $versionExt,['xls','xlsx']))
+                            bg-green-50 text-green-600
+                        @elseif(in_array(  $versionExt,['ppt','pptx']))
+                            bg-orange-50 text-orange-600
+                        @else
+                            bg-slate-100 text-slate-500
+                        @endif
+                    ">
 
                     @if(in_array( $versionExt,['pdf']))
                     <i class="fa-solid fa-file-pdf"></i>
@@ -75,10 +75,8 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
                     Chỉnh sửa
 
                 </a>
-
-
                 {{-- BACK --}}
-                <a href="{{ route('admin.documents.index') }}"
+                <a href="{{ urldecode(request('return', route('admin.documents.index'))) }}"
                     class="h-10 px-4 flex items-center bg-slate-100 text-slate-700 rounded-md font-black hover:bg-slate-200 transition">
                     ← Quay lại
                 </a>
@@ -219,18 +217,18 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
 
                         <div class="w-10 h-10 rounded-md flex items-center justify-center shrink-0
 
-    @if(in_array(  $versionExt,['pdf']))
-        bg-red-50 text-red-500
-    @elseif(in_array(  $versionExt,['doc','docx']))
-        bg-blue-50 text-blue-600
-    @elseif(in_array(  $versionExt,['xls','xlsx']))
-        bg-green-50 text-green-600
-    @elseif(in_array(  $versionExt,['ppt','pptx']))
-        bg-orange-50 text-orange-600
-    @else
-        bg-slate-100 text-slate-500
-    @endif
-">
+                                @if(in_array(  $versionExt,['pdf']))
+                                    bg-red-50 text-red-500
+                                @elseif(in_array(  $versionExt,['doc','docx']))
+                                    bg-blue-50 text-blue-600
+                                @elseif(in_array(  $versionExt,['xls','xlsx']))
+                                    bg-green-50 text-green-600
+                                @elseif(in_array(  $versionExt,['ppt','pptx']))
+                                    bg-orange-50 text-orange-600
+                                @else
+                                    bg-slate-100 text-slate-500
+                                @endif
+                            ">
 
                             @if(in_array( $versionExt,['pdf']))
                             <i class="fa-solid fa-file-pdf"></i>
@@ -288,7 +286,6 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
 
         @endif
         <!-- DANH SÁCH PHIÊN BẢN -->
-
         <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
 
@@ -308,135 +305,142 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
 
                 <table class="w-full table-fixed">
 
-                    <thead class="bg-slate-50 border-b border-slate-200">
-                        <tr class="text-xs font-black uppercase text-slate-500">
+                    <!-- HEADER -->
+                    <div class="grid grid-cols-12 px-6 py-4 bg-slate-50 text-xs font-black uppercase text-slate-500">
 
-                            <th class="px-5 py-4 text-center">
-                                STT
-                            </th>
+                        <div class="col-span-1">STT</div>
 
-                            <th class="px-5 py-4 text-center">
-                                Phiên bản
-                            </th>
+                        <div class="col-span-1">Phiên bản</div>
 
-                            <th class="px-5 py-4">
-                                Tên file
-                            </th>
+                        <div class="col-span-4 text-center"> Tên file</div>
 
-                            <th class="px-5 py-4 text-center">
-                                Kích thước
-                            </th>
+                        <div class="col-span-2 text-center"> Kích thước</div>
 
-                            <th class="px-5 py-4">
-                                Người tải lên
-                            </th>
+                        <div class="col-span-2 text-center">Người tải lên</div>
+                        <div class="col-span-2 text-center">Ngày tải</div>
 
-                            <th class="px-5 py-4 text-center">
-                                Ngày tải
-                            </th>
 
-                        </tr>
-                    </thead>
+                    </div>
 
-                    <tbody class="divide-y divide-slate-100">
+
+                    <div class="divide-y divide-slate-100">
 
                         @forelse($document->documentVersions as $version)
+
                         @php
                         $versionExt = strtolower($version->file_extension ?? '');
                         @endphp
-                        <tr class="hover:bg-slate-50 transition">
+
+                        <div class="grid grid-cols-12 items-center px-6 py-4 hover:bg-slate-50 transition">
 
                             <!-- STT -->
-                            <td class="px-5 py-5 text-center whitespace-nowrap">
+                            <div class="col-span-1">
 
-                                <span
-                                    class="inline-flex items-center justify-center w-8 h-8 rounded-md bg-slate-100 text-slate-600 text-xs font-black">
+                                <span class="font-black text-slate-500">
 
                                     {{ $loop->iteration }}
 
                                 </span>
 
-                            </td>
+                            </div>
 
                             <!-- PHIÊN BẢN -->
-                            <td class="px-5 py-5 text-center whitespace-nowrap">
+                            <div class="col-span-1">
 
-                                <span
-                                    class="inline-flex items-center justify-center min-w-[60px] px-3 py-1 rounded-md bg-sky-50 text-sky-600 text-xs font-black">
+                                <span class="inline-flex items-center justify-center
+                px-3 py-1 rounded-md bg-sky-50
+                text-sky-600 text-xs font-black">
 
-                                    1.{{ $loop->index }}
+                                    {{ $version->version_name }}
+
                                 </span>
 
-                            </td>
+                            </div>
 
                             <!-- TÊN FILE -->
-                            <td class="px-5 py-5">
+                            <div class="col-span-4">
+
                                 <div class="flex items-center gap-3">
 
-                                    <div class="w-10 h-10 rounded-md flex items-center justify-center shrink-0
+                                    <!-- ICON -->
+                                    <div class="w-9 h-9 rounded-md flex items-center justify-center shrink-0
 
-                @if(in_array(  $versionExt,['pdf']))
-                    bg-red-50 text-red-500
-                @elseif(in_array(  $versionExt,['doc','docx']))
-                    bg-blue-50 text-blue-600
-                @elseif(in_array(  $versionExt,['xls','xlsx']))
-                    bg-green-50 text-green-600
-                @elseif(in_array(  $versionExt,['ppt','pptx']))
-                    bg-orange-50 text-orange-600
-                @else
-                    bg-slate-100 text-slate-500
-                @endif">
+                    @if(in_array($versionExt,['pdf']))
+                        bg-red-50 text-red-500
+                    @elseif(in_array($versionExt,['doc','docx']))
+                        bg-blue-50 text-blue-600
+                    @elseif(in_array($versionExt,['xls','xlsx']))
+                        bg-green-50 text-green-600
+                    @elseif(in_array($versionExt,['ppt','pptx']))
+                        bg-orange-50 text-orange-600
+                    @else
+                        bg-slate-100 text-slate-500
+                    @endif">
 
-                                        @if(in_array( $versionExt,['pdf']))
+                                        @if(in_array($versionExt,['pdf']))
                                         <i class="fa-solid fa-file-pdf"></i>
-                                        @elseif(in_array( $versionExt,['doc','docx']))
+
+                                        @elseif(in_array($versionExt,['doc','docx']))
                                         <i class="fa-solid fa-file-word"></i>
-                                        @elseif(in_array( $versionExt,['xls','xlsx']))
+
+                                        @elseif(in_array($versionExt,['xls','xlsx']))
                                         <i class="fa-solid fa-file-excel"></i>
-                                        @elseif(in_array( $versionExt,['ppt','pptx']))
+
+                                        @elseif(in_array($versionExt,['ppt','pptx']))
                                         <i class="fa-solid fa-file-powerpoint"></i>
+
                                         @else
                                         <i class="fa-solid fa-file"></i>
+
                                         @endif
 
                                     </div>
 
-                                    <div>
-                                        <p class="font-black text-slate-700">
+                                    <div class="flex-1 min-w-0">
+
+                                        <p class="font-black text-sm text-slate-700 truncate"
+                                            title="{{ $version->original_file_name }}">
+
                                             {{ $version->original_file_name }}
+
                                         </p>
 
-                                        <p class="text-xs text-slate-400 uppercase">
-                                            {{ $version->file_extension }}
+                                        <p class="text-xs text-slate-400  mt-1">
+
+                                            {{ $version->version_note }}
+
                                         </p>
+
                                     </div>
 
                                 </div>
-                            </td>
+
+                            </div>
 
                             <!-- KÍCH THƯỚC -->
-                            <td class="px-5 py-5 text-center whitespace-nowrap">
+                            <div class="col-span-2 text-center">
 
-                                <span class="font-black text-slate-700">
+                                <span class="font-semibold text-slate-700">
 
-                                    {{ number_format($version->file_size / 1024, 2) }} KB
+                                    {{ number_format($version->file_size / 1024,2) }} KB
 
                                 </span>
 
-                            </td>
+                            </div>
 
-                            <td class="px-5 py-5 whitespace-nowrap">
+                            <!-- NGƯỜI TẢI -->
+                            <div class="col-span-2">
 
                                 <div class="flex items-center gap-3">
 
                                     <div
-                                        class="w-9 h-9 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+                                        class="w-8 h-8 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center">
 
-                                        <i class="fa-solid fa-user text-sm"></i>
+                                        <i class="fa-solid fa-user text-xs"></i>
 
                                     </div>
 
-                                    <span class="font-semibold text-slate-700">
+                                    <span class="font-semibold text-sm truncate">
 
                                         {{ $version->uploader->full_name ?? '-' }}
 
@@ -444,51 +448,40 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
 
                                 </div>
 
-                            </td>
+                            </div>
 
-                            <!-- NGÀY TẢI -->
-                            <td class="px-5 py-5 text-center whitespace-nowrap">
+                            <!-- NGÀY -->
+                            <div class="col-span-2 text-center">
 
-                                <div class="font-semibold text-slate-700">
+                                <div class="font-semibold text-sm text-slate-700">
 
                                     {{ $version->created_at->format('d/m/Y') }}
 
                                 </div>
 
-                                <div class="text-xs text-slate-400 mt-1">
+                                <div class="text-xs text-slate-400">
 
                                     {{ $version->created_at->format('H:i') }}
 
                                 </div>
 
-                            </td>
+                            </div>
 
-                        </tr>
+                        </div>
 
                         @empty
 
-                        <tr>
+                        <div class="py-16 text-center text-slate-500">
 
-                            <td colspan="6" class="py-12 text-center">
+                            <i class="fa-solid fa-clock-rotate-left text-4xl mb-3"></i>
 
-                                <div
-                                    class="w-14 h-14 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                            <p>Chưa có phiên bản nào.</p>
 
-                                    <i class="fa-solid fa-clock-rotate-left text-xl"></i>
-
-                                </div>
-
-                                <p class="text-sm font-bold text-slate-500">
-                                    Chưa có phiên bản nào.
-                                </p>
-
-                            </td>
-
-                        </tr>
+                        </div>
 
                         @endforelse
 
-                    </tbody>
+                    </div>
 
                 </table>
 

@@ -113,13 +113,13 @@ $totalTrashedDocumentTypes = $totalTrashedDocumentTypes ?? 0;
             $colorClass = $colorMap[$type->color] ?? $colorMap['cyan'];
             @endphp
 
-            <div class="grid grid-cols-12 px-5 py-4 items-center hover:bg-slate-50">
+            <div id="document-type-{{ $type->document_type_id }}"
+                class="grid grid-cols-12 px-5 py-4 items-center hover:bg-slate-50">
 
                 <!-- STT -->
                 <div class="col-span-1 font-black text-slate-500">
                     {{ $loop->iteration }}
                 </div>
-
                 <!-- NAME + ICON + COLOR -->
                 <div class="col-span-4 flex items-center gap-2">
 
@@ -152,8 +152,10 @@ $totalTrashedDocumentTypes = $totalTrashedDocumentTypes ?? 0;
                 <div class="col-span-3 flex justify-end gap-2">
 
                     <!-- VIEW -->
-                    <a href="{{ route('admin.document-types.show', $type->document_type_id) }}"
-                        class="w-9 h-9 flex items-center justify-center rounded-md bg-sky-50 text-sky-600">
+                    <a href="{{ route('admin.document-types.show', [
+    'document_type' => $type->document_type_id,
+    'return' => urlencode(request()->fullUrl() . '#document-type-' . $type->document_type_id)
+]) }}" class="w-9 h-9 flex items-center justify-center rounded-md bg-sky-50 text-sky-600">
                         <i class="fa-solid fa-eye"></i>
                     </a>
 

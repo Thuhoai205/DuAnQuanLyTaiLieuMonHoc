@@ -162,7 +162,8 @@
 
             @forelse($faculties as $faculty)
 
-            <div class="grid grid-cols-12 items-center px-6 py-6 hover:bg-slate-50 transition">
+            <div id="faculty-{{ $faculty->faculty_id }}"
+                class="grid grid-cols-12 items-center px-6 py-6 hover:bg-slate-50 transition">
 
                 <!-- STT -->
                 <div class="col-span-1">
@@ -242,9 +243,12 @@
 
                     <div class="flex justify-center gap-2">
 
-                        <a href="{{ route('admin.faculties.show', $faculty->faculty_id) }}" class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600
-    hover:bg-sky-500 hover:text-white
-    flex items-center justify-center transition">
+                        <a href="{{ route('admin.faculties.show', [
+        'faculty' => $faculty->faculty_id,
+        'return' => urlencode(request()->fullUrl() . '#faculty-' . $faculty->faculty_id)
+    ]) }}" class="w-10 h-10 rounded-xl bg-sky-50 text-sky-600
+                            hover:bg-sky-500 hover:text-white
+                            flex items-center justify-center transition">
 
                             <i class="fa-solid fa-eye"></i>
 
