@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\DocumentTypeController;
 use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\Admin\LogController;
-
+use App\Http\Controllers\Admin\FacultyController;
 /*
 |--------------------------------------------------------------------------
 | ADMIN ROUTES
@@ -50,6 +50,17 @@ Route::middleware('auth')
 
         Route::resource('users', UserController::class);
 
+
+        
+        Route::get('/faculties', [FacultyController ::class, 'index'])
+            ->name('faculties.index');
+
+
+
+
+
+
+        
         /*
         |--------------------------
         | SUBJECTS

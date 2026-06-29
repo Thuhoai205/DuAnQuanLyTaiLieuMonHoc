@@ -162,7 +162,11 @@
                     <i class="nav-icon fa-solid fa-users"></i>
                     <span>Người dùng</span>
                 </a>
-
+                <a href="{{ route('admin.faculties.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.faculties.*') ? 'active' : '' }}">
+                    <i class="nav-icon fa-solid fa-building-columns"></i>
+                    <span>Khoa</span>
+                </a>
                 <a href="{{ route('admin.subjects.index') }}"
                     class="nav-link {{ request()->routeIs('admin.subjects.*') ? 'active' : '' }}">
                     <i class="nav-icon fa-solid fa-book-open"></i>
