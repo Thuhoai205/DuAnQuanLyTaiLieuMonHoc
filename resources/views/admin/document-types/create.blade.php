@@ -110,8 +110,18 @@ $colorPalettes = [
                 {{-- NAME --}}
                 <div>
                     <label class="text-sm font-black text-slate-600">Tên loại</label>
-                    <input type="text" name="type_name" id="type_name" value="{{ old('type_name') }}"
-                        class="w-full h-11 px-4 mt-2 bg-slate-50 border rounded-md font-semibold">
+                    <input type="text" name="type_name" value="{{ old('type_name') }}" class="w-full h-11 px-4 mt-2 bg-slate-50 border rounded-md font-semibold
+                        @error('type_name')
+                            border border-red-500
+                        @else
+                            border border-slate-300
+                        @enderror">
+
+                    @error('type_name')
+                    <p class="mt-2 text-sm text-red-500 font-semibold">
+                        {{ $message }}
+                    </p>
+                    @enderror
                 </div>
 
                 {{-- DESCRIPTION --}}
@@ -147,8 +157,8 @@ $colorPalettes = [
                                 @checked($key=='cyan' )>
 
                             <div class="px-3 py-2 rounded-md border font-black text-sm transition
-        {{ $color['class'] }}
-        peer-checked:ring-2 peer-checked:ring-cyan-200">
+                                {{ $color['class'] }}
+                                peer-checked:ring-2 peer-checked:ring-cyan-200">
 
                                 {{ $color['label'] }}
                             </div>

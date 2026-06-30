@@ -18,11 +18,11 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
     <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
             <div>
-                <h2 class="text-lg font-black text-slate-700">
+                <h2 class="text-[16px]  font-black text-slate-700">
                     Danh sách người dùng
                 </h2>
 
-                <p class="text-sm text-slate-500 font-semibold mt-1">
+                <p class="text-[13px] text-slate-500 font-semibold mt-1">
                     Quản lý tài khoản Admin, Giảng viên và Sinh viên trong hệ thống.
                 </p>
             </div>
@@ -42,7 +42,7 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                 </a>
 
                 <a href="{{ route('admin.users.create') }}"
-                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-sm font-black hover:bg-sky-600 transition">
+                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-[16px] font-black hover:bg-sky-600 transition">
                     <i class="fa-solid fa-user-plus"></i>
                     <span>Thêm người dùng</span>
                 </a>
@@ -169,16 +169,17 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
             <div
                 class="px-5 py-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                 <div>
-                    <h2 class="text-sm font-black text-slate-700">
+                    <h2 class="text-[16px] font-black text-slate-700">
                         Người dùng hệ thống
                     </h2>
 
-                    <p class="text-xs text-slate-400 font-semibold mt-1">
+                    <p class="text-[13px] text-slate-400 font-semibold mt-1">
                         Danh sách tài khoản đang hoạt động trong hệ thống.
                     </p>
                 </div>
 
-                <span class="px-3 py-1 rounded bg-sky-50 text-sky-600 text-xs font-black border border-sky-100 w-fit">
+                <span
+                    class="px-3 py-1 rounded bg-sky-50 text-sky-600 text-[13px] font-black border border-sky-100 w-fit">
                     {{ number_format($users->total()) }} tài khoản
                 </span>
             </div>
@@ -192,27 +193,27 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                         <tr>
 
                             <!-- STT (THÊM MỚI) -->
-                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
                                 STT
                             </th>
 
-                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
                                 Người dùng
                             </th>
 
-                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
                                 Email
                             </th>
 
-                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
                                 Vai trò
                             </th>
 
-                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500">
+                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
                                 Trạng thái
                             </th>
 
-                            <th class="px-5 py-4 text-xs font-black uppercase text-slate-500 text-right">
+                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500 text-right">
                                 Hành động
                             </th>
 
@@ -278,10 +279,9 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                                 <div class="flex items-center justify-end gap-2">
 
                                     <a href="{{ route('admin.users.show', [
-                                            'user' => $user->user_id,
-                                            'return' => urlencode(request()->fullUrl() . '#user-' . $user->user_id)
-                                        ]) }}"
-                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
+                            'user' => $user->user_id,
+                            'return' => urlencode(request()->fullUrl() . '#user-' . $user->user_id)
+                        ]) }}" class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
 
@@ -329,7 +329,7 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
             <div
                 class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
-                <p class="text-sm font-bold text-slate-500">
+                <p class="text-[13px] font-bold text-slate-500">
                     Hiển thị
                     <span class="text-sky-600">{{ $users->firstItem() ?? 0 }}</span>
                     -

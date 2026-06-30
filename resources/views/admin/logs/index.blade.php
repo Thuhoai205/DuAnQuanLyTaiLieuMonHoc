@@ -10,8 +10,8 @@
     {{-- HEADER --}}
     <div class="bg-white border rounded-xl shadow-sm p-6 flex justify-between items-center">
         <div>
-            <h1 class="text-2xl font-black text-slate-800">Nhật ký hệ thống</h1>
-            <p class="text-sm text-slate-500 mt-1">
+            <h1 class="text-[16px] font-black text-slate-800">Nhật ký hệ thống</h1>
+            <p class="text-[14px] text-slate-500 mt-1">
                 Theo dõi hoạt động hệ thống
             </p>
         </div>
@@ -48,86 +48,197 @@
 
         </form>
     </div>
-
-    {{-- TABLE --}}
-    <div id="logs-list-area" class="bg-white border rounded-xl overflow-hidden">
+    <div id="logs-list-area" class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
         <div class="overflow-x-auto">
-            <table class="w-full min-w-[900px] text-left">
 
-                <thead class="bg-slate-50 border-b">
-                    <tr>
-                        <th class="px-6 py-4">STT</th>
-                        <th class="px-6 py-4">User</th>
-                        <th class="px-6 py-4">Hành động</th>
-                        <th class="px-6 py-4">Mô tả</th>
-                        <th class="px-6 py-4">IP</th>
-                        <th class="px-6 py-4">Thời gian</th>
+
+
+            <table class="w-full">
+
+                <thead class="bg-slate-50 border-b border-slate-200">
+
+                    <tr class="text-xs font-black uppercase text-slate-500">
+
+                        <!-- STT -->
+                        <th class="w-16 px-4 py-4 text-center">
+                            STT
+                        </th>
+
+                        <!-- Người dùng -->
+                        <th class="w-72 px-4 py-4 text-left">
+                            Người dùng
+                        </th>
+
+                        <!-- Hành động -->
+                        <th class="w-36 px-4 py-4 text-center">
+                            Hành động
+                        </th>
+
+                        <!-- Mô tả -->
+                        <th class="px-4 py-4 text-left">
+                            Mô tả
+                        </th>
+
+                        <!-- IP -->
+                        <th class="w-40 px-4 py-4 text-center">
+                            Địa chỉ IP
+                        </th>
+
+                        <!-- Thời gian -->
+                        <th class="w-48 px-4 py-4 text-center">
+                            Thời gian
+                        </th>
+
                     </tr>
+
                 </thead>
 
-                <tbody>
+                <tbody class="divide-y divide-slate-100">
 
                     @forelse($logs as $index => $log)
 
                     @php
+
                     $user = $log->user;
                     $name = $user->full_name ?? 'System';
 
-                    if ($log->login_at && !$log->logout_at) {
-                    $action = 'LOGIN';
-                    $color = 'text-emerald-600';
-                    } elseif ($log->logout_at) {
-                    $action = 'LOGOUT';
-                    $color = 'text-orange-600';
-                    } else {
-                    $action = 'REGISTER';
-                    $color = 'text-sky-600';
+                    if($log->login_at && !$log->logout_at){
+
+                    $action='LOGIN';
+                    $badge='bg-emerald-50 text-emerald-600';
+
+                    }elseif($log->logout_at){
+
+                    $action='LOGOUT';
+                    $badge='bg-orange-50 text-orange-600';
+
+                    }else{
+
+                    $action='REGISTER';
+                    $badge='bg-sky-50 text-sky-600';
+
                     }
 
                     $time = $log->logout_at ?? $log->login_at ?? $log->created_at;
+
                     @endphp
 
-                    <tr class="hover:bg-slate-50">
+                    <tr class="hover:bg-slate-50 transition">
 
-                        <td class="px-6 py-4 font-bold text-slate-500">
-                            {{ $logs->firstItem() + $index }}
+                        <!-- STT -->
+                        <td class="px-4 py-4 text-center">
+
+                            <span class="font-black text-slate-500">
+
+                                {{ $logs->firstItem() + $index }}
+
+                            </span>
+
                         </td>
 
-                        <td class="px-6 py-4 font-semibold">
-                            {{ $name }}
+                        <!-- Người dùng -->
+                        <td class="px-4 py-4">
+
+                            <div class="flex items-center gap-3">
+
+                                <div
+                                    class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+
+                                    <i class="fa-solid fa-user"></i>
+
+                                </div>
+
+                                <span class="font-bold text-slate-700 whitespace-nowrap">
+
+                                    {{ $name }}
+
+                                </span>
+
+                            </div>
+
                         </td>
 
-                        <td class="px-6 py-4 font-black {{ $color }}">
-                            {{ $action }}
+                        <!-- Hành động -->
+                        <td class="px-4 py-4 text-center">
+
+                            <span
+                                class="inline-flex items-center justify-center w-24 h-8 rounded-md text-xs font-black {{ $badge }}">
+
+                                {{ $action }}
+
+                            </span>
+
                         </td>
 
-                        <td class="px-6 py-4 text-slate-600">
-                            {{ $log->description ?? '-' }}
+                        <!-- Mô tả -->
+                        <td class="px-4 py-4">
+
+                            <span class="text-sm text-slate-600">
+
+                                {{ $log->description ?? '-' }}
+
+                            </span>
+
                         </td>
 
-                        <td class="px-6 py-4 text-slate-500">
-                            {{ $log->ip_address ?? '-' }}
+                        <!-- IP -->
+                        <td class="px-4 py-4 text-center whitespace-nowrap">
+
+                            <span class="font-medium text-slate-600">
+
+                                {{ $log->ip_address ?? '-' }}
+
+                            </span>
+
                         </td>
 
-                        <td class="px-6 py-4 text-slate-500">
-                            {{ \Carbon\Carbon::parse($time)->format('d/m/Y H:i') }}
+                        <!-- Thời gian -->
+                        <td class="px-4 py-4 text-center whitespace-nowrap">
+
+                            <span class="font-semibold text-slate-700">
+
+                                {{ \Carbon\Carbon::parse($time)->format('d/m/Y H:i') }}
+
+                            </span>
+
                         </td>
 
                     </tr>
 
                     @empty
+
                     <tr>
-                        <td colspan="6" class="text-center py-10 text-slate-500">
-                            Không có dữ liệu
+
+                        <td colspan="6" class="py-14 text-center">
+
+                            <div
+                                class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+
+                                <i class="fa-solid fa-clock-rotate-left text-2xl"></i>
+
+                            </div>
+
+                            <p class="text-sm font-black text-slate-500">
+
+                                Chưa có nhật ký nào
+
+                            </p>
+
                         </td>
+
                     </tr>
+
                     @endforelse
 
                 </tbody>
 
             </table>
+
+            </table>
         </div>
+
+        {{-- Phân trang giữ nguyên --}}
 
         <!-- PAGINATION -->
         <div

@@ -39,7 +39,7 @@
         gap: 12px;
         padding: 10px 18px;
         color: #a8b3c2;
-        font-size: 13px;
+        font-size: 11px;
         font-weight: 700;
         transition: all 0.22s ease;
         border-left: 3px solid transparent;
@@ -70,7 +70,7 @@
 
     .menu-title {
         color: #6b7a90;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.04em;
@@ -86,6 +86,10 @@
         justify-content: center;
         color: #64748b;
         transition: all 0.2s ease;
+    }
+
+    .top-icon i {
+        font-size: 13px;
     }
 
     .top-icon:hover {
@@ -105,10 +109,9 @@
     <div class="flex h-screen">
 
         <!-- SIDEBAR -->
-        <aside class="w-[230px] min-w-[230px] h-screen bg-[#263445] text-slate-300 flex flex-col">
-
+        <aside class="w-[200px] h-screen bg-[#263445] text-slate-300 flex flex-col">
             <!-- LOGO -->
-            <div class="relative h-16 min-h-16 px-5 border-b border-slate-800/70 flex items-center overflow-hidden">
+            <div class="relative h-16 min-h-16 px-5 border-b border-slate-800/60 flex items-center overflow-hidden">
 
                 <!-- background glow -->
                 <div class="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-cyan-500/10 blur-2xl"></div>
@@ -236,16 +239,11 @@
         <main class="flex-1 h-screen flex flex-col overflow-hidden">
 
             <!-- TOP BAR -->
-            <header
-                class="h-[58px] min-h-[58px] bg-white border-b border-slate-200 flex items-center px-5 shadow-sm z-40">
-
+            <header class="h-16 min-h-16 bg-white border-b border-slate-200 flex items-center px-5 shadow-sm z-40">
                 <!-- LEFT ICONS -->
                 <div class="relative flex items-center gap-1">
 
-                    <!-- SEARCH BUTTON -->
-                    <button type="button" id="adminSearchToggle" class="top-icon">
-                        <i class="fa-solid fa-magnifying-glass text-sm"></i>
-                    </button>
+
 
                     <!-- SEARCH BOX -->
                     <div id="adminSearchBox"
@@ -279,7 +277,7 @@
 
                     <!-- DATE -->
                     <div
-                        class="hidden lg:flex items-center gap-2 px-3 py-2 rounded-xl text-slate-500 text-xs font-bold">
+                        class="hidden lg:flex items-center gap-2 px-3 py-2 rounded-xl text-slate-500 text-[13px] font-bold">
                         <i class="fa-regular fa-calendar"></i>
                         <span>{{ now()->format('d/m/Y') }}</span>
                     </div>
@@ -304,7 +302,7 @@
                             class="absolute right-0 top-[115%] w-64 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200 z-[9999] overflow-hidden">
 
                             <div class="px-4 py-3 border-b border-slate-100 bg-slate-50">
-                                <p class="text-sm font-black text-slate-800 truncate">
+                                <p class="text-[15px] font-black text-slate-800 truncate">
                                     {{ $adminUser->full_name }}
                                 </p>
 
@@ -314,7 +312,7 @@
                             </div>
 
                             <a href="{{ route('profile') }}"
-                                class="flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-600 hover:bg-slate-50">
+                                class="flex items-center gap-3 px-4 py-3 text-[13px] font-bold text-slate-600 hover:bg-slate-50">
                                 <i class="fa-solid fa-user text-sky-500 w-5"></i>
                                 <span>Hồ sơ cá nhân</span>
                             </a>
@@ -323,7 +321,7 @@
                                 @csrf
 
                                 <button type="submit"
-                                    class="w-full flex items-center gap-3 px-4 py-3 text-sm font-bold text-red-500 hover:bg-red-50">
+                                    class="w-full flex items-center gap-3 px-4 py-3 text-[13px] font-bold text-red-500 hover:bg-red-50">
                                     <i class="fa-solid fa-right-from-bracket w-5"></i>
                                     <span>Đăng xuất</span>
                                 </button>
@@ -345,11 +343,11 @@
                     </div>
 
                     <div>
-                        <h2 class="text-lg font-bold text-slate-700">
+                        <h2 class="text-[15px] font-bold text-slate-700">
                             @yield('page-title', 'Dashboard')
                         </h2>
 
-                        <p class="text-xs font-semibold text-slate-400 mt-0.5">
+                        <p class="text-[13px] font-semibold text-slate-400 mt-0.5">
                             Hệ thống quản lý tài liệu môn học
                         </p>
                     </div>

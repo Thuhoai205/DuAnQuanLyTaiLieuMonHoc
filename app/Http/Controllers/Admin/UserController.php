@@ -33,7 +33,7 @@ class UserController extends Controller
 
         $users = $query
             ->orderByDesc('user_id')
-            ->paginate(5)
+            ->paginate(10)
             ->withQueryString();
 
         $roles = Role::all();
@@ -56,12 +56,12 @@ class UserController extends Controller
         ));
     }
 
-  public function create()
-{
-    return view('admin.users.create', [
-        'roles' => Role::all()
-    ]);
-}
+    public function create()
+    {
+        return view('admin.users.create', [
+            'roles' => Role::all()
+        ]);
+    }
 
     public function store(Request $request)
     {
@@ -300,6 +300,14 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         if ($user->user_id == Auth::id()) {
+
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Bạn không thể tự khóa tài khoản của mình.'
+                ], 422);
+            }
+
             return back()->with('error', 'Bạn không thể tự khóa tài khoản của mình.');
         }
 
@@ -308,10 +316,17 @@ class UserController extends Controller
             'updated_by' => Auth::id(),
         ]);
 
-        return back()
-            ->with('success', 'Cập nhật trạng thái thành công.');
-    }
+        if (request()->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'is_active' => $user->is_active,
+                'label' => $user->is_active ? 'Hoạt động' : 'Bị khóa',
+                'message' => 'Cập nhật trạng thái thành công.'
+            ]);
+        }
 
+        return back()->with('success', 'Cập nhật trạng thái thành công.');
+    }
     public function uploadAvatar(Request $request, string $id)
     {
         $request->validate([

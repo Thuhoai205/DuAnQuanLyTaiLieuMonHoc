@@ -14,47 +14,47 @@ class DocumentTypeController extends Controller
     /* =========================
      * INDEX
      * ========================= */
-  public function index(Request $request)
-{
-    $query = DocumentType::withCount('documents');
+    public function index(Request $request)
+    {
+        $query = DocumentType::withCount('documents');
 
-    // SEARCH
-    if ($request->filled('search')) {
-        $query->where('type_name', 'like', '%' . $request->search . '%');
+        // SEARCH
+        if ($request->filled('search')) {
+            $query->where('type_name', 'like', '%' . $request->search . '%');
+        }
+
+        // STATUS (0/1)
+        if ($request->filled('status')) {
+            $query->where('is_active', (int) $request->status);
+        }
+
+        // SORT
+        $sort = $request->get('sort', 'newest');
+
+        if ($sort === 'az') {
+            $query->orderBy('type_name', 'asc');
+        } elseif ($sort === 'za') {
+            $query->orderBy('type_name', 'desc');
+        } else {
+            $query->orderByDesc('document_type_id');
+        }
+
+        $documentTypes = $query->paginate(10)->withQueryString();
+
+        // AJAX SUPPORT
+        if ($request->ajax()) {
+            return view('admin.document-types.index', compact(
+                'documentTypes'
+            ))->render();
+        }
+
+        return view('admin.document-types.index', [
+            'documentTypes' => $documentTypes,
+            'totalTypes' => DocumentType::count(),
+            'totalDocuments' => Document::count(),
+            'totalTrashedDocumentTypes' => DocumentType::onlyTrashed()->count(),
+        ]);
     }
-
-    // STATUS (0/1)
-    if ($request->filled('status')) {
-        $query->where('is_active', (int) $request->status);
-    }
-
-    // SORT
-    $sort = $request->get('sort', 'newest');
-
-    if ($sort === 'az') {
-        $query->orderBy('type_name', 'asc');
-    } elseif ($sort === 'za') {
-        $query->orderBy('type_name', 'desc');
-    } else {
-        $query->orderByDesc('document_type_id');
-    }
-
-    $documentTypes = $query->paginate(5)->withQueryString();
-
-    // AJAX SUPPORT
-    if ($request->ajax()) {
-        return view('admin.document-types.index', compact(
-            'documentTypes'
-        ))->render();
-    }
-
-    return view('admin.document-types.index', [
-        'documentTypes' => $documentTypes,
-        'totalTypes' => DocumentType::count(),
-        'totalDocuments' => Document::count(),
-        'totalTrashedDocumentTypes' => DocumentType::onlyTrashed()->count(),
-    ]);
-}
     /* =========================
      * TRASH
      * ========================= */
@@ -98,36 +98,54 @@ class DocumentTypeController extends Controller
      * ========================= */
     public function forceDelete(string $id)
     {
-        DocumentType::onlyTrashed()
-            ->where('document_type_id', $id)
-            ->firstOrFail()
-            ->forceDelete();
+        $type = DocumentType::onlyTrashed()
+            ->withCount('documents')
+            ->findOrFail($id);
+
+        if ($type->documents_count > 0) {
+            return back()->with('error', 'Không thể xóa vĩnh viễn vì loại tài liệu vẫn còn tài liệu sử dụng.');
+        }
+
+        $type->forceDelete();
 
         return back()->with('success', 'Đã xóa vĩnh viễn.');
     }
-
     /* =========================
      * STORE
      * ========================= */
     public function store(Request $request)
-    {
-        $request->validate([
-            'type_name' => 'required|string|max:100|unique:document_types,type_name',
-        ]);
+{
+    $request->validate([
+        'type_name' => 'required|string|max:100|unique:document_types,type_name',
+        'description' => 'nullable|string|max:255',
+        'icon' => 'nullable|string|max:100',
+        'color' => 'nullable|string|max:50',
+        'is_active' => 'required|boolean',
+    ], [
+        'type_name.required' => 'Vui lòng nhập tên loại tài liệu.',
+        'type_name.unique' => 'Tên loại tài liệu đã tồn tại.',
+        'type_name.max' => 'Tên loại tài liệu không được vượt quá 100 ký tự.',
 
-        DocumentType::create([
-            'type_name' => $request->type_name,
-            'description' => $request->description,
-            'icon' => $request->icon ?? 'fa-solid fa-file-lines',
-            'color' => $request->color ?? 'cyan',
-            'is_active' => $request->boolean('is_active'),
-            'created_by' => Auth::id(),
-            'updated_by' => Auth::id(),
-        ]);
+        'description.max' => 'Mô tả không được vượt quá 255 ký tự.',
 
-        return redirect()->route('admin.document-types.index')
-            ->with('success', 'Thêm loại tài liệu thành công.');
-    }
+        'is_active.required' => 'Vui lòng chọn trạng thái.',
+        'is_active.boolean' => 'Trạng thái không hợp lệ.',
+    ]);
+
+    DocumentType::create([
+        'type_name'  => trim($request->type_name),
+        'description'=> $request->description,
+        'icon'       => $request->icon ?: 'fa-solid fa-file-lines',
+        'color'      => $request->color ?: 'cyan',
+        'is_active'  => $request->boolean('is_active'),
+        'created_by' => Auth::id(),
+        'updated_by' => Auth::id(),
+    ]);
+
+    return redirect()
+        ->route('admin.document-types.index')
+        ->with('success', 'Thêm loại tài liệu thành công.');
+}
 
     /* =========================
      * UPDATE
@@ -151,11 +169,11 @@ class DocumentTypeController extends Controller
             'description' => $request->description,
             'icon' => $request->icon ?? 'fa-solid fa-file-lines',
             'color' => $request->color ?? 'cyan',
-            'is_active' => $request->boolean('is_active'),
             'updated_by' => Auth::id(),
         ]);
 
-        return redirect()->route('admin.document-types.index')
+        return redirect()
+            ->route('admin.document-types.index')
             ->with('success', 'Cập nhật thành công.');
     }
 
@@ -163,61 +181,52 @@ class DocumentTypeController extends Controller
      * TOGGLE STATUS (AJAX)
      * ========================= */
     public function toggleStatus(string $id)
-{
-    $document = Document::with('subject')
-        ->findOrFail($id);
+    {
+        $type = DocumentType::findOrFail($id);
 
-    if (
-        $document->subject &&
-        $document->subject->status !== 'active'
-    ) {
+        $type->update([
+            'is_active' => ! $type->is_active,
+            'updated_by' => Auth::id(),
+        ]);
+
         return response()->json([
-            'success' => false,
-            'message' => 'Môn học đã bị khóa, không thể kích hoạt tài liệu.'
+            'success' => true,
+            'status' => $type->is_active,
+            'label' => $type->is_active ? 'Hoạt động' : 'Đã khóa'
         ]);
     }
-
-    $document->is_active = ! $document->is_active;
-    $document->updated_by = Auth::id();
-    $document->save();
-
-    return response()->json([
-        'success' => true,
-        'status' => $document->is_active
-    ]);
-}
     /* =========================
      * DESTROY (SOFT DELETE + AJAX)
      * ========================= */
     public function destroy(string $id)
-{
-    $type = DocumentType::withCount('documents')->findOrFail($id);
+    {
+        $type = DocumentType::withCount('documents')->findOrFail($id);
 
-    // ❗ CASE 1: có tài liệu → CHỈ KHÓA
-    if ($type->documents_count > 0) {
+        // ❗ CASE 1: có tài liệu → CHỈ KHÓA
+        if ($type->documents_count > 0) {
 
-        $type->update([
-            'is_active' => false,
-            'updated_by' => Auth::id()
-        ]);
+            $type->update([
+                'is_active' => false,
+                'updated_by' => Auth::id()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'type' => 'locked',
+                'message' => 'Loại này đang có tài liệu nên chỉ có thể khóa!',
+                'status' => false
+            ]);
+        }
+
+        // ❗ CASE 2: không có tài liệu → XÓA MỀM
+        $type->delete();
 
         return response()->json([
-            'success' => false,
-            'type' => 'locked',
-            'message' => 'Loại này đang có tài liệu nên chỉ có thể khóa!',
-            'status' => false
+            'success' => true,
+            'type' => 'deleted',
+            'trashed_count' => DocumentType::onlyTrashed()->count()
         ]);
     }
-
-    // ❗ CASE 2: không có tài liệu → XÓA MỀM
-    $type->delete();
-
-    return response()->json([
-        'success' => true,
-        'type' => 'deleted',
-        'trashed_count' => DocumentType::onlyTrashed()->count()
-    ]);
-}
 
     /* =========================
      * SHOW
@@ -228,54 +237,54 @@ class DocumentTypeController extends Controller
         'documents' => function ($q) {
             $q->latest()->limit(5);
         }
-    ])
-    ->withCount('documents')
-    ->findOrFail($id);
-        return view('admin.document-types.show', compact('documentType'));
+        ])
+        ->withCount('documents')
+        ->findOrFail($id);
+            return view('admin.document-types.show', compact('documentType'));
     }
 
     /* =========================
      * EDIT
      * ========================= */
     public function edit(string $id)
-{
-    $documentType = DocumentType::withCount('documents')
-        ->findOrFail($id);
+    {
+        $documentType = DocumentType::withCount('documents')
+            ->findOrFail($id);
 
-    $icons = [
-        ['label' => 'Đề cương môn học', 'value' => 'fa-solid fa-book-open'],
-        ['label' => 'Giáo trình', 'value' => 'fa-solid fa-book'],
-        ['label' => 'Slide bài giảng', 'value' => 'fa-solid fa-file-powerpoint'],
-        ['label' => 'Tài liệu tham khảo', 'value' => 'fa-solid fa-file-lines'],
-        ['label' => 'Bài tập', 'value' => 'fa-solid fa-pencil'],
-        ['label' => 'Bài thực hành', 'value' => 'fa-solid fa-laptop-code'],
-        ['label' => 'Đề thi', 'value' => 'fa-solid fa-file-circle-check'],
-        ['label' => 'Đáp án', 'value' => 'fa-solid fa-circle-check'],
-        ['label' => 'Video bài giảng', 'value' => 'fa-solid fa-video'],
-        ['label' => 'Mã nguồn', 'value' => 'fa-solid fa-code'],
-        ['label' => 'Tệp PDF', 'value' => 'fa-solid fa-file-pdf'],
-        ['label' => 'Tệp Word', 'value' => 'fa-solid fa-file-word'],
-    ];
+        $icons = [
+            ['label' => 'Đề cương môn học', 'value' => 'fa-solid fa-book-open'],
+            ['label' => 'Giáo trình', 'value' => 'fa-solid fa-book'],
+            ['label' => 'Slide bài giảng', 'value' => 'fa-solid fa-file-powerpoint'],
+            ['label' => 'Tài liệu tham khảo', 'value' => 'fa-solid fa-file-lines'],
+            ['label' => 'Bài tập', 'value' => 'fa-solid fa-pencil'],
+            ['label' => 'Bài thực hành', 'value' => 'fa-solid fa-laptop-code'],
+            ['label' => 'Đề thi', 'value' => 'fa-solid fa-file-circle-check'],
+            ['label' => 'Đáp án', 'value' => 'fa-solid fa-circle-check'],
+            ['label' => 'Video bài giảng', 'value' => 'fa-solid fa-video'],
+            ['label' => 'Mã nguồn', 'value' => 'fa-solid fa-code'],
+            ['label' => 'Tệp PDF', 'value' => 'fa-solid fa-file-pdf'],
+            ['label' => 'Tệp Word', 'value' => 'fa-solid fa-file-word'],
+        ];
 
-    return view('admin.document-types.edit', compact('documentType', 'icons'));
-}
-public function create()
-{
-    $icons = [
-        ['label' => 'Đề cương môn học', 'value' => 'fa-solid fa-book-open'],
-        ['label' => 'Giáo trình', 'value' => 'fa-solid fa-book'],
-        ['label' => 'Slide bài giảng', 'value' => 'fa-solid fa-file-powerpoint'],
-        ['label' => 'Tài liệu tham khảo', 'value' => 'fa-solid fa-file-lines'],
-        ['label' => 'Bài tập', 'value' => 'fa-solid fa-pencil'],
-        ['label' => 'Bài thực hành', 'value' => 'fa-solid fa-laptop-code'],
-        ['label' => 'Đề thi', 'value' => 'fa-solid fa-file-circle-check'],
-        ['label' => 'Đáp án', 'value' => 'fa-solid fa-circle-check'],
-        ['label' => 'Video bài giảng', 'value' => 'fa-solid fa-video'],
-        ['label' => 'Mã nguồn', 'value' => 'fa-solid fa-code'],
-        ['label' => 'Tệp PDF', 'value' => 'fa-solid fa-file-pdf'],
-        ['label' => 'Tệp Word', 'value' => 'fa-solid fa-file-word'],
-    ];
+        return view('admin.document-types.edit', compact('documentType', 'icons'));
+    }
+    public function create()
+    {
+        $icons = [
+            ['label' => 'Đề cương môn học', 'value' => 'fa-solid fa-book-open'],
+            ['label' => 'Giáo trình', 'value' => 'fa-solid fa-book'],
+            ['label' => 'Slide bài giảng', 'value' => 'fa-solid fa-file-powerpoint'],
+            ['label' => 'Tài liệu tham khảo', 'value' => 'fa-solid fa-file-lines'],
+            ['label' => 'Bài tập', 'value' => 'fa-solid fa-pencil'],
+            ['label' => 'Bài thực hành', 'value' => 'fa-solid fa-laptop-code'],
+            ['label' => 'Đề thi', 'value' => 'fa-solid fa-file-circle-check'],
+            ['label' => 'Đáp án', 'value' => 'fa-solid fa-circle-check'],
+            ['label' => 'Video bài giảng', 'value' => 'fa-solid fa-video'],
+            ['label' => 'Mã nguồn', 'value' => 'fa-solid fa-code'],
+            ['label' => 'Tệp PDF', 'value' => 'fa-solid fa-file-pdf'],
+            ['label' => 'Tệp Word', 'value' => 'fa-solid fa-file-word'],
+        ];
 
-    return view('admin.document-types.create', compact('icons'));
-}
+        return view('admin.document-types.create', compact('icons'));
+    }
 }

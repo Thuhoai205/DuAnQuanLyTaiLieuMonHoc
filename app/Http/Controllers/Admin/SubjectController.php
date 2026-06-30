@@ -43,7 +43,7 @@ class SubjectController extends Controller
     }
 
         $subjects = $query->orderBy('subject_name')
-            ->paginate(6)
+            ->paginate(10)
             ->withQueryString();
         $totalTrashedSubjects = Subject::onlyTrashed()->count();
 

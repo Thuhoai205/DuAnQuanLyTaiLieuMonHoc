@@ -118,7 +118,7 @@ $totalTrashedDocumentTypes = $totalTrashedDocumentTypes ?? 0;
 
                 <!-- STT -->
                 <div class="col-span-1 font-black text-slate-500">
-                    {{ $loop->iteration }}
+                    {{ ($documentTypes->currentPage() - 1) * $documentTypes->perPage() + $loop->iteration }}
                 </div>
                 <!-- NAME + ICON + COLOR -->
                 <div class="col-span-4 flex items-center gap-2">
@@ -179,9 +179,99 @@ $totalTrashedDocumentTypes = $totalTrashedDocumentTypes ?? 0;
                     </button>
 
                 </div>
+
             </div>
 
             @endforeach
+
+        </div>
+        <div
+            class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <p class="text-sm font-bold text-slate-500">
+
+                Hiển thị
+                <span class="text-sky-600">{{ $documentTypes->firstItem() ?? 0 }}</span>
+                -
+                <span class="text-sky-600">{{ $documentTypes->lastItem() ?? 0 }}</span>
+                trong tổng
+                <span class="text-sky-600">{{ $documentTypes->total() }}</span>
+                loại tài liệu
+
+            </p>
+
+            <div class="flex items-center gap-2">
+
+                {{-- Previous --}}
+                @if ($documentTypes->onFirstPage())
+
+                <span
+                    class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                    <i class="fa-solid fa-angle-left"></i>
+
+                </span>
+
+                @else
+
+                <a href="{{ $documentTypes->previousPageUrl() }}"
+                    class="ajax-document-type-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                    <i class="fa-solid fa-angle-left"></i>
+
+                </a>
+
+                @endif
+
+
+                {{-- Number --}}
+                @for ($page = 1; $page <= max($documentTypes->lastPage(),1); $page++)
+
+                    @if ($page == $documentTypes->currentPage())
+
+                    <span
+                        class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center font-black">
+
+                        {{ $page }}
+
+                    </span>
+
+                    @else
+
+                    <a href="{{ $documentTypes->url($page) }}"
+                        class="ajax-document-type-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center font-bold transition">
+
+                        {{ $page }}
+
+                    </a>
+
+                    @endif
+
+                    @endfor
+
+
+                    {{-- Next --}}
+                    @if ($documentTypes->hasMorePages())
+
+                    <a href="{{ $documentTypes->nextPageUrl() }}"
+                        class="ajax-document-type-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                        <i class="fa-solid fa-angle-right"></i>
+
+                    </a>
+
+                    @else
+
+                    <span
+                        class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                        <i class="fa-solid fa-angle-right"></i>
+
+                    </span>
+
+                    @endif
+
+            </div>
 
         </div>
     </div>

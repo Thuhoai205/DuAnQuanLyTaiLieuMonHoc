@@ -169,7 +169,7 @@
                 <div class="col-span-1">
 
                     <span class="col-span-1 font-black text-slate-500">
-                        {{ $loop->iteration }}
+                        {{ ($faculties->currentPage() - 1) * $faculties->perPage() + $loop->iteration }}
                     </span>
 
                 </div>
@@ -306,13 +306,94 @@
             @endforelse
 
         </div>
+        <div
+            class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
+            <p class="text-sm font-bold text-slate-500">
+                Hiển thị
+                <span class="text-sky-600">{{ $faculties->firstItem() ?? 0 }}</span>
+                -
+                <span class="text-sky-600">{{ $faculties->lastItem() ?? 0 }}</span>
+                trong tổng
+                <span class="text-sky-600">{{ $faculties->total() }}</span>
+                khoa
+            </p>
+
+            <div class="flex items-center gap-2">
+
+                {{-- Previous --}}
+                @if ($faculties->onFirstPage())
+
+                <span
+                    class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                    <i class="fa-solid fa-angle-left"></i>
+
+                </span>
+
+                @else
+
+                <a href="{{ $faculties->previousPageUrl() }}"
+                    class="ajax-faculty-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                    <i class="fa-solid fa-angle-left"></i>
+
+                </a>
+
+                @endif
+
+
+                {{-- Number --}}
+                @for ($page = 1; $page <= max($faculties->lastPage(),1); $page++)
+
+                    @if ($page == $faculties->currentPage())
+
+                    <span
+                        class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center font-black">
+
+                        {{ $page }}
+
+                    </span>
+
+                    @else
+
+                    <a href="{{ $faculties->url($page) }}"
+                        class="ajax-faculty-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center font-bold transition">
+
+                        {{ $page }}
+
+                    </a>
+
+                    @endif
+
+                    @endfor
+
+
+                    {{-- Next --}}
+                    @if ($faculties->hasMorePages())
+
+                    <a href="{{ $faculties->nextPageUrl() }}"
+                        class="ajax-faculty-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                        <i class="fa-solid fa-angle-right"></i>
+
+                    </a>
+
+                    @else
+
+                    <span
+                        class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                        <i class="fa-solid fa-angle-right"></i>
+
+                    </span>
+
+                    @endif
+
+            </div>
+
+        </div>
     </div>
-
-    <div class="mt-6">
-        {{ $faculties->links() }}
-    </div>
-
 
 </div>
 

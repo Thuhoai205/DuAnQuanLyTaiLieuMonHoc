@@ -19,8 +19,8 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
         <div class="flex justify-between items-center">
 
             <div>
-                <h2 class="text-lg font-black">Danh sách môn học</h2>
-                <p class="text-sm text-slate-500">Danh sách môn học trong hệ thống</p>
+                <h2 class="text-[16px] font-black">Danh sách môn học</h2>
+                <p class="text-[13px] text-slate-500">Danh sách môn học trong hệ thống</p>
             </div>
 
             <div class="flex items-center gap-3">
@@ -101,8 +101,8 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
         <!-- HEADER -->
         <div class="px-5 py-4 border-b flex justify-between">
             <div>
-                <h2 class="text-sm font-black">Môn học hệ thống</h2>
-                <p class="text-xs text-slate-400">Thông tin môn học</p>
+                <h2 class="text-[16px] font-black">Môn học hệ thống</h2>
+                <p class="text-[13px] text-slate-400">Thông tin môn học</p>
             </div>
 
             <span class="px-3 py-1 bg-sky-50 text-sky-600 text-xs font-black rounded-md border">
@@ -112,7 +112,7 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
 
         <!-- HEADER GRID -->
         <div class="px-5 py-3 bg-slate-50 border-b">
-            <div class="grid grid-cols-12 text-xs font-black text-slate-500 uppercase">
+            <div class="grid grid-cols-12 text-[14px] font-black text-slate-500 uppercase">
 
                 <div class="col-span-1">STT</div>
                 <div class="col-span-4">Môn học</div>
@@ -149,7 +149,7 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
                 <div id="subject-{{ $subject->subject_code }}" class="grid grid-cols-12 items-center gap-4">
 
                     <div class="col-span-1 font-black text-slate-500">
-                        {{ $loop->iteration }}
+                        {{ ($subjects->currentPage() - 1) * $subjects->perPage() + $loop->iteration }}
                     </div>
 
                     <div class="col-span-4 flex items-center gap-3 min-w-0">
@@ -239,6 +239,93 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
             @empty
             <div class="p-10 text-center text-slate-500">Không có môn học</div>
             @endforelse
+
+        </div>
+        <div
+            class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <p class="text-[13px] font-bold text-slate-500">
+
+                Hiển thị
+                <span class="text-sky-600">{{ $subjects->firstItem() ?? 0 }}</span>
+                -
+                <span class="text-sky-600">{{ $subjects->lastItem() ?? 0 }}</span>
+                trong tổng
+                <span class="text-sky-600">{{ $subjects->total() }}</span>
+                môn học
+
+            </p>
+
+            <div class="flex items-center gap-2">
+
+                {{-- Previous --}}
+                @if ($subjects->onFirstPage())
+
+                <span
+                    class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                    <i class="fa-solid fa-angle-left"></i>
+
+                </span>
+
+                @else
+
+                <a href="{{ $subjects->previousPageUrl() }}"
+                    class="ajax-subject-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                    <i class="fa-solid fa-angle-left"></i>
+
+                </a>
+
+                @endif
+
+                {{-- Page Number --}}
+                @for ($page = 1; $page <= max($subjects->lastPage(),1); $page++)
+
+                    @if ($page == $subjects->currentPage())
+
+                    <span
+                        class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center font-black">
+
+                        {{ $page }}
+
+                    </span>
+
+                    @else
+
+                    <a href="{{ $subjects->url($page) }}"
+                        class="ajax-subject-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center font-bold transition">
+
+                        {{ $page }}
+
+                    </a>
+
+                    @endif
+
+                    @endfor
+
+                    {{-- Next --}}
+                    @if ($subjects->hasMorePages())
+
+                    <a href="{{ $subjects->nextPageUrl() }}"
+                        class="ajax-subject-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                        <i class="fa-solid fa-angle-right"></i>
+
+                    </a>
+
+                    @else
+
+                    <span
+                        class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                        <i class="fa-solid fa-angle-right"></i>
+
+                    </span>
+
+                    @endif
+
+            </div>
 
         </div>
     </div>

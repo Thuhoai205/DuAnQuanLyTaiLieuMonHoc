@@ -93,96 +93,148 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
         <!-- THÔNG TIN TÀI LIỆU -->
         <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
+            <!-- HEADER -->
             <div class="px-5 py-4 border-b border-slate-200">
+
                 <h2 class="text-sm font-black text-slate-700">
                     Thông tin tài liệu
                 </h2>
+
             </div>
 
-            <div class="p-5">
+            <!-- BODY -->
+            <div class="p-6">
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
 
+                    <!-- Tiêu đề -->
                     <div>
-                        <p class="text-xs font-bold uppercase text-slate-400">
+
+                        <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
                             Tiêu đề
                         </p>
 
-                        <p class="mt-1 font-semibold text-slate-700">
+                        <p class="mt-2 font-semibold text-slate-700">
                             {{ $document->title }}
                         </p>
+
                     </div>
 
+                    <!-- Môn học -->
                     <div>
-                        <p class="text-xs font-bold uppercase text-slate-400">
+
+                        <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
                             Môn học
                         </p>
 
-                        <p class="mt-1 font-semibold text-slate-700">
+                        <p class="mt-2 font-semibold text-slate-700">
                             {{ $document->subject->subject_name ?? '-' }}
                         </p>
+
                     </div>
 
+                    <!-- Loại tài liệu -->
                     <div>
-                        <p class="text-xs font-bold uppercase text-slate-400">
+
+                        <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
                             Loại tài liệu
                         </p>
 
-                        <p class="mt-1 font-semibold text-slate-700">
+                        <p class="mt-2 font-semibold text-slate-700">
                             {{ $document->documentType->type_name ?? '-' }}
                         </p>
+
                     </div>
 
+                    <!-- Người tạo -->
                     <div>
-                        <p class="text-xs font-bold uppercase text-slate-400">
-                            Người đăng </p>
 
-                        <p class="mt-1 font-semibold text-slate-700">
+                        <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
+                            Người tạo
+                        </p>
+
+                        <p class="mt-2 font-semibold text-slate-700">
                             {{ $document->uploader->full_name ?? '-' }}
                         </p>
+
                     </div>
 
+                    <!-- Ngày tạo -->
                     <div>
-                        <p class="text-xs font-bold uppercase text-slate-400">
+
+                        <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
                             Ngày tạo
                         </p>
 
-                        <p class="mt-1 font-semibold text-slate-700">
+                        <p class="mt-2 font-semibold text-slate-700">
                             {{ $document->created_at->format('d/m/Y H:i') }}
                         </p>
+
                     </div>
 
+                    <!-- Cập nhật lần cuối -->
                     <div>
-                        <p class="text-xs font-bold uppercase text-slate-400">
+
+                        <p class="text-xs font-bold uppercase tracking-wide text-slate-400">
+                            Cập nhật lần cuối
+                        </p>
+
+                        <p class="mt-2 font-semibold text-slate-700">
+                            {{ $document->updater->full_name ?? $document->uploader->full_name ?? '-' }}
+                        </p>
+
+                        <p class="text-xs text-slate-400 mt-1">
+                            {{ $document->updated_at ? $document->updated_at->format('d/m/Y H:i') : '-' }}
+                        </p>
+
+                    </div>
+
+                    <!-- Trạng thái -->
+                    <div>
+
+                        <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">
                             Trạng thái
                         </p>
 
                         @if($document->is_active)
+
                         <span
-                            class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-emerald-50 text-emerald-600 text-xs font-black">
+
                             <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+
                             Hoạt động
+
                         </span>
+
                         @else
+
                         <span
-                            class="inline-flex items-center gap-1 px-3 py-1 rounded-md bg-red-50 text-red-500 text-xs font-black">
+                            class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-red-50 text-red-500 text-xs font-black">
+
                             <span class="w-2 h-2 rounded-full bg-red-500"></span>
+
                             Đã khóa
+
                         </span>
+
                         @endif
 
                     </div>
 
                 </div>
 
-                <div class="mt-6">
+                <!-- Mô tả -->
+                <div class="mt-8">
 
-                    <p class="text-xs font-bold uppercase text-slate-400">
+                    <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">
                         Mô tả
                     </p>
 
-                    <div class="mt-2 p-4 rounded-md bg-slate-50 border border-slate-200 text-slate-600">
-                        {{ $document->description ?? 'Không có mô tả cho tài liệu này.' }}
+                    <div class="rounded-md border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-600">
+
+                        {{ $document->description ?: 'Không có mô tả cho tài liệu này.' }}
+
                     </div>
 
                 </div>

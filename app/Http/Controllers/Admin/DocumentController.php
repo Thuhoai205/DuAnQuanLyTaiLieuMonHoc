@@ -140,81 +140,128 @@ class DocumentController extends Controller
         return view('admin.documents.show', compact('document'));
     }
     /**
-     * Form thêm
-     */
-    public function create()
-    {
-        return view('admin.documents.create', [
-            'subjects' => Subject::where('status', 'active')->get(),
-            'documentTypes' => DocumentType::where('is_active', true)->get(),
-        ]);
+ * Form thêm tài liệu
+ */
+public function create()
+{
+    $subjects = Subject::where('status', 'active')
+        ->orderBy('subject_name')
+        ->get();
+
+    $documentTypes = DocumentType::where('is_active', true)
+        ->orderBy('type_name')
+        ->get();
+
+    return view('admin.documents.create', compact(
+        'subjects',
+        'documentTypes'
+    ));
+}
+
+/**
+ * Lưu tài liệu mới
+ */
+public function store(Request $request)
+{
+    $request->validate([
+        'title'            => 'required|string|max:255',
+        'subject_code'     => 'required|exists:subjects,subject_code',
+        'document_type_id' => 'required|exists:document_types,document_type_id',
+        'description'      => 'nullable|string',
+        'file'             => 'required|file|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar|max:51200',
+    ], [
+        'title.required'            => 'Vui lòng nhập tên tài liệu.',
+        'subject_code.required'     => 'Vui lòng chọn môn học.',
+        'document_type_id.required' => 'Vui lòng chọn loại tài liệu.',
+        'file.required'             => 'Vui lòng chọn tệp tài liệu.',
+        'file.mimes'                => 'Định dạng tệp không được hỗ trợ.',
+        'file.max'                  => 'Dung lượng tệp tối đa là 50MB.',
+    ]);
+
+    // Kiểm tra môn học
+    $subject = Subject::findOrFail($request->subject_code);
+
+    if ($subject->status !== 'active') {
+
+        return back()
+            ->withInput()
+            ->withErrors([
+                'subject_code' => 'Môn học đã bị khóa.'
+            ]);
     }
 
-    /**
-     * Lưu tài liệu mới
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|max:255',
-            'subject_code' => 'required|exists:subjects,subject_code',
-            'document_type_id' => 'required|exists:document_types,document_type_id',
-            'file' => 'required|file|max:51200',
+    // Kiểm tra loại tài liệu
+    $documentType = DocumentType::findOrFail($request->document_type_id);
+
+    if (!$documentType->is_active) {
+
+        return back()
+            ->withInput()
+            ->withErrors([
+                'document_type_id' => 'Loại tài liệu đã bị khóa.'
+            ]);
+    }
+
+    DB::beginTransaction();
+
+    try {
+
+        $file = $request->file('file');
+
+        $storedName = time() . '_' . $file->getClientOriginalName();
+
+        $path = $file->storeAs(
+            'documents',
+            $storedName,
+            'public'
+        );
+
+        // Tạo tài liệu
+        $document = Document::create([
+            'title'            => $request->title,
+            'slug'             => Str::slug($request->title) . '-' . time(),
+            'description'      => $request->description,
+            'subject_code'     => $request->subject_code,
+            'document_type_id' => $request->document_type_id,
+            'uploaded_by'      => Auth::id(),
+            'updated_by'       => Auth::id(),
+            'download_count'   => 0,
+            'is_active'        => true,
         ]);
 
-        DB::beginTransaction();
-
-        try {
-
-            $document = Document::create([
-                'title' => $request->title,
-                'slug' => Str::slug($request->title),
-                'description' => $request->description,
-                'subject_code' => $request->subject_code,
-                'document_type_id' => $request->document_type_id,
-                'uploaded_by' => Auth::id(),
-                'updated_by' => Auth::id(),
-                'is_active' => true,
-            ]);
-
-            $file = $request->file('file');
-
-            $storedName = time() . '_' . $file->getClientOriginalName();
-
-            $path = $file->storeAs(
-                'documents',
-                $storedName,
-                'public'
-            );
-
-            DocumentVersion::create([
+        // Tạo phiên bản đầu tiên
+        DocumentVersion::create([
             'document_id'        => $document->document_id,
             'version_name'       => '1.0',
             'version_note'       => 'Phiên bản đầu tiên',
             'original_file_name' => $file->getClientOriginalName(),
             'stored_file_name'   => $storedName,
             'file_path'          => $path,
-            'file_extension'     => $file->getClientOriginalExtension(),
+            'file_extension'     => strtolower($file->getClientOriginalExtension()),
             'file_size'          => $file->getSize(),
             'uploaded_by'        => Auth::id(),
             'is_current'         => true,
-            ]);
+        ]);
 
-                DB::commit();
+        DB::commit();
 
-                return redirect()
-                    ->route('admin.documents.index')
-                    ->with('success', 'Thêm tài liệu thành công');
-            } catch (\Exception $e) {
+        return redirect()
+            ->route('admin.documents.index')
+            ->with('success', 'Thêm tài liệu thành công.');
 
-                DB::rollBack();
+    } catch (\Exception $e) {
 
-                return back()
-                    ->withInput()
-                    ->with('error', $e->getMessage());
-            }
+        DB::rollBack();
+
+        if (isset($path) && Storage::disk('public')->exists($path)) {
+            Storage::disk('public')->delete($path);
         }
 
+        return back()
+            ->withInput()
+            ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+    }
+}
     /**
      * Form sửa
      */
@@ -241,139 +288,141 @@ class DocumentController extends Controller
         ]);
     }
     /**
-     * Cập nhật
+      * Cập nhật tài liệu
      */
- public function update(Request $request, string $id)
-{
-    $document = Document::with('subject')
-        ->findOrFail($id);
+    public function update(Request $request, string $id)
+    {
+        $document = Document::with('subject')->findOrFail($id);
 
-    // Môn học đã khóa
-    if (
-        $document->subject &&
-        $document->subject->status !== 'active'
-    ) {
-        return back()
-            ->with(
-                'error',
-                'Môn học đã bị khóa, không thể cập nhật tài liệu.'
-            );
-    }
-
-    $request->validate([
-        'title'            => 'required|max:255',
-        'subject_code'     => 'required|exists:subjects,subject_code',
-        'document_type_id' => 'required|exists:document_types,document_type_id',
-        'file'             => 'nullable|file|max:51200',
-    ]);
-
-    DB::beginTransaction();
-
-    try {
-
-        // Cập nhật thông tin tài liệu
-        $document->update([
-            'title'            => $request->title,
-            'slug'             => Str::slug($request->title),
-            'description'      => $request->description,
-            'subject_code'     => $request->subject_code,
-            'document_type_id' => $request->document_type_id,
-            'is_active'        => $request->is_active,
-            'updated_by'       => Auth::id(),
+        $request->validate([
+            'title'            => 'required|string|max:255',
+            'subject_code'     => 'required|exists:subjects,subject_code',
+            'document_type_id' => 'required|exists:document_types,document_type_id',
+            'description'      => 'nullable|string',
+            'is_active'        => 'required|boolean',
+            'file'             => 'nullable|file|mimes:pdf,doc,docx,ppt,pptx,xls,xlsx,zip,rar|max:51200',
+            'version_note'     => 'nullable|string|max:255',
         ]);
 
-        // Upload file mới => tạo version mới
-        if ($request->hasFile('file')) {
+        // Kiểm tra môn học
+        $subject = Subject::findOrFail($request->subject_code);
 
-            // Bỏ version hiện tại
-            DocumentVersion::where(
-                'document_id',
-                $document->document_id
-            )->update([
-                'is_current' => false
-            ]);
-
-            $file = $request->file('file');
-
-            $storedName =
-                time() . '_' .
-                $file->getClientOriginalName();
-
-            $path = $file->storeAs(
-                'documents',
-                $storedName,
-                'public'
-            );
-
-            // Lấy version gần nhất
-            $lastVersion = DocumentVersion::where(
-                'document_id',
-                $document->document_id
-            )
-            ->orderByDesc('version_id')
-            ->first();
-
-            if ($lastVersion) {
-
-                $parts = explode(
-                    '.',
-                    $lastVersion->version_name
-                );
-
-                $major = (int) ($parts[0] ?? 1);
-                $minor = (int) ($parts[1] ?? 0);
-
-                $minor++;
-
-                $newVersion =
-                    $major . '.' . $minor;
-
-            } else {
-
-                $newVersion = '1.0';
-            }
-
-            // Tạo version mới
-           DocumentVersion::create([
-    'document_id'        => $document->document_id,
-    'version_name'       => $newVersion,
-
-    // thêm dòng này
-'version_note' => $request->version_note ?: 'Cập nhật phiên bản',
-    'original_file_name' => $file->getClientOriginalName(),
-    'stored_file_name'   => $storedName,
-    'file_path'          => $path,
-    'file_extension'     => $file->getClientOriginalExtension(),
-    'file_size'          => $file->getSize(),
-    'uploaded_by'        => Auth::id(),
-    'is_current'         => true,
-]);
+        if ($subject->status !== 'active') {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'subject_code' => 'Môn học đã bị khóa.'
+                ]);
         }
 
-        DB::commit();
+        // Kiểm tra loại tài liệu
+        $documentType = DocumentType::findOrFail($request->document_type_id);
 
-        return redirect()
-            ->route(
-                'admin.documents.show',
-                $document->document_id
-            )
-            ->with(
-                'success',
-                'Cập nhật tài liệu thành công'
-            );
+        if (!$documentType->is_active) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'document_type_id' => 'Loại tài liệu đã bị khóa.'
+                ]);
+        }
 
-    } catch (\Exception $e) {
+        DB::beginTransaction();
 
-        DB::rollBack();
+        try {
 
-        return back()
-            ->withInput()
-            ->with(
-                'error',
-                $e->getMessage()
-            );
+            // Cập nhật thông tin tài liệu
+            $document->update([
+                'title'            => $request->title,
+                'slug'             => Str::slug($request->title) . '-' . $document->document_id,
+                'description'      => $request->description,
+                'subject_code'     => $request->subject_code,
+                'document_type_id' => $request->document_type_id,
+                'is_active'        => $request->boolean('is_active'),
+                'updated_by'       => Auth::id(),
+            ]);
+
+            // Upload file mới => tạo phiên bản mới
+            if ($request->hasFile('file')) {
+
+                // Bỏ đánh dấu version hiện tại
+                DocumentVersion::where(
+                    'document_id',
+                    $document->document_id
+                )->update([
+                    'is_current' => false
+                ]);
+
+                $file = $request->file('file');
+
+                $storedName = time() . '_' . $file->getClientOriginalName();
+
+                $path = $file->storeAs(
+                    'documents',
+                    $storedName,
+                    'public'
+                );
+
+                // Lấy version hiện tại
+                $lastVersion = DocumentVersion::where(
+                    'document_id',
+                    $document->document_id
+                )
+                ->orderByDesc('version_id')
+                ->first();
+
+                if ($lastVersion) {
+
+                    $parts = explode('.', $lastVersion->version_name);
+
+                    $major = (int)($parts[0] ?? 1);
+                    $minor = (int)($parts[1] ?? 0);
+
+                    $minor++;
+
+                    $newVersion = $major . '.' . $minor;
+
+                } else {
+
+                    $newVersion = '1.0';
+
+                }
+
+                // Tạo version mới
+                DocumentVersion::create([
+                    'document_id'        => $document->document_id,
+                    'version_name'       => $newVersion,
+                    'version_note'       => $request->filled('version_note')
+                                                ? $request->version_note
+                                                : 'Cập nhật phiên bản',
+                    'original_file_name' => $file->getClientOriginalName(),
+                    'stored_file_name'   => $storedName,
+                    'file_path'          => $path,
+                    'file_extension'     => strtolower($file->getClientOriginalExtension()),
+                    'file_size'          => $file->getSize(),
+                    'uploaded_by'        => Auth::id(),
+                    'is_current'         => true,
+                ]);
+            }
+
+            DB::commit();
+
+            return redirect()
+                ->route('admin.documents.show', $document->document_id)
+                ->with('success', 'Cập nhật tài liệu thành công.');
+
+        } catch (\Exception $e) {
+
+            DB::rollBack();
+
+            if (isset($path) && Storage::disk('public')->exists($path)) {
+                Storage::disk('public')->delete($path);
+            }
+
+            return back()
+                ->withInput()
+                ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
     }
-}
 
     /**
      * Khóa / Mở khóa

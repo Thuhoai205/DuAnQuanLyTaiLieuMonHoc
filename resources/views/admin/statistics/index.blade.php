@@ -38,10 +38,10 @@
 
      <div class="mb-6 flex items-center justify-between">
          <div>
-             <h1 class="text-2xl font-black text-slate-700"> Thống kê hệ thống
+             <h1 class="text-[16px] font-black text-slate-700"> Thống kê hệ thống
              </h1>
 
-             <p class="text-slate-500 font-semibold mt-2">
+             <p class="text-slate-500 font-semibold text-[13px]">
                  Theo dõi tổng quan tài liệu, lượt tải, loại tài liệu và hoạt động tải gần đây.
              </p>
          </div>
