@@ -13,6 +13,7 @@ class DocumentVersionSeeder extends Seeder
         $documents = DB::table('documents')->get();
 
         foreach ($documents as $document) {
+
             $storedFileName = Str::slug($document->title) . '-v1.pdf';
 
             DB::table('document_versions')->updateOrInsert(
@@ -21,15 +22,27 @@ class DocumentVersionSeeder extends Seeder
                     'version_name' => '1.0',
                 ],
                 [
-                    'version_note' => 'Phiên bản đầu tiên',
+                    'version_note'       => 'Phiên bản đầu tiên',
+
                     'original_file_name' => $document->title . '.pdf',
-                    'stored_file_name' => $storedFileName,
-                    'file_path' => 'documents/' . $storedFileName,
-                    'file_extension' => 'pdf',
-                    'file_size' => 1024 * 500,
-                    'uploaded_by' => $document->uploaded_by,
-                    'is_current' => true,
-                    'created_at' => now(),
+
+                    'stored_file_name'   => $storedFileName,
+
+                    'file_path'          => 'documents/' . $storedFileName,
+
+                    // nếu migration có thêm
+                    'preview_file'       => 'documents/' . $storedFileName,
+
+
+                    'file_extension'     => 'pdf',
+
+                    'file_size'          => 1024 * 500,
+
+                    'uploaded_by'        => $document->uploaded_by,
+
+                    'is_current'         => true,
+
+                    'created_at'         => now(),
                 ]
             );
         }

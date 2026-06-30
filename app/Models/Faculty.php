@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Models;
-
+use App\Models\Subject;
+use App\Models\Document;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -59,4 +61,15 @@ class Faculty extends Model
             'user_id'
         );
     }
+    public function documents()
+{
+    return $this->hasManyThrough(
+        Document::class,
+        Subject::class,
+        'faculty_id',      // FK trong bảng subjects
+        'subject_code',    // FK trong bảng documents
+        'faculty_id',      // PK của faculties
+        'subject_code'     // PK của subjects
+    );
+}
 }

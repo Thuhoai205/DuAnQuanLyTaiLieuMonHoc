@@ -49,206 +49,125 @@
                 </div>
 
                 @auth
-                @if(auth()->user()->role_id == 2)
-                <div class="inline-flex p-1 bg-cyan-50 border border-cyan-100 rounded-2xl text-sm font-bold">
-                    <button onclick="filterSubjects('assigned', this)"
-                        class="tab-btn px-6 py-3 rounded-xl bg-cyan-500 text-white shadow-sm transition-all duration-300">
-                        Phụ trách (1)
+                @if(auth()->user()->role->role_name === 'lecturer')
+
+                <div class="inline-flex p-1 bg-cyan-50 border border-cyan-100 rounded-2xl">
+
+                    <button id="btnAssigned" onclick="filterSubjects('assigned')"
+                        class="px-6 py-3 rounded-xl text-cyan-700 text-sm font-black transition">
+
+                        Phụ trách ({{ auth()->user()->subjects->count() }})
+
                     </button>
 
-                    <button onclick="filterSubjects('all', this)"
-                        class="tab-btn px-6 py-3 rounded-xl text-cyan-700 hover:bg-white transition-all duration-300">
-                        Tất cả (2)
+                    <button id="btnAll" onclick="filterSubjects('all')"
+                        class="px-6 py-3 rounded-xl bg-cyan-500 text-white text-sm font-black transition">
+
+                        Tất cả ({{ $subjects->count() }})
+
                     </button>
+
                 </div>
+
                 @endif
                 @endauth
+
             </div>
         </div>
+        <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
 
-        <!-- GRID -->
-        <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-8">
+            @forelse($subjects as $subject)
 
-            <!-- CARD 1 -->
-            <div
-                class="subject-card assigned group relative bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+            <a href="{{ route('subjects.show',$subject->subject_code) }}" class="subject-card group relative block bg-white rounded-[2rem] border border-cyan-100
+                shadow-[0_15px_45px_rgba(8,145,178,0.08)]
+                hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)]
+                hover:-translate-y-2 transition-all duration-500 overflow-hidden" data-assigned="{{ Auth::check()
+        && Auth::user()->role->role_name === 'lecturer'
+        && Auth::user()->subjects->contains('subject_code', $subject->subject_code)
+            ? '1'
+            : '0' }}">
 
                 <div
                     class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-100 rounded-full group-hover:scale-125 transition-transform duration-700">
                 </div>
 
                 <div class="p-8 relative z-10">
+                    @php
+                    $documentCount = $subject->documents_count ?? 0;
+                    $teacherCount = $subject->lecturers->count();
+                    $active = $subject->status === 'active';
+                    $colorMap = [
+                    'blue' => ['bg' => 'bg-sky-50', 'text' => 'text-sky-600'],
+                    'green' => ['bg' => 'bg-emerald-50', 'text' => 'text-emerald-600'],
+                    'red' => ['bg' => 'bg-red-50', 'text' => 'text-red-600'],
+                    'yellow' => ['bg' => 'bg-yellow-50', 'text' => 'text-yellow-600'],
+                    'purple' => ['bg' => 'bg-purple-50', 'text' => 'text-purple-600'],
+                    ];
+
+                    $color = $subject->color ?? 'blue';
+                    $cls = $colorMap[$color] ?? $colorMap['blue'];
+                    @endphp
+
                     <div
                         class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6 border border-cyan-100 group-hover:bg-cyan-500 group-hover:text-white transition-all">
-                        <i class="fa-solid fa-laptop-code text-2xl"></i>
+
+                        <i class="{{ $subject->icon ?? 'fa-solid fa-book' }} {{ $cls['text'] }} text-2xl"></i>
+
                     </div>
 
-                    <h3 class="text-xl font-black text-slate-900 group-hover:text-cyan-600 transition">
-                        Lập trình Web
+                    <h3 class="subject-name text-xl font-black text-slate-900 group-hover:text-cyan-600 transition">
+                        {{ $subject->subject_name }}
                     </h3>
 
-                    <p class="text-slate-500 text-sm mt-3 leading-relaxed">
-                        HTML, CSS, JavaScript, Laravel và các công nghệ phát triển website.
+                    <p class="text-slate-500 text-sm mt-3 leading-relaxed min-h-[60px]">
+                        {{ $subject->description ?? 'Chưa có mô tả.' }}
                     </p>
 
                     <div class="mt-6 flex items-center justify-between">
+
                         <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
-                            120 tài liệu
+
+                            {{ $subject->documents_count }} tài liệu
+
                         </span>
 
-                        <a href="{{ route('subjects.show', ['id' => 1]) }}"
-                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 hover:bg-cyan-600 transition">
+                        <span
+                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 group-hover:bg-cyan-600 transition">
+
                             <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
 
-            <!-- CARD 2 -->
-            <div
-                class="subject-card all group relative bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
-
-                <div
-                    class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-100 rounded-full group-hover:scale-125 transition-transform duration-700">
-                </div>
-
-                <div class="p-8 relative z-10">
-                    <div
-                        class="w-16 h-16 bg-cyan-50 text-cyan-600 rounded-2xl flex items-center justify-center mb-6 border border-cyan-100 group-hover:bg-cyan-500 group-hover:text-white transition-all">
-                        <i class="fa-solid fa-database text-2xl"></i>
-                    </div>
-
-                    <h3 class="text-xl font-black text-slate-900 group-hover:text-cyan-600 transition">
-                        Cơ sở dữ liệu
-                    </h3>
-
-                    <p class="text-slate-500 text-sm mt-3 leading-relaxed">
-                        SQL, thiết kế cơ sở dữ liệu, truy vấn và quản trị dữ liệu.
-                    </p>
-
-                    <div class="mt-6 flex items-center justify-between">
-                        <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
-                            85 tài liệu
                         </span>
 
-                        <a href="#"
-                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 hover:bg-cyan-600 transition">
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
                     </div>
+
                 </div>
+
+            </a>
+
+            @empty
+
+
+
+            @endforelse
+            <!-- THÔNG BÁO KHÔNG TÌM THẤY -->
+            <div id="noSubjectResult" class="hidden col-span-full py-16 text-center">
+
+                <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
+                    <i class="fa-solid fa-magnifying-glass text-3xl text-cyan-500"></i>
+                </div>
+
+                <h3 class="mt-5 text-xl font-black text-slate-800">
+                    Không tìm thấy môn học
+                </h3>
+
+                <p class="mt-2 text-sm text-slate-500">
+                    Không có môn học nào phù hợp với từ khóa tìm kiếm.
+                </p>
+
             </div>
 
         </div>
 
-        <!-- DOCUMENT LIST -->
-        <div
-            class="mt-14 bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] overflow-hidden">
-
-            <div class="px-7 py-5 border-b border-cyan-100">
-                <h2 class="text-2xl font-black text-cyan-950">
-                    Tài liệu môn học
-                </h2>
-            </div>
-
-            <div class="divide-y divide-cyan-100">
-
-                <!-- ITEM -->
-                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-file-word text-2xl"></i>
-                    </div>
-
-                    <a href="{{ route('documents.show', 1) }}" class="flex-1">
-                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
-                            Đề cương ôn tập giữa kỳ CSDL 2023-2024
-                        </h3>
-
-                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
-                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Cơ sở dữ liệu</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> TS. Lê Thị C</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> Hôm qua</span>
-                        </div>
-                    </a>
-
-                    <div class="shrink-0 flex items-center gap-2">
-                        @if(Auth::check())
-                        <button
-                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
-                            <i class="fa-solid fa-cloud-arrow-down"></i>
-                            Tải về
-                        </button>
-                        @else
-                        <button onclick="showLoginRequiredModal()"
-                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
-                            <i class="fa-solid fa-lock"></i>
-                            Đăng nhập để tải
-                        </button>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- ITEM CỦA GIẢNG VIÊN ĐANG ĐĂNG NHẬP -->
-                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
-
-                    <div class="w-16 h-16 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-file-pdf text-2xl"></i>
-                    </div>
-
-                    <div class="flex-1">
-                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
-                            Slide Bài 1: Tổng quan Laravel Framework
-                        </h3>
-
-                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
-                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Lập trình Web</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> ThS. Trần Văn B</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> Hôm nay</span>
-                        </div>
-                    </div>
-
-
-                    <div class="shrink-0 flex items-center gap-2">
-                        @if(Auth::check())
-                        <button
-                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
-                            <i class="fa-solid fa-cloud-arrow-down"></i>
-                            Tải về
-                        </button>
-                        @else
-                        <button onclick="showLoginRequiredModal()"
-                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
-                            <i class="fa-solid fa-lock"></i>
-                            Đăng nhập để tải
-                        </button>
-                        @endif
-
-                        @if(Auth::check() && Auth::user()->role_id == 2)
-
-                        <a href="{{ route('documents.edit', 1) }}" class="w-10 h-10 flex items-center justify-center
-    text-amber-500 hover:bg-amber-500 hover:text-white
-    rounded-xl transition-all duration-300
-    shadow-sm bg-white border border-amber-100" title="Sửa">
-
-                            <i class="fa-solid fa-pen-to-square text-sm"></i>
-                        </a>
-                        <button
-                            class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center border border-red-100">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
-
-                        @endif
-                    </div>
-                </div>
-
-            </div>
-        </div>
 
         <!-- PAGINATION -->
         <div class="mt-10 flex items-center justify-center gap-2">
@@ -313,49 +232,83 @@
 
 @endsection
 
+@push('scripts')
 <script>
-function showLoginRequiredModal() {
-    const modal = document.getElementById('loginRequiredModal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeLoginRequiredModal() {
-    const modal = document.getElementById('loginRequiredModal');
-    modal.classList.remove('flex');
-    modal.classList.add('hidden');
-    document.body.style.overflow = 'auto';
-}
+let currentFilter = 'all';
 
 function searchSubjects() {
-    const input = document.getElementById('subjectSearch');
-    const keyword = input.value.toLowerCase();
+
+    const keyword = document
+        .getElementById('subjectSearch')
+        .value
+        .trim()
+        .toLowerCase();
+
     const cards = document.querySelectorAll('.subject-card');
+    const empty = document.getElementById('noSubjectResult');
+
+    let hasVisible = false;
 
     cards.forEach(card => {
-        card.style.display = card.innerText.toLowerCase().includes(keyword) ? 'flex' : 'none';
-    });
-}
 
-function filterSubjects(type, btn) {
-    const cards = document.querySelectorAll('.subject-card');
-    const buttons = document.querySelectorAll('.tab-btn');
+        const name = card.querySelector('.subject-name')
+            .innerText
+            .toLowerCase();
 
-    buttons.forEach(b => {
-        b.classList.remove('bg-cyan-500', 'text-white');
-        b.classList.add('text-cyan-700');
-    });
+        const assigned = card.dataset.assigned === '1';
 
-    btn.classList.add('bg-cyan-500', 'text-white');
-    btn.classList.remove('text-cyan-700');
+        const matchKeyword = name.includes(keyword);
 
-    cards.forEach(card => {
-        if (type === 'all') {
-            card.style.display = 'flex';
+        const matchFilter =
+            currentFilter === 'all' ?
+            true :
+            assigned;
+
+        if (matchKeyword && matchFilter) {
+
+            card.style.display = '';
+            hasVisible = true;
+
         } else {
-            card.style.display = card.classList.contains('assigned') ? 'flex' : 'none';
+
+            card.style.display = 'none';
+
         }
+
     });
+
+    if (empty) {
+        empty.style.display = hasVisible ? 'none' : 'block';
+    }
 }
+
+function filterSubjects(type) {
+
+    currentFilter = type;
+
+    const btnAssigned = document.getElementById('btnAssigned');
+    const btnAll = document.getElementById('btnAll');
+
+    if (btnAssigned && btnAll) {
+
+        btnAssigned.className =
+            type === 'assigned' ?
+            'px-6 py-3 rounded-xl bg-cyan-500 text-white text-sm font-black transition' :
+            'px-6 py-3 rounded-xl text-cyan-700 text-sm font-black transition';
+
+        btnAll.className =
+            type === 'all' ?
+            'px-6 py-3 rounded-xl bg-cyan-500 text-white text-sm font-black transition' :
+            'px-6 py-3 rounded-xl text-cyan-700 text-sm font-black transition';
+
+    }
+
+    searchSubjects();
+
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    searchSubjects();
+});
 </script>
+@endpush

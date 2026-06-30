@@ -15,6 +15,8 @@ class DownloadHistory extends Model
     protected $fillable = [
         'user_id',
         'version_id',
+        'downloaded_at',
+
     ];
 
     protected $casts = [

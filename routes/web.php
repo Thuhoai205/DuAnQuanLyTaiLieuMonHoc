@@ -3,9 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SubjectTeacherController;
+use App\Http\Controllers\FacultyController;
+use App\Http\Controllers\SubjectController;
+
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
 
 Route::get('/home', function () {
     return redirect()->route('home');
@@ -31,13 +37,11 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 
-Route::get('/subjects', function () {
-    return view('subjects.index');
-})->name('subjects.index');
+Route::get('/subjects', [SubjectController::class, 'index'])
+    ->name('subjects.index');
 
-Route::get('/subjects/{id}', function ($id) {
-    return view('subjects.show', compact('id'));
-})->name('subjects.show');
+Route::get('/subjects/{subject_code}', [SubjectController::class, 'show'])
+    ->name('subjects.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -45,41 +49,51 @@ Route::get('/subjects/{id}', function ($id) {
 |--------------------------------------------------------------------------
 */
 
-Route::get('/documents', function () {
-    return view('documents.index');
-})->name('documents.index');
+Route::get('/documents', [DocumentController::class, 'index'])
+    ->name('documents.index');
+
+Route::get('/documents/create', [DocumentController::class, 'create'])
+    ->name('documents.create');
+
+Route::post('/documents', [DocumentController::class, 'store'])
+    ->name('documents.store');
 
 Route::get('/documents/latest', function () {
     return view('documents.latest');
 })->name('documents.latest');
 
-Route::get('/documents/{id}', function ($id) {
-    return view('documents.show', compact('id'));
-})->name('documents.show');
+
+// ===== ĐƯA SEARCH LÊN TRƯỚC =====
+Route::get('/documents/search', [DocumentController::class, 'search'])
+    ->name('documents.search');
+
+Route::get('/tai-lieu-cua-toi', [DocumentController::class, 'myDocuments'])
+    ->name('documents.my-documents');
+
+Route::get('/documents/{document}/download', [DocumentController::class, 'download'])
+    ->name('documents.download');
+
+Route::get('/documents/{document}/view', [DocumentController::class, 'view'])
+    ->name('documents.view');
 
 Route::get('/documents/{id}/edit', function ($id) {
     return view('documents.edit', compact('id'));
 })->name('documents.edit');
 
-Route::get('/tai-lieu-cua-toi', function () {
-    return view('documents.my-documents');
-})->name('documents.my-documents');
-
-Route::get('/search', function () {
-    return view('documents.search');
-})->name('documents.search');
-
+// ===== SHOW LUÔN ĐỂ CUỐI =====
+Route::get('/documents/{id}', [DocumentController::class, 'show'])
+    ->name('documents.show');
 /*
 |--------------------------------------------------------------------------
 | Faculties
 |--------------------------------------------------------------------------
 */
 
-Route::view('/faculties', 'faculties.index')->name('faculties.index');
+Route::get('/faculties', [FacultyController::class, 'index'])
+    ->name('faculties.index');
 
-Route::get('/faculties/{code}', function ($code) {
-    return view('faculties.show', compact('code'));
-})->name('faculties.show');
+Route::get('/faculties/{faculty}', [FacultyController::class, 'show'])
+    ->name('faculties.show');
 
 /*
 |--------------------------------------------------------------------------
@@ -100,4 +114,40 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/avatar', [AuthController::class, 'updateAvatar'])
         ->name('profile.update.avatar');
 });
- 
+
+
+
+
+
+Route::middleware('auth')->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | Notification
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/notifications', [NotificationController::class, 'index'])
+        ->name('notifications.index');
+
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'read'])
+        ->name('notifications.read');
+
+    Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])
+        ->name('notifications.readAll');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Subject Teacher
+    |--------------------------------------------------------------------------
+    */
+    Route::post('/subject-teachers/assign', [SubjectTeacherController::class, 'assign'])
+        ->name('subject-teachers.assign');
+
+    Route::delete('/subject-teachers/{id}', [SubjectTeacherController::class, 'remove'])
+        ->name('subject-teachers.remove');
+
+
+
+
+});

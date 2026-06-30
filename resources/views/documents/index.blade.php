@@ -27,258 +27,324 @@
                 </div>
 
                 @auth
-                @if(auth()->user()->role_id == 2)
-                <a href="#"
+                @if(in_array(auth()->user()->role_id, [1,2]))
+                <a href="{{ route('documents.create') }}"
                     class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-cyan-300 text-cyan-950 font-black hover:bg-cyan-200 transition">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     Đăng tài liệu
+
                 </a>
                 @endif
                 @endauth
             </div>
         </section>
-
         <!-- FILTER -->
-        <section class="mb-8 bg-white rounded-[28px] p-5 shadow-sm border border-cyan-100">
-            <form method="GET" action="{{ url()->current() }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <section class="mb-8 bg-white rounded-[32px] border border-cyan-100 shadow-sm overflow-hidden">
 
-                <div class="md:col-span-2">
-                    <label class="block text-xs font-black uppercase text-slate-400 mb-2">
-                        Tìm kiếm
-                    </label>
-                    <div class="relative">
+            <div class="px-7 py-5 border-b border-cyan-100 bg-cyan-50">
+                <h2 class="text-lg font-black text-slate-800">
+                    Tìm kiếm tài liệu
+                </h2>
+                <p class="text-sm text-slate-500 mt-1">
+                    Tìm kiếm theo tên tài liệu, môn học hoặc loại tài liệu.
+                </p>
+            </div>
+
+            <form action="{{ route('documents.index') }}" method="GET" class="p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
+                    <!-- Từ khóa -->
+                    <div class="lg:col-span-2 relative">
+
                         <i
-                            class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-cyan-600"></i>
+                            class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-cyan-500"></i>
+
                         <input type="text" name="keyword" value="{{ request('keyword') }}"
                             placeholder="Nhập tên tài liệu..."
-                            class="w-full h-12 pl-11 pr-4 rounded-2xl bg-cyan-50 border border-cyan-100 text-sm font-semibold outline-none focus:ring-2 focus:ring-cyan-300">
+                            class="w-full h-12 rounded-xl border border-cyan-100 bg-cyan-50 pl-11 pr-4">
+
                     </div>
-                </div>
 
-                <div>
-                    <label class="block text-xs font-black uppercase text-slate-400 mb-2">
-                        Môn học
-                    </label>
-                    <select name="subject_id"
-                        class="w-full h-12 px-4 rounded-2xl bg-cyan-50 border border-cyan-100 text-sm font-bold text-slate-700 outline-none">
+                    <!-- Môn học -->
+                    <select name="subject_code" class="h-12 rounded-xl border border-cyan-100 bg-cyan-50 px-4">
+
                         <option value="">Tất cả môn học</option>
-                        <option value="1">Lập trình Web</option>
-                        <option value="2">Cơ sở dữ liệu</option>
-                        <option value="3">Mạng máy tính</option>
-                    </select>
-                </div>
 
-                <div>
-                    <label class="block text-xs font-black uppercase text-slate-400 mb-2">
-                        Loại tài liệu
-                    </label>
-                    <select name="type_id"
-                        class="w-full h-12 px-4 rounded-2xl bg-cyan-50 border border-cyan-100 text-sm font-bold text-slate-700 outline-none">
+                        @foreach($subjects as $subject)
+
+                        <option value="{{ $subject->subject_code }}" @selected(request('subject_code')==$subject->
+                            subject_code)>
+
+                            {{ $subject->subject_name }}
+
+                        </option>
+
+                        @endforeach
+
+                    </select>
+
+                    <!-- Loại -->
+                    <select name="document_type_id" class="h-12 rounded-xl border border-cyan-100 bg-cyan-50 px-4">
+
                         <option value="">Tất cả loại</option>
-                        <option value="1">Slide</option>
-                        <option value="2">Đề thi</option>
-                        <option value="3">Bài tập</option>
-                        <option value="4">Giáo trình</option>
+
+                        @foreach($documentTypes as $type)
+
+                        <option value="{{ $type->document_type_id }}" @selected(request('document_type_id')==$type->
+                            document_type_id)>
+
+                            {{ $type->type_name }}
+
+                        </option>
+
+                        @endforeach
+
                     </select>
+
                 </div>
 
-                <div class="md:col-span-4 flex justify-end gap-3">
-                    <a href="{{ url()->current() }}"
-                        class="px-6 py-3 rounded-2xl bg-slate-100 text-slate-600 font-bold hover:bg-slate-200 transition">
+                <div class="flex justify-end gap-3 mt-6">
+
+                    <a href="{{ route('documents.index') }}"
+                        class="px-6 py-3 rounded-xl border border-slate-200 hover:bg-slate-50">
+
                         Làm mới
+
                     </a>
 
                     <button type="submit"
-                        class="px-8 py-3 rounded-2xl bg-cyan-600 text-white font-black hover:bg-cyan-700 shadow-lg shadow-cyan-200 transition">
-                        <i class="fa-solid fa-filter mr-2"></i>
-                        Lọc tài liệu
-                    </button>
-                </div>
-            </form>
-        </section>
+                        class="px-7 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold">
 
+                        <i class="fa-solid fa-search mr-2"></i>
+
+                        Tìm kiếm
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
         <!-- DOCUMENT LIST -->
         <section class="bg-white rounded-[32px] shadow-sm border border-cyan-100 overflow-hidden">
 
-            <div class="px-7 py-5 border-b border-cyan-100 flex items-center justify-between">
-                <h2 class="text-xl font-black text-slate-900">
-                    Tất cả tài liệu
-                </h2>
+            <!-- HEADER -->
+            <div id="course-files-list" class="px-7 py-5 border-b border-cyan-100 flex items-center justify-between">
+
+                <div>
+                    <h2 class="text-xl font-black text-slate-900">
+                        Danh sách tài liệu
+                    </h2>
+
+                    <p class="text-sm text-slate-500 mt-1">
+                        Có {{ $documents->total() }} tài liệu
+                    </p>
+                </div>
 
                 <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
-                    120 tài liệu
+                    {{ $documents->total() }} tài liệu
                 </span>
-            </div>
-
-            <div class="divide-y divide-cyan-100">
-
-                <!-- ITEM 1 -->
-                <a href="{{ route('documents.show', 1) }}"
-                    class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
-
-                    <div class="w-16 h-16 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-file-pdf text-2xl"></i>
-                    </div>
-
-                    <div class="flex-1">
-                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
-                            Slide Bài 1: Tổng quan Laravel Framework
-                        </h3>
-
-                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
-                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Lập trình Web</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> ThS. Trần Văn B</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> Hôm nay</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
-                            Slide
-                        </span>
-
-                        @if(Auth::check())
-                        <button
-                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
-                            <i class="fa-solid fa-cloud-arrow-down"></i>
-                            Tải về
-                        </button>
-                        @else
-                        <button onclick="showLoginRequiredModal()"
-                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
-                            <i class="fa-solid fa-lock"></i>
-                            Đăng nhập để tải
-                        </button>
-                        @endif
-                    </div>
-                </a>
-
-                <!-- ITEM 2 -->
-                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-file-word text-2xl"></i>
-                    </div>
-
-                    <div class="flex-1">
-                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
-                            Đề cương ôn tập giữa kỳ CSDL 2023-2024
-                        </h3>
-
-                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
-                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Cơ sở dữ liệu</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> TS. Lê Thị C</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> Hôm qua</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
-                            Đề cương
-                        </span>
-
-                        @if(Auth::check())
-                        <button
-                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
-                            <i class="fa-solid fa-cloud-arrow-down"></i>
-                            Tải về
-                        </button>
-                        @else
-                        <button onclick="showLoginRequiredModal()"
-                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
-                            <i class="fa-solid fa-lock"></i>
-                            Đăng nhập để tải
-                        </button>
-                        @endif
-                    </div>
-                </div>
-
-                <!-- ITEM 3 -->
-                <div class="p-6 flex flex-col lg:flex-row lg:items-center gap-5 hover:bg-cyan-50/60 transition">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
-                        <i class="fa-solid fa-file-excel text-2xl"></i>
-                    </div>
-
-                    <div class="flex-1">
-                        <h3 class="text-lg font-black text-slate-900 hover:text-cyan-700 transition">
-                            Danh sách chia nhóm & Bài tập lớn Mạng máy tính
-                        </h3>
-
-                        <div class="flex flex-wrap gap-3 mt-2 text-sm font-semibold text-slate-500">
-                            <span><i class="fa-solid fa-book mr-1 text-cyan-600"></i> Mạng máy tính</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-user-tie mr-1 text-cyan-600"></i> Phạm Văn D</span>
-                            <span>•</span>
-                            <span><i class="fa-solid fa-calendar mr-1 text-cyan-600"></i> 2 ngày trước</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-3">
-                        <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black">
-                            Bài tập
-                        </span>
-
-                        @if(Auth::check())
-                        <button
-                            class="px-5 py-2.5 bg-cyan-500 text-white font-bold rounded-xl hover:bg-cyan-600 transition-all flex items-center gap-2 text-sm shadow-lg shadow-cyan-200">
-                            <i class="fa-solid fa-cloud-arrow-down"></i>
-                            Tải về
-                        </button>
-                        @else
-                        <button onclick="showLoginRequiredModal()"
-                            class="px-5 py-2.5 border-2 border-cyan-100 text-cyan-700 font-bold rounded-xl hover:bg-cyan-50 transition-all flex items-center gap-2 text-sm">
-                            <i class="fa-solid fa-lock"></i>
-                            Đăng nhập để tải
-                        </button>
-                        @endif
-                    </div>
-                </div>
 
             </div>
 
-            <!-- PAGINATION -->
-            <div
-                class="px-7 py-5 bg-cyan-50/60 border-t border-cyan-100 flex flex-col md:flex-row items-center justify-between gap-4">
-                <p class="text-sm text-slate-500 font-semibold">
-                    Hiển thị 1 - 10 trong tổng 120 tài liệu
-                </p>
+            <div id="course-files-list">
 
-                <div class="flex items-center gap-2">
-                    <button
-                        class="w-10 h-10 rounded-xl bg-white text-slate-500 font-bold hover:bg-cyan-600 hover:text-white transition">
-                        <i class="fa-solid fa-angle-left"></i>
-                    </button>
+                <div class="divide-y divide-slate-100">
 
-                    <button class="w-10 h-10 rounded-xl bg-cyan-600 text-white font-black">
-                        1
-                    </button>
+                    @forelse($documents as $document)
 
-                    <button
-                        class="w-10 h-10 rounded-xl bg-white text-slate-500 font-bold hover:bg-cyan-600 hover:text-white transition">
-                        2
-                    </button>
+                    @php
 
-                    <button
-                        class="w-10 h-10 rounded-xl bg-white text-slate-500 font-bold hover:bg-cyan-600 hover:text-white transition">
-                        3
-                    </button>
+                    $ext = strtolower($document->currentVersion?->file_extension);
 
-                    <button
-                        class="w-10 h-10 rounded-xl bg-white text-slate-500 font-bold hover:bg-cyan-600 hover:text-white transition">
-                        <i class="fa-solid fa-angle-right"></i>
-                    </button>
+                    switch ($ext) {
+
+                    case 'pdf':
+                    $icon = 'fa-file-pdf';
+                    $color = 'bg-red-50 text-red-500 border-red-100';
+                    break;
+
+                    case 'doc':
+                    case 'docx':
+                    $icon = 'fa-file-word';
+                    $color = 'bg-blue-50 text-blue-500 border-blue-100';
+                    break;
+
+                    case 'xls':
+                    case 'xlsx':
+                    $icon = 'fa-file-excel';
+                    $color = 'bg-green-50 text-green-500 border-green-100';
+                    break;
+
+                    case 'ppt':
+                    case 'pptx':
+                    $icon = 'fa-file-powerpoint';
+                    $color = 'bg-orange-50 text-orange-500 border-orange-100';
+                    break;
+
+                    default:
+                    $icon = 'fa-file-lines';
+                    $color = 'bg-cyan-50 text-cyan-500 border-cyan-100';
+                    }
+
+                    $isAdmin = auth()->check()
+                    && auth()->user()->role->role_name == 'admin';
+
+                    $isOwner = auth()->check()
+                    && auth()->user()->role->role_name == 'lecturer'
+                    && $document->uploaded_by == auth()->id();
+
+                    @endphp
+
+                    <div class="document-item flex items-center justify-between gap-6 px-6 py-5 hover:bg-cyan-50 transition"
+                        data-owner="{{ auth()->check() && $document->uploaded_by == auth()->id() ? '1' : '0' }}">
+
+                        <!-- LEFT -->
+                        <div class="flex items-center gap-4 flex-1 min-w-0">
+
+                            <div
+                                class="w-14 h-14 rounded-2xl border {{ $color }} flex items-center justify-center shrink-0">
+                                <i class="fa-solid {{ $icon }} text-2xl"></i>
+                            </div>
+
+                            <div class="flex-1 min-w-0">
+
+                                <a href="{{ route('documents.show',$document->document_id) }}"
+                                    class="block text-lg font-black text-slate-800 hover:text-cyan-600 truncate">
+
+                                    {{ $document->title }}
+
+                                </a>
+
+
+                                <div class="flex flex-wrap items-center gap-3 mt-3 text-xs text-slate-500">
+
+                                    <span>
+                                        <i class="fa-solid fa-book text-cyan-500 mr-1"></i>
+                                        {{ $document->subject?->subject_name }}
+                                    </span>
+
+                                    <span>•</span>
+
+                                    <span>
+                                        <i class="fa-solid fa-building-columns text-cyan-500 mr-1"></i>
+                                        {{ $document->subject?->faculty?->faculty_name }}
+                                    </span>
+
+                                    <span>•</span>
+
+                                    <span>
+                                        <i class="fa-solid fa-user text-cyan-500 mr-1"></i>
+                                        {{ $document->uploader?->full_name }}
+                                    </span>
+
+                                    <span>•</span>
+
+                                    <span>
+                                        <i class="fa-solid fa-calendar text-cyan-500 mr-1"></i>
+                                        {{ $document->created_at->diffForHumans() }}
+                                    </span>
+
+                                    <span>•</span>
+
+                                    <span class="font-semibold text-cyan-700">
+                                        {{ $document->documentType?->type_name }}
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- RIGHT -->
+                        <div class="flex items-center gap-2 shrink-0">
+
+                            @auth
+
+                            <a href="{{ route('documents.download', $document) }}"
+                                class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-bold shadow-lg shadow-cyan-200">
+
+                                <i class="fa-solid fa-cloud-arrow-down mr-1"></i>
+
+                                Tải về
+
+                            </a>
+                            @else
+
+                            <button onclick="showLoginRequiredModal()"
+                                class="px-5 py-2.5 rounded-xl border border-cyan-200 text-cyan-600 hover:bg-cyan-50 text-sm font-bold">
+
+                                <i class="fa-solid fa-lock mr-1"></i>
+
+                                Đăng nhập
+
+                            </button>
+
+                            @endauth
+
+
+                            @if($isAdmin || $isOwner)
+
+                            <a href="{{ route('documents.edit',$document->document_id) }}"
+                                class="w-10 h-10 rounded-xl border border-amber-200 text-amber-500 hover:bg-amber-500 hover:text-white flex items-center justify-center transition">
+
+                                <i class="fa-solid fa-pen"></i>
+
+                            </a>
+
+                            <form action="#" method="POST">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa tài liệu này?')"
+                                    class="w-10 h-10 rounded-xl border border-red-200 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition">
+
+                                    <i class="fa-solid fa-trash"></i>
+
+                                </button>
+
+                            </form>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                    @empty
+
+                    <div id="emptyDocumentResult" class="py-20 text-center">
+
+                        <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
+                            <i class="fa-solid fa-folder-open text-3xl text-cyan-500"></i>
+                        </div>
+
+                        <h3 class="mt-5 text-xl font-black text-slate-800">
+                            Chưa có tài liệu
+                        </h3>
+
+                        <p class="mt-2 text-slate-500">
+                            Hiện chưa có tài liệu nào trong hệ thống.
+                        </p>
+
+                    </div>
+
+                    @endforelse
+
                 </div>
+
             </div>
+
+            @if($documents->hasPages())
+            <div class="px-6 py-5 border-t border-slate-100">
+                {{ $documents->links() }}
+            </div>
+            @endif
 
         </section>
-
     </div>
 </main>
 <!-- LOGIN REQUIRED MODAL -->
@@ -328,4 +394,32 @@ function closeLoginRequiredModal() {
     modal.classList.add('hidden');
     document.body.style.overflow = 'auto';
 }
+document.getElementById('searchForm').addEventListener('submit', function(e) {
+
+    e.preventDefault();
+
+    const form = this;
+    const url = form.action + '?' + new URLSearchParams(new FormData(form));
+
+    fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(html => {
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            const newList = doc.querySelector('#course-files-list');
+
+            if (newList) {
+                document.querySelector('#course-files-list').innerHTML = newList.innerHTML;
+            }
+
+        })
+        .catch(error => console.error(error));
+
+});
 </script>
