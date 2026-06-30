@@ -191,7 +191,7 @@ $totalTrashedSubjects = $totalTrashedSubjects ?? 0;
                             <span class="w-1.5 h-1.5 rounded-full
                                 {{ $active ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
 
-                            {{ $active ? 'Hoạt động' : 'Ẩn' }}
+                            {{ $active ? 'Hoạt động' : 'Đã khóa' }}
                         </span>
                     </div>
                     <div class="col-span-1 flex justify-end">
@@ -328,7 +328,7 @@ async function toggleStatus(id, btn) {
             "text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1 bg-red-50 text-red-500";
 
         badge.innerHTML =
-            `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Ẩn`;
+            `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Đã khóa`;
 
         btn.className =
             "w-9 h-9 flex items-center justify-center rounded-md bg-yellow-50 text-yellow-600 hover:bg-yellow-100";

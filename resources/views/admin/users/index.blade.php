@@ -278,9 +278,10 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
                                 <div class="flex items-center justify-end gap-2">
 
                                     <a href="{{ route('admin.users.show', [
-    'user' => $user->user_id,
-    'return' => urlencode(request()->fullUrl() . '#user-' . $user->user_id)
-]) }}" class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
+                                            'user' => $user->user_id,
+                                            'return' => urlencode(request()->fullUrl() . '#user-' . $user->user_id)
+                                        ]) }}"
+                                        class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
                                         <i class="fa-solid fa-eye"></i>
                                     </a>
 
