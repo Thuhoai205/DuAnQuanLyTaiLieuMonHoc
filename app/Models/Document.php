@@ -23,7 +23,6 @@ class Document extends Model
         'slug',
         'description',
         'thumbnail',
-        'view_count',
         'download_count',
         'subject_code',
         'document_type_id',
@@ -33,7 +32,6 @@ class Document extends Model
     ];
 
     protected $casts = [
-        'view_count' => 'integer',
         'download_count' => 'integer',
         'is_active' => 'boolean',
         'created_at' => 'datetime',

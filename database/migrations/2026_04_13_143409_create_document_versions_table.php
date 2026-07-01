@@ -29,9 +29,7 @@ return new class extends Migration
             $table->string('stored_file_name');
             $table->string('file_path');
 
-            // File xem trước (PDF hoặc ảnh)
-            $table->string('preview_file')->nullable();
-
+            
             $table->string('file_extension', 20)->nullable();
 
             $table->unsignedBigInteger('file_size')->default(0);

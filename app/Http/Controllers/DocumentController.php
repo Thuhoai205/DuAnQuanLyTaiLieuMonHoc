@@ -558,9 +558,7 @@ class DocumentController extends Controller
                 'stored_file_name'  => $storedName,
 
                 'file_path'         => $filePath,
-                'preview_file'      => $previewFile,
 
-                'mime_type'         => $file->getMimeType(),
                 'file_extension'    => $extension,
                 'file_size'         => $file->getSize(),
 
@@ -577,16 +575,15 @@ class DocumentController extends Controller
 
         } catch (\Exception $e) {
 
-            DB::rollBack();
+    DB::rollBack();
 
-            if (isset($filePath)) {
-                Storage::disk('public')->delete($filePath);
-            }
+    if (isset($filePath)) {
+        Storage::disk('public')->delete($filePath);
+    }
 
-            return back()
-                ->withInput()
-                ->with('error', $e->getMessage());
-        }
+    dd($e->getMessage());
+
+}
     }
     /*
     |-----------------------------

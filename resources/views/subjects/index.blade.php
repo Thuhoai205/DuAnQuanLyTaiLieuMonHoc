@@ -81,11 +81,11 @@
             <a href="{{ route('subjects.show',$subject->subject_code) }}" class="subject-card group relative block bg-white rounded-[2rem] border border-cyan-100
                 shadow-[0_15px_45px_rgba(8,145,178,0.08)]
                 hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)]
-                hover:-translate-y-2 transition-all duration-500 overflow-hidden" data-assigned="{{ Auth::check()
-        && Auth::user()->role->role_name === 'lecturer'
-        && Auth::user()->subjects->contains('subject_code', $subject->subject_code)
-            ? '1'
-            : '0' }}">
+                        hover:-translate-y-2 transition-all duration-500 overflow-hidden" data-assigned="{{ Auth::check()
+                && Auth::user()->role->role_name === 'lecturer'
+                && Auth::user()->subjects->contains('subject_code', $subject->subject_code)
+                    ? '1'
+                    : '0' }}">
 
                 <div
                     class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-100 rounded-full group-hover:scale-125 transition-transform duration-700">
@@ -145,9 +145,6 @@
             </a>
 
             @empty
-
-
-
             @endforelse
             <!-- THÔNG BÁO KHÔNG TÌM THẤY -->
             <div id="noSubjectResult" class="hidden col-span-full py-16 text-center">

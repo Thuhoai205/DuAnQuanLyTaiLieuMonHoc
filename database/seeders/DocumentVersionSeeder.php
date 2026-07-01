@@ -30,8 +30,6 @@ class DocumentVersionSeeder extends Seeder
 
                     'file_path'          => 'documents/' . $storedFileName,
 
-                    // nếu migration có thêm
-                    'preview_file'       => 'documents/' . $storedFileName,
 
 
                     'file_extension'     => 'pdf',

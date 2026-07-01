@@ -22,8 +22,6 @@ class DocumentVersion extends Model
 
         'file_path',
 
-        // File PDF dùng để xem trước
-        'preview_file',
 
         'file_extension',
         'file_size',
