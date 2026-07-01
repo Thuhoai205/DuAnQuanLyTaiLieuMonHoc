@@ -20,7 +20,7 @@ class SubjectController extends Controller
         ->withCount('documents')
         ->where('status', 'active')
         ->orderBy('subject_name')
-        ->get();
+        ->paginate(8); // Hiển thị 8 môn học mỗi trang
 
     $faculties = Faculty::where('is_active', true)
         ->orderBy('faculty_name')

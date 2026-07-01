@@ -35,9 +35,12 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 }
 @endphp
 
-<nav
-    class="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-cyan-100 shadow-[0_8px_30px_rgba(8,145,178,0.06)]">
+<!-- BƯỚC NHÚNG FONT TỪ GOOGLE FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
+<!-- CẬP NHẬT CLASS CHỮ THEO ĐÚNG ĐỊNH DẠNG IMAGE_B9C7E4.PNG: font-['Roboto',_sans-serif] -->
+<nav
+    class="sticky top-0 z-50 bg-white/25 backdrop-blur-md border-b border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.03)] font-['Roboto',_sans-serif]">
     <div class="max-w-7xl mx-auto px-4 lg:px-6">
 
         <div class="h-20 flex items-center">
@@ -80,10 +83,10 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
             {{-- ================= MENU ================= --}}
             <div class="hidden lg:flex items-center flex-1 ml-10">
 
-                <a href="{{ route('home') }}" class="px-4 py-2.5 rounded-xl text-sm font-bold transition
-                    {{ request()->routeIs('home')
-                        ? 'bg-cyan-50 text-cyan-600'
-                        : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
+                <a href="{{ route('home') }}" class="px-4 py-2.5 rounded-xl text-sm font-normal transition
+    {{ request()->routeIs('home')
+        ? 'bg-cyan-50 text-cyan-600'
+        : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
 
                     <i class="fa-solid fa-house mr-2"></i>
 
@@ -91,7 +94,7 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 
                 </a>
 
-                <a href="{{ $facultyUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-bold transition
+                <a href="{{ $facultyUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-normal transition
                     {{ request()->is('faculties*') || request()->is('khoa*')
                         ? 'bg-cyan-50 text-cyan-600'
                         : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
@@ -102,7 +105,7 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 
                 </a>
 
-                <a href="{{ $subjectUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-bold transition
+                <a href="{{ $subjectUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-normal transition
                     {{ request()->is('subjects*') || request()->is('mon-hoc*')
                         ? 'bg-cyan-50 text-cyan-600'
                         : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
@@ -113,7 +116,7 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 
                 </a>
 
-                <a href="{{ $documentUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-bold transition
+                <a href="{{ $documentUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-normal transition
                     {{ request()->is('documents*') || request()->is('tai-lieu*')
                         ? 'bg-cyan-50 text-cyan-600'
                         : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
@@ -139,7 +142,7 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
     hover:bg-amber-600
     text-white
     text-sm
-    font-bold
+    font-normal
     shadow-lg shadow-amber-200
     transition">
 
@@ -206,7 +209,7 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 
                                 </p>
 
-                                <p class="text-xs font-semibold text-cyan-600">
+                                <p class="text-xs font-normal text-cyan-600">
 
                                     {{ $roleName }}
 
@@ -218,36 +221,26 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 
                         </button>
 
-                        {{-- PHẦN 3 BẮT ĐẦU TỪ ĐÂY --}}
                         <div class="absolute right-0 mt-3 w-64
-        bg-white
-        rounded-2xl
-        shadow-xl
-        border border-slate-200
-        overflow-hidden
-        opacity-0 invisible
-        group-hover:opacity-100
-        group-hover:visible
-        transition-all
-        z-50">
-                            <!-- HEADER -->
-                            <div class="px-5 py-4 bg-cyan-50">
+                            bg-white
+                            rounded-2xl
+                            shadow-xl
+                            border border-slate-200
+                            overflow-hidden
+                            opacity-0 invisible
+                            group-hover:opacity-100
+                            group-hover:visible
+                            transition-all
+                            z-50
+                            text-sm">
 
-                                <p class="font-black text-slate-800">
-                                    {{ $currentUser->full_name }}
-                                </p>
 
-                                <p class="text-xs text-cyan-600">
-                                    {{ $roleName }}
-                                </p>
-
-                            </div>
 
                             <!-- PROFILE -->
                             <a href="{{ route('profile') }}"
-                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 transition">
+                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
 
-                                <i class="fa-solid fa-user w-5 text-sky-500"></i>
+                                <i class="fa-solid fa-user w-5 text-sky-500 text-base"></i>
 
                                 Hồ sơ cá nhân
 
@@ -257,9 +250,9 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
                             @if($canUploadDocument && Route::has('documents.my-documents'))
 
                             <a href="{{ route('documents.my-documents') }}"
-                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 transition">
+                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
 
-                                <i class="fa-solid fa-folder-open w-5 text-cyan-500"></i>
+                                <i class="fa-solid fa-folder-open w-5 text-cyan-500 text-base"></i>
 
                                 Học liệu của tôi
 
@@ -271,9 +264,9 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
                             @if($roleId == 1)
 
                             <a href="{{ route('admin.dashboard') }}"
-                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 transition">
+                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
 
-                                <i class="fa-solid fa-shield-halved w-5 text-indigo-500"></i>
+                                <i class="fa-solid fa-shield-halved w-5 text-indigo-500 text-base"></i>
 
                                 Admin Panel
 
@@ -290,10 +283,12 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 
                                 <button type="submit" class="w-full flex items-center gap-3 px-5 py-3
             text-red-500
+            font-medium
+            text-sm
             hover:bg-red-50
             transition">
 
-                                    <i class="fa-solid fa-right-from-bracket w-5"></i>
+                                    <i class="fa-solid fa-right-from-bracket w-5 text-base"></i>
 
                                     Đăng xuất
 
@@ -348,5 +343,7 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
             </div>
 
         </div>
+
+    </div>
 
 </nav>

@@ -294,12 +294,13 @@
 
                             </a>
 
-                            <form action="#" method="POST">
+                            <form action="{{ route('documents.destroy', $document) }}" method="POST"
+                                onsubmit="return confirm('Bạn có chắc muốn xóa tài liệu này?')">
 
                                 @csrf
                                 @method('DELETE')
 
-                                <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa tài liệu này?')"
+                                <button type="submit"
                                     class="w-10 h-10 rounded-xl border border-red-200 text-red-500 hover:bg-red-500 hover:text-white flex items-center justify-center transition">
 
                                     <i class="fa-solid fa-trash"></i>
@@ -339,11 +340,85 @@
             </div>
 
             @if($documents->hasPages())
-            <div class="px-6 py-5 border-t border-slate-100">
-                {{ $documents->links() }}
-            </div>
-            @endif
 
+            <div class="px-6 py-6 border-t border-slate-100">
+
+                <div class="flex items-center justify-center gap-2">
+
+                    {{-- Previous --}}
+                    @if($documents->onFirstPage())
+
+                    <span
+                        class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                        <i class="fa-solid fa-chevron-left"></i>
+
+                    </span>
+
+                    @else
+
+                    <a href="{{ $documents->previousPageUrl() }}"
+                        class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-600 hover:bg-cyan-50 hover:text-cyan-600 transition flex items-center justify-center">
+
+                        <i class="fa-solid fa-chevron-left"></i>
+
+                    </a>
+
+                    @endif
+
+
+                    {{-- Page Number --}}
+                    @foreach($documents->getUrlRange(1, $documents->lastPage()) as $page => $url)
+
+                    @if($page == $documents->currentPage())
+
+                    <span
+                        class="w-11 h-11 rounded-2xl bg-cyan-500 text-white font-black shadow-lg shadow-cyan-200 flex items-center justify-center">
+
+                        {{ $page }}
+
+                    </span>
+
+                    @else
+
+                    <a href="{{ $url }}"
+                        class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-600 font-bold hover:bg-cyan-50 hover:text-cyan-600 transition flex items-center justify-center">
+
+                        {{ $page }}
+
+                    </a>
+
+                    @endif
+
+                    @endforeach
+
+
+                    {{-- Next --}}
+                    @if($documents->hasMorePages())
+
+                    <a href="{{ $documents->nextPageUrl() }}"
+                        class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-600 hover:bg-cyan-50 hover:text-cyan-600 transition flex items-center justify-center">
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </a>
+
+                    @else
+
+                    <span
+                        class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                        <i class="fa-solid fa-chevron-right"></i>
+
+                    </span>
+
+                    @endif
+
+                </div>
+
+            </div>
+
+            @endif
         </section>
     </div>
 </main>

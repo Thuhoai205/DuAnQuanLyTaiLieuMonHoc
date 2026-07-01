@@ -62,8 +62,6 @@ Route::get('/documents/latest', function () {
     return view('documents.latest');
 })->name('documents.latest');
 
-
-// ===== ĐƯA SEARCH LÊN TRƯỚC =====
 Route::get('/documents/search', [DocumentController::class, 'search'])
     ->name('documents.search');
 
@@ -75,13 +73,13 @@ Route::get('/documents/{document}/download', [DocumentController::class, 'downlo
 
 Route::get('/documents/{document}/view', [DocumentController::class, 'view'])
     ->name('documents.view');
-
-Route::get('/documents/{id}/edit', function ($id) {
-    return view('documents.edit', compact('id'));
-})->name('documents.edit');
-
-// ===== SHOW LUÔN ĐỂ CUỐI =====
-Route::get('/documents/{id}', [DocumentController::class, 'show'])
+Route::get('/documents/{document}/edit', [DocumentController::class, 'edit'])
+    ->name('documents.edit');
+Route::put('/documents/{document}', [DocumentController::class, 'update'])
+    ->name('documents.update');
+Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])
+    ->name('documents.destroy');
+Route::get('/documents/{document}', [DocumentController::class, 'show'])
     ->name('documents.show');
 /*
 |--------------------------------------------------------------------------

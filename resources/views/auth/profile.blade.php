@@ -3,11 +3,12 @@
 @section('content')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- ĐÃ ĐỔI SANG FONT ROBOTO CHUYÊN NGHIỆP VÀ HIỆN ĐẠI HƠN -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 </style>
 
@@ -20,7 +21,7 @@ body {
 
             <div>
                 <span
-                    class="inline-flex items-center px-4 py-1.5 rounded-full bg-cyan-50 text-cyan-600 text-xs font-bold tracking-wide border border-cyan-100">
+                    class="inline-flex items-center px-4 py-1.5 rounded-full bg-cyan-50 text-cyan-600 text-xs font-black tracking-widest border border-cyan-100">
                     TÀI KHOẢN
                 </span>
 
@@ -28,7 +29,7 @@ body {
                     Quản lý hồ sơ
                 </h1>
 
-                <p class="text-slate-500 mt-2 text-sm">
+                <p class="text-slate-500 mt-2 text-sm font-medium">
                     Xem và cập nhật thông tin tài khoản của bạn
                 </p>
             </div>
@@ -42,11 +43,11 @@ body {
                 </div>
 
                 <div class="leading-tight">
-                    <p class="text-sm font-extrabold text-slate-800 tracking-tight">
+                    <p class="text-sm font-black text-slate-800 tracking-tight">
                         Bảo mật tài khoản
                     </p>
 
-                    <p class="text-xs text-slate-500 mt-1 leading-relaxed">
+                    <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
                         Dữ liệu được mã hóa và bảo vệ an toàn
                     </p>
                 </div>
@@ -101,11 +102,11 @@ body {
 
                     {{-- USER INFO --}}
                     <div class="text-center mt-6">
-                        <h2 class="text-2xl font-black text-slate-800">
+                        <h2 class="text-2xl font-black text-slate-800 tracking-tight">
                             {{ Auth::user()->full_name }}
                         </h2>
 
-                        <p class="text-slate-400 mt-2 text-sm">
+                        <p class="text-slate-400 mt-2 text-sm font-semibold">
                             {{ Auth::user()->email }}
                         </p>
 
@@ -113,7 +114,7 @@ body {
                             class="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-50 border border-cyan-100">
                             <span class="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-pulse"></span>
 
-                            <span class="text-sm font-semibold text-cyan-600">
+                            <span class="text-sm font-bold text-cyan-600">
                                 Đang hoạt động
                             </span>
                         </div>
@@ -123,21 +124,21 @@ body {
                     <div class="grid grid-cols-2 gap-4 mt-8">
 
                         <div class="bg-cyan-50 rounded-2xl border border-cyan-100 p-4 text-center">
-                            <p class="text-xs text-slate-400 font-semibold uppercase">
+                            <p class="text-xs text-slate-400 font-black uppercase tracking-wider">
                                 Thành viên
                             </p>
 
-                            <h4 class="mt-2 font-bold text-slate-700">
+                            <h4 class="mt-2 text-sm font-black text-slate-700">
                                 Chính thức
                             </h4>
                         </div>
 
                         <div class="bg-cyan-50 rounded-2xl border border-cyan-100 p-4 text-center">
-                            <p class="text-xs text-slate-400 font-semibold uppercase">
+                            <p class="text-xs text-slate-400 font-black uppercase tracking-wider">
                                 Tham gia
                             </p>
 
-                            <h4 class="mt-2 font-bold text-slate-700">
+                            <h4 class="mt-2 text-sm font-black text-slate-700">
                                 {{ Auth::user()->created_at ? Auth::user()->created_at->format('m/Y') : 'Mới' }}
                             </h4>
                         </div>
@@ -157,11 +158,11 @@ body {
 
                     <div class="flex items-center justify-between mb-8">
                         <div>
-                            <h3 class="text-2xl font-black text-slate-800">
+                            <h3 class="text-2xl font-black text-slate-800 tracking-tight">
                                 Thông tin cá nhân
                             </h3>
 
-                            <p class="text-sm text-slate-400 mt-2">
+                            <p class="text-sm text-slate-400 mt-1 font-semibold">
                                 Cập nhật thông tin tài khoản
                             </p>
                         </div>
@@ -178,40 +179,40 @@ body {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                             <div>
-                                <label class="block text-sm font-bold text-slate-600 mb-3">
+                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
                                     Họ và tên
                                 </label>
 
                                 <div class="relative flex items-center">
                                     <i
-                                        class="fa-solid fa-user absolute left-5 text-slate-400 text-lg pointer-events-none"></i>
+                                        class="fa-solid fa-user absolute left-5 text-slate-400 text-base pointer-events-none"></i>
 
                                     <input type="text" name="full_name"
                                         value="{{ Auth::user()->full_name ?? 'Giảng viên A' }}"
-                                        class="w-full h-14 pl-14 pr-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white transition text-slate-700">
+                                        class="w-full h-14 pl-14 pr-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition text-slate-700">
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-slate-600 mb-3">
+                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
                                     Địa chỉ Email
                                 </label>
 
                                 <div class="relative flex items-center">
                                     <i
-                                        class="fa-solid fa-envelope absolute left-5 text-slate-400 text-lg pointer-events-none"></i>
+                                        class="fa-solid fa-envelope absolute left-5 text-slate-400 text-base pointer-events-none"></i>
 
                                     <input type="email" name="email" value="{{ Auth::user()->email ?? 'gv@gmail.com' }}"
-                                        class="w-full h-14 pl-14 pr-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white transition text-slate-700">
+                                        class="w-full h-14 pl-14 pr-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition text-slate-700">
                                 </div>
                             </div>
 
                         </div>
 
-                        <div class="flex justify-end">
+                        <div class="flex justify-end pt-2">
                             <button type="submit"
-                                class="h-14 px-8 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold shadow-lg shadow-cyan-200 transition-all active:scale-95">
-                                <i class="fas fa-save mr-2"></i>
+                                class="h-14 px-8 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-black text-sm shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center gap-2">
+                                <i class="fas fa-save"></i>
                                 Lưu thay đổi
                             </button>
                         </div>
@@ -225,11 +226,11 @@ body {
 
                     <div class="flex items-center justify-between mb-8">
                         <div>
-                            <h3 class="text-2xl font-black text-slate-800">
+                            <h3 class="text-2xl font-black text-slate-800 tracking-tight">
                                 Bảo mật tài khoản
                             </h3>
 
-                            <p class="text-sm text-slate-400 mt-2">
+                            <p class="text-sm text-slate-400 mt-1 font-semibold">
                                 Đổi mật khẩu để bảo vệ tài khoản
                             </p>
                         </div>
@@ -246,38 +247,38 @@ body {
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
                             <div>
-                                <label class="block text-sm font-bold text-slate-600 mb-3">
+                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
                                     Mật khẩu hiện tại
                                 </label>
 
                                 <input type="password" name="current_password" placeholder="Nhập mật khẩu"
-                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white transition">
+                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition">
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-slate-600 mb-3">
+                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
                                     Mật khẩu mới
                                 </label>
 
                                 <input type="password" name="new_password" placeholder="Nhập mật khẩu mới"
-                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white transition">
+                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition">
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-slate-600 mb-3">
+                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
                                     Xác nhận mật khẩu
                                 </label>
 
                                 <input type="password" name="new_password_confirmation" placeholder="Nhập lại mật khẩu"
-                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white transition">
+                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition">
                             </div>
 
                         </div>
 
-                        <div class="flex justify-end">
+                        <div class="flex justify-end pt-2">
                             <button type="submit"
-                                class="h-14 px-8 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold shadow-lg shadow-cyan-200 transition-all active:scale-95">
-                                <i class="fas fa-lock mr-2"></i>
+                                class="h-14 px-8 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-black text-sm shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center gap-2">
+                                <i class="fas fa-lock"></i>
                                 Đổi mật khẩu
                             </button>
                         </div>

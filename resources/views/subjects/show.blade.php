@@ -426,12 +426,13 @@
 
                         </a>
 
-                        <form action="#" method="POST">
+                        <form action="{{ route('documents.destroy', $document->document_id) }}" method="POST"
+                            onsubmit="return confirm('Bạn có chắc muốn xóa tài liệu này?')">
 
                             @csrf
                             @method('DELETE')
 
-                            <button onclick="return confirm('Bạn có chắc muốn xóa tài liệu này?')"
+                            <button type="submit"
                                 class="w-10 h-10 rounded-xl bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition border border-red-100">
 
                                 <i class="fa-solid fa-trash"></i>

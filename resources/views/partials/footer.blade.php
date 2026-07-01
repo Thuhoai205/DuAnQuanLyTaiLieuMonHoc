@@ -1,4 +1,8 @@
-<footer class="relative mt-24 overflow-hidden bg-slate-950 text-slate-300">
+<!-- BƯỚC NHÚNG FONT TỪ GOOGLE FONTS (Nếu trang chính của bạn đã có dòng này rồi thì có thể bỏ qua) -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+<!-- ĐÃ THÊM CLASS font-['Roboto',_sans-serif] THEO ĐÚNG ĐỊNH DẠNG TRONG IMAGE_B9C7E4.PNG -->
+<footer class="relative mt-24 overflow-hidden bg-slate-950 text-slate-300 font-['Roboto',_sans-serif]">
 
     <!-- Background glow -->
     <div class="absolute inset-0 pointer-events-none">

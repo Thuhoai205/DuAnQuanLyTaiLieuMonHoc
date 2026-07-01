@@ -7,37 +7,51 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- BƯỚC NHÚNG FONT TỪ GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 </head>
 
-<body class="min-h-screen bg-[#EAFBFF] flex items-center justify-center px-4 relative overflow-hidden">
+<body
+    class="min-h-screen bg-[#EAFBFF] flex items-center justify-center px-4 relative overflow-hidden font-['Roboto',_sans-serif]">
 
     <!-- BACKGROUND DECOR -->
     <div class="absolute -top-32 -left-32 w-96 h-96 bg-cyan-200/60 rounded-full blur-3xl"></div>
     <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-cyan-300/50 rounded-full blur-3xl"></div>
 
-    <div class="relative w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+    <!-- ĐÃ ĐỔI items-center THÀNH items-stretch ĐỂ HAI BÊN ĐỀU NHAU -->
+    <div class="relative w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 items-stretch">
 
         <!-- LEFT INTRO -->
-        <div class="hidden lg:block">
-            <div class="rounded-[40px] bg-cyan-600 text-white p-10 shadow-2xl shadow-cyan-200">
-                <a href="javascript:history.back()"
-                    class="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-cyan-50 text-slate-600 hover:text-cyan-600 text-xs font-black uppercase tracking-wider transition-all">
-                    <i class="fa-solid fa-arrow-left"></i>
-                    Quay lại
-                </a>
-                <div class="w-20 h-20 rounded-3xl bg-cyan-300 text-cyan-950 flex items-center justify-center mb-8">
-                    <i class="fa-solid fa-book-open text-4xl"></i>
+        <div class="hidden lg:block pr-2">
+            <!-- ĐÃ THÊM h-full flex flex-col justify-between ĐỂ NỘI THẤT TỰ GIÃN ĐỀU THEO CHIỀU CAO CARD PHẢI -->
+            <div
+                class="h-full flex flex-col justify-between rounded-[40px] bg-cyan-600 text-white p-10 shadow-2xl shadow-cyan-200">
+
+                <!-- TOP CONTENT (Gồm nút quay lại và icon) -->
+                <div>
+                    <a href="javascript:history.back()"
+                        class="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-cyan-50 text-slate-600 hover:text-cyan-600 text-xs font-black uppercase tracking-wider transition-all">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Quay lại
+                    </a>
+                    <div class="w-20 h-20 rounded-3xl bg-cyan-300 text-cyan-950 flex items-center justify-center mb-8">
+                        <i class="fa-solid fa-book-open text-4xl"></i>
+                    </div>
                 </div>
 
-                <h1 class="text-5xl font-black leading-tight mb-6">
-                    Kho học liệu môn học hiện đại
-                </h1>
+                <!-- MIDDLE CONTENT (Tiêu đề đã thu nhỏ và mô tả ngắn gọn) -->
+                <div class="my-auto py-4">
+                    <h1 class="text-5xl font-black leading-tight mb-4">
+                        Kho học liệu môn học hiện đại
+                    </h1>
+                    <p class="text-cyan-50 text-base leading-relaxed">
+                        Đăng nhập để tìm kiếm, tải tài liệu học tập và quản lý học liệu theo từng môn học.
+                    </p>
+                </div>
 
-                <p class="text-cyan-50 text-lg leading-relaxed">
-                    Đăng nhập để tìm kiếm, tải tài liệu học tập và quản lý học liệu theo từng môn học.
-                </p>
-
-                <div class="grid grid-cols-2 gap-4 mt-10">
+                <!-- BOTTOM CONTENT (Khối số liệu thống kê luôn nằm dưới đáy card) -->
+                <div class="grid grid-cols-2 gap-4 mt-auto">
                     <div class="bg-cyan-700/60 rounded-3xl p-5">
                         <p class="text-4xl font-black">1.2K+</p>
                         <p class="text-cyan-100 text-sm font-bold mt-1">Tài liệu</p>
@@ -52,36 +66,30 @@
         </div>
 
         <!-- LOGIN CARD -->
-        <div class="w-full max-w-md mx-auto">
+        <div class="w-full max-w-md mx-auto pl-2 flex flex-col justify-center">
 
             <!-- LOGO -->
             <div class="flex flex-col items-center mb-8">
                 <div class="flex items-center gap-3">
-
                     <div
                         class="w-14 h-14 flex items-center justify-center rounded-2xl bg-cyan-500 text-white shadow-lg shadow-cyan-200">
                         <i class="fa-solid fa-graduation-cap text-2xl"></i>
                     </div>
-
                     <a href="{{ route('home') }}"
                         class="text-3xl font-black tracking-tight text-slate-900 flex items-center">
                         EDU
                         <span class="relative text-cyan-600 ml-1">
                             DOC
-                            <span class="absolute -top-2 -right-4 text-[10px] text-cyan-500 font-black">
-                                HH
-                            </span>
+                            <span class="absolute -top-2 -right-4 text-[10px] text-cyan-500 font-black">HH</span>
                         </span>
                     </a>
-
                 </div>
-
                 <p class="text-xs text-slate-400 uppercase tracking-[0.3em] mt-3 font-bold">
                     Hệ thống học liệu
                 </p>
             </div>
 
-            <!-- CARD -->
+            <!-- CARD CONTENT -->
             <div
                 class="bg-white/95 backdrop-blur-xl p-8 rounded-[32px] shadow-[0_20px_60px_rgba(8,145,178,0.12)] border border-cyan-100">
 
@@ -89,7 +97,6 @@
                     <h3 class="text-2xl font-black text-cyan-950">
                         Đăng nhập hệ thống
                     </h3>
-
                     <p class="text-slate-500 text-sm font-semibold mt-2">
                         Vui lòng nhập thông tin tài khoản của bạn
                     </p>
@@ -120,14 +127,10 @@
 
                     <!-- EMAIL -->
                     <div>
-                        <label class="text-xs font-black text-slate-400 uppercase tracking-wider">
-                            Email
-                        </label>
-
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-wider">Email</label>
                         <div
                             class="flex items-center bg-cyan-50 border border-cyan-100 rounded-2xl px-4 mt-2 focus-within:ring-2 focus-within:ring-cyan-300 transition">
                             <i class="fa-solid fa-envelope text-cyan-600 mr-3"></i>
-
                             <input type="email" name="email" value="{{ old('email') }}"
                                 class="w-full bg-transparent py-4 outline-none text-sm font-semibold text-slate-700 placeholder-slate-400"
                                 placeholder="Nhập email..." required>
@@ -136,14 +139,10 @@
 
                     <!-- PASSWORD -->
                     <div>
-                        <label class="text-xs font-black text-slate-400 uppercase tracking-wider">
-                            Mật khẩu
-                        </label>
-
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-wider">Mật khẩu</label>
                         <div
                             class="flex items-center bg-cyan-50 border border-cyan-100 rounded-2xl px-4 mt-2 focus-within:ring-2 focus-within:ring-cyan-300 transition">
                             <i class="fa-solid fa-lock text-cyan-600 mr-3"></i>
-
                             <input type="password" name="password"
                                 class="w-full bg-transparent py-4 outline-none text-sm font-semibold text-slate-700 placeholder-slate-400"
                                 placeholder="Nhập mật khẩu..." required>

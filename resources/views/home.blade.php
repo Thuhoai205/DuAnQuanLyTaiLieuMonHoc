@@ -8,10 +8,12 @@
 <!-- ================= HERO ================= -->
 <header class="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-cyan-600 to-sky-600 text-white">
 
-    <!-- Background -->
-    <div class="absolute inset-0 opacity-15">
-        <img src="https://i.pinimg.com/1200x/24/ed/83/24ed836955512e6d98b14fa2b4bbe879.jpg"
+
+    <div class="absolute inset-0">
+        <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
             class="w-full h-full object-cover">
+        <!-- Lớp phủ này sẽ giúp chữ trắng hiển thị rõ mồn một -->
+        <div class="absolute inset-0 bg-slate-900/40"></div>
     </div>
 
     <div class="absolute inset-0 bg-gradient-to-r from-cyan-900/40 to-cyan-600/30"></div>
@@ -26,16 +28,15 @@
         <div class="grid lg:grid-cols-5 gap-12 items-center">
             <!-- ================= LEFT ================= -->
             <div class="lg:col-span-3">
-                <!-- Badge -->
+                <!-- Badge - GRADIENT CÔNG NGHỆ -->
                 <span class="inline-flex items-center gap-2
-                px-5 py-2 rounded-full
-                bg-gradient-to-r from-white to-cyan-50
-                text-cyan-700
-                border border-cyan-100
-                shadow-lg
-                text-sm font-bold">
+                    px-5 py-2 rounded-full
+                    bg-gradient-to-r from-orange-500 to-pink-500
+                    text-white
+                    shadow-lg shadow-orange-500/20
+                    text-sm font-bold">
 
-                    <i class="fa-solid fa-bolt"></i>
+                    <i class="fa-solid fa-bolt text-yellow-300"></i>
 
                     Hệ thống quản lý học liệu
 
@@ -43,15 +44,8 @@
 
                 <!-- Title -->
                 <h1 class="mt-6 text-5xl leading-tight font-black">
-
-                    Khám phá
-                    <span class="text-cyan-200">
-
-                        kho tài liệu
-
-                    </span>
-
-                    học tập hiện đại
+                    <!-- Trong thẻ H1, sửa lại span điểm nhấn -->
+                    Khám phá <span class="text-yellow-300">kho tài liệu</span> học tập hiện đại
 
                 </h1>
 
@@ -180,133 +174,202 @@
                 </form>
 
             </div>
-            <div class="hidden lg:block lg:col-span-2">
+            <div class="hidden lg:block lg:col-span-2 self-center">
                 <div class="relative">
-                    <!-- Glow -->
-                    <div class="absolute -top-12 -left-10 w-72 h-72 rounded-full bg-cyan-300/20 blur-3xl"></div>
 
-                    <!-- IMAGE -->
+                    <!-- GLOW NHẸ ĐẰNG SAU -->
                     <div
-                        class="relative overflow-hidden rounded-[40px] border border-white/20 shadow-[0_30px_60px_rgba(15,23,42,.18)] group">
-                        <img src="https://i.pinimg.com/1200x/a7/3b/29/a73b2914ed37eb4f1e4a4f06ef0c06a8.jpg"
-                            class="w-full h-[480px] object-cover transition duration-700 group-hover:scale-105">
+                        class="absolute -top-8 -left-8 w-64 h-64 rounded-full bg-amber-400/10 blur-[80px] pointer-events-none">
+                    </div>
 
-                        <!-- Overlay -->
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                    <!-- CONTAINER CHÍNH (Đã sửa từ p-4.5 thành p-5 chuẩn Tailwind để tạo khoảng cách rìa cực đẹp) -->
+                    <div
+                        class="relative overflow-hidden rounded-[32px] bg-white/80 backdrop-blur-md border-[3px] border-white shadow-[0_20px_50px_rgba(139,126,116,0.15)] p-5">
 
-                        <!-- CARD -->
+                        <!-- 📄 THÈ TRÊN: KHO HỌC LIỆU ONLINE -->
                         <div
-                            class="absolute top-8 left-8 w-72 rounded-[28px] bg-white/90 backdrop-blur-xl border border-white/40 shadow-2xl p-6">
-                            <div class="flex items-center gap-4">
-                                <div
-                                    class="w-14 h-14 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg">
-                                    <i class="fa-solid fa-book-open text-xl"></i>
-                                </div>
-                                <div>
-                                    <p class="text-slate-400 text-sm font-semibold">Kho học liệu</p>
-                                    <h3 class="text-cyan-700 text-2xl font-black">Online</h3>
-                                </div>
-                            </div>
-                            <div class="my-4 h-px bg-slate-100"></div>
-                            <p class="text-sm leading-7 text-slate-600">
-                                Học liệu được phân loại theo môn học, khoa và loại tài liệu, hỗ trợ tìm kiếm, chia sẻ và
-                                tải xuống nhanh chóng.
-                            </p>
-                        </div>
+                            class="w-full rounded-[24px] bg-white border border-slate-100 shadow-[0_10px_25px_rgba(0,0,0,0.01)] p-4 relative overflow-hidden">
+                            <div class="grid grid-cols-12 gap-3 items-center">
 
-                        <!-- STATS (Đã nâng cấp hiệu ứng kính & Số nhảy tự động) -->
-                        <div class="absolute bottom-7 left-8 right-8">
-                            <div class="grid grid-cols-3 gap-6">
-
-                                <!-- Documents Card -->
-                                <div
-                                    class="bg-white/80 backdrop-blur-md rounded-[30px] border border-white/40 shadow-xl px-6 py-5 hover:-translate-y-2 hover:border-sky-400 hover:shadow-[0_0_25px_rgba(3,105,161,0.25)] transition-all duration-300">
-                                    <div class="flex items-start justify-between">
+                                <!-- Nội dung bên trái -->
+                                <div class="col-span-8">
+                                    <div class="flex items-center gap-3">
+                                        <!-- ICON SÁCH TRÊN -->
+                                        <div
+                                            class="w-12 h-12 rounded-[16px] bg-orange-500 text-white flex items-center justify-center shadow-[0_6px_12px_rgba(245,158,11,0.3)] shrink-0">
+                                            <i class="fa-solid fa-book-open text-xl text-white"></i>
+                                        </div>
                                         <div>
-                                            <!-- Đã gán class count-up và data-target -->
-                                            <h3 class="text-4xl font-black text-sky-700 leading-none count-up"
-                                                data-target="{{ $totalDocuments }}">
-                                                0
-                                            </h3>
-                                            <div class="w-12 h-1 rounded-full bg-sky-200 mt-3 mb-3"></div>
-                                            <p class="text-lg font-bold text-slate-600 whitespace-nowrap">Tài liệu</p>
+                                            <p
+                                                class="text-slate-400 text-[10px] font-bold uppercase tracking-widest leading-none">
+                                                Kho học liệu</p>
+                                            <h3
+                                                class="text-slate-800 text-2xl font-black mt-0.5 tracking-tight leading-none">
+                                                Online</h3>
+                                            <div class="w-8 h-[3px] rounded-full bg-orange-500 mt-1"></div>
                                         </div>
                                     </div>
+
+                                    <div class="my-3 h-px bg-slate-100"></div>
+
+                                    <p class="text-xs leading-5 text-slate-500 font-medium">
+                                        Học liệu được phân loại theo môn học, khoa và loại tài liệu, hỗ trợ tìm kiếm,
+                                        chia sẻ và tải xuống nhanh chóng.
+                                    </p>
                                 </div>
 
-                                <!-- Subjects Card -->
-                                <div
-                                    class="bg-white/80 backdrop-blur-md rounded-[30px] border border-white/40 shadow-xl px-6 py-5 hover:-translate-y-2 hover:border-emerald-400 hover:shadow-[0_0_25px_rgba(16,185,129,0.25)] transition-all duration-300">
-                                    <div class="flex items-start justify-between">
-                                        <div>
-                                            <!-- Đã gán class count-up và data-target -->
-                                            <h3 class="text-4xl font-black text-emerald-600 leading-none count-up"
-                                                data-target="{{ $totalSubjects }}">
-                                                0
-                                            </h3>
-                                            <div class="w-12 h-1 rounded-full bg-emerald-200 mt-3 mb-3"></div>
-                                            <p class="text-lg font-bold text-slate-600 whitespace-nowrap">Môn học</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Faculties Card -->
-                                <div
-                                    class="bg-white/80 backdrop-blur-md rounded-[30px] border border-white/40 shadow-xl px-6 py-5 hover:-translate-y-2 hover:border-orange-400 hover:shadow-[0_0_25px_rgba(249,115,22,0.25)] transition-all duration-300">
-                                    <div class="flex items-start justify-between">
-                                        <div>
-                                            <!-- Đã gán class count-up và data-target -->
-                                            <h3 class="text-4xl font-black text-orange-500 leading-none count-up"
-                                                data-target="{{ $totalFaculties }}">
-                                                0
-                                            </h3>
-                                            <div class="w-12 h-1 rounded-full bg-orange-200 mt-3 mb-3"></div>
-                                            <p class="text-lg font-bold text-slate-600 whitespace-nowrap">Khoa</p>
-                                        </div>
+                                <!-- Hình ảnh minh họa thu nhỏ gọn gàng -->
+                                <div class="col-span-4 flex justify-center items-center relative">
+                                    <div class="relative w-full h-24 flex items-center justify-center text-slate-300">
+                                        <i
+                                            class="fa-solid fa-layer-group text-5xl text-sky-400/80 absolute -bottom-1"></i>
+                                        <i
+                                            class="fa-solid fa-cloud-arrow-up text-3xl text-amber-500 absolute -top-2 right-2"></i>
+                                        <i
+                                            class="fa-solid fa-file-lines text-4xl text-slate-200 absolute right-0 rotate-12 shadow-sm"></i>
                                     </div>
                                 </div>
 
                             </div>
                         </div>
-                        <!-- END STATS -->
+
+                        <!-- 📊 KHỐI THỐNG KÊ 3 THẺ PHÍA DƯỚI (Đã tăng mt-5 để giãn cách với thẻ trên thoáng hơn) -->
+                        <div class="grid grid-cols-3 gap-3 mt-5">
+
+                            <!-- Thẻ 1: TÀI LIỆU (Màu Xanh Dương) -->
+                            <div
+                                class="bg-white rounded-[22px] border border-slate-100 shadow-[0_8px_20px_rgba(0,0,0,0.02)] p-3 flex flex-col items-center relative group hover:-translate-y-0.5 transition-all duration-300">
+                                <button class="absolute top-2.5 right-2.5 text-slate-400">
+                                    <i class="fa-solid fa-ellipsis-vertical text-[10px]"></i>
+                                </button>
+
+                                <!-- VÒNG TRÒN VÀ ICON -->
+                                <div
+                                    class="w-11 h-11 rounded-full bg-sky-500 flex items-center justify-center shadow-[0_6px_12px_rgba(14,165,233,0.3)] mt-1">
+                                    <i class="fa-solid fa-file-lines text-base text-white"></i>
+                                </div>
+
+                                <h4 class="text-2xl font-black text-sky-900 mt-2 leading-none count-up"
+                                    data-target="{{ $totalDocuments }}">0</h4>
+                                <p class="text-xs font-extrabold text-slate-700 mt-1">Tài liệu</p>
+
+                                <span
+                                    class="mt-1.5 px-2 py-0.5 rounded-full bg-sky-50 text-[9px] font-bold text-sky-600 whitespace-nowrap">
+                                    Tổng tài liệu
+                                </span>
+
+                                <div class="w-full flex items-center justify-between mt-3 px-0.5">
+                                    <svg class="w-10 h-4 text-sky-500" viewBox="0 0 50 20" fill="none"
+                                        stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M0 15 Q10 5, 20 12 T40 8 T50 5" />
+                                    </svg>
+                                    <span class="text-[10px] font-black text-sky-600 flex items-center">
+                                        <i class="fa-solid fa-arrow-up text-[8px] mr-0.5"></i>18%
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Thẻ 2: MÔN HỌC (Màu Xanh Lá) -->
+                            <div
+                                class="bg-white rounded-[22px] border border-slate-100 shadow-[0_8px_20px_rgba(0,0,0,0.02)] p-3 flex flex-col items-center relative group hover:-translate-y-0.5 transition-all duration-300">
+                                <button class="absolute top-2.5 right-2.5 text-slate-400">
+                                    <i class="fa-solid fa-ellipsis-vertical text-[10px]"></i>
+                                </button>
+
+                                <!-- VÒNG TRÒN VÀ ICON -->
+                                <div
+                                    class="w-11 h-11 rounded-full bg-emerald-500 flex items-center justify-center shadow-[0_6px_12px_rgba(16,185,129,0.3)] mt-1">
+                                    <i class="fa-solid fa-graduation-cap text-base text-white"></i>
+                                </div>
+
+                                <h4 class="text-2xl font-black text-emerald-900 mt-2 leading-none count-up"
+                                    data-target="{{ $totalSubjects }}">0</h4>
+                                <p class="text-xs font-extrabold text-slate-700 mt-1">Môn học</p>
+
+                                <span
+                                    class="mt-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-[9px] font-bold text-emerald-600 whitespace-nowrap">
+                                    Tổng môn học
+                                </span>
+
+                                <div class="w-full flex items-center justify-between mt-3 px-0.5">
+                                    <svg class="w-10 h-4 text-emerald-500" viewBox="0 0 50 20" fill="none"
+                                        stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M0 12 Q12 18, 22 10 T38 12 T50 4" />
+                                    </svg>
+                                    <span class="text-[10px] font-black text-emerald-600 flex items-center">
+                                        <i class="fa-solid fa-arrow-up text-[8px] mr-0.5"></i>12%
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Thẻ 3: KHOA (Màu Cam) -->
+                            <div
+                                class="bg-white rounded-[22px] border border-slate-100 shadow-[0_8px_20px_rgba(0,0,0,0.02)] p-3 flex flex-col items-center relative group hover:-translate-y-0.5 transition-all duration-300">
+                                <button class="absolute top-2.5 right-2.5 text-slate-400">
+                                    <i class="fa-solid fa-ellipsis-vertical text-[10px]"></i>
+                                </button>
+
+                                <!-- VÒNG TRÒN VÀ ICON -->
+                                <div
+                                    class="w-11 h-11 rounded-full bg-orange-500 flex items-center justify-center shadow-[0_6px_12px_rgba(249,115,22,0.3)] mt-1">
+                                    <i class="fa-solid fa-building-columns text-base text-white"></i>
+                                </div>
+
+                                <h4 class="text-2xl font-black text-orange-600 mt-2 leading-none count-up"
+                                    data-target="{{ $totalFaculties }}">0</h4>
+                                <p class="text-xs font-extrabold text-slate-700 mt-1">Khoa</p>
+
+                                <span
+                                    class="mt-1.5 px-2 py-0.5 rounded-full bg-orange-50 text-[9px] font-bold text-orange-600 whitespace-nowrap">
+                                    Tổng khoa
+                                </span>
+
+                                <div class="w-full flex items-center justify-between mt-3 px-0.5">
+                                    <svg class="w-10 h-4 text-orange-400" viewBox="0 0 50 20" fill="none"
+                                        stroke="currentColor" stroke-width="3" stroke-linecap="round"
+                                        stroke-linejoin="round">
+                                        <path d="M0 16 Q10 10, 25 15 T40 10 T50 12" />
+                                    </svg>
+                                    <span class="text-[10px] font-black text-orange-500 flex items-center">
+                                        <i class="fa-solid fa-arrow-up text-[8px] mr-0.5"></i>5%
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
 
                     </div>
                 </div>
             </div>
-
             <!-- ĐOẠN SCRIPT XỬ LÝ SỐ NHẢY (Đặt đoạn này ở cuối trang) -->
             <script>
             document.addEventListener("DOMContentLoaded", () => {
                 const counters = document.querySelectorAll('.count-up');
 
                 counters.forEach(counter => {
+                    const target = parseInt(counter.getAttribute('data-target'), 10) || 0;
+
+                    if (target === 0) {
+                        counter.innerText = "0";
+                        return;
+                    }
+
+                    let count = 0;
+                    // Tốc độ nhảy số (giá trị càng lớn nhảy càng nhanh để tất cả các cột dừng lại cùng lúc)
+                    const speed = target / 40;
+
                     const updateCount = () => {
-                        const target = parseInt(counter.getAttribute('data-target'), 10) || 0;
-
-                        if (target === 0) {
-                            counter.innerText = "0";
-                            return;
-                        }
-
-                        // Lấy số hiện tại trên màn hình
-                        const count = parseInt(counter.innerText, 10);
-
-                        // Ép số luôn luôn chỉ tăng đúng 1 đơn vị cho mỗi lần nhảy
-                        const increment = 1;
-
+                        count += speed;
                         if (count < target) {
-                            counter.innerText = count + increment;
-
-                            // THỜI GIAN CHỜ GIỮA CÁC SỐ (TÍNH BẰNG MILI-GIÂY):
-                            // Đã tăng lên 250ms (tức là 1/4 giây mới nhảy 1 số).
-                            // -> Ví dụ số 5 sẽ mất đúng 1.25 giây để chạy xong từ 0 đến 5.
-                            // -> Nếu muốn CHẬM HƠN NỮA: Hãy tăng số 250 này lên thành 300, 400 hoặc 500.
-                            setTimeout(updateCount, 250);
+                            counter.innerText = Math.floor(count);
+                            requestAnimationFrame(updateCount);
                         } else {
+                            // Khi hoàn thành, định dạng số theo chuẩn Việt Nam (ví dụ: 1.250 thay vì 1250)
                             counter.innerText = target.toLocaleString('vi-VN');
                         }
                     };
-
                     updateCount();
                 });
             });
@@ -1620,7 +1683,7 @@ setInterval(() => {
     <!-- Phần Tài liệu sẽ chia quyền giảng viên và sinh viên -->
     @auth
     <!--DANH MỤC MÔN HỌC (SINH VIÊN xem đc tất cả các file, giảng viên xem đc tất cả các file)-->
-    <div class="mb-12 py-15 my-10">
+    <div class="mb-12 py-15 my-10" style="font-family: 'Roboto', sans-serif;">
 
         <div class="flex items-center mb-6">
 
@@ -1632,129 +1695,96 @@ setInterval(() => {
                 <i class="fa-solid fa-book text-lg"></i>
             </div>
             <div>
-                <h4 class="text-3xl font-black text-cyan-950 tracking-tight">
+                <!-- Điều chỉnh size từ text-3xl xuống text-2xl để Roboto không bị quá to thô -->
+                <h4 class="text-2xl font-black text-cyan-950 tracking-tight">
                     Danh mục Môn học
                 </h4>
-                <p class="text-slate-500 text-sm font-semibold mt-1">Tất cả môn học được hiển thị
+                <!-- Điều chỉnh size text-sm font-semibold thành text-xs font-medium để chữ Roboto phụ nhìn mềm mại hơn -->
+                <p class="text-slate-500 text-xs font-medium mt-1">Tất cả môn học được hiển thị
                 </p>
             </div>
-            <a href="{{ route('subjects.index') }}" class="ml-auto text-sm font-semibold home-link-primary flex items-center gap-1 transition-colors  gap-2
+            <!-- Đồng bộ text-sm sang text-xs và font-bold để nút Xem tất cả thanh thoát -->
+            <a href="{{ route('subjects.index') }}" class="ml-auto text-xs font-bold home-link-primary flex items-center gap-1 transition-colors  gap-2
                     text-cyan-600 hover:text-cyan-700
-                    font-black transition-all">
+                    transition-all">
                 Xem tất cả
                 <i class="fa-solid fa-angle-right"></i>
             </a>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-7">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
             @foreach($subjects as $subject)
-            <a href="{{ route('subjects.show',$subject->subject_code) }}" class="group overflow-hidden
-                    rounded-[28px]
-                    bg-white
-                    border border-slate-200
-                    shadow-md
-                    hover:shadow-2xl
-                    hover:-translate-y-2
-                    transition-all duration-300">
+            <a href="{{ route('subjects.show', $subject->subject_code) }}"
+                class="group overflow-hidden rounded-3xl bg-white border border-slate-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_20px_40px_rgba(8,145,178,0.1)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between">
 
-                <!-- IMAGE -->
-                <div class="relative overflow-hidden h-44">
+                <div>
+                    <!-- IMAGE SECTION -->
+                    <div class="relative overflow-hidden h-48 w-full bg-slate-100">
 
-                    <img src="{{ $subject->thumbnail
-                    ? asset('img/subjects/'.$subject->thumbnail)
-                    : asset('images/default-subject.jpg') }}" class="w-full h-full object-cover
-                    transition duration-700
-                    group-hover:scale-110">
+                        <img src="{{ $subject->thumbnail ? asset('img/subjects/'.$subject->thumbnail) : asset('images/default-subject.jpg') }}"
+                            class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105"
+                            alt="{{ $subject->subject_name }}">
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                        <!-- Overlay mượt mà hơn để text hoặc tag nổi bật -->
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
 
-                    <!-- Faculty -->
-                    @if($subject->faculty)
-                    <div class="absolute top-4 left-4">
+                        <!-- Tag Faculty (Tên Khoa) - Làm mới sang trọng hơn -->
+                        @if($subject->faculty)
+                        <div class="absolute top-4 left-4 z-10">
+                            <!-- Hạ size tag khoa xuống text-[10px] để hiển thị gọn trên ảnh kèm font Roboto -->
+                            <span
+                                class="px-3 py-1.5 rounded-xl bg-white/80 backdrop-blur-md border border-white/40 text-[10px] font-bold uppercase tracking-wider text-slate-800 shadow-sm">
+                                <i class="fa-solid fa-graduation-cap mr-1 text-cyan-600"></i>
+                                {{ $subject->faculty->faculty_name }}
+                            </span>
+                        </div>
+                        @endif
+                    </div>
 
-                        <span class="px-3 py-1 rounded-full
-                            bg-white/90 backdrop-blur
-                            text-[11px]
-                            font-black
-                            uppercase
-                            tracking-wide
-                            text-slate-700">
-
-                            {{ $subject->faculty->faculty_name }}
-
+                    <!-- CONTENT SECTION -->
+                    <div class="p-5 pb-0">
+                        <!-- Hạ size mã môn học xuống text-[10px] font-black để có điểm nhấn tương phản rộng -->
+                        <span class="text-[10px] font-black text-cyan-600/80 uppercase tracking-widest block mb-1">
+                            {{ $subject->subject_code }}
                         </span>
 
+                        <!-- Tiêu đề môn học hạ nhẹ từ text-lg sang text-base giúp hiển thị trọn vẹn 2 dòng không bị thô cứng -->
+                        <h3
+                            class="font-black text-base text-slate-800 leading-snug group-hover:text-cyan-600 transition-colors duration-300 line-clamp-2 min-h-[44px]">
+                            {{ $subject->subject_name }}
+                        </h3>
                     </div>
-                    @endif
-
                 </div>
-
-                <!-- CONTENT -->
-                <div class="p-5">
-
-                    <!-- ICON -->
-                    <div class="flex items-center gap-3">
-
-
-                        <div>
-
-                            <h3 class="font-black
-                        text-xl
-                        text-slate-800
-                        line-clamp-2
-                        min-h-[56px]">
-
-                                {{ $subject->subject_name }}
-
-                            </h3>
-
-                        </div>
-
-                    </div>
-
-                    <!-- Divider -->
-
-                    <div class="my-5 border-t border-slate-100"></div>
-
-                    <!-- Footer -->
+                <!-- FOOTER SECTION (Luôn nằm sát đáy card nhờ flex-col) -->
+                <div class="p-5 pt-0">
+                    <!-- Divider thanh mảnh -->
+                    <div class="my-4 border-t border-slate-100"></div>
 
                     <div class="flex items-center justify-between">
-
-                        <div>
-
-                            <h4 class="text-3xl font-black text-cyan-600">
-
-                                {{ $subject->documents_count }}
-
-                            </h4>
-
-                            <p class="text-sm text-slate-500 font-semibold">
-
-                                Tài liệu
-
-                            </p>
-
+                        <!-- Thống kê số tài liệu -->
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-folder-open text-base"></i>
+                            </div>
+                            <div>
+                                <!-- Giữ nguyên text-lg font-black cho con số nổi bật, hạ text phụ xuống text-[11px] font-semibold -->
+                                <h4 class="text-lg font-black text-slate-800 leading-none mb-0.5">
+                                    {{ number_format($subject->documents_count) }}
+                                </h4>
+                                <p class="text-[11px] text-slate-400 font-semibold">Tài liệu sẵn có</p>
+                            </div>
                         </div>
 
-                        <div class="w-12 h-12
-                    rounded-2xl
-                    bg-cyan-50
-                    text-cyan-600
-                    flex items-center justify-center
-                    group-hover:bg-cyan-500
-                    group-hover:text-white
-                    transition">
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
+                        <!-- Nút mũi tên chuyển động mượt mà khi hover card -->
+                        <div
+                            class="w-10 h-10 rounded-xl bg-slate-50 text-slate-400 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white group-hover:translate-x-1 shadow-sm group-hover:shadow-lg group-hover:shadow-cyan-200 transition-all duration-300">
+                            <i class="fa-solid fa-chevron-right text-xs"></i>
                         </div>
-
                     </div>
-
                 </div>
 
             </a>
-
             @endforeach
 
         </div>
@@ -1767,30 +1797,31 @@ setInterval(() => {
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-14">
 
         <!-- LEFT -->
-        <div class="lg:col-span-2">
+        <div class="lg:col-span-2" style="font-family: 'Roboto', sans-serif;">
             <!-- TITLE -->
             <div class="flex items-center mb-6">
 
                 <div
                     class="w-12 h-12 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 mr-4">
-
                     <i class="fa-solid fa-clock text-lg"></i>
                 </div>
 
                 <div>
-                    <h4 class="text-3xl font-black text-cyan-950 tracking-tight">
+                    <!-- Điều chỉnh từ text-3xl xuống text-2xl giúp tiêu đề Roboto gọn gàng hơn -->
+                    <h4 class="text-2xl font-black text-cyan-950 tracking-tight">
                         Tài liệu mới nhất
                     </h4>
 
-                    <p class="text-slate-500 text-sm font-semibold mt-1">
+                    <!-- Điều chỉnh text-sm xuống text-xs font-medium để dòng mô tả phụ mềm mại, dễ nhìn -->
+                    <p class="text-slate-500 text-xs font-medium mt-1">
                         Học liệu vừa được cập nhật gần đây
                     </p>
                 </div>
             </div>
 
             <!-- CARD -->
-            <div class="bg-white rounded-[32px] border border-cyan-100 overflow-hidden
-            shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+            <div
+                class="bg-white rounded-[32px] border border-cyan-100 overflow-hidden shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
 
                 <!-- CONTENT -->
                 @foreach($latestDocuments as $document)
@@ -1799,114 +1830,84 @@ setInterval(() => {
                 $ext = strtolower($document->currentVersion->file_extension ?? '');
                 @endphp
 
-                <a href="{{ route('documents.show', $document->document_id) }}" class="group p-6 flex items-center gap-5 border-b border-cyan-100
-          hover:bg-cyan-50/60 transition-all duration-300">
+                <!-- Khung bọc trung gian để định vị absolute và giữ hover effect -->
+                <div class="group relative border-b border-cyan-100 hover:bg-cyan-50/60 transition-all duration-300">
 
-                    <!-- ICON FILE -->
-                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0
+                    <!-- LINK CHI TIẾT TÀI LIỆU -->
+                    <a href="{{ route('documents.show', $document->document_id) }}"
+                        class="p-6 flex items-center gap-5 pr-44 block">
+                        <!-- pr-44 giúp thông tin không đè lên nút -->
 
-            @if(in_array($ext,['pdf']))
-                bg-red-50 text-red-500
+                        <!-- ICON FILE -->
+                        <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0
+                    @if(in_array($ext,['pdf'])) bg-red-50 text-red-500
+                    @elseif(in_array($ext,['doc','docx'])) bg-blue-50 text-blue-600
+                    @elseif(in_array($ext,['xls','xlsx'])) bg-green-50 text-green-600
+                    @elseif(in_array($ext,['ppt','pptx'])) bg-orange-50 text-orange-600
+                    @elseif(in_array($ext,['zip','rar'])) bg-yellow-50 text-yellow-600
+                    @elseif(in_array($ext,['jpg','jpeg','png','gif','webp'])) bg-pink-50 text-pink-600
+                    @elseif(in_array($ext,['mp4','avi','mov'])) bg-purple-50 text-purple-600
+                    @else bg-slate-100 text-slate-500
+                    @endif">
 
-            @elseif(in_array($ext,['doc','docx']))
-                bg-blue-50 text-blue-600
-
-            @elseif(in_array($ext,['xls','xlsx']))
-                bg-green-50 text-green-600
-
-            @elseif(in_array($ext,['ppt','pptx']))
-                bg-orange-50 text-orange-600
-
-            @elseif(in_array($ext,['zip','rar']))
-                bg-yellow-50 text-yellow-600
-
-            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                bg-pink-50 text-pink-600
-
-            @elseif(in_array($ext,['mp4','avi','mov']))
-                bg-purple-50 text-purple-600
-
-            @else
-                bg-slate-100 text-slate-500
-            @endif">
-
-                        @if(in_array($ext,['pdf']))
-                        <i class="fa-solid fa-file-pdf text-2xl"></i>
-
-                        @elseif(in_array($ext,['doc','docx']))
-                        <i class="fa-solid fa-file-word text-2xl"></i>
-
-                        @elseif(in_array($ext,['xls','xlsx']))
-                        <i class="fa-solid fa-file-excel text-2xl"></i>
-
-                        @elseif(in_array($ext,['ppt','pptx']))
-                        <i class="fa-solid fa-file-powerpoint text-2xl"></i>
-
-                        @elseif(in_array($ext,['zip','rar']))
-                        <i class="fa-solid fa-file-zipper text-2xl"></i>
-
-                        @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                        <i class="fa-solid fa-file-image text-2xl"></i>
-
-                        @elseif(in_array($ext,['mp4','avi','mov']))
-                        <i class="fa-solid fa-file-video text-2xl"></i>
-
-                        @else
-                        <i class="fa-solid fa-file text-2xl"></i>
-                        @endif
-
-                    </div>
-
-                    <!-- THÔNG TIN -->
-                    <div class="flex-1 min-w-0">
-
-                        <h3
-                            class="text-lg font-black leading-relaxed text-slate-800 group-hover:text-cyan-600 transition-colors line-clamp-2">
-                            {{ $document->title }}
-                        </h3>
-
-                        <div class="flex flex-wrap gap-3 mt-3 text-sm text-slate-500 font-semibold">
-
-                            <span>
-                                <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
-                                {{ $document->subject?->subject_name ?? 'Chưa có môn học' }}
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-download mr-1 text-cyan-600"></i>
-                                {{ number_format($document->download_count) }} lượt tải
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
-                                {{ $document->created_at->format('d/m/Y') }}
-                            </span>
-
+                            @if(in_array($ext,['pdf'])) <i class="fa-solid fa-file-pdf text-2xl"></i>
+                            @elseif(in_array($ext,['doc','docx'])) <i class="fa-solid fa-file-word text-2xl"></i>
+                            @elseif(in_array($ext,['xls','xlsx'])) <i class="fa-solid fa-file-excel text-2xl"></i>
+                            @elseif(in_array($ext,['ppt','pptx'])) <i class="fa-solid fa-file-powerpoint text-2xl"></i>
+                            @elseif(in_array($ext,['zip','rar'])) <i class="fa-solid fa-file-zipper text-2xl"></i>
+                            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp'])) <i
+                                class="fa-solid fa-file-image text-2xl"></i>
+                            @elseif(in_array($ext,['mp4','avi','mov'])) <i class="fa-solid fa-file-video text-2xl"></i>
+                            @else <i class="fa-solid fa-file text-2xl"></i>
+                            @endif
                         </div>
 
+                        <!-- THÔNG TIN -->
+                        <div class="flex-1 min-w-0">
+                            <!-- Tiêu đề tài liệu hạ nhẹ xuống text-base để hiển thị thanh thoát khi dùng font Roboto -->
+                            <h3
+                                class="text-base font-black leading-relaxed text-slate-800 group-hover:text-cyan-600 transition-colors line-clamp-2">
+                                {{ $document->title }}
+                            </h3>
+
+                            <!-- Điều chỉnh thanh thông tin phụ từ text-sm xuống text-xs font-semibold giúp tăng độ tương phản layout -->
+                            <div class="flex flex-wrap gap-3 mt-2.5 text-xs text-slate-500 font-semibold">
+                                <span>
+                                    <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
+                                    {{ $document->subject?->subject_name ?? 'Chưa có môn học' }}
+                                </span>
+                                <span>•</span>
+                                <span>
+                                    <i class="fa-solid fa-download mr-1 text-cyan-600"></i>
+                                    {{ number_format($document->download_count) }} lượt tải
+                                </span>
+                                <span>•</span>
+                                <span>
+                                    <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
+                                    {{ $document->created_at->format('d/m/Y') }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- NÚT TẢI VỀ (Căn giữa dọc tuyệt đối ở bên phải) -->
+                    <div class="absolute top-8 right-6 z-10">
+                        <!-- Đồng bộ nút bấm sang text-xs và font-bold giúp text nút Roboto sắc nét vừa vặn -->
+                        <a href="{{ route('documents.download', $document) }}"
+                            class="shrink-0 px-5 py-2.5 rounded-xl bg-cyan-500 text-white text-xs font-bold hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition-all duration-300 flex items-center gap-2 hover:-translate-y-0.5">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                            <span>Tải về</span>
+                        </a>
                     </div>
 
-                    <!-- NÚT -->
-                    <div
-                        class="shrink-0 px-6 py-3 rounded-2xl bg-cyan-500 text-white font-black hover:bg-cyan-600 shadow-lg shadow-cyan-200 transition-all duration-300 flex items-center gap-2">
-
-                        <i class="fa-solid fa-eye"></i>
-                        Xem
-
-                    </div>
-
-                </a>
-
+                </div>
                 @endforeach
+
             </div>
         </div>
 
         <!-- RIGHT -->
-        <div>
+        <div style="font-family: 'Roboto', sans-serif;">
 
             <!-- TITLE -->
             <div class="flex items-center mb-6">
@@ -1915,16 +1916,17 @@ setInterval(() => {
                 bg-cyan-500 text-white
                 flex items-center justify-center
                 shadow-lg shadow-cyan-200 mr-4">
-
                     <i class="fa-solid fa-fire text-lg"></i>
                 </div>
 
                 <div>
-                    <h4 class="text-3xl font-black text-cyan-950 tracking-tight">
+                    <!-- Điều chỉnh từ text-3xl xuống text-2xl để font Roboto không bị thô cứng -->
+                    <h4 class="text-2xl font-black text-cyan-950 tracking-tight">
                         Tài liệu tải nhiều
                     </h4>
 
-                    <p class="text-slate-500 text-sm font-semibold mt-1">
+                    <!-- Tinh chỉnh text-sm thành text-xs font-medium giúp dòng mô tả phụ nhỏ gọn, thanh lịch hơn -->
+                    <p class="text-slate-500 text-xs font-medium mt-1">
                         Những tài liệu được quan tâm nhiều nhất
                     </p>
                 </div>
@@ -1934,14 +1936,14 @@ setInterval(() => {
 
                 <div class="space-y-4">
 
-
                     @foreach($topDocuments as $index => $document)
 
                     <a href="{{ route('documents.show', $document->document_id) }}"
                         class="group flex items-center gap-4 p-4 rounded-2xl border border-slate-200 bg-white hover:border-cyan-300 hover:shadow-lg transition-all duration-300">
 
                         <!-- TOP -->
-                        <div class="shrink-0">
+                        <!-- Đồng bộ font chữ hiển thị số thứ hạng thứ tự (#1, #2, #3) -->
+                        <div class="shrink-0 text-sm tracking-tighter">
 
                             @if($index == 0)
                             <div
@@ -1968,44 +1970,34 @@ setInterval(() => {
                         <div class="flex-1 min-w-0">
 
                             <!-- TITLE -->
-                            <h3 class="truncate text-[15px] font-bold text-slate-800 group-hover:text-cyan-600"
+                            <!-- Điều chỉnh nhẹ text-[15px] xuống text-sm để tối ưu không gian hiển thị text truncate trên một hàng -->
+                            <h3 class="truncate text-sm font-bold text-slate-800 group-hover:text-cyan-600"
                                 title="{{ $document->title }}">
-
                                 {{ $document->title }}
-
                             </h3>
 
                             <!-- SUBJECT -->
                             <div class="mt-2">
-
+                                <!-- Hạ cỡ chữ tag môn học xuống text-[11px] font-bold để text Roboto hiển thị gọn gàng trong kén (pill) -->
                                 <span
-                                    class="inline-flex items-center rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold text-cyan-700">
-
+                                    class="inline-flex items-center rounded-full bg-cyan-50 px-3 py-1 text-[11px] font-bold text-cyan-700">
                                     <i class="fa-solid fa-book mr-1"></i>
-
                                     {{ $document->subject?->subject_name }}
-
                                 </span>
-
                             </div>
 
                             <!-- INFO -->
-                            <div class="mt-3 flex items-center justify-between text-xs">
+                            <!-- Hạ nhẹ văn bản phụ cuối từ text-xs xuống text-[11px] font-semibold để phân cấp thông tin rõ ràng hơn -->
+                            <div class="mt-3 flex items-center justify-between text-[11px]">
 
-                                <span class="font-semibold text-cyan-600">
-
+                                <span class="font-bold text-cyan-600">
                                     <i class="fa-solid fa-download mr-1"></i>
-
                                     {{ number_format($document->download_count) }} lượt tải
-
                                 </span>
 
-                                <span class="text-slate-400">
-
+                                <span class="text-slate-400 font-medium">
                                     <i class="fa-regular fa-calendar mr-1"></i>
-
                                     {{ $document->created_at->format('d/m/Y') }}
-
                                 </span>
 
                             </div>
@@ -2015,9 +2007,7 @@ setInterval(() => {
                         <!-- ARROW -->
                         <div
                             class="shrink-0 w-10 h-10 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center group-hover:bg-cyan-500 group-hover:text-white transition">
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
                         </div>
 
                     </a>
@@ -2033,27 +2023,26 @@ setInterval(() => {
     <!-- ======================================== -->
     <!-- TÀI LIỆU GIẢNG VIÊN ĐÃ ĐĂNG -->
     <!-- ======================================== -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-14">
+    <!-- Bọc toàn bộ grid bằng font-roboto (Đảm bảo font Roboto đã được nhúng trong project của bạn) -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-14" style="font-family: 'Roboto', sans-serif;">
+
         <!-- LEFT -->
         <div class="lg:col-span-2">
 
             <!-- TITLE -->
             <div class="flex items-center mb-6">
-
-                <div class="w-12 h-12 rounded-2xl
-                bg-cyan-500 text-white
-                flex items-center justify-center
-                shadow-lg shadow-cyan-200 mr-4">
-
+                <div
+                    class="w-12 h-12 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 mr-4">
                     <i class="fa-solid fa-clock text-lg"></i>
                 </div>
 
                 <div>
-                    <h4 class="text-3xl font-black text-cyan-950 tracking-tight">
+                    <!-- Giảm từ text-3xl xuống text-2xl để tiêu đề Roboto gọn và sang hơn -->
+                    <h4 class="text-2xl font-black text-cyan-950 tracking-tight">
                         Tài liệu bạn đã đăng
                     </h4>
-
-                    <p class="text-slate-500 text-sm font-semibold mt-1">
+                    <!-- Giảm xuống text-xs font-medium giúp dòng mô tả phụ mềm mại, không lấn lướt tiêu đề -->
+                    <p class="text-slate-500 text-xs font-medium mt-1">
                         Quản lý học liệu giảng viên đã tải lên
                     </p>
                 </div>
@@ -2068,288 +2057,203 @@ setInterval(() => {
                 $ext = strtolower($document->currentVersion->file_extension ?? '');
                 @endphp
 
-                <a href="{{ route('documents.show', $document->document_id) }}"
-                    class="group p-6 flex items-center gap-5 border-b border-cyan-100 hover:bg-cyan-50/60 transition-all duration-300">
+                <div class="group relative border-b border-cyan-100 hover:bg-cyan-50/60 transition-all duration-300">
 
-                    <!-- ICON -->
-                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0
+                    <!-- LINK CLICK TOÀN BỘ HÀNG -->
+                    <a href="{{ route('documents.show', $document->document_id) }}"
+                        class="p-6 flex items-center gap-5 pr-36 block">
 
-                    @if(in_array($ext,['pdf']))
-                        bg-red-50 text-red-500
-                    @elseif(in_array($ext,['doc','docx']))
-                        bg-blue-50 text-blue-600
-                    @elseif(in_array($ext,['xls','xlsx']))
-                        bg-green-50 text-green-600
-                    @elseif(in_array($ext,['ppt','pptx']))
-                        bg-orange-50 text-orange-600
-                    @elseif(in_array($ext,['zip','rar']))
-                        bg-yellow-50 text-yellow-600
-                    @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                        bg-pink-50 text-pink-600
-                    @elseif(in_array($ext,['mp4','avi','mov']))
-                        bg-purple-50 text-purple-600
-                    @else
-                        bg-slate-100 text-slate-500
-                    @endif">
+                        <!-- ICON -->
+                        <div class="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0
+                        @if(in_array($ext,['pdf'])) bg-red-50 text-red-500
+                        @elseif(in_array($ext,['doc','docx'])) bg-blue-50 text-blue-600
+                        @elseif(in_array($ext,['xls','xlsx'])) bg-green-50 text-green-600
+                        @elseif(in_array($ext,['ppt','pptx'])) bg-orange-50 text-orange-600
+                        @elseif(in_array($ext,['zip','rar'])) bg-yellow-50 text-yellow-600
+                        @elseif(in_array($ext,['jpg','jpeg','png','gif','webp'])) bg-pink-50 text-pink-600
+                        @elseif(in_array($ext,['mp4','avi','mov'])) bg-purple-50 text-purple-600
+                        @else bg-slate-100 text-slate-500
+                        @endif">
 
-                        @if(in_array($ext,['pdf']))
-                        <i class="fa-solid fa-file-pdf text-2xl"></i>
-
-                        @elseif(in_array($ext,['doc','docx']))
-                        <i class="fa-solid fa-file-word text-2xl"></i>
-
-                        @elseif(in_array($ext,['xls','xlsx']))
-                        <i class="fa-solid fa-file-excel text-2xl"></i>
-
-                        @elseif(in_array($ext,['ppt','pptx']))
-                        <i class="fa-solid fa-file-powerpoint text-2xl"></i>
-
-                        @elseif(in_array($ext,['zip','rar']))
-                        <i class="fa-solid fa-file-zipper text-2xl"></i>
-
-                        @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                        <i class="fa-solid fa-file-image text-2xl"></i>
-
-                        @elseif(in_array($ext,['mp4','avi','mov']))
-                        <i class="fa-solid fa-file-video text-2xl"></i>
-
-                        @else
-                        <i class="fa-solid fa-file text-2xl"></i>
-                        @endif
-
-                    </div>
-
-                    <!-- THÔNG TIN -->
-                    <div class="flex-1 min-w-0">
-
-                        <h3 class="font-black text-xl text-slate-800 truncate">
-
-                            {{ $document->title }}
-
-                        </h3>
-
-                        <div class="flex items-center flex-wrap gap-3 mt-2 text-sm text-slate-500">
-
-                            <span>
-                                <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
-                                {{ $document->subject->subject_name }}
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-download mr-1 text-cyan-600"></i>
-                                {{ $document->download_count }} lượt tải
-                            </span>
-
-                            <span>•</span>
-
-                            <span>
-                                <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
-                                {{ $document->created_at->format('d/m/Y') }}
-                            </span>
-
+                            @if(in_array($ext,['pdf'])) <i class="fa-solid fa-file-pdf text-2xl"></i>
+                            @elseif(in_array($ext,['doc','docx'])) <i class="fa-solid fa-file-word text-2xl"></i>
+                            @elseif(in_array($ext,['xls','xlsx'])) <i class="fa-solid fa-file-excel text-2xl"></i>
+                            @elseif(in_array($ext,['ppt','pptx'])) <i class="fa-solid fa-file-powerpoint text-2xl"></i>
+                            @elseif(in_array($ext,['zip','rar'])) <i class="fa-solid fa-file-zipper text-2xl"></i>
+                            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp'])) <i
+                                class="fa-solid fa-file-image text-2xl"></i>
+                            @elseif(in_array($ext,['mp4','avi','mov'])) <i class="fa-solid fa-file-video text-2xl"></i>
+                            @else <i class="fa-solid fa-file text-2xl"></i>
+                            @endif
                         </div>
 
-                    </div>
+                        <!-- THÔNG TIN -->
+                        <div class="flex-1 min-w-0">
+                            <!-- Chuyển sang text-base font-bold để tiêu đề tài liệu thanh thoát và không bị thô đứng -->
+                            <h3
+                                class="font-bold text-base text-slate-800 truncate group-hover:text-cyan-600 transition-colors">
+                                {{ $document->title }}
+                            </h3>
 
-                    <!-- BUTTON -->
-                    <div class="shrink-0">
+                            <!-- Đưa về text-xs font-semibold giúp các thông số phụ hiển thị sắc nét -->
+                            <div class="flex items-center flex-wrap gap-3 mt-2.5 text-xs text-slate-500 font-semibold">
+                                <span>
+                                    <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
+                                    {{ $document->subject->subject_name }}
+                                </span>
+                                <span>•</span>
+                                <span>
+                                    <i class="fa-solid fa-download mr-1 text-cyan-600"></i>
+                                    {{ number_format($document->download_count) }} lượt tải
+                                </span>
+                                <span>•</span>
+                                <span>
+                                    <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
+                                    {{ $document->created_at->format('d/m/Y') }}
+                                </span>
+                            </div>
+                        </div>
+                    </a>
 
-                        <button class="px-6 py-3 rounded-xl bg-cyan-500 text-white font-black
-            hover:bg-cyan-600 transition flex items-center gap-2 shadow">
-
+                    <!-- NÚT TẢI VỀ -->
+                    <div class="absolute top-8 right-6 z-10">
+                        <!-- Đồng bộ về text-xs font-bold để nội dung nút vừa vặn, chuẩn UI hơn -->
+                        <a href="{{ route('documents.download', $document) }}"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold shadow-lg shadow-cyan-200 transition-all duration-300 hover:-translate-y-0.5 text-xs">
                             <i class="fa-solid fa-download"></i>
-
-                            Tải về
-
-                        </button>
-
+                            <span>Tải về</span>
+                        </a>
                     </div>
 
+                </div>
 
-                    @empty
-
-                    <div class="py-16 text-center">
-
-                        <div class="w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center">
-
-                            <i class="fa-solid fa-file-circle-xmark text-3xl text-slate-400"></i>
-
-                        </div>
-
-                        <p class="mt-4 text-slate-500 font-semibold">
-                            Bạn chưa đăng tài liệu nào.
-                        </p>
-
+                @empty
+                <div class="py-16 text-center">
+                    <div class="w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center">
+                        <i class="fa-solid fa-file-circle-xmark text-3xl text-slate-400"></i>
                     </div>
-
-                    @endforelse
+                    <!-- Đưa về text-sm font-medium tạo cảm giác nhẹ nhàng khi trống dữ liệu -->
+                    <p class="mt-4 text-slate-500 text-sm font-medium">
+                        Bạn chưa đăng tài liệu nào.
+                    </p>
+                </div>
+                @endforelse
             </div>
         </div>
+
         <!-- RIGHT -->
         <div class="lg:col-span-1">
 
             <!-- TITLE -->
             <div class="flex items-center mb-6">
-
                 <div
                     class="w-12 h-12 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200 mr-4">
-
                     <i class="fa-solid fa-chart-line text-lg"></i>
-
                 </div>
 
                 <div>
-
-                    <h4 class="text-3xl font-black text-cyan-950 tracking-tight">
+                    <!-- Đồng bộ tiêu đề cột phải về text-2xl -->
+                    <h4 class="text-2xl font-black text-cyan-950 tracking-tight">
                         Thống kê tương tác
                     </h4>
-
-                    <p class="text-slate-500 text-sm font-semibold mt-1">
+                    <!-- Đồng bộ dòng mô tả phụ về text-xs font-medium -->
+                    <p class="text-slate-500 text-xs font-medium mt-1">
                         Theo dõi hiệu quả tài liệu của bạn
                     </p>
-
                 </div>
-
             </div>
 
             <!-- CARD -->
             <div class="bg-white rounded-[32px] border border-cyan-100 p-6 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
 
-                <!-- TOP -->
+                <!-- TOP GRID -->
                 <div class="grid grid-cols-2 gap-5">
 
                     <!-- Tổng tài liệu -->
-                    <div class="rounded-2xl border border-cyan-100 bg-cyan-50 p-6">
-
+                    <div class="rounded-2xl border border-cyan-100 bg-cyan-50 p-5">
                         <div class="flex items-center justify-between">
-
                             <div>
-
-                                <p class="text-xs uppercase tracking-wider font-bold text-slate-500">
+                                <!-- Chuyển sang text-[11px] font-bold giúp các thẻ uppercase trông hiện đại, gọn gàng -->
+                                <p class="text-[11px] uppercase tracking-wider font-bold text-slate-400">
                                     Tài liệu
                                 </p>
-
-                                <h3 class="mt-3 text-3xl font-black text-cyan-600">
+                                <!-- Hạ chỉ số từ text-3xl xuống text-2xl tăng độ tinh tế -->
+                                <h3 class="mt-2 text-2xl font-black text-cyan-600">
                                     {{ $totalDocuments }}
                                 </h3>
-
                             </div>
-
                             <div
-                                class="w-14 h-14 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow">
-
-                                <i class="fa-solid fa-file-lines text-lg"></i>
-
+                                class="w-12 h-12 rounded-xl bg-cyan-500 text-white flex items-center justify-center shadow shrink-0">
+                                <i class="fa-solid fa-file-lines text-base"></i>
                             </div>
-
                         </div>
-
                     </div>
 
                     <!-- Tổng lượt tải -->
-                    <div class="rounded-2xl border border-emerald-100 bg-emerald-50 p-6">
-
+                    <div class="rounded-2xl border border-emerald-100 bg-emerald-50 p-5">
                         <div class="flex items-center justify-between">
-
                             <div>
-
-                                <p class="text-xs uppercase tracking-wider font-bold text-slate-500">
+                                <p class="text-[11px] uppercase tracking-wider font-bold text-slate-400">
                                     Lượt tải
                                 </p>
-
-                                <h3 class="mt-3 text-3xl font-black text-emerald-600">
+                                <h3 class="mt-2 text-2xl font-black text-emerald-600">
                                     {{ number_format($totalDownloads) }}
                                 </h3>
-
                             </div>
-
                             <div
-                                class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shadow">
-
-                                <i class="fa-solid fa-download text-lg"></i>
-
+                                class="w-12 h-12 rounded-xl bg-emerald-500 text-white flex items-center justify-center shadow shrink-0">
+                                <i class="fa-solid fa-download text-base"></i>
                             </div>
-
                         </div>
-
                     </div>
 
                 </div>
 
                 <!-- Môn học -->
-                <div class="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-6">
-
+                <div class="mt-5 rounded-2xl border border-blue-100 bg-blue-50 p-5">
                     <div class="flex items-center justify-between">
-
                         <div>
-
-                            <p class="text-xs uppercase tracking-wider font-bold text-slate-500">
+                            <p class="text-[11px] uppercase tracking-wider font-bold text-slate-400">
                                 Môn học
                             </p>
-
-                            <h3 class="mt-3 text-3xl font-black text-blue-600">
+                            <h3 class="mt-2 text-2xl font-black text-blue-600">
                                 {{ $totalSubjects }}
                             </h3>
-
                         </div>
-
                         <div
-                            class="w-14 h-14 rounded-2xl bg-blue-500 text-white flex items-center justify-center shadow">
-
-                            <i class="fa-solid fa-book text-lg"></i>
-
+                            class="w-12 h-12 rounded-xl bg-blue-500 text-white flex items-center justify-center shadow shrink-0">
+                            <i class="fa-solid fa-book text-base"></i>
                         </div>
-
                     </div>
-
                 </div>
 
                 <!-- Tài liệu nổi bật -->
                 @if($topDocuments->count())
-
-                <div class="mt-5 rounded-2xl border border-orange-100 bg-orange-50 p-6">
-
+                <div class="mt-5 rounded-2xl border border-orange-100 bg-orange-50 p-5">
                     <div class="flex items-center justify-between">
-
                         <div class="flex-1 min-w-0">
-
-                            <p class="text-xs uppercase tracking-wider font-bold text-orange-600">
+                            <p class="text-[11px] uppercase tracking-wider font-bold text-orange-600">
                                 Tài liệu nổi bật
                             </p>
-
-                            <h4 class="mt-2 text-lg font-black text-slate-800 truncate"
+                            <!-- Giảm nhẹ tiêu đề tài liệu nổi bật về text-sm font-bold giúp chuỗi text không đè icon bên phải -->
+                            <h4 class="mt-2 text-sm font-bold text-slate-800 truncate"
                                 title="{{ $topDocuments->first()->title }}">
-
                                 {{ $topDocuments->first()->title }}
-
                             </h4>
-
-                            <p class="mt-2 text-sm font-semibold text-slate-500">
-
-                                {{ number_format($topDocuments->first()->download_count) }}
-                                lượt tải
-
+                            <!-- Giảm thông số xuống text-xs font-semibold -->
+                            <p class="mt-1 text-xs font-semibold text-slate-500">
+                                {{ number_format($topDocuments->first()->download_count) }} lượt tải
                             </p>
-
                         </div>
-
                         <div
-                            class="ml-4 w-14 h-14 rounded-2xl bg-orange-500 text-white flex items-center justify-center shadow-lg">
-
-                            <i class="fa-solid fa-fire text-xl"></i>
-
+                            class="ml-4 w-12 h-12 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-lg shrink-0">
+                            <i class="fa-solid fa-fire text-lg"></i>
                         </div>
-
                     </div>
-
                 </div>
-
                 @endif
 
             </div>
-
         </div>
     </div>
     @endif
