@@ -3,73 +3,176 @@
 @section('title', 'Danh mục Môn học')
 
 @section('content')
+<style>
+.banner-title {
 
+    animation: titleZoom .8s ease;
+
+}
+
+.banner-subtitle {
+
+    animation: titleZoom 1.2s ease;
+
+}
+
+@keyframes titleZoom {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.85) translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1) translateY(0);
+
+    }
+
+}
+</style>
 <!-- Bọc toàn bộ main bằng font-roboto (Đảm bảo font Roboto đã được nhúng trong project của bạn) -->
 <main class="min-h-screen bg-[#EAFBFF]" style="font-family: 'Roboto', sans-serif;">
+    <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
+    <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
+        <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
+        <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
+            alt="Educational Resources Banner" class="w-full h-full object-cover opacity-60">
 
-    <section class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-14">
+        <!-- Lớp phủ tối (Overlay) để làm nổi bật chữ trắng phía trên giống hình mẫu -->
+        <div class="absolute inset-0 bg-black/30"></div>
 
-        <!-- BACK -->
-        <div class="mb-10">
-            <!-- Tinh chỉnh text-xs font-bold cho nút quay lại giúp chữ không bị thô -->
-            <a href="javascript:history.back()"
-                class="inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-cyan-100 text-cyan-700 hover:text-cyan-800 font-bold text-xs uppercase tracking-wider rounded-full shadow-sm hover:shadow-cyan-200 transition-all duration-300">
-                <i class="fa-solid fa-arrow-left"></i>
-                Quay lại
-            </a>
+        <!-- Chữ "Giới thiệu" căn giữa tuyệt đối -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+
+            <h1 class="banner-title italic text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-md">
+                Danh mục Môn học
+            </h1>
+
+            <p class="banner-subtitle mt-3 text-cyan-100 text-base md:text-lg max-w-2xl leading-relaxed">
+                Khám phá danh mục các môn học và tài liệu liên quan
+            </p>
+
         </div>
+    </div>
+    <div class="bg-cyan-50 py-3 border-b border-cyan-100">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center text-sm">
+            <a href="/" class="text-slate-600 hover:text-cyan-600 transition">
+                Trang chủ
+            </a>
 
-        <!-- HEADER -->
-        <div
-            class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-12 pb-8 border-b border-cyan-100">
+            <span class="mx-2 text-slate-400">
+                /
+            </span>
 
+            <span class="font-medium text-cyan-600">
+                Danh mục Môn học
+            </span>
+        </div>
+    </div>
+    <section class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+
+        <!-- ================= HEADER ================= -->
+        <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-12">
+
+            <!-- Left -->
             <div>
-                <div class="flex items-center mb-3">
-                    <div
-                        class="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center text-white mr-4 shadow-lg shadow-cyan-200">
-                        <i class="fa-solid fa-layer-group"></i>
+
+                <div class="flex items-center gap-4">
+
+                    <div class="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100
+                       flex items-center justify-center">
+
+                        <i class="fa-solid fa-layer-group text-cyan-600 text-2xl"></i>
+
                     </div>
-                    <!-- Hạ tiêu đề chính xuống text-2xl để font Roboto thanh thoát hơn -->
-                    <h1 class="text-2xl font-black text-cyan-950 tracking-tight">
-                        Danh mục Môn học
-                    </h1>
+
+                    <div>
+
+                        <h1 class="text-3xl font-bold text-slate-900">
+                            Danh mục Môn học
+                        </h1>
+
+                        <p class="mt-2 text-sm text-slate-500 leading-7 max-w-2xl">
+                            Quản lý và truy cập kho học liệu theo từng môn học, chuyên ngành và lĩnh vực đào tạo.
+                        </p>
+
+                    </div>
+
                 </div>
-                <!-- Hạ nhẹ text phụ xuống text-xs font-medium để tạo khoảng giãn thông tin hợp lý -->
-                <p class="text-slate-500 font-medium text-xs pl-[64px] max-w-2xl leading-relaxed">
-                    Quản lý và truy cập kho học liệu theo từng môn học, chuyên ngành và lĩnh vực đào tạo.
-                </p>
+
             </div>
 
-            <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
+            <!-- Right -->
+            <div class="flex flex-col sm:flex-row gap-4">
 
-                <!-- SEARCH -->
-                <div class="relative w-full lg:w-72">
-                    <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-600 text-xs"></i>
-                    <!-- Đưa text của ô input về text-xs font-semibold -->
-                    <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm theo tên môn..."
-                        class="w-full pl-11 pr-4 py-3 bg-white border border-cyan-100 rounded-2xl text-xs font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-500 transition-all">
+                <!-- Search -->
+                <div class="relative w-full sm:w-80">
+
+                    <i class="fa-solid fa-magnifying-glass
+                       absolute left-5 top-1/2 -translate-y-1/2
+                       text-cyan-500">
+                    </i>
+
+                    <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm kiếm môn học..."
+                        class="w-full h-14
+                       rounded-2xl
+                       border border-slate-200
+                       bg-white
+                       pl-12 pr-5
+                       text-sm
+                       placeholder:text-slate-400
+                       shadow-sm
+                       transition
+                       focus:outline-none
+                       focus:border-cyan-500
+                       focus:ring-4
+                       focus:ring-cyan-100">
+
                 </div>
 
                 @auth
                 @if(auth()->user()->role->role_name === 'lecturer')
-                <div class="inline-flex p-1 bg-cyan-50 border border-cyan-100 rounded-2xl">
-                    <!-- Đồng bộ text của cụm button lọc về text-xs font-bold -->
-                    <button id="btnAssigned" onclick="filterSubjects('assigned')"
-                        class="px-5 py-2.5 rounded-xl text-cyan-700 text-xs font-bold transition">
-                        Phụ trách ({{ auth()->user()->subjects->count() }})
+
+                <!-- Filter -->
+                <div class="flex h-14 items-center rounded-2xl
+                   border border-slate-200 bg-white p-1 shadow-sm">
+
+                    <button id="btnAll" onclick="filterSubjects('all')" class="rounded-xl px-5 py-2 text-sm font-semibold
+                       bg-cyan-500 text-white transition">
+
+                        Tất cả
+                        <span class="ml-1 opacity-80">
+                            ({{ $subjects->count() }})
+                        </span>
+
                     </button>
 
-                    <button id="btnAll" onclick="filterSubjects('all')"
-                        class="px-5 py-2.5 rounded-xl bg-cyan-500 text-white text-xs font-bold transition">
-                        Tất cả ({{ $subjects->count() }})
+                    <button id="btnAssigned" onclick="filterSubjects('assigned')" class="rounded-xl px-5 py-2 text-sm font-semibold
+                       text-slate-600 hover:bg-slate-100 transition">
+
+                        Phụ trách
+                        <span class="ml-1 text-cyan-600">
+                            ({{ auth()->user()->subjects->count() }})
+                        </span>
+
                     </button>
+
                 </div>
+
                 @endif
                 @endauth
 
             </div>
-        </div>
 
+        </div>
         <!-- GRID CHỨA CARD -->
         <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 

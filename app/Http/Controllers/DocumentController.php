@@ -426,7 +426,7 @@ class DocumentController extends Controller
         */
 
         $documents = $query
-            ->paginate(12)
+            ->paginate(9)
             ->withQueryString();
 
         $totalResult = $documents->total();
@@ -799,11 +799,6 @@ class DocumentController extends Controller
 
         }
     }
-    /*
-    |-----------------------------
-    | UPLOAD VERSION (FIXED)
-    |-----------------------------
-    */
     public function uploadVersion(Request $request, $id)
     {
         $request->validate([
@@ -867,12 +862,6 @@ class DocumentController extends Controller
 
         return back()->with('success', 'Tạo version mới thành công');
     }
-
-    /*
-    |-----------------------------
-    | RESTORE VERSION
-    |-----------------------------
-    */
     public function restoreVersion($versionId)
     {
         $version = DocumentVersion::findOrFail($versionId);
@@ -887,42 +876,36 @@ class DocumentController extends Controller
 
         return back()->with('success', 'Restore thành công');
     }
+    public function download(Document $document)
+    {
+        if (!$document->is_active) {
+            abort(404);
+        }
 
-    /*
-    |-----------------------------
-    | DOWNLOAD (SAFE)
-    |-----------------------------
-    */
-  public function download(Document $document)
-{
-    if (!$document->is_active) {
-        abort(404);
+        $version = $document->currentVersion;
+
+        if (!$version) {
+            abort(404, 'Không tìm thấy file.');
+        }
+
+        if (!Storage::disk('public')->exists($version->file_path)) {
+            abort(404, 'File không tồn tại.');
+        }
+
+        // Tăng lượt tải
+        $document->increment('download_count');
+
+        // Lưu lịch sử tải
+        DownloadHistory::create([
+            'user_id'       => Auth::id(),
+            'version_id'    => $version->version_id,
+            'downloaded_at' => now(),
+        ]);
+
+        // Trả file về cho người dùng
+        return response()->download(
+            Storage::disk('public')->path($version->file_path),
+            $version->original_file_name
+        );
     }
-
-    $version = $document->currentVersion;
-
-    if (!$version) {
-        abort(404, 'Không tìm thấy file.');
-    }
-
-    if (!Storage::disk('public')->exists($version->file_path)) {
-        abort(404, 'File không tồn tại.');
-    }
-
-    // Tăng lượt tải
-    $document->increment('download_count');
-
-    // Lưu lịch sử tải
-    DownloadHistory::create([
-        'user_id'       => Auth::id(),
-        'version_id'    => $version->version_id,
-        'downloaded_at' => now(),
-    ]);
-
-    // Trả file về cho người dùng
-    return response()->download(
-        Storage::disk('public')->path($version->file_path),
-        $version->original_file_name
-    );
-}
 }

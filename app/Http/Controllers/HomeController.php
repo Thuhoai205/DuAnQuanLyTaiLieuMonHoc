@@ -41,7 +41,7 @@ class HomeController extends Controller
                         $query->where('is_active', true);
                     }
                 ])
-                ->take(4 - $topSubjects->count())
+                ->take(8 - $topSubjects->count())
                 ->get();
 
             $subjects = $topSubjects->merge($moreSubjects);

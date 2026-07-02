@@ -1,305 +1,371 @@
- @extends('layouts.app')
+@extends('layouts.app')
 
- @section('title', 'Danh mục Khoa')
+@section('title', 'Danh mục Khoa')
 
- @section('content')
+@section('content')
+<style>
+.banner-title {
 
- <main class="min-h-screen bg-[#EAFBFF]">
+    animation: titleZoom .8s ease;
 
-     <section class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-14">
+}
 
-         <!-- BACK -->
-         <div class="mb-10">
-             <a href="javascript:history.back()"
-                 class="inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-cyan-100 text-cyan-700 hover:text-cyan-800 font-bold text-xs uppercase tracking-wider rounded-full shadow-sm hover:shadow-cyan-200 transition-all duration-300">
-                 <i class="fa-solid fa-arrow-left"></i>
-                 Quay lại
-             </a>
-         </div>
+.banner-subtitle {
 
-         <!-- HEADER -->
-         <div
-             class="flex flex-col xl:flex-row xl:items-center justify-between gap-6 mb-12 pb-8 border-b border-cyan-100">
+    animation: titleZoom 1.2s ease;
 
-             <div>
-                 <div class="flex items-center mb-3">
-                     <div
-                         class="w-12 h-12 bg-cyan-500 rounded-2xl flex items-center justify-center text-white mr-4 shadow-lg shadow-cyan-200">
-                         <i class="fa-solid fa-building-columns"></i>
-                     </div>
+}
 
-                     <h1 class="text-3xl font-black text-cyan-950 tracking-tight">
-                         Danh mục Khoa
-                     </h1>
-                 </div>
+@keyframes titleZoom {
 
-                 <p class="text-slate-500 font-medium text-sm pl-[64px] max-w-2xl leading-relaxed">
-                     Khám phá các khoa đào tạo trong hệ thống, xem danh sách môn học và tài liệu học tập theo từng khoa.
-                 </p>
-             </div>
+    from {
 
-             <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
+        opacity: 0;
 
-                 <!-- SEARCH -->
-                 <div class="relative w-full lg:w-72">
-                     <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-cyan-600 text-xs"></i>
+        transform:
+            scale(.85) translateY(20px);
 
-                     <input type="text" id="facultySearch" onkeyup="searchFaculties()"
-                         placeholder="Tìm theo tên khoa..."
-                         class="w-full pl-11 pr-4 py-3 bg-white border border-cyan-100 rounded-2xl text-sm font-semibold text-slate-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-cyan-500 transition-all">
-                 </div>
+    }
 
-             </div>
-         </div>
+    to {
 
-         <!-- OVERVIEW -->
-         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        opacity: 1;
 
-             <!-- Tổng khoa -->
-             <div
-                 class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(8,145,178,0.15)] transition-all duration-300 p-7">
+        transform:
+            scale(1) translateY(0);
 
-                 <div class="flex items-center justify-between">
+    }
 
-                     <div>
+}
+</style>
+<main class="min-h-screen bg-[#EAFBFF]">
+    <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
+    <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
+        <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
+        <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
+            alt="Educational Resources Banner" class="w-full h-full object-cover opacity-60">
 
-                         <p class="text-sm font-bold text-slate-500">
-                             Tổng số khoa
-                         </p>
+        <!-- Lớp phủ tối (Overlay) để làm nổi bật chữ trắng phía trên giống hình mẫu -->
+        <div class="absolute inset-0 bg-black/30"></div>
 
-                         <h3 class="text-4xl font-black text-cyan-950 mt-2">
-                             {{ number_format($totalFaculties) }}
-                         </h3>
+        <!-- Chữ "Giới thiệu" căn giữa tuyệt đối -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
 
-                         <p class="text-xs text-slate-400 mt-2">
-                             Khoa đang hoạt động
-                         </p>
+            <h1 class="banner-title italic text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-md">
+                Khoa
+            </h1>
 
-                     </div>
+            <p class="banner-subtitle mt-3 text-cyan-100 text-base md:text-lg max-w-2xl leading-relaxed">
+                Khám phá các khoa đào tạo, xem danh sách môn học và tài liệu học tập
+            </p>
 
-                     <div class="w-16 h-16 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+        </div>
+    </div>
 
-                         <i class="fa-solid fa-building-columns text-2xl"></i>
+    <div class="bg-cyan-50 py-3 border-b border-cyan-100">
+        <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center text-sm">
+            <a href="/" class="text-slate-600 hover:text-cyan-600 transition">
+                Trang chủ
+            </a>
 
-                     </div>
+            <span class="mx-2 text-slate-400">
+                /
+            </span>
 
-                 </div>
+            <span class="font-medium text-cyan-600">
+                Khoa
+            </span>
+        </div>
+    </div>
 
-             </div>
 
-             <!-- Tổng môn học -->
-             <div
-                 class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(8,145,178,0.15)] transition-all duration-300 p-7">
+    <section class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <!-- ================= HEADER ================= -->
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
 
-                 <div class="flex items-center justify-between">
+            <div class="flex items-center gap-4">
 
-                     <div>
+                <div class="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100
+                       flex items-center justify-center">
 
-                         <p class="text-sm font-bold text-slate-500">
-                             Tổng môn học
-                         </p>
+                    <i class="fa-solid fa-building-columns  text-cyan-600 text-2xl"></i>
 
-                         <h3 class="text-4xl font-black text-cyan-950 mt-2">
-                             {{ number_format($totalSubjects) }}
-                         </h3>
+                </div>
 
-                         <p class="text-xs text-slate-400 mt-2">
-                             Môn học đang sử dụng
-                         </p>
+                <div>
 
-                     </div>
+                    <h1 class="text-3xl font-bold text-slate-900">
+                        Danh mục Khoa
+                    </h1>
 
-                     <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                    <p class="mt-2 text-sm text-slate-500 leading-7 max-w-2xl">
+                        Khám phá các khoa đào tạo, xem danh sách môn học và tài liệu học tập.
+                    </p>
 
-                         <i class="fa-solid fa-book-open text-2xl"></i>
+                </div>
 
-                     </div>
+            </div>
+            <!-- Search -->
+            <div class="w-full lg:w-80">
 
-                 </div>
+                <div class="relative">
 
-             </div>
+                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-cyan-500"></i>
 
-             <!-- Tổng tài liệu -->
-             <div
-                 class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] hover:-translate-y-1 hover:shadow-[0_20px_60px_rgba(8,145,178,0.15)] transition-all duration-300 p-7">
+                    <input id="facultySearch" type="text" onkeyup="searchFaculties()" placeholder="Tìm kiếm khoa..."
+                        class="h-14 w-full rounded-2xl border border-slate-200 bg-white
+                pl-12 pr-5
+                text-sm text-slate-700
+                placeholder:text-slate-400
+                transition
+                focus:border-cyan-500
+                focus:outline-none
+                focus:ring-4
+                focus:ring-cyan-100">
 
-                 <div class="flex items-center justify-between">
+                </div>
 
-                     <div>
+            </div>
 
-                         <p class="text-sm font-bold text-slate-500">
-                             Tổng tài liệu
-                         </p>
+        </div>
 
-                         <h3 class="text-4xl font-black text-cyan-950 mt-2">
-                             {{ number_format($totalDocuments) }}
-                         </h3>
 
-                         <p class="text-xs text-slate-400 mt-2">
-                             Tài liệu đang lưu trữ
-                         </p>
 
-                     </div>
+        <div id="facultyGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
 
-                     <div class="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
+            @forelse($faculties as $faculty)
 
-                         <i class="fa-solid fa-file-lines text-2xl"></i>
+            @php
+            $documentCount = $faculty->documents_count ?? $faculty->subjects->sum('documents_count');
+            @endphp
+            <div class="faculty-card" data-name="{{ strtolower($faculty->faculty_name) }}"
+                data-code="{{ strtolower($faculty->faculty_code) }}">
 
-                     </div>
+                <div class="group relative h-full overflow-hidden rounded-3xl
+               border border-slate-200 bg-white
+               transition-all duration-300
+               hover:-translate-y-2
+               hover:border-cyan-300
+               hover:shadow-[0_20px_45px_rgba(8,145,178,0.12)]">
 
-                 </div>
+                    <!-- TOP BAR -->
+                    <div class="h-1 w-full bg-gradient-to-r from-cyan-500 via-sky-500 to-cyan-400">
+                    </div>
 
-             </div>
+                    <div class="p-7">
 
-         </div>
-         <!-- GRID -->
-         <!-- GRID -->
-         <div id="facultyGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                        <!-- HEADER -->
+                        <div class="flex items-start justify-between">
 
-             @forelse($faculties as $faculty)
+                            <div class="flex h-14 w-14 items-center justify-center
+                           rounded-2xl bg-cyan-50
+                           text-cyan-600">
 
-             @php
-             $documentCount = $faculty->documents_count ?? $faculty->subjects->sum('documents_count');
-             @endphp
+                                <i class="fa-solid fa-building-columns text-2xl"></i>
 
-             <div class="faculty-card group relative
-                    bg-white rounded-[2rem] border border-cyan-100
-                    shadow-[0_15px_45px_rgba(8,145,178,0.08)]
-                    hover:shadow-[0_20px_60px_rgba(8,145,178,0.16)]
-                    hover:-translate-y-2
-                    transition-all duration-500 overflow-hidden" data-name="{{ strtolower($faculty->faculty_name) }}"
-                 data-code="{{ strtolower($faculty->faculty_code) }}">
-                 <!-- Background -->
-                 <div
-                     class="absolute -top-10 -right-10 w-32 h-32 bg-cyan-100 rounded-full group-hover:scale-125 transition-transform duration-700">
-                 </div>
+                            </div>
 
-                 <div class="p-8 relative z-10">
+                            @if($faculty->is_active)
 
-                     <!-- HEADER -->
-                     <div class="flex items-start justify-between mb-6">
+                            <span class="inline-flex items-center gap-2
+                           rounded-full bg-emerald-50
+                           px-3 py-1 text-[11px]
+                           font-semibold text-emerald-600">
 
-                         <div>
-                             <span
-                                 class="inline-flex items-center px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black uppercase tracking-wide">
-                                 {{ $faculty->faculty_code }}
-                             </span>
-                         </div>
+                                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
 
-                         <span
-                             class="text-xs font-black uppercase tracking-wider {{ $faculty->is_active ? 'text-emerald-600' : 'text-red-500' }}">
-                             {{ $faculty->is_active ? 'Hoạt động' : 'Khóa' }}
-                         </span>
+                                Hoạt động
 
-                     </div>
+                            </span>
 
-                     <!-- TÊN KHOA -->
-                     <h3
-                         class="faculty-name text-2xl font-black text-slate-900 leading-tight group-hover:text-cyan-600 transition">
-                         {{ $faculty->faculty_name }}
-                     </h3>
+                            @else
 
-                     <!-- MÔ TẢ -->
-                     <p class="mt-4 text-sm text-slate-500 leading-7 min-h-[72px]">
-                         {{ $faculty->description ?: 'Chưa có mô tả cho khoa này.' }}
-                     </p>
+                            <span class="inline-flex items-center gap-2
+                           rounded-full bg-red-50
+                           px-3 py-1 text-[11px]
+                           font-semibold text-red-500">
 
-                     <!-- THỐNG KÊ -->
-                     <div class="mt-7 grid grid-cols-2 gap-4">
+                                <span class="h-2 w-2 rounded-full bg-red-500"></span>
 
-                         <div class="rounded-2xl border border-cyan-100 bg-cyan-50/70 p-5">
+                                Khóa
 
-                             <p class="text-3xl font-black text-cyan-900">
-                                 {{ $faculty->subjects_count }}
-                             </p>
+                            </span>
 
-                             <p class="mt-2 text-xs font-bold uppercase tracking-wide text-slate-500">
-                                 Môn học
-                             </p>
+                            @endif
 
-                         </div>
+                        </div>
 
-                         <div class="rounded-2xl border border-cyan-100 bg-cyan-50/70 p-5">
+                        <!-- CODE -->
+                        <span class="mt-6 inline-flex
+                       rounded-lg
+                       bg-slate-100
+                       px-3 py-1
+                       text-[11px]
+                       font-bold
+                       uppercase
+                       tracking-wider
+                       text-slate-600">
 
-                             <p class="text-3xl font-black text-cyan-900">
-                                 {{ $documentCount }}
-                             </p>
+                            {{ $faculty->faculty_code }}
 
-                             <p class="mt-2 text-xs font-bold uppercase tracking-wide text-slate-500">
-                                 Tài liệu
-                             </p>
+                        </span>
 
-                         </div>
+                        <!-- NAME -->
+                        <h3 class="mt-4
+                       text-2xl
+                       font-bold
+                       leading-tight
+                       text-slate-900
+                       transition
+                       group-hover:text-cyan-600">
 
-                     </div>
+                            {{ $faculty->faculty_name }}
 
+                        </h3>
 
-                     <!-- FOOTER -->
-                     <div class="mt-8 flex items-center justify-end">
+                        <!-- DESCRIPTION -->
+                        <p class="mt-4
+                       min-h-[72px]
+                       text-sm
+                       leading-7
+                       text-slate-500
+                       line-clamp-3">
 
-                         <a href="{{ route('faculties.show', $faculty->faculty_id) }}"
-                             class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-cyan-500 text-white text-sm font-bold shadow-lg shadow-cyan-200 hover:bg-cyan-600 transition">
+                            {{ $faculty->description ?: 'Khoa hiện chưa có mô tả.' }}
 
-                             Xem chi tiết
+                        </p>
 
-                             <i class="fa-solid fa-arrow-right text-xs"></i>
+                        <!-- STATS -->
+                        <div class="mt-7
+                       rounded-2xl
+                       bg-slate-50
+                       p-5">
 
-                         </a>
+                            <div class="grid grid-cols-2">
 
-                     </div>
+                                <div>
 
+                                    <p class="text-3xl
+                                   font-bold
+                                   text-slate-900">
 
-                 </div>
+                                        {{ $faculty->subjects_count }}
 
-             </div>
+                                    </p>
 
-             @empty
+                                    <p class="mt-1
+                                   text-xs
+                                   uppercase
+                                   tracking-wide
+                                   text-slate-500">
 
-             <div class="col-span-full py-20 text-center">
+                                        Môn học
 
-                 <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center mb-5">
+                                    </p>
 
-                     <span class="text-4xl font-black text-cyan-500">
-                         0
-                     </span>
+                                </div>
 
-                 </div>
+                                <div class="border-l border-slate-200 pl-5">
 
-                 <h3 class="text-lg font-black text-slate-700">
-                     Chưa có khoa nào
-                 </h3>
+                                    <p class="text-3xl
+                                   font-bold
+                                   text-cyan-600">
 
-                 <p class="mt-2 text-sm text-slate-500">
-                     Hiện tại hệ thống chưa có dữ liệu khoa.
-                 </p>
+                                        {{ $documentCount }}
 
-             </div>
+                                    </p>
 
-             @endforelse
-             <!-- THÔNG BÁO KHÔNG TÌM THẤY -->
-             <div id="noFacultyResult" class="hidden py-16 text-center">
+                                    <p class="mt-1
+                                   text-xs
+                                   uppercase
+                                   tracking-wide
+                                   text-slate-500">
 
-                 <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
-                     <i class="fa-solid fa-magnifying-glass text-3xl text-cyan-500"></i>
-                 </div>
+                                        Tài liệu
 
-                 <h3 class="mt-5 text-lg font-black text-slate-700">
-                     Không tìm thấy khoa
-                 </h3>
+                                    </p>
 
-                 <p class="mt-2 text-sm text-slate-500">
-                     Không có khoa nào phù hợp với từ khóa tìm kiếm.
-                 </p>
+                                </div>
 
-             </div>
+                            </div>
 
-     </section>
+                        </div>
 
- </main>
- @endsection
+                        <!-- BUTTON -->
+                        <a href="{{ route('faculties.show',$faculty->faculty_id) }}" class="mt-7
+                       flex
+                       items-center
+                       justify-between
+                       rounded-2xl
+                       border
+                       border-slate-200
+                       px-5
+                       py-3
+                       text-sm
+                       font-semibold
+                       text-slate-700
+                       transition-all
+                       group-hover:border-cyan-500
+                       group-hover:bg-cyan-500
+                       group-hover:text-white">
 
- @push('scripts')
- <script>
+                            <span>Xem chi tiết</span>
+
+                            <i class="fa-solid fa-arrow-right
+                           transition-transform
+                           group-hover:translate-x-1">
+                            </i>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+            @empty
+            <div class="col-span-full py-20 text-center">
+                <div class="w-20 h-20 mx-auto rounded-full bg-slate-100 flex items-center justify-center">
+                    <i class="fa-solid fa-building-columns text-3xl text-slate-400"></i>
+                </div>
+
+                <h3 class="mt-5 text-lg font-semibold text-slate-700">
+                    Chưa có khoa nào
+                </h3>
+
+                <p class="mt-2 text-sm text-slate-500">
+                    Hiện tại chưa có dữ liệu khoa.
+                </p>
+            </div>
+
+            @endforelse
+
+
+            <!-- Chỉ dùng cho tìm kiếm -->
+            <div id="noFacultyResult" class="hidden col-span-full py-20 text-center">
+
+                <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
+                    <i class="fa-solid fa-magnifying-glass text-3xl text-cyan-500"></i>
+                </div>
+
+                <h3 class="mt-5 text-lg font-semibold text-slate-700">
+                    Không tìm thấy khoa
+                </h3>
+
+                <p class="mt-2 text-sm text-slate-500">
+                    Không có khoa nào phù hợp với từ khóa tìm kiếm.
+                </p>
+
+            </div>
+        </div>
+
+    </section>
+
+</main>
+@endsection
+
+@push('scripts')
+<script>
 function searchFaculties() {
 
     const keyword = document
@@ -309,15 +375,17 @@ function searchFaculties() {
         .toLowerCase();
 
     const cards = document.querySelectorAll('.faculty-card');
+    const noResult = document.getElementById('noFacultyResult');
 
     let visible = 0;
 
     cards.forEach(card => {
 
-        const name = card.dataset.name;
-        const code = card.dataset.code;
+        const name = (card.dataset.name || "").toLowerCase();
+        const code = (card.dataset.code || "").toLowerCase();
 
         if (
+            keyword === "" ||
             name.includes(keyword) ||
             code.includes(keyword)
         ) {
@@ -334,10 +402,16 @@ function searchFaculties() {
 
     });
 
-    document
-        .getElementById('noFacultyResult')
-        .classList.toggle('hidden', visible > 0);
+    if (noResult) {
+
+        if (visible === 0) {
+            noResult.classList.remove("hidden");
+        } else {
+            noResult.classList.add("hidden");
+        }
+
+    }
 
 }
- </script>
- @endpush
+</script>
+@endpush

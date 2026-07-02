@@ -3,7 +3,41 @@
 @section('title', 'Chi tiết môn học')
 
 @section('content')
+<style>
+.banner-title {
 
+    animation: titleZoom .8s ease;
+
+}
+
+.banner-subtitle {
+
+    animation: titleZoom 1.2s ease;
+
+}
+
+@keyframes titleZoom {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.85) translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1) translateY(0);
+
+    }
+
+}
+</style>
 <main id="view-course-detail" class="min-h-screen bg-[#EAFBFF]">
     <!-- HERO -->
     <section class="relative overflow-hidden text-white">
@@ -15,19 +49,43 @@
         </div>
 
         <!-- Overlay -->
-        <div class="absolute inset-0 bg-cyan-900/65"></div>
+        <div class="absolute inset-0 bg-black/30"></div>
 
         <!-- Nội dung -->
         <div class="relative max-w-7xl mx-auto px-6 py-16">
 
-            <a href="javascript:history.back()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
-                   bg-white/15 backdrop-blur-md border border-white/20
-                   text-white text-xs font-black uppercase tracking-wider
-                   hover:bg-white/25 transition mb-8">
-                <i class="fa-solid fa-arrow-left"></i>
-                Quay lại
-            </a>
+            <a href="javascript:history.back()" class="inline-flex items-center gap-2
+           px-5 py-2.5
+           rounded-full
+           bg-white/15
+           backdrop-blur-md
+           border border-white/20
+           text-white
+           text-xs
+           font-black
+           uppercase
+           tracking-wider
+           transition-all duration-300
 
+           hover:bg-cyan-500
+           hover:border-cyan-500
+           hover:text-white
+
+           active:bg-cyan-600
+           active:border-cyan-600
+           active:scale-95
+
+           focus:outline-none
+           focus:ring-4
+           focus:ring-cyan-300
+
+           mb-8">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Quay lại
+
+            </a>
             <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
 
                 <div class="flex items-center gap-6">
@@ -45,7 +103,7 @@
                     @endphp
 
                     <!-- Icon -->
-                    <div class="w-28 h-28 rounded-3xl bg-white/90 backdrop-blur-md
+                    <div class=" banner-title w-28 h-28 rounded-3xl bg-white/90 backdrop-blur-md
                            flex items-center justify-center shadow-2xl">
 
                         <i class="{{ $subject->icon ?? 'fa-solid fa-book' }} {{ $cls['text'] }} text-6xl"></i>
@@ -55,15 +113,15 @@
                     <!-- Thông tin -->
                     <div>
 
-                        <p class="text-cyan-100 text-sm font-black uppercase tracking-[0.25em] mb-3">
+                        <p class=" banner-title text-cyan-100 text-sm font-black uppercase tracking-[0.25em] mb-3">
                             Chi tiết môn học
                         </p>
 
-                        <h1 class="text-4xl md:text-5xl font-black drop-shadow-lg">
+                        <h1 class="banner-title text-4xl md:text-5xl font-black drop-shadow-lg">
                             {{ $subject->subject_name }}
                         </h1>
 
-                        <p class="text-white/90 mt-4 text-lg max-w-2xl leading-relaxed">
+                        <p class=" banner-subtitle text-white/90 mt-4 text-lg max-w-2xl leading-relaxed">
                             {{ $subject->description ?? 'Chưa có mô tả.' }}
                         </p>
 
@@ -72,7 +130,7 @@
                 </div>
 
                 @if($canUploadDocument)
-                <button type="button" onclick="openSubjectUploadModal()" class="inline-flex items-center gap-2 px-7 py-4 rounded-2xl
+                <button type="button" onclick="openSubjectUploadModal()" class="banner-title inline-flex items-center gap-2 px-7 py-4 rounded-2xl
                        bg-cyan-400 hover:bg-cyan-300 text-cyan-950
                        font-black shadow-2xl transition">
 
@@ -96,7 +154,8 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 -mt-24 relative z-10 mb-10">
 
             <!-- Tổng tài liệu -->
-            <div class="bg-white rounded-[2rem] p-6 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+            <div
+                class="banner-subtitle bg-white rounded-[2rem] p-6 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
 
                 <div
                     class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl mb-4">
@@ -114,7 +173,8 @@
             </div>
 
             <!-- Lượt tải -->
-            <div class="bg-white rounded-[2rem] p-6 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+            <div
+                class="banner-subtitle bg-white rounded-[2rem] p-6 border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
 
                 <div
                     class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl mb-4">
@@ -133,106 +193,7 @@
 
         </div>
 
-        <!-- FACULTY INFO -->
-        <div class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-6 mb-8">
 
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-
-                <div class="flex items-start gap-5">
-
-                    <div
-                        class="w-16 h-16 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl shrink-0 border border-cyan-100">
-                        <i class="fa-solid fa-building-columns"></i>
-                    </div>
-
-                    <div>
-
-                        <p class="text-cyan-600 text-xs font-black uppercase tracking-[0.25em] mb-2">
-                            Thông tin khoa
-                        </p>
-
-                        <h3 class="text-2xl font-black text-slate-900">
-                            Khoa {{ $subject->faculty->faculty_name }}
-                        </h3>
-
-                        <p class="text-slate-500 text-sm mt-3 leading-relaxed max-w-3xl">
-                            {{ $subject->faculty->description ?: 'Chưa có mô tả cho khoa.' }}
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 lg:min-w-[420px]">
-
-                    <div class="rounded-2xl bg-cyan-50/70 border border-cyan-100 p-4">
-
-                        <p class="text-xs font-bold text-slate-500">
-                            Mã khoa
-                        </p>
-
-                        <h4 class="text-xl font-black text-cyan-600 mt-1">
-                            {{ $subject->faculty->faculty_code }}
-                        </h4>
-
-                    </div>
-
-                    <div class="rounded-2xl bg-cyan-50/70 border border-cyan-100 p-4">
-
-                        <p class="text-xs font-bold text-slate-500">
-                            Môn học
-                        </p>
-
-                        <h4 class="text-xl font-black text-cyan-600 mt-1">
-                            {{ $subject->faculty->subjects()->count() }}
-                        </h4>
-
-                    </div>
-
-                    <div class="rounded-2xl bg-cyan-50/70 border border-cyan-100 p-4">
-
-                        <p class="text-xs font-bold text-slate-500">
-                            Tài liệu
-                        </p>
-
-                        <h4 class="text-xl font-black text-cyan-600 mt-1">
-                            {{ $subject->faculty->documents()->count() }}
-                        </h4>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div
-                class="mt-5 pt-5 border-t border-cyan-100 flex flex-wrap items-center gap-3 text-sm font-semibold text-slate-500">
-
-                <span>
-                    <i class="fa-solid fa-book text-cyan-600 mr-1.5"></i>
-                    Môn hiện tại:
-                    {{ $subject->subject_name }}
-                </span>
-
-                <span class="text-slate-300">•</span>
-
-                <span>
-                    <i class="fa-solid fa-barcode text-cyan-600 mr-1.5"></i>
-                    Mã môn:
-                    {{ $subject->subject_code }}
-                </span>
-
-                <span class="text-slate-300">•</span>
-
-                <span>
-                    <i class="fa-solid fa-user-group text-cyan-600 mr-1.5"></i>
-                    Giảng viên:
-                    {{ $subject->lecturers_count }}
-                </span>
-
-            </div>
-
-        </div>
         <!-- TOOLBAR -->
         <div class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-6 mb-8">
 

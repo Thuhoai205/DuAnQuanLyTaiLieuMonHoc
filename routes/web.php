@@ -147,5 +147,5 @@ Route::middleware('auth')->group(function () {
 
 
 
-
-});
+});   
+Route::view('/about', 'about')->name('about');

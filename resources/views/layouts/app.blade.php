@@ -13,7 +13,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
@@ -115,8 +117,7 @@
     </script>
 </head>
 
-<body class="bg-slate-50 text-slate-900">
-
+<body class="bg-slate-50 text-slate-900" style="font-family: 'Roboto', sans-serif;">
     {{-- Navbar --}}
     @include('partials.navbar')
 

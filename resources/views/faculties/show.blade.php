@@ -3,20 +3,86 @@
  @section('title', 'Chi tiết khoa')
 
  @section('content')
+ <style>
+.banner-title {
 
+    animation: titleZoom .8s ease;
+
+}
+
+.banner-subtitle {
+
+    animation: titleZoom 1.2s ease;
+
+}
+
+@keyframes titleZoom {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.85) translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1) translateY(0);
+
+    }
+
+}
+ </style>
  <main class="min-h-screen bg-[#EAFBFF]">
+     <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
+     <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
+         <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
+         <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
+             alt="Educational Resources Banner" class="w-full h-full object-cover opacity-60">
 
-     <section class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-14">
+         <!-- Lớp phủ tối (Overlay) để làm nổi bật chữ trắng phía trên giống hình mẫu -->
+         <div class="absolute inset-0 bg-black/30"></div>
 
-         <!-- BACK -->
-         <div class="mb-10">
-             <a href="{{ route('faculties.index') }}"
-                 class="inline-flex items-center gap-2.5 px-6 py-3 bg-white border border-cyan-100 text-cyan-700 hover:text-cyan-800 font-bold text-xs uppercase tracking-wider rounded-full shadow-sm hover:shadow-cyan-200 transition-all duration-300">
-                 <i class="fa-solid fa-arrow-left"></i>
-                 Quay lại
-             </a>
+         <!-- Chữ "Giới thiệu" căn giữa tuyệt đối -->
+         <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+
+             <h1 class="banner-title italic text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-md">
+                 {{ $faculty->faculty_name }}
+             </h1>
+
+             <p class="banner-subtitle mt-3 text-cyan-100 text-base md:text-lg max-w-2xl leading-relaxed">
+                 {{ $faculty->description ?: 'Chưa có mô tả cho khoa này.' }} </p>
+
          </div>
+     </div>
 
+     <div class="bg-cyan-50 py-3 border-b border-cyan-100">
+         <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center text-sm">
+             <a href="/" class="text-slate-600 hover:text-cyan-600 transition">
+                 Trang chủ
+             </a>
+
+             <span class="mx-2 text-slate-400">
+                 /
+             </span>
+             <a href="/faculties" class="text-slate-600 hover:text-cyan-600 transition">
+                 Khoa
+             </a>
+
+             <span class="mx-2 text-slate-400">
+                 /
+             </span>
+             <span class="font-medium text-cyan-600">
+                 Chi tiết khoa
+             </span>
+         </div>
+     </div>
+     <section class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
          @if($faculty !== null)
 
          <!-- HEADER -->
@@ -26,29 +92,15 @@
              <!-- LEFT -->
              <div>
 
-                 <div class="flex items-center gap-4 mb-4">
 
-                     <span
-                         class="inline-flex items-center px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-xs font-black uppercase tracking-wider">
-                         {{ $faculty->faculty_code }}
-                     </span>
-
-                     <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-black
-                {{ $faculty->is_active
-                    ? 'bg-emerald-50 text-emerald-600'
-                    : 'bg-red-50 text-red-500' }}">
-                         {{ $faculty->is_active ? 'Đang hoạt động' : 'Đã khóa' }}
-                     </span>
-
-                 </div>
 
                  <h1 class="text-4xl font-black text-cyan-950 tracking-tight">
-                     {{ $faculty->faculty_name }}
+                     Môn học thuộc khoa {{ $faculty->faculty_name }}
+
                  </h1>
 
                  <p class="mt-4 max-w-3xl text-sm leading-7 text-slate-500">
-                     {{ $faculty->description ?: 'Chưa có mô tả cho khoa này.' }}
-                 </p>
+                     Danh sách các môn học và tài liệu thuộc khoa này. </p>
 
              </div>
 
@@ -74,10 +126,10 @@
 
                          Phụ trách (
                          {{
-    auth()->user()->subjects
-        ->where('faculty_id', $faculty->faculty_id)
-        ->count()
-}}
+                        auth()->user()->subjects
+                            ->where('faculty_id', $faculty->faculty_id)
+                            ->count()
+                    }}
                          )
                      </button>
 
@@ -97,18 +149,6 @@
 
          <!-- SECTION TITLE -->
          <div class="mb-7 flex items-center justify-between gap-6">
-
-             <!-- LEFT -->
-             <div>
-                 <h2 class="text-2xl font-black text-cyan-950 tracking-tight">
-                     Môn học thuộc khoa {{ $faculty->faculty_name }}
-                 </h2>
-
-                 <p class="text-slate-500 font-medium text-sm mt-2">
-                     Danh sách các môn học và tài liệu thuộc khoa này.
-                 </p>
-             </div>
-
              <!-- RIGHT -->
              <div class="shrink-0">
                  <span
@@ -262,8 +302,6 @@
              </p>
 
          </div>
-
-
          @endif
 
      </section>

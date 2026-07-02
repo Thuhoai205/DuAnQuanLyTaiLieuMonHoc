@@ -3,46 +3,106 @@
 @section('title', 'Tìm kiếm tài liệu')
 
 @section('content')
+<style>
+.banner-title {
 
+    animation: titleZoom .8s ease;
+
+}
+
+.banner-subtitle {
+
+    animation: titleZoom 1.2s ease;
+
+}
+
+@keyframes titleZoom {
+
+    from {
+
+        opacity: 0;
+
+        transform:
+            scale(.85) translateY(20px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform:
+            scale(1) translateY(0);
+
+    }
+
+}
+</style>
 <main class="min-h-screen bg-[#EAFBFF]">
 
     <!-- HERO SEARCH -->
-    <section class="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-cyan-600 to-cyan-500 text-white py-14">
+    <section class="relative overflow-hidden  text-white py-14">
 
         <!-- BG -->
-        <div class="absolute inset-0 opacity-10">
-            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600"
+        <div class="absolute inset-0 opacity-50">
+            <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
                 class="w-full h-full object-cover">
         </div>
+        <div class="absolute inset-0 bg-black/30"></div>
 
         <div class="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
 
             <!-- BACK -->
-            <a href="{{ route('home') }}"
-                class="inline-flex items-center gap-2 mb-8 px-5 py-2.5 bg-cyan-800/40 hover:bg-cyan-700/50 border border-cyan-300/20 rounded-full text-sm font-bold transition">
+            <a href="javascript:history.back()" class="inline-flex items-center gap-2
+           px-5 py-2.5
+           rounded-full
+           bg-white/15
+           backdrop-blur-md
+           border border-white/20
+           text-white
+           text-xs
+           font-black
+           uppercase
+           tracking-wider
+           transition-all duration-300
+
+           hover:bg-cyan-500
+           hover:border-cyan-500
+           hover:text-white
+
+           active:bg-cyan-600
+           active:border-cyan-600
+           active:scale-95
+
+           focus:outline-none
+           focus:ring-4
+           focus:ring-cyan-300
+
+           mb-8">
 
                 <i class="fa-solid fa-arrow-left"></i>
-                Quay lại
-            </a>
 
+                Quay lại
+
+            </a>
             <!-- TITLE -->
             <div class="max-w-3xl">
-                <p class="uppercase tracking-[0.25em] text-cyan-100 text-xs font-black mb-4">
+                <p class="banner-title uppercase tracking-[0.25em] text-cyan-100 text-xs font-black mb-4">
                     Tra cứu học liệu
                 </p>
 
-                <h1 class="text-4xl md:text-5xl font-black leading-tight">
+                <h1 class="banner-title text-4xl md:text-5xl font-black leading-tight">
                     Tìm kiếm tài liệu học tập
                 </h1>
 
-                <p class="mt-5 text-cyan-50/90 text-lg">
+                <p class="banner-title mt-5 text-cyan-50/90 text-lg">
                     Tìm slide, giáo trình, bài tập, đề thi và tài liệu mới nhất từ giảng viên.
                 </p>
             </div>
 
             <!-- SEARCH -->
             <div
-                class="mt-10 bg-white/95 backdrop-blur-xl rounded-[2rem] p-5 border border-white/30 shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
+                class="banner-subtitle mt-10 bg-white/95 backdrop-blur-xl rounded-[2rem] p-5 border border-white/30 shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
 
                 <form id="sortForm" action="{{ route('documents.search') }}" method="GET"
                     class="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -436,12 +496,100 @@
                     @endforelse
                 </div>
 
-                <div class="mt-8">
+                @if ($documents->hasPages())
 
-                    {{ $documents->links() }}
+                <div class="mt-10 flex items-center justify-between flex-wrap gap-4">
+
+                    <!-- Thông tin -->
+                    <div class="text-sm text-slate-500">
+                        Hiển thị
+                        <span class="font-bold text-slate-700">
+                            {{ $documents->firstItem() }}
+                        </span>
+                        -
+                        <span class="font-bold text-slate-700">
+                            {{ $documents->lastItem() }}
+                        </span>
+                        /
+                        <span class="font-bold text-cyan-600">
+                            {{ $documents->total() }}
+                        </span>
+                        tài liệu
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center gap-2">
+
+                        {{-- Previous --}}
+                        @if ($documents->onFirstPage())
+
+                        <span
+                            class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </span>
+
+                        @else
+
+                        <a href="{{ $documents->previousPageUrl() }}"
+                            class="w-11 h-11 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-600 flex items-center justify-center transition">
+
+                            <i class="fa-solid fa-chevron-left"></i>
+
+                        </a>
+
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @foreach ($documents->getUrlRange(1, $documents->lastPage()) as $page => $url)
+
+                        @if ($page == $documents->currentPage())
+
+                        <span
+                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white font-bold flex items-center justify-center shadow-lg shadow-cyan-200">
+
+                            {{ $page }}
+
+                        </span>
+
+                        @else
+
+                        <a href="{{ $url }}"
+                            class="w-11 h-11 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-700 font-semibold flex items-center justify-center transition">
+
+                            {{ $page }}
+
+                        </a>
+
+                        @endif
+
+                        @endforeach
+
+                        {{-- Next --}}
+                        @if ($documents->hasMorePages())
+
+                        <a href="{{ $documents->nextPageUrl() }}"
+                            class="w-11 h-11 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-600 flex items-center justify-center transition">
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+                        @else
+
+                        <span
+                            class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </span>
+
+                        @endif
+
+                    </div>
 
                 </div>
 
+                @endif
             </div>
 
         </div>

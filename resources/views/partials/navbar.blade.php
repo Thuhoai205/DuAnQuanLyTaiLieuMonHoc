@@ -23,6 +23,8 @@ $documentUrl = \Illuminate\Support\Facades\Route::has('documents.index')
 ? route('documents.index')
 : url('/documents');
 
+
+
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,61 +83,61 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
             </a>
 
             {{-- ================= MENU ================= --}}
-            <div class="hidden lg:flex items-center flex-1 ml-10">
+            @php
+            $menuClass = "relative px-4 py-2.5 text-sm font-medium text-slate-600 transition
+            hover:text-cyan-600
+            after:absolute after:left-4 after:right-4 after:bottom-1
+            after:h-[2px]
+            after:bg-cyan-500
+            after:rounded-full
+            after:scale-x-0
+            after:origin-center
+            after:transition-transform
+            hover:after:scale-x-100";
+            @endphp
 
-                <a href="{{ route('home') }}" class="px-4 py-2.5 rounded-xl text-sm font-normal transition
-    {{ request()->routeIs('home')
-        ? 'bg-cyan-50 text-cyan-600'
-        : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
-
-                    <i class="fa-solid fa-house mr-2"></i>
-
+            <div class="hidden lg:flex flex-1 justify-center items-center">
+                {{-- Trang chủ --}}
+                <a href="{{ route('home') }}"
+                    class="{{ $menuClass }} {{ request()->routeIs('home') ? 'text-cyan-600 after:scale-x-100' : '' }}">
                     Trang chủ
-
                 </a>
 
-                <a href="{{ $facultyUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-normal transition
-                    {{ request()->is('faculties*') || request()->is('khoa*')
-                        ? 'bg-cyan-50 text-cyan-600'
-                        : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
-
-                    <i class="fa-solid fa-building-columns mr-2"></i>
-
+                @auth
+                {{-- Chỉ hiện khi đã đăng nhập --}}
+                <a href="{{ $facultyUrl }}"
+                    class="ml-2 {{ $menuClass }} {{ request()->is('faculties*') || request()->is('khoa*') ? 'text-cyan-600 after:scale-x-100' : '' }}">
                     Khoa
-
                 </a>
 
-                <a href="{{ $subjectUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-normal transition
-                    {{ request()->is('subjects*') || request()->is('mon-hoc*')
-                        ? 'bg-cyan-50 text-cyan-600'
-                        : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
-
-                    <i class="fa-solid fa-book-open mr-2"></i>
-
+                <a href="{{ $subjectUrl }}"
+                    class="ml-2 {{ $menuClass }} {{ request()->is('subjects*') || request()->is('mon-hoc*') ? 'text-cyan-600 after:scale-x-100' : '' }}">
                     Môn học
+                </a>
+                @endauth
 
+                {{-- Luôn hiện --}}
+                <a href="{{ $documentUrl }}"
+                    class="ml-2 {{ $menuClass }} {{ request()->is('documents*') || request()->is('tai-lieu*') ? 'text-cyan-600 after:scale-x-100' : '' }}">
+                    Tra cứu tài liệu
                 </a>
 
-                <a href="{{ $documentUrl }}" class="ml-1 px-4 py-2.5 rounded-xl text-sm font-normal transition
-                    {{ request()->is('documents*') || request()->is('tai-lieu*')
-                        ? 'bg-cyan-50 text-cyan-600'
-                        : 'text-slate-600 hover:bg-cyan-50 hover:text-cyan-600' }}">
-
-                    <i class="fa-solid fa-file-lines mr-2"></i>
-
-                    Tài liệu
-
+                <a href="{{ route('about') }}"
+                    class="ml-2 {{ $menuClass }} {{ request()->routeIs('about') ? 'text-cyan-600 after:scale-x-100' : '' }}">
+                    Giới thiệu
                 </a>
 
-                {{-- Phần 2 sẽ bắt đầu từ đây --}}
-                <div class="ml-auto flex items-center gap-3">
-                    @auth
+            </div>
 
-                    {{-- NÚT ĐĂNG TẢI --}}
-                    @if($canUploadDocument)
+            {{-- Phần 2 sẽ bắt đầu từ đây --}}
+            <div class="ml-auto flex items-center gap-3">
+                @auth
+
+                {{-- NÚT ĐĂNG TẢI --}}
+                @if($canUploadDocument)
 
 
-                    <a href="{{ route('documents.create') }}" class="hidden md:inline-flex items-center gap-2
+                <a href="{{ route('documents.create') }}" class="hidden md:inline-flex items-center gap-2
     h-11 px-5
     rounded-xl
     bg-amber-500
@@ -146,19 +148,19 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
     shadow-lg shadow-amber-200
     transition">
 
-                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
 
-                        <span>Đăng tải</span>
+                    <span>Đăng tải</span>
 
-                    </a>
+                </a>
 
-                    @endif
+                @endif
 
 
-                    {{-- THÔNG BÁO --}}
-                    @if(auth()->user()->role->role_name === 'lecturer')
+                {{-- THÔNG BÁO --}}
+                @if(auth()->user()->role->role_name === 'lecturer')
 
-                    <a href="{{ route('notifications.index') }}" class="relative flex items-center justify-center
+                <a href="{{ route('notifications.index') }}" class="relative flex items-center justify-center
     w-11 h-11
     rounded-xl
     border border-slate-200
@@ -167,28 +169,28 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
     hover:border-cyan-200
     transition">
 
-                        <i class="fa-regular fa-bell text-xl text-slate-600"></i>
+                    <i class="fa-regular fa-bell text-xl text-slate-600"></i>
 
-                        @if($unreadNotifications > 0)
+                    @if($unreadNotifications > 0)
 
-                        <span class="absolute top-2 right-2
+                    <span class="absolute top-2 right-2
         w-2.5 h-2.5
         rounded-full
         bg-red-500
         ring-2 ring-white">
-                        </span>
-
-                        @endif
-
-                    </a>
+                    </span>
 
                     @endif
 
+                </a>
 
-                    {{-- USER --}}
-                    <div class="relative group">
+                @endif
 
-                        <button class="flex items-center gap-3
+
+                {{-- USER --}}
+                <div class="relative group">
+
+                    <button class="flex items-center gap-3
         pl-2 pr-3 py-2
         rounded-2xl
         border border-slate-200
@@ -196,32 +198,32 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
         hover:bg-cyan-50
         transition">
 
-                            <img src="{{ $currentUser->avatar
+                        <img src="{{ $currentUser->avatar
                     ? asset('storage/'.$currentUser->avatar)
                     : 'https://ui-avatars.com/api/?name='.urlencode($currentUser->full_name).'&background=06b6d4&color=fff' }}"
-                                class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                            class="w-10 h-10 rounded-full object-cover border border-slate-200">
 
-                            <div class="hidden lg:block text-left leading-tight">
+                        <div class="hidden lg:block text-left leading-tight">
 
-                                <p class="text-sm font-black text-slate-800">
+                            <p class="text-sm font-black text-slate-800">
 
-                                    {{ $currentUser->full_name }}
+                                {{ $currentUser->full_name }}
 
-                                </p>
+                            </p>
 
-                                <p class="text-xs font-normal text-cyan-600">
+                            <p class="text-xs font-normal text-cyan-600">
 
-                                    {{ $roleName }}
+                                {{ $roleName }}
 
-                                </p>
+                            </p>
 
-                            </div>
+                        </div>
 
-                            <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
+                        <i class="fa-solid fa-chevron-down text-xs text-slate-400"></i>
 
-                        </button>
+                    </button>
 
-                        <div class="absolute right-0 mt-3 w-64
+                    <div class="absolute right-0 mt-3 w-64
                             bg-white
                             rounded-2xl
                             shadow-xl
@@ -236,75 +238,75 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 
 
 
-                            <!-- PROFILE -->
-                            <a href="{{ route('profile') }}"
-                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
+                        <!-- PROFILE -->
+                        <a href="{{ route('profile') }}"
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
 
-                                <i class="fa-solid fa-user w-5 text-sky-500 text-base"></i>
+                            <i class="fa-solid fa-user w-5 text-sky-500 text-base"></i>
 
-                                Hồ sơ cá nhân
+                            Hồ sơ cá nhân
 
-                            </a>
+                        </a>
 
-                            <!-- MY DOCUMENT -->
-                            @if($canUploadDocument && Route::has('documents.my-documents'))
+                        <!-- MY DOCUMENT -->
+                        @if($canUploadDocument && Route::has('documents.my-documents'))
 
-                            <a href="{{ route('documents.my-documents') }}"
-                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
+                        <a href="{{ route('documents.my-documents') }}"
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
 
-                                <i class="fa-solid fa-folder-open w-5 text-cyan-500 text-base"></i>
+                            <i class="fa-solid fa-folder-open w-5 text-cyan-500 text-base"></i>
 
-                                Học liệu của tôi
+                            Học liệu của tôi
 
-                            </a>
+                        </a>
 
-                            @endif
+                        @endif
 
-                            <!-- ADMIN -->
-                            @if($roleId == 1)
+                        <!-- ADMIN -->
+                        @if($roleId == 1)
 
-                            <a href="{{ route('admin.dashboard') }}"
-                                class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
 
-                                <i class="fa-solid fa-shield-halved w-5 text-indigo-500 text-base"></i>
+                            <i class="fa-solid fa-shield-halved w-5 text-indigo-500 text-base"></i>
 
-                                Admin Panel
+                            Admin Panel
 
-                            </a>
+                        </a>
 
-                            @endif
+                        @endif
 
-                            <div class="border-t border-slate-100"></div>
+                        <div class="border-t border-slate-100"></div>
 
-                            <!-- LOGOUT -->
-                            <form action="{{ route('logout') }}" method="POST">
+                        <!-- LOGOUT -->
+                        <form action="{{ route('logout') }}" method="POST">
 
-                                @csrf
+                            @csrf
 
-                                <button type="submit" class="w-full flex items-center gap-3 px-5 py-3
+                            <button type="submit" class="w-full flex items-center gap-3 px-5 py-3
             text-red-500
             font-medium
             text-sm
             hover:bg-red-50
             transition">
 
-                                    <i class="fa-solid fa-right-from-bracket w-5 text-base"></i>
+                                <i class="fa-solid fa-right-from-bracket w-5 text-base"></i>
 
-                                    Đăng xuất
+                                Đăng xuất
 
-                                </button>
+                            </button>
 
-                            </form>
-
-                        </div>
+                        </form>
 
                     </div>
 
-                    @endauth
+                </div>
+
+                @endauth
 
 
-                    @guest
-                    <a href="{{ route('login') }}" class="px-5 py-2.5 rounded-xl
+                @guest
+                <a href="{{ route('login') }}" class="px-5 py-2.5 rounded-xl
     border border-slate-200
     text-slate-600
     text-sm
@@ -313,12 +315,12 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
     hover:text-amber-500
     hover:bg-amber-50/50
     transition-all duration-300">
-                        Đăng nhập
-                    </a>
+                    Đăng nhập
+                </a>
 
-                    @if(Route::has('register'))
+                @if(Route::has('register'))
 
-                    <a href="{{ route('register') }}" class="hidden sm:inline-flex
+                <a href="{{ route('register') }}" class="hidden sm:inline-flex
     items-center
     px-5 py-2.5
     rounded-xl
@@ -330,19 +332,19 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
     shadow-lg shadow-amber-500/20
     transition-all duration-300">
 
-                        Đăng ký
+                    Đăng ký
 
-                    </a>
+                </a>
 
-                    @endif
+                @endif
 
-                    @endguest
-
-                </div>
+                @endguest
 
             </div>
 
         </div>
+
+    </div>
 
     </div>
 

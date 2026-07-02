@@ -1,8 +1,7 @@
-<!-- BƯỚC NHÚNG FONT TỪ GOOGLE FONTS (Nếu trang chính của bạn đã có dòng này rồi thì có thể bỏ qua) -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
 <!-- ĐÃ THÊM CLASS font-['Roboto',_sans-serif] THEO ĐÚNG ĐỊNH DẠNG TRONG IMAGE_B9C7E4.PNG -->
-<footer class="relative mt-24 overflow-hidden bg-slate-950 text-slate-300 font-['Roboto',_sans-serif]">
+<footer class="relative mt-12 overflow-hidden bg-slate-950 text-slate-300 font-['Roboto',_sans-serif]">
 
     <!-- Background glow -->
     <div class="absolute inset-0 pointer-events-none">
@@ -10,8 +9,7 @@
         <div class="absolute bottom-0 right-0 w-[420px] h-[420px] bg-blue-600/10 rounded-full blur-3xl"></div>
     </div>
 
-    <div class="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16">
-
+    <div class="relative max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-10">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
 
             <!-- BRAND -->
