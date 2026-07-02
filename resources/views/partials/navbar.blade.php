@@ -41,8 +41,12 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
 <!-- CẬP NHẬT CLASS CHỮ THEO ĐÚNG ĐỊNH DẠNG IMAGE_B9C7E4.PNG: font-['Roboto',_sans-serif] -->
-<nav
-    class="sticky top-0 z-50 bg-white/25 backdrop-blur-md border-b border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.03)] font-['Roboto',_sans-serif]">
+<nav class="sticky top-0 z-50
+bg-white/70
+backdrop-blur-xl
+border-b border-white/30
+shadow-sm
+font-['Roboto',_sans-serif]">
     <div class="max-w-7xl mx-auto px-4 lg:px-6">
 
         <div class="h-20 flex items-center">
@@ -51,79 +55,88 @@ $unreadNotifications = Notification::where('user_id', Auth::id())
             <a href="{{ route('home') }}" class="flex items-center gap-3 group flex-shrink-0">
 
                 <div class="w-12 h-12 rounded-[18px]
-                    bg-gradient-to-br
-                    from-cyan-400 via-cyan-500 to-sky-600
-                    text-white
-                    flex items-center justify-center
-                    shadow-lg shadow-cyan-500/25
-                    ring-1 ring-white/10
-                    group-hover:scale-105
-                    transition-all duration-300">
+    overflow-hidden
+    bg-white
+    shadow-lg
+    ring-1 ring-slate-200">
 
-                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                    <img src="{{ asset('img/logo01.png') }}" class="w-full h-full object-cover">
 
                 </div>
 
                 <div class="leading-tight">
 
                     <h1 class="text-2xl font-black tracking-tight">
-
-                        <span class="text-slate-900">EDU</span><span class="text-cyan-600">DOC</span>
-
+                        <span class="text-slate-900">EDU</span>
+                        <span class="text-amber-500">DOC</span>
                     </h1>
 
-                    <p class="text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400">
-
+                    <p class="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">
                         Learning Resources
-
                     </p>
-
                 </div>
 
             </a>
 
             {{-- ================= MENU ================= --}}
             @php
-            $menuClass = "relative px-4 py-2.5 text-sm font-medium text-slate-600 transition
-            hover:text-cyan-600
-            after:absolute after:left-4 after:right-4 after:bottom-1
-            after:h-[2px]
-            after:bg-cyan-500
+            $menuClass = "
+            relative
+            mx-1
+            px-2
+            py-3
+
+            text-[16px]
+            font-medium
+            text-slate-600
+
+            transition-all
+            duration-300
+
+            hover:text-slate-900
+
+            after:absolute
+            after:left-4
+            after:right-4
+            after:-bottom-0.5
+            after:h-[1.5px]
             after:rounded-full
+            after:bg-slate-900
             after:scale-x-0
             after:origin-center
             after:transition-transform
-            hover:after:scale-x-100";
+            after:duration-300
+
+            hover:after:scale-x-100
+            ";
             @endphp
 
             <div class="hidden lg:flex flex-1 justify-center items-center">
                 {{-- Trang chủ --}}
                 <a href="{{ route('home') }}"
-                    class="{{ $menuClass }} {{ request()->routeIs('home') ? 'text-cyan-600 after:scale-x-100' : '' }}">
+                    class="{{ $menuClass }} {{ request()->routeIs('home') ? 'text-slate-900 font-medium after:scale-x-100' : '' }}">
                     Trang chủ
                 </a>
-
                 @auth
                 {{-- Chỉ hiện khi đã đăng nhập --}}
                 <a href="{{ $facultyUrl }}"
-                    class="ml-2 {{ $menuClass }} {{ request()->is('faculties*') || request()->is('khoa*') ? 'text-cyan-600 after:scale-x-100' : '' }}">
+                    class="ml-2 {{ $menuClass }} {{ request()->is('faculties*') || request()->is('khoa*') ? 'text-slate-900 font-medium after:scale-x-100' : '' }}">
                     Khoa
                 </a>
-
                 <a href="{{ $subjectUrl }}"
-                    class="ml-2 {{ $menuClass }} {{ request()->is('subjects*') || request()->is('mon-hoc*') ? 'text-cyan-600 after:scale-x-100' : '' }}">
+                    class="ml-2 {{ $menuClass }} {{ request()->is('subjects*') || request()->is('mon-hoc*') ? 'text-slate-900 font-medium after:scale-x-100' : '' }}">
                     Môn học
                 </a>
                 @endauth
 
                 {{-- Luôn hiện --}}
                 <a href="{{ $documentUrl }}"
-                    class="ml-2 {{ $menuClass }} {{ request()->is('documents*') || request()->is('tai-lieu*') ? 'text-cyan-600 after:scale-x-100' : '' }}">
+                    class="ml-2 {{ $menuClass }} {{ request()->is('documents*') || request()->is('tai-lieu*') ? 'text-slate-900 font-medium after:scale-x-100' : '' }}">
                     Tra cứu tài liệu
                 </a>
 
                 <a href="{{ route('about') }}"
-                    class="ml-2 {{ $menuClass }} {{ request()->routeIs('about') ? 'text-cyan-600 after:scale-x-100' : '' }}">
+                    class="ml-2 {{ $menuClass }} {{ request()->routeIs('about') ? 'text-slate-900 font-medium after:scale-x-100' : '' }}">
                     Giới thiệu
                 </a>
 

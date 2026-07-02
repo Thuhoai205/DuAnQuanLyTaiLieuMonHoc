@@ -42,20 +42,20 @@
     <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
     <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
         <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
-        <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
-            alt="Educational Resources Banner" class="w-full h-full object-cover opacity-60">
+        <img src="{{ asset('img/02.jpg') }}" alt="Educational Resources Banner"
+            class="w-full h-full object-cover opacity-60">
 
         <!-- Lớp phủ tối (Overlay) để làm nổi bật chữ trắng phía trên giống hình mẫu -->
-        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="absolute inset-0 bg-black/40"></div>
 
         <!-- Chữ "Giới thiệu" căn giữa tuyệt đối -->
         <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
 
-            <h1 class="banner-title italic text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-md">
+            <h1 class="banner-title italic text-5xl font-bold text-white drop-shadow-2xl">
                 Tra cứu tài liệu
             </h1>
 
-            <p class="banner-subtitle mt-3 text-cyan-100 text-base md:text-lg max-w-2xl leading-relaxed">
+            <p class="banner-subtitle mt-3 text-white/90 text-lg md:text-xl font-medium max-w-2xl leading-relaxed">
                 Tìm kiếm và truy cập tài liệu học tập theo môn học, loại tài liệu hoặc từ khóa.
             </p>
 
@@ -398,14 +398,6 @@
                                 <!-- Right -->
                                 <div class="flex items-center flex-wrap gap-2">
 
-                                    <a href="{{ route('documents.show',$document->document_id) }}"
-                                        class="inline-flex items-center justify-center h-11 px-5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition">
-
-                                        <i class="fa-solid fa-eye mr-2"></i>
-
-                                        Xem
-
-                                    </a>
 
                                     @auth
 

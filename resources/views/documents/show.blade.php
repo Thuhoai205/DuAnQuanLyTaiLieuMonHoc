@@ -110,8 +110,7 @@
                     class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold shadow-lg shadow-cyan-200 transition">
 
                     <i class="fa-solid fa-cloud-arrow-down"></i>
-
-                    Tải về
+                    Tải xuống
 
                 </a>
 

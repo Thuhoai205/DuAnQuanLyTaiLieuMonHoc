@@ -3,19 +3,82 @@
 @section('title', 'Trang chủ')
 
 @section('content')
+<style>
+.banner-slider {
+    display: flex;
+    width: 500%;
+    height: 100%;
 
+    animation: slideBanner 20s ease-in-out infinite;
+}
+
+.banner-slider img {
+
+    width: 20%;
+    height: 100%;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+}
+
+@keyframes slideBanner {
+
+    0%,
+    18% {
+        transform: translateX(0);
+    }
+
+    23%,
+    43% {
+        transform: translateX(-20%);
+    }
+
+    48%,
+    68% {
+        transform: translateX(-40%);
+    }
+
+    73%,
+    93% {
+        transform: translateX(-60%);
+    }
+
+    100% {
+        transform: translateX(-80%);
+    }
+
+}
+</style>
 <!-- HERO -->
 <!-- ================= HERO ================= -->
 <header class="relative overflow-hidden bg-gradient-to-br from-cyan-700 via-cyan-600 to-sky-600 text-white">
 
 
-    <div class="absolute inset-0">
-        <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
-            class="w-full h-full object-cover">
-        <!-- Lớp phủ này sẽ giúp chữ trắng hiển thị rõ mồn một -->
+    <div class="absolute inset-0 overflow-hidden">
+
+        <div class="banner-slider">
+
+            <img src="{{ asset('img/01.jpg') }}" alt="Banner 1">
+
+            <img src="{{ asset('img/02.jpg') }}" alt="Banner 2">
+
+            <img src="{{ asset('img/03.jpg') }}" alt="Banner 3">
+
+            <img src="{{ asset('img/04.jpg') }}" alt="Banner 4">
+
+            <!-- Lặp lại ảnh đầu -->
+            <img src="{{ asset('img/01.jpg') }}" alt="Banner 1">
+
+        </div>
+
         <div class="absolute inset-0 bg-slate-900/40"></div>
+
     </div>
 
+    <div class="absolute inset-0 bg-slate-900/35"></div>
+
+    </div>
     <div class="absolute inset-0 bg-gradient-to-r from-cyan-900/40 to-cyan-600/30"></div>
 
     <!-- Blur -->
@@ -28,13 +91,14 @@
         <div class="grid lg:grid-cols-5 gap-12 items-center">
             <!-- ================= LEFT ================= -->
             <div class="lg:col-span-3">
-                <!-- Badge - GRADIENT CÔNG NGHỆ -->
+
+                <!-- Badge -->
                 <span class="inline-flex items-center gap-2
-                    px-5 py-2 rounded-full
-                    bg-gradient-to-r from-orange-500 to-pink-500
-                    text-white
-                    shadow-lg shadow-orange-500/20
-                    text-sm font-bold">
+        px-5 py-2 rounded-full
+        bg-gradient-to-r from-orange-500 to-pink-500
+        text-white
+        shadow-lg shadow-orange-500/20
+        text-sm font-bold">
 
                     <i class="fa-solid fa-bolt text-yellow-300"></i>
 
@@ -43,14 +107,20 @@
                 </span>
 
                 <!-- Title -->
-                <h1 class="mt-6 text-5xl leading-tight font-black">
-                    <!-- Trong thẻ H1, sửa lại span điểm nhấn -->
-                    Khám phá <span class="text-yellow-300">kho tài liệu</span> học tập hiện đại
+                <h1 class="mt-6 text-5xl font-black leading-tight text-white">
+
+                    Khám phá
+
+                    <span class="text-amber-200 drop-shadow-sm">
+                        kho tài liệu
+                    </span>
+
+                    học tập hiện đại
 
                 </h1>
 
                 <!-- Description -->
-                <p class="mt-6 text-cyan-50/90 text-lg leading-8 max-w-lg">
+                <p class="mt-6 max-w-xl text-lg leading-8 text-white/90">
 
                     Tìm kiếm giáo trình, slide, bài giảng,
                     đề thi và tài liệu học tập theo từng
@@ -58,51 +128,68 @@
 
                 </p>
 
-                <!-- SEARCH -->
-                <form action="{{ route('documents.search') }}" method="GET"
-                    class="mt-10 bg-white rounded-[28px] p-5 shadow-2xl">
+                <!-- ================= SEARCH ================= -->
 
+                <form action="{{ route('documents.search') }}" method="GET" class="mt-10
+        rounded-[32px]
+        border border-white/20
+        bg-white/10
+        backdrop-blur-2xl
+        p-6
+        shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
+
+                    <!-- SEARCH BOX -->
                     <div class="relative">
 
-                        <!-- Icon -->
                         <div class="absolute inset-y-0 left-5 flex items-center">
 
-                            <i class="fa-solid fa-magnifying-glass text-cyan-500 text-lg"></i>
+                            <i class="fa-solid fa-magnifying-glass text-white/70 text-lg"></i>
 
                         </div>
 
-                        <!-- Input -->
                         <input type="text" name="keyword" value="{{ request('keyword') }}"
-                            placeholder="Tìm tên tài liệu hoặc từ khóa..." class="w-full h-16
-                            rounded-2xl
-                            border border-slate-200
-                            bg-white
-                            pl-14 pr-5
-                            text-base text-slate-700
-                            placeholder:text-slate-400
-                            focus:outline-none
-                            focus:ring-4
-                            focus:ring-cyan-100
-                            focus:border-cyan-500
-                            transition">
+                            placeholder="Tìm tên tài liệu hoặc từ khóa..." class="w-full
+                h-16
+                rounded-2xl
+                border border-white/20
+                bg-white/10
+                backdrop-blur-md
+                pl-14
+                pr-5
+                text-base
+                text-white
+                placeholder:text-white/60
+                focus:outline-none
+                focus:ring-2
+                focus:ring-cyan-300
+                focus:border-cyan-300
+                transition">
+
                     </div>
 
                     <!-- FILTER -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
 
                         <!-- SUBJECT -->
-                        <select name="subject_code" class="h-14 rounded-xl border border-slate-200 px-4 text-slate-700">
+                        <select name="subject_code" class="h-14
+                rounded-xl
+                border border-white/20
+                bg-white/10
+                backdrop-blur-md
+                px-4
+                text-white
+                focus:ring-2
+                focus:ring-cyan-300
+                focus:border-cyan-300">
 
-                            <option value="">
-
+                            <option value="" class="text-slate-700">
                                 Tất cả môn học
-
                             </option>
 
                             @foreach($subjects as $subject)
 
-                            <option value="{{ $subject->subject_code }}"
-                                {{ request('subject_code')==$subject->subject_code?'selected':'' }}>
+                            <option value="{{ $subject->subject_code }}" class="text-slate-700"
+                                {{ request('subject_code')==$subject->subject_code ? 'selected' : '' }}>
 
                                 {{ $subject->subject_name }}
 
@@ -113,19 +200,25 @@
                         </select>
 
                         <!-- TYPE -->
-                        <select name="document_type_id"
-                            class="h-14 rounded-xl border border-slate-200 px-4 text-slate-700">
+                        <select name="document_type_id" class="h-14
+                rounded-xl
+                border border-white/20
+                bg-white/10
+                backdrop-blur-md
+                px-4
+                text-white
+                focus:ring-2
+                focus:ring-cyan-300
+                focus:border-cyan-300">
 
-                            <option value="">
-
+                            <option value="" class="text-slate-700">
                                 Loại tài liệu
-
                             </option>
 
                             @foreach($documentTypes as $type)
 
-                            <option value="{{ $type->document_type_id }}"
-                                {{ request('document_type_id')==$type->document_type_id?'selected':'' }}>
+                            <option value="{{ $type->document_type_id }}" class="text-slate-700"
+                                {{ request('document_type_id')==$type->document_type_id ? 'selected' : '' }}>
 
                                 {{ $type->type_name }}
 
@@ -136,18 +229,25 @@
                         </select>
 
                         <!-- FACULTY -->
-                        <select name="faculty_id" class="h-14 rounded-xl border border-slate-200 px-4 text-slate-700">
+                        <select name="faculty_id" class="h-14
+                rounded-xl
+                border border-white/20
+                bg-white/10
+                backdrop-blur-md
+                px-4
+                text-white
+                focus:ring-2
+                focus:ring-cyan-300
+                focus:border-cyan-300">
 
-                            <option value="">
-
+                            <option value="" class="text-slate-700">
                                 Tất cả khoa
-
                             </option>
 
                             @foreach($faculties as $faculty)
 
-                            <option value="{{ $faculty->faculty_id }}"
-                                {{ request('faculty_id')==$faculty->faculty_id?'selected':'' }}>
+                            <option value="{{ $faculty->faculty_id }}" class="text-slate-700"
+                                {{ request('faculty_id')==$faculty->faculty_id ? 'selected' : '' }}>
 
                                 {{ $faculty->faculty_name }}
 
@@ -157,18 +257,32 @@
 
                         </select>
 
-                        <!-- BUTTON -->
-                        <!-- BUTTON - MÀU VÀNG AMBER -->
-                        <button type="submit" class="h-14 rounded-xl
-                            bg-amber-500
-                            hover:bg-amber-600
-                            text-white
-                            font-bold
-                            transition-all
-                            shadow-lg">
-                            <i class="fa-solid fa-search mr-2"></i>
+                        <button type="submit" class="group h-14 w-full rounded-xl
+    bg-gradient-to-r
+    from-slate-700
+    via-slate-800
+    to-slate-900
+    hover:from-slate-800
+    hover:via-slate-900
+    hover:to-black
+    text-white
+    font-semibold
+    tracking-wide
+    transition-all
+    duration-300
+    shadow-lg
+    shadow-slate-900/25
+    hover:shadow-2xl
+    hover:shadow-slate-900/35
+    hover:-translate-y-0.5
+    active:scale-[0.98]">
+
+                            <i
+                                class="fa-solid fa-search mr-2 transition-transform duration-300 group-hover:rotate-12"></i>
+
                             Tìm kiếm
                         </button>
+
                     </div>
 
                 </form>
@@ -213,7 +327,8 @@
                                     <div class="my-3 h-px bg-slate-100"></div>
 
                                     <p class="text-xs leading-5 text-slate-500 font-medium">
-                                        Học liệu được phân loại theo môn học, khoa và loại tài liệu, hỗ trợ tìm kiếm,
+                                        Học liệu được phân loại theo môn học, khoa và loại tài liệu, hỗ trợ tìm
+                                        kiếm,
                                         chia sẻ và tải xuống nhanh chóng.
                                     </p>
                                 </div>
@@ -1185,7 +1300,8 @@ setInterval(() => {
 
             <!-- Background Blur -->
             <div class="absolute -top-32 -left-32 w-[450px] h-[450px] rounded-full bg-cyan-300/20 blur-3xl"></div>
-            <div class="absolute -bottom-32 -right-32 w-[450px] h-[450px] rounded-full bg-sky-300/20 blur-3xl"></div>
+            <div class="absolute -bottom-32 -right-32 w-[450px] h-[450px] rounded-full bg-sky-300/20 blur-3xl">
+            </div>
 
             <!-- Dot Pattern -->
             <div class="absolute inset-0 opacity-[0.05]">

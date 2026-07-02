@@ -42,21 +42,21 @@
     <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
     <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
         <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
-        <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
-            alt="Educational Resources Banner" class="w-full h-full object-cover opacity-60">
+        <img src="{{ asset('img/02.jpg') }}" alt="Educational Resources Banner"
+            class="w-full h-full object-cover opacity-60">
 
         <!-- Lớp phủ tối (Overlay) để làm nổi bật chữ trắng phía trên giống hình mẫu -->
-        <div class="absolute inset-0 bg-black/30"></div>
+        <div class="absolute inset-0 bg-black/40"></div>
 
         <!-- Chữ "Giới thiệu" căn giữa tuyệt đối -->
         <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
 
-            <h1 class="banner-title italic text-3xl md:text-4xl font-bold text-white tracking-wide drop-shadow-md">
+            <h1 class="banner-title italic text-5xl font-bold text-white drop-shadow-2xl">
                 Khoa
             </h1>
 
-            <p class="banner-subtitle mt-3 text-cyan-100 text-base md:text-lg max-w-2xl leading-relaxed">
-                Khám phá các khoa đào tạo, xem danh sách môn học và tài liệu học tập
+            <p class="banner-subtitle mt-3 text-white/90 text-lg md:text-xl font-medium max-w-2xl leading-relaxed">
+                Khám phá các khoa đào tạo, xem danh sách môn học và tài liệu học tập.
             </p>
 
         </div>
@@ -131,8 +131,7 @@
 
 
 
-        <div id="facultyGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-
+        <div id="facultyGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             @forelse($faculties as $faculty)
 
             @php
@@ -141,38 +140,33 @@
             <div class="faculty-card" data-name="{{ strtolower($faculty->faculty_name) }}"
                 data-code="{{ strtolower($faculty->faculty_code) }}">
 
-                <div class="group relative h-full overflow-hidden rounded-3xl
-               border border-slate-200 bg-white
-               transition-all duration-300
-               hover:-translate-y-2
-               hover:border-cyan-300
-               hover:shadow-[0_20px_45px_rgba(8,145,178,0.12)]">
+                <div class="group h-full rounded-3xl border border-slate-200 bg-white
+        hover:border-cyan-300 hover:shadow-xl hover:-translate-y-1
+        transition-all duration-300 overflow-hidden">
 
-                    <!-- TOP BAR -->
-                    <div class="h-1 w-full bg-gradient-to-r from-cyan-500 via-sky-500 to-cyan-400">
-                    </div>
+                    <!-- TOP -->
+                    <div class="h-1 bg-gradient-to-r from-cyan-500 to-sky-500"></div>
 
-                    <div class="p-7">
+                    <div class="p-6 flex flex-col h-full">
 
-                        <!-- HEADER -->
+                        <!-- Header -->
                         <div class="flex items-start justify-between">
 
-                            <div class="flex h-14 w-14 items-center justify-center
-                           rounded-2xl bg-cyan-50
-                           text-cyan-600">
+                            <div class="w-12 h-12 rounded-2xl bg-cyan-50
+                    flex items-center justify-center">
 
-                                <i class="fa-solid fa-building-columns text-2xl"></i>
+                                <i class="fa-solid fa-building-columns text-cyan-600 text-xl"></i>
 
                             </div>
 
                             @if($faculty->is_active)
 
-                            <span class="inline-flex items-center gap-2
-                           rounded-full bg-emerald-50
-                           px-3 py-1 text-[11px]
-                           font-semibold text-emerald-600">
+                            <span class="inline-flex items-center gap-1.5
+                    rounded-full bg-emerald-50
+                    px-2.5 py-1
+                    text-[10px] font-semibold text-emerald-600">
 
-                                <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
 
                                 Hoạt động
 
@@ -180,12 +174,12 @@
 
                             @else
 
-                            <span class="inline-flex items-center gap-2
-                           rounded-full bg-red-50
-                           px-3 py-1 text-[11px]
-                           font-semibold text-red-500">
+                            <span class="inline-flex items-center gap-1.5
+                    rounded-full bg-red-50
+                    px-2.5 py-1
+                    text-[10px] font-semibold text-red-500">
 
-                                <span class="h-2 w-2 rounded-full bg-red-500"></span>
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span>
 
                                 Khóa
 
@@ -196,125 +190,80 @@
                         </div>
 
                         <!-- CODE -->
-                        <span class="mt-6 inline-flex
-                       rounded-lg
-                       bg-slate-100
-                       px-3 py-1
-                       text-[11px]
-                       font-bold
-                       uppercase
-                       tracking-wider
-                       text-slate-600">
+                        <span class="mt-5 inline-flex w-fit rounded-lg bg-slate-100
+                px-3 py-1 text-[10px]
+                font-bold tracking-wider uppercase
+                text-slate-600">
 
                             {{ $faculty->faculty_code }}
 
                         </span>
 
                         <!-- NAME -->
-                        <h3 class="mt-4
-                       text-2xl
-                       font-bold
-                       leading-tight
-                       text-slate-900
-                       transition
-                       group-hover:text-cyan-600">
+                        <h3 class="mt-4 text-xl font-bold text-slate-900
+                leading-snug line-clamp-2
+                group-hover:text-cyan-600 transition">
 
                             {{ $faculty->faculty_name }}
 
                         </h3>
 
                         <!-- DESCRIPTION -->
-                        <p class="mt-4
-                       min-h-[72px]
-                       text-sm
-                       leading-7
-                       text-slate-500
-                       line-clamp-3">
+                        <p class="mt-3 text-sm leading-6 text-slate-500
+                line-clamp-3 flex-1">
 
                             {{ $faculty->description ?: 'Khoa hiện chưa có mô tả.' }}
 
                         </p>
 
-                        <!-- STATS -->
-                        <div class="mt-7
-                       rounded-2xl
-                       bg-slate-50
-                       p-5">
+                        <!-- Stats -->
+                        <div class="mt-6 grid grid-cols-2 divide-x divide-slate-200
+                rounded-2xl bg-slate-50">
 
-                            <div class="grid grid-cols-2">
+                            <div class="py-4 text-center">
 
-                                <div>
+                                <p class="text-2xl font-bold text-slate-900">
 
-                                    <p class="text-3xl
-                                   font-bold
-                                   text-slate-900">
+                                    {{ $faculty->subjects_count }}
 
-                                        {{ $faculty->subjects_count }}
+                                </p>
 
-                                    </p>
+                                <span class="text-[11px] text-slate-500">
 
-                                    <p class="mt-1
-                                   text-xs
-                                   uppercase
-                                   tracking-wide
-                                   text-slate-500">
+                                    Môn học
 
-                                        Môn học
+                                </span>
 
-                                    </p>
+                            </div>
 
-                                </div>
+                            <div class="py-4 text-center">
 
-                                <div class="border-l border-slate-200 pl-5">
+                                <p class="text-2xl font-bold text-cyan-600">
 
-                                    <p class="text-3xl
-                                   font-bold
-                                   text-cyan-600">
+                                    {{ $documentCount }}
 
-                                        {{ $documentCount }}
+                                </p>
 
-                                    </p>
+                                <span class="text-[11px] text-slate-500">
 
-                                    <p class="mt-1
-                                   text-xs
-                                   uppercase
-                                   tracking-wide
-                                   text-slate-500">
+                                    Tài liệu
 
-                                        Tài liệu
-
-                                    </p>
-
-                                </div>
+                                </span>
 
                             </div>
 
                         </div>
 
-                        <!-- BUTTON -->
-                        <a href="{{ route('faculties.show',$faculty->faculty_id) }}" class="mt-7
-                       flex
-                       items-center
-                       justify-between
-                       rounded-2xl
-                       border
-                       border-slate-200
-                       px-5
-                       py-3
-                       text-sm
-                       font-semibold
-                       text-slate-700
-                       transition-all
-                       group-hover:border-cyan-500
-                       group-hover:bg-cyan-500
-                       group-hover:text-white">
+                        <!-- Button -->
+                        <a href="{{ route('faculties.show',$faculty->faculty_id) }}" class="mt-6 flex items-center justify-center gap-2
+                rounded-2xl bg-cyan-500 py-3
+                text-sm font-semibold text-white
+                hover:bg-cyan-600 transition">
 
-                            <span>Xem chi tiết</span>
+                            Xem chi tiết
 
-                            <i class="fa-solid fa-arrow-right
-                           transition-transform
-                           group-hover:translate-x-1">
-                            </i>
+                            <i class="fa-solid fa-arrow-right text-xs
+                    group-hover:translate-x-1 transition-transform"></i>
 
                         </a>
 

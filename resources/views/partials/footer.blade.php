@@ -14,21 +14,30 @@
 
             <!-- BRAND -->
             <div class="lg:col-span-1 space-y-6">
-                <div class="flex items-center gap-4">
-                    <div
-                        class="w-14 h-14 flex items-center justify-center rounded-2xl bg-cyan-500 text-white shadow-lg shadow-cyan-500/25">
-                        <i class="fa-solid fa-graduation-cap text-xl"></i>
+                <a href="{{ route('home') }}" class="flex items-center gap-3 group flex-shrink-0">
+
+                    <div class="w-12 h-12 rounded-[18px]
+    overflow-hidden
+    bg-white
+    shadow-lg
+    ring-1 ring-slate-200">
+
+                        <img src="{{ asset('img/logo01.png') }}" class="w-full h-full object-cover">
+
                     </div>
 
-                    <a href="{{ route('home') }}" class="leading-none">
-                        <div class="text-2xl font-black tracking-tight">
-                            <span class="text-white">EDU</span><span class="text-cyan-400">DOC</span>
-                        </div>
-                        <div class="mt-1 text-[10px] font-bold uppercase tracking-[0.28em] text-slate-500">
-                            Learning Hub
-                        </div>
-                    </a>
-                </div>
+                    <div class="leading-tight">
+
+                        <h1 class="text-2xl font-black tracking-tight">
+                            <span class="text-white">EDU</span> <span class="text-amber-500">DOC</span>
+                        </h1>
+
+                        <p class="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-slate-500 font-semibold">
+                            Learning Resources
+                        </p>
+                    </div>
+
+                </a>
 
                 <p class="text-sm leading-7 text-slate-400">
                     Nền tảng quản lý tài liệu môn học, hỗ trợ giảng viên đăng tải học liệu

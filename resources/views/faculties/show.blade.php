@@ -92,10 +92,8 @@
              <!-- LEFT -->
              <div>
 
-
-
                  <h1 class="text-4xl font-black text-cyan-950 tracking-tight">
-                     Môn học thuộc khoa {{ $faculty->faculty_name }}
+                     Khoa {{ $faculty->faculty_name }}
 
                  </h1>
 

@@ -500,8 +500,7 @@
                             class="mt-6 inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition">
 
                             <i class="fa-solid fa-download"></i>
-
-                            Tải file
+                            Tải xuống
 
                         </a>
 

@@ -355,9 +355,9 @@
                         <a href="{{ route('documents.download', $document) }}"
                             class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-bold shadow-lg shadow-cyan-200">
 
-                            <i class="fa-solid fa-cloud-arrow-down mr-1"></i>
+                            <i class="fa-solid fa-download mr-1"></i>
 
-                            Tải về
+                            Tải xuống
 
                         </a>
 
