@@ -83,11 +83,11 @@ font-['Roboto',_sans-serif]">
             $menuClass = "
             relative
             mx-1
-            px-2
+            px-1
             py-3
 
-            text-[16px]
-            font-medium
+            text-[15px]
+            font-normal
             text-slate-600
 
             transition-all
@@ -178,7 +178,7 @@ font-['Roboto',_sans-serif]">
     rounded-xl
     border border-slate-200
     bg-white
-    hover:bg-cyan-50
+    hover:bg-slate-50
     hover:border-cyan-200
     transition">
 
@@ -204,18 +204,17 @@ font-['Roboto',_sans-serif]">
                 <div class="relative group">
 
                     <button class="flex items-center gap-3
-        pl-2 pr-3 py-2
-        rounded-2xl
-        border border-slate-200
-        bg-white
-        hover:bg-cyan-50
-        transition">
+                            pl-2 pr-3 py-2
+                            rounded-2xl
+                            border border-slate-200
+                            bg-white
+                            hover:bg-slate-50
+                            transition">
 
                         <img src="{{ $currentUser->avatar
-                    ? asset('storage/'.$currentUser->avatar)
-                    : 'https://ui-avatars.com/api/?name='.urlencode($currentUser->full_name).'&background=06b6d4&color=fff' }}"
+? asset('storage/'.$currentUser->avatar)
+: 'https://ui-avatars.com/api/?name='.urlencode($currentUser->full_name).'&background=1e293b&color=fbbf24' }}"
                             class="w-10 h-10 rounded-full object-cover border border-slate-200">
-
                         <div class="hidden lg:block text-left leading-tight">
 
                             <p class="text-sm font-black text-slate-800">
@@ -224,7 +223,7 @@ font-['Roboto',_sans-serif]">
 
                             </p>
 
-                            <p class="text-xs font-normal text-cyan-600">
+                            <p class="text-xs font-normal text-amber-500">
 
                                 {{ $roleName }}
 
@@ -239,7 +238,7 @@ font-['Roboto',_sans-serif]">
                     <div class="absolute right-0 mt-3 w-64
                             bg-white
                             rounded-2xl
-                            shadow-xl
+                            shadow-2xl
                             border border-slate-200
                             overflow-hidden
                             opacity-0 invisible
@@ -253,9 +252,9 @@ font-['Roboto',_sans-serif]">
 
                         <!-- PROFILE -->
                         <a href="{{ route('profile') }}"
-                            class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">
 
-                            <i class="fa-solid fa-user w-5 text-sky-500 text-base"></i>
+                            <i class="fa-solid fa-user w-5 text-slate-600 text-base"></i>
 
                             Hồ sơ cá nhân
 
@@ -265,9 +264,9 @@ font-['Roboto',_sans-serif]">
                         @if($canUploadDocument && Route::has('documents.my-documents'))
 
                         <a href="{{ route('documents.my-documents') }}"
-                            class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">
 
-                            <i class="fa-solid fa-folder-open w-5 text-cyan-500 text-base"></i>
+                            <i class="fa-solid fa-folder-open w-5 text-amber-500 text-base"></i>
 
                             Học liệu của tôi
 
@@ -279,9 +278,9 @@ font-['Roboto',_sans-serif]">
                         @if($roleId == 1)
 
                         <a href="{{ route('admin.dashboard') }}"
-                            class="flex items-center gap-3 px-5 py-3 hover:bg-cyan-50 font-medium text-slate-700 text-sm transition">
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">
 
-                            <i class="fa-solid fa-shield-halved w-5 text-indigo-500 text-base"></i>
+                            <i class="fa-solid fa-shield-halved w-5 text-slate-700 text-base"></i>
 
                             Admin Panel
 
@@ -297,11 +296,11 @@ font-['Roboto',_sans-serif]">
                             @csrf
 
                             <button type="submit" class="w-full flex items-center gap-3 px-5 py-3
-            text-red-500
-            font-medium
-            text-sm
-            hover:bg-red-50
-            transition">
+                        text-red-500
+                        font-medium
+                        text-sm
+                        hover:bg-red-50
+                        transition">
 
                                 <i class="fa-solid fa-right-from-bracket w-5 text-base"></i>
 
@@ -337,16 +336,14 @@ font-['Roboto',_sans-serif]">
     items-center
     px-5 py-2.5
     rounded-xl
-    bg-amber-500
+    bg-yellow-600
     text-white
     text-sm
     font-bold
-    hover:bg-amber-600
-    shadow-lg shadow-amber-500/20
+    hover:bg-yellow-700
+    shadow-lg shadow-yellow-600/20
     transition-all duration-300">
-
                     Đăng ký
-
                 </a>
 
                 @endif

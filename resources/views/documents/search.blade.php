@@ -38,7 +38,7 @@
 
 }
 </style>
-<main class="min-h-screen bg-[#EAFBFF]">
+<main class="min-h-screen ">
 
     <!-- HERO SEARCH -->
     <section class="relative overflow-hidden  text-white py-14">
@@ -54,31 +54,30 @@
 
             <!-- BACK -->
             <a href="javascript:history.back()" class="inline-flex items-center gap-2
-           px-5 py-2.5
-           rounded-full
-           bg-white/15
-           backdrop-blur-md
-           border border-white/20
-           text-white
-           text-xs
-           font-black
-           uppercase
-           tracking-wider
-           transition-all duration-300
+                px-5 py-2.5
+                rounded-xl
 
-           hover:bg-cyan-500
-           hover:border-cyan-500
-           hover:text-white
+                bg-white
+                border border-amber-300
 
-           active:bg-cyan-600
-           active:border-cyan-600
-           active:scale-95
+                text-slate-800
+                text-sm
+                font-semibold
 
-           focus:outline-none
-           focus:ring-4
-           focus:ring-cyan-300
+                shadow-sm
+                transition-all duration-300
 
-           mb-8">
+                hover:bg-amber-500
+                hover:border-amber-500
+                hover:text-white
+
+                active:scale-95
+
+                focus:outline-none
+                focus:ring-4
+                focus:ring-amber-200
+
+                mb-8">
 
                 <i class="fa-solid fa-arrow-left"></i>
 
@@ -86,44 +85,60 @@
 
             </a>
             <!-- TITLE -->
-            <div class="max-w-3xl">
-                <p class="banner-title uppercase tracking-[0.25em] text-cyan-100 text-xs font-black mb-4">
-                    Tra cứu học liệu
-                </p>
+            <p class="banner-title uppercase tracking-[0.25em] text-amber-200 text-xs font-black mb-4">
+                Tra cứu học liệu
+            </p>
 
-                <h1 class="banner-title text-4xl md:text-5xl font-black leading-tight">
-                    Tìm kiếm tài liệu học tập
-                </h1>
+            <h1 class="banner-title text-4xl md:text-5xl font-black leading-tight text-white">
+                Tìm kiếm tài liệu học tập
+            </h1>
 
-                <p class="banner-title mt-5 text-cyan-50/90 text-lg">
-                    Tìm slide, giáo trình, bài tập, đề thi và tài liệu mới nhất từ giảng viên.
-                </p>
-            </div>
-
+            <p class="banner-title mt-5 text-slate-200 text-lg">
+                Tìm slide, giáo trình, bài tập, đề thi và tài liệu mới nhất từ giảng viên.
+            </p>
             <!-- SEARCH -->
-            <div
-                class="banner-subtitle mt-10 bg-white/95 backdrop-blur-xl rounded-[2rem] p-5 border border-white/30 shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
-
+            <div class="banner-subtitle mt-10
+    bg-white/95
+    backdrop-blur-xl
+    rounded-[2rem]
+    p-5
+    border border-slate-200
+    shadow-xl">
                 <form id="sortForm" action="{{ route('documents.search') }}" method="GET"
                     class="grid grid-cols-1 lg:grid-cols-12 gap-4">
                     <!-- Từ khóa -->
                     <div class="lg:col-span-4 relative">
 
                         <i
-                            class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-cyan-600"></i>
+                            class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-amber-500"></i>
 
                         <input type="text" name="keyword" value="{{ request('keyword') }}"
-                            placeholder="Tên tài liệu, môn học..." class="w-full h-14 pl-14 pr-4 rounded-2xl bg-cyan-50 border border-cyan-100
-                   text-slate-700 font-semibold placeholder-slate-400
-                   focus:outline-none focus:ring-2 focus:ring-cyan-300">
-
+                            placeholder="Tên tài liệu, môn học..." class="w-full h-14
+    pl-14 pr-4
+    rounded-2xl
+    bg-white
+    border border-slate-200
+    text-slate-700
+    font-semibold
+    placeholder:text-slate-400
+    focus:outline-none
+    focus:border-amber-400
+    focus:ring-4
+    focus:ring-amber-100">
                     </div>
 
                     <!-- Môn học -->
                     <div class="lg:col-span-2">
 
-                        <select name="subject_code" class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100
-                   text-slate-700 font-semibold focus:ring-2 focus:ring-cyan-300">
+                        <select name="subject_code" class="w-full h-14 px-5 rounded-2xl
+bg-white
+border border-slate-200
+text-slate-700
+font-semibold
+focus:outline-none
+focus:border-amber-400
+focus:ring-4
+focus:ring-amber-100">
 
                             <option value="">Tất cả môn học</option>
 
@@ -145,8 +160,15 @@
                     <!-- Loại tài liệu -->
                     <div class="lg:col-span-2">
 
-                        <select name="document_type_id" class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100
-                   text-slate-700 font-semibold focus:ring-2 focus:ring-cyan-300">
+                        <select name="document_type_id" class="w-full h-14 px-5 rounded-2xl
+bg-white
+border border-slate-200
+text-slate-700
+font-semibold
+focus:outline-none
+focus:border-amber-400
+focus:ring-4
+focus:ring-amber-100">
 
                             <option value="">Loại tài liệu</option>
 
@@ -168,8 +190,15 @@
                     <!-- Khoa -->
                     <div class="lg:col-span-2">
 
-                        <select name="faculty_id" class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100
-                   text-slate-700 font-semibold focus:ring-2 focus:ring-cyan-300">
+                        <select name="faculty_id" class="w-full h-14 px-5 rounded-2xl
+bg-white
+border border-slate-200
+text-slate-700
+font-semibold
+focus:outline-none
+focus:border-amber-400
+focus:ring-4
+focus:ring-amber-100">
 
                             <option value="">Tất cả khoa</option>
 
@@ -191,14 +220,20 @@
                     <!-- Button -->
                     <div class="lg:col-span-2">
 
-                        <button type="submit" class="w-full h-14 rounded-2xl bg-cyan-500 hover:bg-cyan-600
-                   text-white font-black shadow-lg shadow-cyan-200 transition">
+                        <button type="submit" class="w-full h-14
+    rounded-2xl
+    bg-slate-900
+    hover:bg-amber-500
+    text-white
+    font-bold
+    shadow-lg
+    transition-all duration-300">
 
                             <i class="fa-solid fa-magnifying-glass mr-2"></i>
+
                             Tìm kiếm
 
                         </button>
-
                     </div>
 
                 </form>
@@ -206,7 +241,6 @@
 
         </div>
     </section>
-
     <!-- CONTENT -->
     <section class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
 
@@ -234,15 +268,16 @@
                         <h4 class="text-sm font-black uppercase tracking-[0.15em] text-slate-400 mb-4">
                             Loại tài liệu
                         </h4>
+
                         <div class="space-y-4">
 
                             <!-- Tất cả -->
                             <label class="flex items-center gap-3 cursor-pointer">
 
-                                <input type="radio" name="document_type_id" value="" class="accent-cyan-500 w-5 h-5"
+                                <input type="radio" name="document_type_id" value="" class="accent-amber-500 w-5 h-5"
                                     {{ request('document_type_id') == '' ? 'checked' : '' }}>
 
-                                <span class="font-semibold text-cyan-600">
+                                <span class="font-semibold text-amber-600">
                                     Tất cả
                                 </span>
 
@@ -253,7 +288,7 @@
                             <label class="flex items-center gap-3 cursor-pointer">
 
                                 <input type="radio" name="document_type_id" value="{{ $type->document_type_id }}"
-                                    class="accent-cyan-500 w-5 h-5"
+                                    class="accent-amber-500 w-5 h-5"
                                     {{ request('document_type_id') == $type->document_type_id ? 'checked' : '' }}>
 
                                 <span class="font-semibold text-slate-700">
@@ -268,13 +303,19 @@
 
                     </div>
 
-                    <button class="w-full py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-black">
+                    <button class="w-full py-3 rounded-2xl
+                    bg-slate-900
+                    hover:bg-amber-500
+                    text-white
+                    font-black
+                    transition-all duration-300">
 
                         Áp dụng bộ lọc
 
                     </button>
 
                 </form>
+
             </aside>
 
             <!-- RESULT -->
@@ -284,6 +325,7 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
 
                     <div>
+
                         <h2 class="text-3xl font-black text-slate-900">
                             Kết quả tìm kiếm
                         </h2>
@@ -292,7 +334,7 @@
 
                             Tìm thấy
 
-                            <span class="text-cyan-600 font-black">
+                            <span class="text-amber-600 font-black">
 
                                 {{ $documents->total() }}
 
@@ -301,6 +343,7 @@
                             tài liệu
 
                         </p>
+
                     </div>
 
                     <form method="GET" action="{{ route('documents.search') }}">
@@ -310,7 +353,15 @@
                         <input type="hidden" name="faculty_id" value="{{ request('faculty_id') }}">
                         <input type="hidden" name="document_type_id" value="{{ request('document_type_id') }}">
 
-                        <select id="sort" name="sort" class="h-12 px-5 rounded-2xl border border-cyan-100 bg-white">
+                        <select id="sort" name="sort" class="h-12 px-5 rounded-2xl
+                        border border-slate-200
+                        bg-white
+                        text-slate-700
+                        focus:outline-none
+                        focus:border-amber-400
+                        focus:ring-2
+                        focus:ring-amber-100">
+
                             <option value="latest" {{ request('sort','latest')=='latest'?'selected':'' }}>
                                 Mới nhất
                             </option>
@@ -326,146 +377,201 @@
                         </select>
 
                     </form>
+
                 </div>
 
                 <!-- LIST -->
-                <div
-                    class="bg-white rounded-[2rem] border border-cyan-100 overflow-hidden shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+                <div class="bg-white rounded-[2rem] border border-slate-200 overflow-hidden shadow-sm">
+
 
                     @forelse($documents as $document)
 
-                    @php
-                    $ext = strtolower($document->currentVersion->file_extension ?? '');
-                    @endphp
+
 
                     <div
-                        class="group p-6 border-b border-cyan-100 hover:bg-cyan-50/60 transition flex flex-col lg:flex-row gap-5">
+                        class="group p-6 border-b border-slate-100 hover:bg-slate-50 transition flex flex-col lg:flex-row gap-5">
 
                         <!-- ICON -->
-                        <div class="w-16 h-16 rounded-2xl flex flex-col items-center justify-center shrink-0
+                        <div class="flex h-14 w-14 items-center justify-center
+                            rounded-2xl
+                            border border-slate-200
+                            bg-slate-100
+                            text-slate-600
+                            transition-all duration-300
+                            group-hover:border-amber-300
+                            group-hover:bg-amber-50
+                            group-hover:text-amber-500">
 
-                    @if($ext=='pdf')
-                        bg-red-50 text-red-500 border border-red-100
-                    @elseif(in_array($ext,['doc','docx']))
-                        bg-blue-50 text-blue-500 border border-blue-100
-                    @elseif(in_array($ext,['xls','xlsx']))
-                        bg-green-50 text-green-500 border border-green-100
-                    @elseif(in_array($ext,['ppt','pptx']))
-                        bg-orange-50 text-orange-500 border border-orange-100
-                    @else
-                        bg-slate-50 text-slate-500 border border-slate-100
-                    @endif">
-
-                            @switch($ext)
-
-                            @case('pdf')
-                            <i class="fa-solid fa-file-pdf text-2xl"></i>
-                            @break
-
-                            @case('doc')
-                            @case('docx')
-                            <i class="fa-solid fa-file-word text-2xl"></i>
-                            @break
-
-                            @case('xls')
-                            @case('xlsx')
-                            <i class="fa-solid fa-file-excel text-2xl"></i>
-                            @break
-
-                            @case('ppt')
-                            @case('pptx')
-                            <i class="fa-solid fa-file-powerpoint text-2xl"></i>
-                            @break
-
-                            @default
-                            <i class="fa-solid fa-file text-2xl"></i>
-
-                            @endswitch
-
-                            <span class="text-[10px] font-black mt-1">
-
-                                {{ strtoupper($ext ?: 'FILE') }}
-
-                            </span>
+                            <i class="fa-solid fa-folder-open text-xl"></i>
 
                         </div>
-
                         <!-- CONTENT -->
-                        <a href="{{ route('documents.show',$document->document_id) }}" class="flex-grow">
+                        <!-- CONTENT -->
+                        <div class="min-w-0 flex-1">
 
-                            <h3 class="text-lg font-black text-slate-800 group-hover:text-cyan-600 transition">
+                            <h3 class="truncate
+                        text-lg
+                        font-semibold
+                        text-slate-800
+                        transition-colors
+                        group-hover:text-amber-500">
 
                                 {{ $document->title }}
 
                             </h3>
 
-                            <!-- Hàng 1 -->
-                            <div class="flex flex-wrap items-center gap-5 mt-3 text-sm">
+                            <div class="mt-3 flex flex-wrap gap-2">
 
-                                <span class="inline-flex items-center font-semibold text-slate-600">
+                                <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-700">
 
-                                    <i class="fa-solid fa-book text-cyan-600 mr-2"></i>
+                                    <i class="fa-solid fa-book mr-1 text-slate-500"></i>
 
-                                    {{ $document->subject->subject_name }}
+                                    {{ $document->subject?->subject_name }}
+
+                                </span>
+                                <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-700">
+
+                                    <i class="fa-solid fa-user-tie mr-1 text-slate-500"></i>
+
+                                    {{ $document->uploader?->full_name ?? 'Không xác định' }}
+
+                                </span>
+                                <span class="rounded-full
+                            bg-amber-50
+                            px-3
+                            py-1
+                            text-xs
+                            text-amber-700">
+
+                                    <i class="fa-solid fa-download mr-1"></i>
+
+                                    {{ number_format($document->download_count) }}
 
                                 </span>
 
-                                <span class="inline-flex items-center font-semibold text-slate-600">
+                                <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-700">
 
-                                    <i class="fa-solid fa-user text-cyan-600 mr-2"></i>
-
-                                    {{ $document->uploader->full_name }}
-
-                                </span>
-
-                            </div>
-
-                            <!-- Hàng 2 -->
-                            <div class="flex flex-wrap items-center gap-5 mt-2 text-sm text-slate-500">
-
-
-                                <span class="inline-flex items-center">
-
-                                    <i class="fa-solid fa-folder text-cyan-600 mr-2"></i>
-
-                                    {{ $document->documentType->type_name }}
-
-                                </span>
-                                <span class="inline-flex items-center">
-
-                                    <i class="fa-solid fa-calendar text-cyan-600 mr-2"></i>
+                                    <i class="fa-solid fa-calendar mr-1 text-slate-500"></i>
 
                                     {{ $document->created_at->format('d/m/Y') }}
 
                                 </span>
 
-
                             </div>
 
-                        </a>
+                        </div>
+
                         <!-- BUTTON -->
-                        <div class="flex items-center gap-3">
+                        <!-- ACTION -->
+                        <div class="flex items-center gap-2 flex-wrap justify-end">
+
 
                             @auth
 
-                            <a href="{{ route('documents.download', $document) }}"
-                                class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white text-sm font-bold shadow-lg shadow-cyan-200">
+                            {{-- ADMIN --}}
+                            @if(Auth::user()->role_id == 1)
 
-                                <i class="fa-solid fa-download mr-1"></i>
 
-                                Tải xuống
+                            <a href="{{ route('documents.show',$document->document_id) }}"
+                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+
+                                Chi tiết
 
                             </a>
+                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                rounded-xl
+                                bg-slate-900
+                                px-4 py-2
+                                text-sm font-medium
+                                text-white
+                                transition
+                                hover:bg-amber-500">
+
+                                <i class="fa-solid fa-download"></i>
+
+                                Tải
+
+                            </a>
+
+                            {{-- GIẢNG VIÊN --}}
+                            @elseif(Auth::user()->role_id == 2)
+
+                            @if($document->uploaded_by == Auth::id())
+
+                            <a href="{{ route('documents.show',$document->document_id) }}"
+                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+
+                                Chi tiết
+
+                            </a>
+
+                            @endif
+
+                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                rounded-xl
+                                bg-slate-900
+                                px-4 py-2
+                                text-sm font-medium
+                                text-white
+                                transition
+                                hover:bg-amber-500">
+
+                                <i class="fa-solid fa-download"></i>
+
+                                Tải
+
+                            </a>
+                            {{-- SINH VIÊN --}}
                             @else
 
-                            <button onclick="showLoginRequiredModal()"
-                                class="px-5 py-3 border border-cyan-200 rounded-xl">
+                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                rounded-xl
+                                bg-slate-900
+                                px-4 py-2
+                                text-sm font-medium
+                                text-white
+                                transition
+                                hover:bg-amber-500">
 
-                                <i class="fa-solid fa-lock"></i>
+                                <i class="fa-solid fa-download"></i>
 
-                                Đăng nhập
+                                Tải
 
-                            </button>
+                            </a>
+                            @endif
+
+                            @else
+
+                            <a onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
+                                rounded-xl
+                                border border-slate-300
+                                bg-white
+                                px-4 py-2
+                                text-sm font-semibold
+                                text-slate-700
+                                transition-all duration-300
+                                hover:border-yellow-600
+                                hover:bg-yellow-50
+                                hover:text-yellow-700
+                                shadow-sm">
+                                <i class="fa-solid fa-lock text-xs"></i>
+                                Đăng nhập để tải
+                            </a>
 
                             @endauth
 
@@ -473,11 +579,13 @@
 
                     </div>
 
+
+
                     @empty
 
                     <div class="py-24 text-center">
 
-                        <i class="fa-solid fa-folder-open text-6xl text-slate-300"></i>
+                        <i class="fa-solid fa-folder-open text-6xl text-amber-500"></i>
 
                         <h3 class="mt-6 text-2xl font-black text-slate-700">
 
@@ -494,142 +602,91 @@
                     </div>
 
                     @endforelse
-                </div>
-
-                @if ($documents->hasPages())
-
-                <div class="mt-10 flex items-center justify-between flex-wrap gap-4">
-
-                    <!-- Thông tin -->
-                    <div class="text-sm text-slate-500">
-                        Hiển thị
-                        <span class="font-bold text-slate-700">
-                            {{ $documents->firstItem() }}
-                        </span>
-                        -
-                        <span class="font-bold text-slate-700">
-                            {{ $documents->lastItem() }}
-                        </span>
-                        /
-                        <span class="font-bold text-cyan-600">
-                            {{ $documents->total() }}
-                        </span>
-                        tài liệu
-                    </div>
-
-                    <!-- Pagination -->
-                    <div class="flex items-center gap-2">
-
-                        {{-- Previous --}}
-                        @if ($documents->onFirstPage())
-
-                        <span
-                            class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
-                            <i class="fa-solid fa-chevron-left"></i>
-                        </span>
-
-                        @else
-
-                        <a href="{{ $documents->previousPageUrl() }}"
-                            class="w-11 h-11 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-600 flex items-center justify-center transition">
-
-                            <i class="fa-solid fa-chevron-left"></i>
-
-                        </a>
-
-                        @endif
-
-                        {{-- Page Numbers --}}
-                        @foreach ($documents->getUrlRange(1, $documents->lastPage()) as $page => $url)
-
-                        @if ($page == $documents->currentPage())
-
-                        <span
-                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white font-bold flex items-center justify-center shadow-lg shadow-cyan-200">
-
-                            {{ $page }}
-
-                        </span>
-
-                        @else
-
-                        <a href="{{ $url }}"
-                            class="w-11 h-11 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-700 font-semibold flex items-center justify-center transition">
-
-                            {{ $page }}
-
-                        </a>
-
-                        @endif
-
-                        @endforeach
-
-                        {{-- Next --}}
-                        @if ($documents->hasMorePages())
-
-                        <a href="{{ $documents->nextPageUrl() }}"
-                            class="w-11 h-11 rounded-2xl bg-white border border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-600 flex items-center justify-center transition">
-
-                            <i class="fa-solid fa-chevron-right"></i>
-
-                        </a>
-
-                        @else
-
-                        <span
-                            class="w-11 h-11 rounded-2xl bg-slate-100 text-slate-300 flex items-center justify-center cursor-not-allowed">
-
-                            <i class="fa-solid fa-chevron-right"></i>
-
-                        </span>
-
-                        @endif
-
-                    </div>
 
                 </div>
-
-                @endif
             </div>
 
         </div>
+        <!-- PAGINATION -->
+        @if($documents->hasPages())
+        <div class="px-6 py-6 border-t border-slate-200">
+
+            <div class="flex items-center justify-center gap-2">
+
+                {{-- Previous --}}
+                @if($documents->onFirstPage())
+
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-300 cursor-not-allowed">
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </span>
+
+                @else
+
+                <a href="{{ $documents->previousPageUrl() }}"
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-100">
+
+                    <i class="fa-solid fa-chevron-left"></i>
+
+                </a>
+
+                @endif
+
+                {{-- Page Number --}}
+                @foreach($documents->getUrlRange(1, $documents->lastPage()) as $page => $url)
+
+                @if($page == $documents->currentPage())
+
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-white font-bold shadow-md">
+
+                    {{ $page }}
+
+                </span>
+
+                @else
+
+                <a href="{{ $url }}"
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white font-semibold text-slate-600 transition hover:border-amber-300 hover:text-amber-600 hover:bg-amber-50">
+
+                    {{ $page }}
+
+                </a>
+
+                @endif
+
+                @endforeach
+
+                {{-- Next --}}
+                @if($documents->hasMorePages())
+
+                <a href="{{ $documents->nextPageUrl() }}"
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-100">
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </a>
+
+                @else
+
+                <span
+                    class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-300 cursor-not-allowed">
+
+                    <i class="fa-solid fa-chevron-right"></i>
+
+                </span>
+
+                @endif
+
+            </div>
+
+        </div>
+        @endif
 
     </section>
-
 </main>
-
-<!-- LOGIN REQUIRED MODAL -->
-<div id="loginRequiredModal"
-    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-
-    <div class="w-full max-w-md bg-white rounded-3xl p-8 text-center shadow-2xl border border-cyan-100">
-
-        <div
-            class="w-20 h-20 mx-auto rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center text-3xl mb-5">
-            <i class="fa-solid fa-lock"></i>
-        </div>
-
-        <h3 class="text-2xl font-black text-slate-900 mb-3">
-            Yêu cầu đăng nhập
-        </h3>
-
-        <p class="text-slate-500 leading-relaxed mb-6">
-            Bạn cần đăng nhập để tải tài liệu học tập.
-        </p>
-
-        <div class="flex items-center justify-center gap-3">
-            <button onclick="closeLoginRequiredModal()"
-                class="px-5 py-3 rounded-2xl border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50 transition">
-                Đóng
-            </button>
-
-            <a href="{{ route('login') }}"
-                class="px-6 py-3 rounded-2xl bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition shadow-lg shadow-cyan-200">
-                Đăng nhập ngay
-            </a>
-        </div>
-    </div>
-</div>
 @endsection
 
 <script>

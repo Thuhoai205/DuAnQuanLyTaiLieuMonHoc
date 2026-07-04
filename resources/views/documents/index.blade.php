@@ -38,7 +38,7 @@
 
 }
 </style>
-<main class="min-h-screen bg-[#EAFBFF] ">
+<main class="min-h-screen  ">
     <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
     <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
         <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
@@ -61,33 +61,40 @@
 
         </div>
     </div>
-    <div class="bg-cyan-50 py-3 border-b border-cyan-100">
+    <div class="bg-slate-100 py-3 border-b border-slate-200">
+
         <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center text-sm">
-            <a href="/" class="text-slate-600 hover:text-cyan-600 transition">
+
+            <a href="/" class="text-slate-500 hover:text-slate-900 transition-colors duration-300">
+
                 Trang chủ
+
             </a>
 
-            <span class="mx-2 text-slate-400">
+            <span class="mx-3 text-slate-300">
                 /
             </span>
 
-            <span class="font-medium text-cyan-600">
-                Tra cứu tài liệu
-            </span>
-        </div>
-    </div>
+            <span class="font-semibold text-slate-700">
 
+                Tra cứu tài liệu
+
+            </span>
+
+        </div>
+
+    </div>
     <div class="max-w-7xl mx-auto px-6 pt-10 pb-10">
+
         <!-- ================= FILTER ================= -->
         <section class="mb-10">
 
             <div class="flex items-center gap-4">
 
-                <div class="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100
-                       flex items-center justify-center">
+                <div
+                    class="w-14 h-14 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center">
 
-                    <i class="fa-solid fa-file-lines text-cyan-600 text-2xl"></i>
-
+                    <i class="fa-solid fa-book-open text-amber-500 text-2xl"></i>
                 </div>
 
                 <div>
@@ -103,29 +110,31 @@
                 </div>
 
             </div>
+
             <form id="searchForm" action="{{ route('documents.index') }}" method="GET"
                 class="mt-6 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+
                 <div class="grid grid-cols-1 lg:grid-cols-4 gap-5">
 
                     <!-- Keyword -->
                     <div class="relative lg:col-span-2">
 
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                            <i class="fa-solid fa-magnifying-glass text-cyan-500 text-lg"></i>
+                            <i class="fa-solid fa-magnifying-glass text-slate-400 text-lg"></i>
                         </div>
 
                         <input type="text" name="keyword" value="{{ request('keyword') }}"
                             placeholder="Nhập tên tài liệu..." class="w-full h-14 rounded-2xl
-        border border-slate-200
-        bg-white
-        pl-12 pr-4
-        text-slate-700
-        placeholder:text-slate-400
-        transition
-        focus:outline-none
-        focus:border-cyan-500
-        focus:ring-4
-        focus:ring-cyan-100">
+                        border border-slate-200
+                        bg-white
+                        pl-12 pr-4
+                        text-slate-700
+                        placeholder:text-slate-400
+                        transition
+                        focus:outline-none
+                        focus:border-amber-400
+                        focus:ring-4
+                        focus:ring-amber-100">
 
                     </div>
 
@@ -133,29 +142,31 @@
                     <div class="relative">
 
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                            <i class="fa-solid fa-book text-cyan-500 text-lg"></i>
+                            <i class="fa-solid fa-book text-amber-500 text-lg"></i>
                         </div>
 
                         <select name="subject_code" class="w-full h-14 rounded-2xl
-        border border-slate-200
-        bg-white
-        pl-12 pr-10
-        text-slate-700
-        transition
-        focus:outline-none
-        focus:border-cyan-500
-        focus:ring-4
-        focus:ring-cyan-100">
+                        border border-slate-200
+                        bg-white
+                        pl-12 pr-10
+                        text-slate-700
+                        transition
+                        focus:outline-none
+                        focus:border-amber-400
+                        focus:ring-4
+                        focus:ring-amber-100">
 
                             <option value="">Tất cả môn học</option>
 
                             @foreach($subjects as $subject)
+
                             <option value="{{ $subject->subject_code }}" @selected(request('subject_code')==$subject->
                                 subject_code)>
 
                                 {{ $subject->subject_name }}
 
                             </option>
+
                             @endforeach
 
                         </select>
@@ -165,19 +176,19 @@
                     <div class="relative">
 
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                            <i class="fa-solid fa-folder-open text-cyan-500 text-lg"></i>
+                            <i class="fa-solid fa-folder-open text-amber-500 text-lg"></i>
                         </div>
 
                         <select name="document_type_id" class="w-full h-14 rounded-2xl
-                    border border-slate-200
-                    bg-white
-                    pl-12 pr-10
-                    text-slate-700
-                    transition
-                    focus:outline-none
-                    focus:border-cyan-500
-                    focus:ring-4
-                    focus:ring-cyan-100">
+                        border border-slate-200
+                        bg-white
+                        pl-12 pr-10
+                        text-slate-700
+                        transition
+                        focus:outline-none
+                        focus:border-amber-400
+                        focus:ring-4
+                        focus:ring-amber-100">
 
                             <option value="">Tất cả loại tài liệu</option>
 
@@ -198,297 +209,327 @@
 
                 </div>
 
-                <!-- Buttons -->
-                <div class="mt-8 flex flex-wrap justify-end gap-4">
+                <!-- ACTION -->
+                <div class="mt-6 flex items-center justify-between flex-wrap gap-4">
 
-                    <button type="button" id="resetBtn" class="inline-flex items-center justify-center
-            h-12 px-6 rounded-xl
-            border border-slate-200
-            bg-white
-            text-slate-600
-            hover:bg-slate-50
-            transition">
+                    <p class="text-sm text-slate-500">
+                        Nhập từ khóa hoặc sử dụng bộ lọc để tìm tài liệu.
+                    </p>
 
-                        <i class="fa-solid fa-rotate-left mr-2"></i>
+                    <div class="flex items-center gap-3">
 
-                        Làm mới
 
-                    </button>
+                        <a href="{{ route('documents.index') }}" class="inline-flex items-center gap-2
+    rounded-xl
+    border border-slate-300
+    bg-white
+    px-5 py-3
+    text-sm
+    font-medium
+    text-slate-700
+    transition-all duration-300
+    hover:border-slate-400
+    hover:bg-slate-100">
 
-                    <button type="submit" class="inline-flex items-center justify-center
-                h-12
-                px-8
-                rounded-xl
-                bg-cyan-500
-                text-white
-                font-semibold
-                hover:bg-cyan-600
-                transition">
+                            <i class="fa-solid fa-rotate-left text-sm"></i>
 
-                        <i class="fa-solid fa-search mr-2"></i>
+                            Đặt lại
 
-                        Tìm kiếm
+                        </a>
 
-                    </button>
+
+                        <button type="submit" class="inline-flex items-center gap-2
+                        rounded-xl
+                        bg-slate-900
+                        px-6 py-3
+                        text-sm
+                        font-semibold
+                        text-white
+                        transition-all duration-300
+                        hover:-translate-y-0.5
+                        hover:bg-amber-500
+                        hover:shadow-lg">
+
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            Tìm kiếm
+
+                        </button>
+
+                    </div>
 
                 </div>
 
             </form>
 
         </section>
+        <!-- ================= DOCUMENT LIST ================= -->
         <div id="document-list">
-            <!-- ================= DOCUMENT LIST ================= -->
-            <section class="rounded-3xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+            <section>
 
-                <!-- Header -->
-                <div class="flex items-center justify-between px-8 py-6 border-b border-slate-100">
+                <!-- HEADER -->
+                <div class="flex items-center justify-between mb-8">
 
                     <div>
 
-                        <h2 class="text-2xl font-bold text-slate-800">
+                        <h2 class="text-2xl font-bold text-slate-900">
                             Danh sách tài liệu
                         </h2>
 
-                        <p class="mt-1 text-sm text-slate-500">
-                            Hiện có <span class="font-semibold text-cyan-600">{{ $documents->total() }}</span> tài liệu.
+                        <p class="mt-2 text-sm text-slate-500">
+                            Có {{ $documents->total() }} tài liệu được tìm thấy.
                         </p>
 
                     </div>
 
-                    <div class="hidden md:flex items-center gap-2">
-
-                        <span class="px-4 py-2 rounded-full bg-cyan-50 text-cyan-700 text-sm font-semibold">
-                            {{ $documents->total() }} tài liệu
-                        </span>
-
-                    </div>
-
                 </div>
+                <!-- LIST -->
+                <div class="space-y-5">
 
-                <div class="p-6">
+                    @forelse($documents as $document)
 
-                    <div class="space-y-4">
+                    <div
+                        class="group flex items-center justify-between gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md">
 
-                        @forelse($documents as $document)
+                        <!-- LEFT -->
+                        <a href="{{ route('documents.show',$document->document_id) }}"
+                            class="flex flex-1 items-center gap-5 min-w-0">
 
-                        @php
+                            <div class="flex h-14 w-14 items-center justify-center
+                            rounded-2xl
+                            border border-slate-200
+                            bg-slate-100
+                            text-slate-600
+                            transition-all duration-300
+                            group-hover:border-amber-300
+                            group-hover:bg-amber-50
+                            group-hover:text-amber-500">
 
-                        $ext = strtolower($document->currentVersion?->file_extension);
+                                <i class="fa-solid fa-folder-open text-xl"></i>
 
-                        switch ($ext) {
+                            </div>
+                            <!-- CONTENT -->
+                            <div class="min-w-0 flex-1">
 
-                        case 'pdf':
-                        $icon='fa-file-pdf';
-                        $iconColor='text-red-500';
-                        $bg='bg-red-50';
-                        break;
+                                <h3 class="truncate
+                        text-lg
+                        font-semibold
+                        text-slate-800
+                        transition-colors
+                        group-hover:text-amber-500">
 
-                        case 'doc':
-                        case 'docx':
-                        $icon='fa-file-word';
-                        $iconColor='text-blue-500';
-                        $bg='bg-blue-50';
-                        break;
+                                    {{ $document->title }}
 
-                        case 'xls':
-                        case 'xlsx':
-                        $icon='fa-file-excel';
-                        $iconColor='text-green-500';
-                        $bg='bg-green-50';
-                        break;
+                                </h3>
 
-                        case 'ppt':
-                        case 'pptx':
-                        $icon='fa-file-powerpoint';
-                        $iconColor='text-orange-500';
-                        $bg='bg-orange-50';
-                        break;
+                                <div class="mt-3 flex flex-wrap gap-2">
 
-                        default:
-                        $icon='fa-file-lines';
-                        $iconColor='text-cyan-500';
-                        $bg='bg-cyan-50';
+                                    <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-700">
 
-                        }
+                                        <i class="fa-solid fa-book mr-1 text-slate-500"></i>
 
-                        $isAdmin = auth()->check()
-                        && auth()->user()->role->role_name == 'admin';
+                                        {{ $document->subject?->subject_name }}
 
-                        $isOwner = auth()->check()
-                        && auth()->user()->role->role_name == 'lecturer'
-                        && $document->uploaded_by == auth()->id();
+                                    </span>
+                                    <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-700">
 
-                        @endphp
+                                        <i class="fa-solid fa-user-tie mr-1 text-slate-500"></i>
 
-                        <div
-                            class="group rounded-2xl border border-slate-200 bg-white p-6 hover:border-cyan-300 hover:shadow-md transition duration-300">
+                                        {{ $document->uploader?->full_name ?? 'Không xác định' }}
 
-                            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+                                    </span>
+                                    <span class="rounded-full
+                            bg-amber-50
+                            px-3
+                            py-1
+                            text-xs
+                            text-amber-700">
 
-                                <!-- Left -->
-                                <div class="flex gap-4 flex-1 min-w-0">
+                                        <i class="fa-solid fa-download mr-1"></i>
 
-                                    <div
-                                        class="w-14 h-14 rounded-2xl {{ $bg }} flex items-center justify-center shrink-0">
+                                        {{ number_format($document->download_count) }}
 
-                                        <i class="fa-solid {{ $icon }} {{ $iconColor }} text-2xl"></i>
+                                    </span>
 
-                                    </div>
+                                    <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-700">
 
-                                    <div class="flex-1 min-w-0">
+                                        <i class="fa-solid fa-calendar mr-1 text-slate-500"></i>
 
-                                        <a href="{{ route('documents.show',$document->document_id) }}"
-                                            class="text-lg font-semibold text-slate-800 hover:text-cyan-600 transition line-clamp-1">
+                                        {{ $document->created_at->format('d/m/Y') }}
 
-                                            {{ $document->title }}
-
-                                        </a>
-
-                                        <div class="mt-4 flex flex-wrap gap-2">
-
-                                            <span
-                                                class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
-
-                                                <i class="fa-solid fa-book text-cyan-500"></i>
-
-                                                {{ $document->subject?->subject_name }}
-
-                                            </span>
-
-                                            <span
-                                                class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
-
-                                                <i class="fa-solid fa-building-columns text-cyan-500"></i>
-
-                                                {{ $document->subject?->faculty?->faculty_name }}
-
-                                            </span>
-
-                                            <span
-                                                class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
-
-                                                <i class="fa-solid fa-user text-cyan-500"></i>
-
-                                                {{ $document->uploader?->full_name }}
-
-                                            </span>
-
-                                            <span
-                                                class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
-
-                                                <i class="fa-solid fa-clock text-cyan-500"></i>
-
-                                                {{ $document->created_at->diffForHumans() }}
-
-                                            </span>
-
-                                            <span
-                                                class="inline-flex items-center rounded-full bg-cyan-50 px-3 py-1 text-xs font-semibold text-cyan-700">
-
-                                                {{ $document->documentType?->type_name }}
-
-                                            </span>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                                <!-- Right -->
-                                <div class="flex items-center flex-wrap gap-2">
-
-
-                                    @auth
-
-                                    <a href="{{ route('documents.download',$document) }}"
-                                        class="inline-flex items-center justify-center h-11 px-5 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white font-medium transition">
-
-                                        <i class="fa-solid fa-download mr-2"></i>
-
-                                        Tải xuống
-
-                                    </a>
-
-                                    @else
-
-                                    <button onclick="showLoginRequiredModal()"
-                                        class="inline-flex items-center justify-center h-11 px-5 rounded-xl border border-cyan-200 text-cyan-600 hover:bg-cyan-50 transition">
-
-                                        <i class="fa-solid fa-lock mr-2"></i>
-
-                                        Đăng nhập
-
-                                    </button>
-
-                                    @endauth
-
-                                    @if($isAdmin || $isOwner)
-
-                                    <a href="{{ route('documents.edit',$document->document_id) }}"
-                                        class="w-11 h-11 rounded-xl border border-amber-200 text-amber-500 hover:bg-amber-500 hover:text-white transition flex items-center justify-center">
-
-                                        <i class="fa-solid fa-pen"></i>
-
-                                    </a>
-
-                                    <form action="{{ route('documents.destroy',$document) }}" method="POST"
-                                        onsubmit="return confirm('Bạn có chắc muốn xóa tài liệu này?')">
-
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button
-                                            class="w-11 h-11 rounded-xl border border-red-200 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
-
-                                            <i class="fa-solid fa-trash"></i>
-
-                                        </button>
-
-                                    </form>
-
-                                    @endif
+                                    </span>
 
                                 </div>
 
                             </div>
 
+                        </a>
+
+                        <!-- ACTION -->
+                        <div class="flex items-center gap-2 flex-wrap justify-end">
+
+
+                            @auth
+
+                            {{-- ADMIN --}}
+                            @if(Auth::user()->role_id == 1)
+
+
+                            <a href="{{ route('documents.show',$document->document_id) }}"
+                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+
+                                Chi tiết
+
+                            </a>
+                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                rounded-xl
+                                bg-slate-900
+                                px-4 py-2
+                                text-sm font-medium
+                                text-white
+                                transition
+                                hover:bg-amber-500">
+
+                                <i class="fa-solid fa-download"></i>
+
+                                Tải
+
+                            </a>
+
+                            {{-- GIẢNG VIÊN --}}
+                            @elseif(Auth::user()->role_id == 2)
+
+                            @if($document->uploaded_by == Auth::id())
+
+                            <a href="{{ route('documents.show',$document->document_id) }}"
+                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+
+                                Chi tiết
+
+                            </a>
+
+                            @endif
+
+                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                rounded-xl
+                                bg-slate-900
+                                px-4 py-2
+                                text-sm font-medium
+                                text-white
+                                transition
+                                hover:bg-amber-500">
+
+                                <i class="fa-solid fa-download"></i>
+
+                                Tải
+
+                            </a>
+                            {{-- SINH VIÊN --}}
+                            @else
+
+                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                rounded-xl
+                                bg-slate-900
+                                px-4 py-2
+                                text-sm font-medium
+                                text-white
+                                transition
+                                hover:bg-amber-500">
+
+                                <i class="fa-solid fa-download"></i>
+
+                                Tải
+
+                            </a>
+                            @endif
+
+                            @else
+
+                            <a onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
+                                rounded-xl
+                                border border-slate-300
+                                bg-white
+                                px-4 py-2
+                                text-sm font-semibold
+                                text-slate-700
+                                transition-all duration-300
+                                hover:border-yellow-600
+                                hover:bg-yellow-50
+                                hover:text-yellow-700
+                                shadow-sm">
+                                <i class="fa-solid fa-lock text-xs"></i>
+                                Đăng nhập để tải
+                            </a>
+
+                            @endauth
+
                         </div>
-
-                        @empty
-
-                        <div id="emptyDocumentResult" class="py-20 text-center">
-
-                            <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
-                                <i class="fa-solid fa-folder-open text-3xl text-cyan-500"></i>
-                            </div>
-
-                            <h3 class="mt-5 text-xl font-black text-slate-800">
-                                Chưa có tài liệu
-                            </h3>
-
-                            <p class="mt-2 text-slate-500">
-                                Hiện chưa có tài liệu nào trong hệ thống.
-                            </p>
-
-                        </div>
-
-                        @endforelse
 
                     </div>
 
-                </div>
+                    @empty
 
+                    <!-- EMPTY -->
+                    <div class="rounded-3xl border border-slate-200 bg-white px-10 py-20 text-center shadow-sm">
+
+                        <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
+
+                            <i class="fa-solid fa-folder-open text-3xl text-slate-500"></i>
+
+                        </div>
+
+                        <h3 class="mt-6 text-2xl font-bold text-slate-900">
+
+                            Không tìm thấy tài liệu
+
+                        </h3>
+
+                        <p class="mt-3 text-slate-500 leading-7">
+
+                            Không có tài liệu nào phù hợp với điều kiện tìm kiếm.
+
+                        </p>
+
+                        <a href="{{ route('documents.index') }}"
+                            class="mt-8 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition">
+
+                            <i class="fa-solid fa-rotate-left"></i>
+
+                            Xem tất cả tài liệu
+
+                        </a>
+
+                    </div>
+
+                    @endforelse
+
+                </div>
+                <!-- PAGINATION -->
                 @if($documents->hasPages())
+                <div class="px-6 py-6 border-t border-slate-200">
 
-                <div class="px-6 py-6 border-t border-slate-100">
+                    <div class="flex items-center justify-center gap-2">
 
-                    <div class="pagination flex items-center justify-center gap-2">
                         {{-- Previous --}}
                         @if($documents->onFirstPage())
 
                         <span
-                            class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-300 flex items-center justify-center cursor-not-allowed">
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-300 cursor-not-allowed">
 
                             <i class="fa-solid fa-chevron-left"></i>
 
@@ -497,7 +538,7 @@
                         @else
 
                         <a href="{{ $documents->previousPageUrl() }}"
-                            class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-600 hover:bg-cyan-50 hover:text-cyan-600 transition flex items-center justify-center">
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-100">
 
                             <i class="fa-solid fa-chevron-left"></i>
 
@@ -505,14 +546,13 @@
 
                         @endif
 
-
                         {{-- Page Number --}}
                         @foreach($documents->getUrlRange(1, $documents->lastPage()) as $page => $url)
 
                         @if($page == $documents->currentPage())
 
                         <span
-                            class="w-11 h-11 rounded-2xl bg-cyan-500 text-white font-black shadow-lg shadow-cyan-200 flex items-center justify-center">
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl bg-slate-900 text-white font-bold shadow-md">
 
                             {{ $page }}
 
@@ -521,7 +561,7 @@
                         @else
 
                         <a href="{{ $url }}"
-                            class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-600 font-bold hover:bg-cyan-50 hover:text-cyan-600 transition flex items-center justify-center">
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white font-semibold text-slate-600 transition hover:border-amber-300 hover:text-amber-600 hover:bg-amber-50">
 
                             {{ $page }}
 
@@ -531,12 +571,11 @@
 
                         @endforeach
 
-
                         {{-- Next --}}
                         @if($documents->hasMorePages())
 
                         <a href="{{ $documents->nextPageUrl() }}"
-                            class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-600 hover:bg-cyan-50 hover:text-cyan-600 transition flex items-center justify-center">
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-600 transition hover:border-slate-300 hover:bg-slate-100">
 
                             <i class="fa-solid fa-chevron-right"></i>
 
@@ -545,7 +584,7 @@
                         @else
 
                         <span
-                            class="w-11 h-11 rounded-2xl border border-cyan-100 bg-white text-slate-300 flex items-center justify-center cursor-not-allowed">
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-slate-50 text-slate-300 cursor-not-allowed">
 
                             <i class="fa-solid fa-chevron-right"></i>
 
@@ -556,7 +595,6 @@
                     </div>
 
                 </div>
-
                 @endif
             </section>
         </div>
@@ -564,35 +602,56 @@
 </main>
 <!-- LOGIN REQUIRED MODAL -->
 <div id="loginRequiredModal"
-    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/50 backdrop-blur-sm px-4">
 
-    <div class="w-full max-w-md bg-white rounded-3xl p-8 text-center shadow-2xl border border-cyan-100">
+    <div class="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-2xl">
 
+        <!-- ICON -->
         <div
-            class="w-20 h-20 mx-auto rounded-full bg-cyan-50 text-cyan-600 flex items-center justify-center text-3xl mb-5">
-            <i class="fa-solid fa-lock"></i>
+            class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-slate-200 bg-slate-100">
+
+            <i class="fa-solid fa-lock text-3xl text-amber-500"></i>
+
         </div>
 
-        <h3 class="text-2xl font-black text-slate-900 mb-3">
+        <!-- TITLE -->
+        <h3 class="text-2xl font-bold text-slate-900">
+
             Yêu cầu đăng nhập
+
         </h3>
 
-        <p class="text-slate-500 leading-relaxed mb-6">
+        <!-- DESCRIPTION -->
+        <p class="mt-3 leading-7 text-slate-500">
+
             Bạn cần đăng nhập để tải tài liệu học tập.
+            Vui lòng đăng nhập để tiếp tục.
+
         </p>
 
-        <div class="flex items-center justify-center gap-3">
+        <!-- BUTTON -->
+        <div class="mt-8 flex items-center justify-center gap-3">
+
+            <!-- Close -->
             <button onclick="closeLoginRequiredModal()"
-                class="px-5 py-3 rounded-2xl border border-cyan-100 text-slate-600 font-bold hover:bg-cyan-50 transition">
+                class="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
+
                 Đóng
+
             </button>
 
+            <!-- Login -->
             <a href="{{ route('login') }}"
-                class="px-6 py-3 rounded-2xl bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition shadow-lg shadow-cyan-200">
-                Đăng nhập ngay
+                class="rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-500">
+
+                Đăng nhập
+
             </a>
+
         </div>
+
     </div>
+
 </div>
 @endsection
 @push('scripts')
@@ -677,5 +736,23 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 });
+
+function showLoginRequiredModal() {
+
+    const modal = document.getElementById('loginRequiredModal');
+
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+
+}
+
+function closeLoginRequiredModal() {
+
+    const modal = document.getElementById('loginRequiredModal');
+
+    modal.classList.remove('flex');
+    modal.classList.add('hidden');
+
+}
 </script>
 @endpush

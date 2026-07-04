@@ -94,11 +94,11 @@
 
                 <!-- Badge -->
                 <span class="inline-flex items-center gap-2
-        px-5 py-2 rounded-full
-        bg-gradient-to-r from-orange-500 to-pink-500
-        text-white
-        shadow-lg shadow-orange-500/20
-        text-sm font-bold">
+                    px-5 py-2 rounded-full
+                    bg-gradient-to-r from-orange-500 to-pink-500
+                    text-white
+                    shadow-lg shadow-orange-500/20
+                    text-sm font-bold">
 
                     <i class="fa-solid fa-bolt text-yellow-300"></i>
 
@@ -172,15 +172,15 @@
 
                         <!-- SUBJECT -->
                         <select name="subject_code" class="h-14
-                rounded-xl
-                border border-white/20
-                bg-white/10
-                backdrop-blur-md
-                px-4
-                text-white
-                focus:ring-2
-                focus:ring-cyan-300
-                focus:border-cyan-300">
+                            rounded-xl
+                            border border-white/20
+                            bg-white/10
+                            backdrop-blur-md
+                            px-4
+                            text-white
+                            focus:ring-2
+                            focus:ring-cyan-300
+                            focus:border-cyan-300">
 
                             <option value="" class="text-slate-700">
                                 Tất cả môn học
@@ -201,15 +201,15 @@
 
                         <!-- TYPE -->
                         <select name="document_type_id" class="h-14
-                rounded-xl
-                border border-white/20
-                bg-white/10
-                backdrop-blur-md
-                px-4
-                text-white
-                focus:ring-2
-                focus:ring-cyan-300
-                focus:border-cyan-300">
+                      rounded-xl
+                                        border border-white/20
+                                        bg-white/10
+                                        backdrop-blur-md
+                                        px-4
+                                        text-white
+                                        focus:ring-2
+                                        focus:ring-cyan-300
+                                        focus:border-cyan-300">
 
                             <option value="" class="text-slate-700">
                                 Loại tài liệu
@@ -258,24 +258,24 @@
                         </select>
 
                         <button type="submit" class="group h-14 w-full rounded-xl
-    bg-gradient-to-r
-    from-slate-700
-    via-slate-800
-    to-slate-900
-    hover:from-slate-800
-    hover:via-slate-900
-    hover:to-black
-    text-white
-    font-semibold
-    tracking-wide
-    transition-all
-    duration-300
-    shadow-lg
-    shadow-slate-900/25
-    hover:shadow-2xl
-    hover:shadow-slate-900/35
-    hover:-translate-y-0.5
-    active:scale-[0.98]">
+                                bg-gradient-to-r
+                                from-slate-700
+                                via-slate-800
+                                to-slate-900
+                                hover:from-slate-800
+                                hover:via-slate-900
+                                hover:to-black
+                                text-white
+                                font-semibold
+                                tracking-wide
+                                transition-all
+                                duration-300
+                                shadow-lg
+                                shadow-slate-900/25
+                                hover:shadow-2xl
+                                hover:shadow-slate-900/35
+                                hover:-translate-y-0.5
+                                active:scale-[0.98]">
 
                             <i
                                 class="fa-solid fa-search mr-2 transition-transform duration-300 group-hover:rotate-12"></i>
@@ -289,166 +289,178 @@
 
             </div>
             <div class="hidden lg:block lg:col-span-2 self-center">
-                <div class="relative">
+                <!-- CONTAINER NGOÀI CÙNG CHỨA HIỆU ỨNG VIỀN KHÔNG GIAN -->
+                <div
+                    class="relative p-[1px] rounded-[32px] overflow-hidden group/main shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
 
-                    <!-- GLOW NHẸ ĐẰNG SAU -->
+                    <!-- 1. HIỆU ỨNG VIỀN PHÁT SÁNG CHẠY VÒNG SIÊU MỊN -->
                     <div
-                        class="absolute -top-8 -left-8 w-64 h-64 rounded-full bg-amber-400/10 blur-[80px] pointer-events-none">
+                        class="absolute inset-0 bg-gradient-to-r from-sky-500/50 via-amber-500/50 to-emerald-500/50 rounded-[32px] animate-[spin_8s_linear_infinite] opacity-70 group-hover/main:opacity-100 transition-opacity duration-500">
                     </div>
 
-                    <!-- CONTAINER CHÍNH (Đã sửa từ p-4.5 thành p-5 chuẩn Tailwind để tạo khoảng cách rìa cực đẹp) -->
+                    <!-- 2. CÁC KHỐI CẦU ĐÈN NEON DI CHUYỂN NGẦM PHÍA SAU -->
                     <div
-                        class="relative overflow-hidden rounded-[32px] bg-white/80 backdrop-blur-md border-[3px] border-white shadow-[0_20px_50px_rgba(139,126,116,0.15)] p-5">
+                        class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-amber-500/15 blur-[90px] pointer-events-none animate-[pulse_4s_infinite_ease-in-out]">
+                    </div>
+                    <div
+                        class="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-sky-500/15 blur-[90px] pointer-events-none animate-[pulse_6s_infinite_ease-in-out]">
+                    </div>
 
-                        <!-- 📄 THÈ TRÊN: KHO HỌC LIỆU ONLINE -->
+                    <!-- 3. KHỐI KÍNH MỜ CHÍNH ĐÃ ĐƯỢC CHỈNH NHẠT HƠN (SLATE GLASSMORPHISM LIGHTER) -->
+                    <!-- Chuyển từ bg-slate-900/90 (đen sâu) sang bg-slate-800/80 (xanh đen nhạt, trong suốt hơn) -->
+                    <div
+                        class="relative overflow-hidden rounded-[31px] bg-slate-800/80 backdrop-blur-2xl p-6 z-10 border border-slate-700/40">
+
+                        <!-- 📄 CARD TRÊN: KHO HỌC LIỆU SỐ -->
+                        <!-- Hạ tone nền card trong suốt hơn để hài hòa với tổng thể -->
                         <div
-                            class="w-full rounded-[24px] bg-white border border-slate-100 shadow-[0_10px_25px_rgba(0,0,0,0.01)] p-4 relative overflow-hidden">
-                            <div class="grid grid-cols-12 gap-3 items-center">
+                            class="w-full rounded-[24px] bg-slate-700/30 border border-slate-600/40 p-5 relative overflow-hidden group/top hover:bg-slate-700/50 hover:border-amber-500/40 transition-all duration-500">
 
+                            <!-- Hiệu ứng tia sáng quét ngang (Laser Shine Effect) -->
+                            <div
+                                class="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover/top:translate-x-[100%] transition-transform duration-1000 ease-out pointer-events-none">
+                            </div>
+
+                            <div class="grid grid-cols-12 gap-4 items-center relative z-10">
                                 <!-- Nội dung bên trái -->
                                 <div class="col-span-8">
-                                    <div class="flex items-center gap-3">
-                                        <!-- ICON SÁCH TRÊN -->
-                                        <div
-                                            class="w-12 h-12 rounded-[16px] bg-orange-500 text-white flex items-center justify-center shadow-[0_6px_12px_rgba(245,158,11,0.3)] shrink-0">
-                                            <i class="fa-solid fa-book-open text-xl text-white"></i>
+                                    <div class="flex items-center gap-3.5">
+                                        <!-- Icon Box phát sáng Cam Thương Hiệu -->
+                                        <div class="relative">
+                                            <div
+                                                class="absolute inset-0 bg-amber-500/30 blur-md rounded-xl animate-ping opacity-70">
+                                            </div>
+                                            <div
+                                                class="relative w-11 h-11 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center shadow-[0_4px_20px_rgba(245,158,11,0.4)] shrink-0 group-hover/top:scale-110 transition-transform duration-300">
+                                                <i class="fa-solid fa-book-open text-base"></i>
+                                            </div>
                                         </div>
                                         <div>
                                             <p
-                                                class="text-slate-400 text-[10px] font-bold uppercase tracking-widest leading-none">
-                                                Kho học liệu</p>
+                                                class="text-sky-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
+                                                CLOUD RESOURCE
+                                            </p>
                                             <h3
-                                                class="text-slate-800 text-2xl font-black mt-0.5 tracking-tight leading-none">
-                                                Online</h3>
-                                            <div class="w-8 h-[3px] rounded-full bg-orange-500 mt-1"></div>
+                                                class="text-white text-lg font-bold mt-0.5 tracking-tight group-hover/top:text-amber-400 transition-colors">
+                                                Kho Học Liệu Số
+                                            </h3>
                                         </div>
                                     </div>
 
-                                    <div class="my-3 h-px bg-slate-100"></div>
+                                    <div
+                                        class="my-3.5 h-px bg-gradient-to-r from-slate-600/80 via-slate-600/30 to-transparent">
+                                    </div>
 
-                                    <p class="text-xs leading-5 text-slate-500 font-medium">
-                                        Học liệu được phân loại theo môn học, khoa và loại tài liệu, hỗ trợ tìm
-                                        kiếm,
-                                        chia sẻ và tải xuống nhanh chóng.
+                                    <p class="text-xs leading-relaxed text-slate-200 font-normal opacity-90">
+                                        Học liệu phân loại thông minh theo môn học, khoa và định dạng. Hỗ trợ tìm kiếm
+                                        nhanh, chia sẻ và tải xuống một chạm.
                                     </p>
                                 </div>
 
-                                <!-- Hình ảnh minh họa thu nhỏ gọn gàng -->
-                                <div class="col-span-4 flex justify-center items-center relative">
-                                    <div class="relative w-full h-24 flex items-center justify-center text-slate-300">
+                                <!-- Hình vẽ đồ họa lơ lửng 3D -->
+                                <div class="col-span-4 flex justify-center items-center relative h-22">
+                                    <div
+                                        class="relative w-14 h-14 bg-gradient-to-b from-slate-600/50 to-slate-700/50 rounded-xl flex items-center justify-center border border-slate-500 shadow-inner animate-[float_4s_infinite_ease-in-out] group-hover/top:border-sky-500/40 transition-colors">
                                         <i
-                                            class="fa-solid fa-layer-group text-5xl text-sky-400/80 absolute -bottom-1"></i>
-                                        <i
-                                            class="fa-solid fa-cloud-arrow-up text-3xl text-amber-500 absolute -top-2 right-2"></i>
-                                        <i
-                                            class="fa-solid fa-file-lines text-4xl text-slate-200 absolute right-0 rotate-12 shadow-sm"></i>
+                                            class="fa-solid fa-layer-group text-2xl text-sky-400 drop-shadow-[0_0_10px_rgba(56,189,248,0.6)]"></i>
+                                        <div
+                                            class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-amber-500 animate-bounce">
+                                        </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
 
-                        <!-- 📊 KHỐI THỐNG KÊ 3 THẺ PHÍA DƯỚI (Đã tăng mt-5 để giãn cách với thẻ trên thoáng hơn) -->
-                        <div class="grid grid-cols-3 gap-3 mt-5">
+                        <!-- 📊 KHỐI THỐNG KÊ 3 THẺ PHÍA DƯỚI -->
+                        <div class="grid grid-cols-3 gap-3 mt-4">
 
-                            <!-- Thẻ 1: TÀI LIỆU (Màu Xanh Dương) -->
+                            <!-- Thẻ 1: TÀI LIỆU -->
                             <div
-                                class="bg-white rounded-[22px] border border-slate-100 shadow-[0_8px_20px_rgba(0,0,0,0.02)] p-3 flex flex-col items-center relative group hover:-translate-y-0.5 transition-all duration-300">
-                                <button class="absolute top-2.5 right-2.5 text-slate-400">
-                                    <i class="fa-solid fa-ellipsis-vertical text-[10px]"></i>
-                                </button>
-
-                                <!-- VÒNG TRÒN VÀ ICON -->
+                                class="bg-slate-700/20 border border-slate-600/30 rounded-[20px] p-3.5 flex flex-col items-center relative overflow-hidden group/card hover:bg-slate-700/60 hover:border-sky-500/50 hover:shadow-[0_15px_30px_rgba(14,165,233,0.2)] hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
                                 <div
-                                    class="w-11 h-11 rounded-full bg-sky-500 flex items-center justify-center shadow-[0_6px_12px_rgba(14,165,233,0.3)] mt-1">
-                                    <i class="fa-solid fa-file-lines text-base text-white"></i>
+                                    class="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-sky-500/5 to-transparent group-hover/card:translate-x-[100%] transition-transform duration-700 pointer-events-none">
                                 </div>
 
-                                <h4 class="text-2xl font-black text-sky-900 mt-2 leading-none count-up"
-                                    data-target="{{ $totalDocuments }}">0</h4>
-                                <p class="text-xs font-extrabold text-slate-700 mt-1">Tài liệu</p>
+                                <div
+                                    class="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400 group-hover/card:bg-sky-500 group-hover/card:text-white group-hover/card:shadow-[0_0_15px_rgba(14,165,233,0.5)] transition-all duration-300">
+                                    <i class="fa-solid fa-file-lines text-xs"></i>
+                                </div>
 
-                                <span
-                                    class="mt-1.5 px-2 py-0.5 rounded-full bg-sky-50 text-[9px] font-bold text-sky-600 whitespace-nowrap">
-                                    Tổng tài liệu
-                                </span>
+                                <h4 class="text-2xl font-black text-white mt-3 leading-none group-hover/card:text-sky-400 transition-colors"
+                                    data-target="{{ $totalDocuments }}">{{ $totalDocuments }}</h4>
+                                <p class="text-[11px] font-medium text-slate-300 mt-1.5">Tài liệu</p>
 
-                                <div class="w-full flex items-center justify-between mt-3 px-0.5">
-                                    <svg class="w-10 h-4 text-sky-500" viewBox="0 0 50 20" fill="none"
-                                        stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
+                                <div
+                                    class="w-full flex items-center justify-between mt-3.5 pt-2 border-t border-slate-700/60 px-0.5">
+                                    <svg class="w-8 h-2.5 text-sky-400 drop-shadow-[0_0_3px_rgba(56,189,248,0.5)]"
+                                        viewBox="0 0 50 20" fill="none" stroke="currentColor" stroke-width="3.5"
+                                        stroke-linecap="round">
                                         <path d="M0 15 Q10 5, 20 12 T40 8 T50 5" />
                                     </svg>
-                                    <span class="text-[10px] font-black text-sky-600 flex items-center">
-                                        <i class="fa-solid fa-arrow-up text-[8px] mr-0.5"></i>18%
+                                    <span
+                                        class="text-[9px] font-bold text-sky-400 bg-sky-500/10 px-1 py-0.5 rounded-md">
+                                        +18%
                                     </span>
                                 </div>
                             </div>
 
-                            <!-- Thẻ 2: MÔN HỌC (Màu Xanh Lá) -->
+                            <!-- Thẻ 2: MÔN HỌC -->
                             <div
-                                class="bg-white rounded-[22px] border border-slate-100 shadow-[0_8px_20px_rgba(0,0,0,0.02)] p-3 flex flex-col items-center relative group hover:-translate-y-0.5 transition-all duration-300">
-                                <button class="absolute top-2.5 right-2.5 text-slate-400">
-                                    <i class="fa-solid fa-ellipsis-vertical text-[10px]"></i>
-                                </button>
-
-                                <!-- VÒNG TRÒN VÀ ICON -->
+                                class="bg-slate-700/20 border border-slate-600/30 rounded-[20px] p-3.5 flex flex-col items-center relative overflow-hidden group/card hover:bg-slate-700/60 hover:border-emerald-500/50 hover:shadow-[0_15px_30px_rgba(16,185,129,0.2)] hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
                                 <div
-                                    class="w-11 h-11 rounded-full bg-emerald-500 flex items-center justify-center shadow-[0_6px_12px_rgba(16,185,129,0.3)] mt-1">
-                                    <i class="fa-solid fa-graduation-cap text-base text-white"></i>
+                                    class="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-emerald-500/5 to-transparent group-hover/card:translate-x-[100%] transition-transform duration-700 pointer-events-none">
                                 </div>
 
-                                <h4 class="text-2xl font-black text-emerald-900 mt-2 leading-none count-up"
-                                    data-target="{{ $totalSubjects }}">0</h4>
-                                <p class="text-xs font-extrabold text-slate-700 mt-1">Môn học</p>
+                                <div
+                                    class="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover/card:bg-emerald-500 group-hover/card:text-white group-hover/card:shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-300">
+                                    <i class="fa-solid fa-graduation-cap text-xs"></i>
+                                </div>
 
-                                <span
-                                    class="mt-1.5 px-2 py-0.5 rounded-full bg-emerald-50 text-[9px] font-bold text-emerald-600 whitespace-nowrap">
-                                    Tổng môn học
-                                </span>
+                                <h4 class="text-2xl font-black text-white mt-3 leading-none group-hover/card:text-emerald-400 transition-colors"
+                                    data-target="{{ $totalSubjects }}">{{ $totalSubjects }}</h4>
+                                <p class="text-[11px] font-medium text-slate-300 mt-1.5">Môn học</p>
 
-                                <div class="w-full flex items-center justify-between mt-3 px-0.5">
-                                    <svg class="w-10 h-4 text-emerald-500" viewBox="0 0 50 20" fill="none"
-                                        stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
+                                <div
+                                    class="w-full flex items-center justify-between mt-3.5 pt-2 border-t border-slate-700/60 px-0.5">
+                                    <svg class="w-8 h-2.5 text-emerald-400 drop-shadow-[0_0_3px_rgba(52,211,153,0.5)]"
+                                        viewBox="0 0 50 20" fill="none" stroke="currentColor" stroke-width="3.5"
+                                        stroke-linecap="round">
                                         <path d="M0 12 Q12 18, 22 10 T38 12 T50 4" />
                                     </svg>
-                                    <span class="text-[10px] font-black text-emerald-600 flex items-center">
-                                        <i class="fa-solid fa-arrow-up text-[8px] mr-0.5"></i>12%
+                                    <span
+                                        class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-1 py-0.5 rounded-md">
+                                        +12%
                                     </span>
                                 </div>
                             </div>
 
-                            <!-- Thẻ 3: KHOA (Màu Cam) -->
+                            <!-- Thẻ 3: KHOA -->
                             <div
-                                class="bg-white rounded-[22px] border border-slate-100 shadow-[0_8px_20px_rgba(0,0,0,0.02)] p-3 flex flex-col items-center relative group hover:-translate-y-0.5 transition-all duration-300">
-                                <button class="absolute top-2.5 right-2.5 text-slate-400">
-                                    <i class="fa-solid fa-ellipsis-vertical text-[10px]"></i>
-                                </button>
-
-                                <!-- VÒNG TRÒN VÀ ICON -->
+                                class="bg-slate-700/20 border border-slate-600/30 rounded-[20px] p-3.5 flex flex-col items-center relative overflow-hidden group/card hover:bg-slate-700/60 hover:border-amber-500/50 hover:shadow-[0_15px_30px_rgba(245,158,11,0.2)] hover:-translate-y-1.5 transition-all duration-300 cursor-pointer">
                                 <div
-                                    class="w-11 h-11 rounded-full bg-orange-500 flex items-center justify-center shadow-[0_6px_12px_rgba(249,115,22,0.3)] mt-1">
-                                    <i class="fa-solid fa-building-columns text-base text-white"></i>
+                                    class="absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent via-amber-500/5 to-transparent group-hover/card:translate-x-[100%] transition-transform duration-700 pointer-events-none">
                                 </div>
 
-                                <h4 class="text-2xl font-black text-orange-600 mt-2 leading-none count-up"
-                                    data-target="{{ $totalFaculties }}">0</h4>
-                                <p class="text-xs font-extrabold text-slate-700 mt-1">Khoa</p>
+                                <div
+                                    class="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 group-hover/card:bg-amber-500 group-hover/card:text-white group-hover/card:shadow-[0_0_15px_rgba(245,158,11,0.5)] transition-all duration-300">
+                                    <i class="fa-solid fa-building-columns text-xs"></i>
+                                </div>
 
-                                <span
-                                    class="mt-1.5 px-2 py-0.5 rounded-full bg-orange-50 text-[9px] font-bold text-orange-600 whitespace-nowrap">
-                                    Tổng khoa
-                                </span>
+                                <h4 class="text-2xl font-black text-white mt-3 leading-none group-hover/card:text-amber-400 transition-colors"
+                                    data-target="{{ $totalFaculties }}">{{ $totalFaculties }}</h4>
+                                <p class="text-[11px] font-medium text-slate-300 mt-1.5">Khoa</p>
 
-                                <div class="w-full flex items-center justify-between mt-3 px-0.5">
-                                    <svg class="w-10 h-4 text-orange-400" viewBox="0 0 50 20" fill="none"
-                                        stroke="currentColor" stroke-width="3" stroke-linecap="round"
-                                        stroke-linejoin="round">
+                                <div
+                                    class="w-full flex items-center justify-between mt-3.5 pt-2 border-t border-slate-700/60 px-0.5">
+                                    <svg class="w-8 h-2.5 text-amber-400 drop-shadow-[0_0_3px_rgba(251,146,60,0.5)]"
+                                        viewBox="0 0 50 20" fill="none" stroke="currentColor" stroke-width="3.5"
+                                        stroke-linecap="round">
                                         <path d="M0 16 Q10 10, 25 15 T40 10 T50 12" />
                                     </svg>
-                                    <span class="text-[10px] font-black text-orange-500 flex items-center">
-                                        <i class="fa-solid fa-arrow-up text-[8px] mr-0.5"></i>5%
+                                    <span
+                                        class="text-[9px] font-bold text-amber-400 bg-amber-500/10 px-1 py-0.5 rounded-md">
+                                        +5%
                                     </span>
                                 </div>
                             </div>
@@ -458,39 +470,7 @@
                     </div>
                 </div>
             </div>
-            <!-- ĐOẠN SCRIPT XỬ LÝ SỐ NHẢY (Đặt đoạn này ở cuối trang) -->
-            <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const counters = document.querySelectorAll('.count-up');
-
-                counters.forEach(counter => {
-                    const target = parseInt(counter.getAttribute('data-target'), 10) || 0;
-
-                    if (target === 0) {
-                        counter.innerText = "0";
-                        return;
-                    }
-
-                    let count = 0;
-                    // Tốc độ nhảy số (giá trị càng lớn nhảy càng nhanh để tất cả các cột dừng lại cùng lúc)
-                    const speed = target / 40;
-
-                    const updateCount = () => {
-                        count += speed;
-                        if (count < target) {
-                            counter.innerText = Math.floor(count);
-                            requestAnimationFrame(updateCount);
-                        } else {
-                            // Khi hoàn thành, định dạng số theo chuẩn Việt Nam (ví dụ: 1.250 thay vì 1250)
-                            counter.innerText = target.toLocaleString('vi-VN');
-                        }
-                    };
-                    updateCount();
-                });
-            });
-            </script>
         </div>
-
     </div>
 </header>
 <style>
@@ -529,10 +509,14 @@ setInterval(() => {
 </script>
 
 
-<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<main class="max-w-7xl mx-auto px-6 pt-10 pb-10">
     <!-- Phần khách vãng lai -->
     @guest
     <style>
+    /* ==================================================
+   FLOATING ANIMATION
+================================================== */
+
     @keyframes floatBlob {
 
         0%,
@@ -543,6 +527,7 @@ setInterval(() => {
         50% {
             transform: translate(15px, -18px) scale(1.05);
         }
+
     }
 
     @keyframes floatCard {
@@ -555,33 +540,62 @@ setInterval(() => {
         50% {
             transform: translateY(-10px);
         }
+
+    }
+
+    @keyframes floating {
+
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+
+        50% {
+            transform: translateY(-10px);
+        }
+
     }
 
     .guest-blob {
+
         animation: floatBlob 8s ease-in-out infinite;
+
     }
 
     .guest-card-float {
+
         animation: floatCard 5s ease-in-out infinite;
+
     }
 
-    /*==============================
-            =         Section nền          =
-            ==============================*/
+    .float-animation {
+
+        animation: floating 4s ease-in-out infinite;
+
+    }
+
+    /* ==================================================
+   ROLE SECTION
+================================================== */
 
     .role-section {
+
         position: relative;
+
         overflow: hidden;
+
     }
 
     .role-section::before,
     .role-section::after {
+
         display: none;
+
     }
 
-    /*==============================
-            =          Card Role           =
-            ==============================*/
+    /* ==================================================
+   ROLE CARD
+================================================== */
 
     .role-card {
 
@@ -589,47 +603,48 @@ setInterval(() => {
 
         overflow: hidden;
 
-        background: #fff;
+        background: #ffffff;
 
-        border: 1px solid #d9f4fb;
+        border: 1px solid #e5e7eb;
 
-        border-radius: 30px;
+        border-radius: 28px;
 
-        box-shadow: 0 18px 45px rgba(8, 145, 178, .08);
+        box-shadow:
+            0 12px 35px rgba(15, 23, 42, .05);
 
-        transition: .35s ease;
+        transition:
+            all .35s ease;
 
     }
 
     .role-card:hover {
 
-        transform: translateY(-10px);
+        transform: translateY(-8px);
 
-        box-shadow: 0 30px 65px rgba(8, 145, 178, .18);
+        box-shadow:
+            0 24px 50px rgba(15, 23, 42, .10);
 
     }
 
-    /* Thanh màu trên */
+    /* Thanh màu */
 
     .role-card-top {
 
-        height: 5px;
+        height: 4px;
 
-        background: linear-gradient(90deg, #06b6d4, #0891b2);
+        background: #f59e0b;
 
     }
 
-    /*==============================
-            =            Icon              =
-            ==============================*/
+    /* ==================================================
+   ROLE ICON
+================================================== */
 
     .role-icon {
 
-        width: 60px;
+        width: 64px;
 
-        height: 60px;
-
-        border-radius: 22px;
+        height: 64px;
 
         display: flex;
 
@@ -637,31 +652,34 @@ setInterval(() => {
 
         justify-content: center;
 
-        background: #ecfeff;
+        border-radius: 20px;
 
-        color: #0891b2;
+        background: #f8fafc;
 
-        font-size: 26px;
+        border: 1px solid #e5e7eb;
 
-        box-shadow: 0 12px 28px rgba(8, 145, 178, .12);
+        color: #475569;
 
-        transition: .3s;
+        font-size: 28px;
+
+        transition: .35s ease;
 
     }
 
     .role-card:hover .role-icon {
 
-        background: #0891b2;
+        background: #f59e0b;
 
-        color: #fff;
+        color: #ffffff;
 
-        transform: rotate(-8deg) scale(1.08);
+        transform:
+            rotate(-8deg) scale(1.08);
 
     }
 
-    /*==============================
-            =         Feature item         =
-            ==============================*/
+    /* ==================================================
+   ROLE FEATURE
+================================================== */
 
     .role-feature {
 
@@ -671,37 +689,68 @@ setInterval(() => {
 
         gap: 12px;
 
-        padding: 12px 16px;
+        padding: 14px 16px;
 
-        background: #f8fdff;
+        border-radius: 16px;
 
-        border: 1px solid #ecfeff;
+        background: #f8fafc;
 
-        border-radius: 14px;
+        border: 1px solid #e5e7eb;
 
-        transition: .25s;
+        transition: all .3s ease;
 
     }
 
     .role-feature:hover {
 
-        background: #ecfeff;
+        background: #ffffff;
 
-        transform: translateX(6px);
+        border-color: #fbbf24;
+
+        transform: translateX(5px);
+
+        box-shadow:
+            0 8px 18px rgba(15, 23, 42, .05);
 
     }
 
     .role-feature i {
 
-        color: #0891b2;
+        width: 30px;
 
-        font-size: 14px;
+        height: 30px;
+
+        border-radius: 999px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        background: #fff7ed;
+
+        color: #f59e0b;
+
+        font-size: 13px;
+
+        flex-shrink: 0;
 
     }
 
-    /*==============================
-            =        Button link           =
-            ==============================*/
+    .role-feature span {
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        color: #475569;
+
+    }
+
+    /* ==================================================
+   ROLE LINK
+================================================== */
 
     .role-link {
 
@@ -713,13 +762,13 @@ setInterval(() => {
 
         margin-top: 24px;
 
+        color: #f59e0b;
+
         font-size: 14px;
 
-        font-weight: 800;
+        font-weight: 700;
 
-        color: #0891b2;
-
-        transition: .25s;
+        transition: all .3s ease;
 
     }
 
@@ -727,13 +776,13 @@ setInterval(() => {
 
         gap: 14px;
 
-        color: #0e7490;
+        color: #d97706;
 
     }
 
-    /*==============================
-            =       Scroll Reveal          =
-            ==============================*/
+    /* ==================================================
+   SCROLL REVEAL
+================================================== */
 
     .reveal {
 
@@ -741,7 +790,7 @@ setInterval(() => {
 
         transform: translateY(60px);
 
-        transition: 1s ease;
+        transition: all .9s ease;
 
     }
 
@@ -757,9 +806,9 @@ setInterval(() => {
 
         opacity: 0;
 
-        transform: translateY(40px) scale(.95);
+        transform: translateY(40px) scale(.96);
 
-        transition: .8s ease;
+        transition: all .8s ease;
 
     }
 
@@ -789,77 +838,36 @@ setInterval(() => {
 
     }
 
-    .role-card {
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        border-radius: 24px;
-        transition: .3s;
-        overflow: hidden;
-    }
-
-    .role-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, .08);
-    }
-
-    .role-icon {
-
-        transition:
-            .35s;
-
-    }
-
-    .role-card:hover .role-icon {
-
-        transform:
-            rotate(-8deg) scale(1.1);
-
-    }
-
     /* ==================================================
-        FLOATING ANIMATION
-                ================================================== */
-
-    @keyframes floating {
-
-        0%,
-        100% {
-            transform: translateY(0);
-        }
-
-        50% {
-            transform: translateY(-10px);
-        }
-
-    }
-
-    .float-animation {
-
-        animation: floating 4s ease-in-out infinite;
-
-    }
-
-    /* ==================================================
-        HERO IMAGE
-                ================================================== */
+   HERO IMAGE
+================================================== */
 
     .hero-image {
 
-        transition: .8s;
+        transition: transform .8s ease;
 
     }
 
     .hero-image:hover {
 
-        transform: scale(1.04);
+        transform: scale(1.03);
 
     }
 
     /* ==================================================
-                STAT CARD
-                ================================================== */
+   STAT CARD
+================================================== */
 
     .stat-card {
+
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 24px;
+
+        box-shadow:
+            0 10px 25px rgba(15, 23, 42, .05);
 
         transition: all .35s ease;
 
@@ -870,134 +878,81 @@ setInterval(() => {
         transform: translateY(-8px);
 
         box-shadow:
-            0 28px 55px rgba(15, 23, 42, .15);
+            0 22px 45px rgba(15, 23, 42, .10);
 
     }
 
     .stat-card i {
 
-        transition: .35s;
+        transition: .35s ease;
 
     }
 
     .stat-card:hover i {
 
-        transform: rotate(-12deg) scale(1.15);
+        transform: rotate(-10deg) scale(1.08);
 
     }
 
     /* ==================================================
-        QUICK CARD
-                ================================================== */
+   QUICK CARD
+================================================== */
 
     .quick-card {
 
-        transition: .35s ease;
+        background: #ffffff;
+
+        border: 1px solid #e5e7eb;
+
+        border-radius: 28px;
+
+        box-shadow:
+            0 10px 28px rgba(15, 23, 42, .05);
+
+        transition: all .35s ease;
 
     }
 
     .quick-card:hover {
 
-        transform:
-            translateY(-8px);
+        transform: translateY(-8px);
+
+        box-shadow:
+            0 22px 45px rgba(15, 23, 42, .10);
 
     }
 
     .quick-card .quick-icon {
 
-        transition: .35s;
+        transition: all .35s ease;
 
     }
 
     .quick-card:hover .quick-icon {
 
-        transform:
-            rotate(-8deg) scale(1.1);
+        transform: rotate(-8deg) scale(1.08);
 
     }
 
     /* ==================================================
-                BUTTON
-                ================================================== */
+   HERO BUTTON
+================================================== */
 
     .hero-btn {
 
-        transition: .3s;
+        transition: all .3s ease;
 
     }
 
     .hero-btn:hover {
 
-        transform:
-            translateY(-3px);
+        transform: translateY(-3px);
 
     }
 
     /* ==================================================
-        SCROLL REVEAL
-        ================================================== */
-
-    .reveal {
-
-        opacity: 0;
-
-        transform: translateY(70px);
-
-        transition: 1s;
-
-    }
-
-    .reveal.active {
-
-        opacity: 1;
-
-        transform: translateY(0);
-
-    }
-
-    .reveal-item {
-
-        opacity: 0;
-
-        transform: translateY(50px);
-
-        transition: .9s;
-
-    }
-
-    .reveal.active .reveal-item:nth-child(1) {
-
-        opacity: 1;
-
-        transform: none;
-
-        transition-delay: .15s;
-
-    }
-
-    .reveal.active .reveal-item:nth-child(2) {
-
-        opacity: 1;
-
-        transform: none;
-
-        transition-delay: .35s;
-
-    }
-
-    .reveal.active .reveal-item:nth-child(3) {
-
-        opacity: 1;
-
-        transform: none;
-
-        transition-delay: .55s;
-
-    }
-
-    /* ==================================================
-        SHINE EFFECT
-        ================================================== */
+   SHINE EFFECT
+================================================== */
 
     .shine {
 
@@ -1022,13 +977,9 @@ setInterval(() => {
         height: 100%;
 
         background:
-
             linear-gradient(120deg,
-
                 transparent,
-
-                rgba(255, 255, 255, .6),
-
+                rgba(255, 255, 255, .55),
                 transparent);
 
     }
@@ -1058,23 +1009,37 @@ setInterval(() => {
     <!-- ===========================
      ROLE INTRO SECTION
     =========================== -->
-    <section class="role-section reveal mt-14 mb-20">
-        <div class="relative z-10">
+    <section class="role-section reveal mt-20 mb-24">
+
+        <div class="relative max-w-7xl mx-auto">
+
+            <!-- Background Blur -->
+            <div class="absolute -top-24 left-1/2 -translate-x-1/2
+            w-[450px]
+            h-[450px]
+            rounded-full
+            bg-amber-200/20
+            blur-[120px]
+            pointer-events-none">
+            </div>
 
             <!-- Badge -->
-            <div class="text-center">
+            <div class="relative text-center">
 
-                <span class="inline-flex items-center gap-2
-           px-5 py-2
-           rounded-full
-           bg-orange-50
-           border border-orange-100
-           text-orange-600
-           text-xs
-           font-black
-           uppercase
-           tracking-[0.18em]
-           shadow-sm">
+                <span class="inline-flex
+                items-center
+                gap-2
+                px-5
+                py-2.5
+                rounded-full
+                bg-slate-900
+                text-amber-400
+                text-xs
+                font-black
+                uppercase
+                tracking-[0.22em]
+                shadow-lg
+                shadow-slate-900/10">
 
                     <i class="fa-solid fa-users"></i>
 
@@ -1083,14 +1048,20 @@ setInterval(() => {
                 </span>
 
             </div>
-            <!-- Title -->
-            <div class="mt-6 text-center">
 
-                <h2 class="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+            <!-- Heading -->
+            <div class="relative mt-8 text-center">
+
+                <h2 class="text-4xl
+                md:text-5xl
+                font-black
+                tracking-tight
+                text-slate-900
+                leading-tight">
 
                     Hệ thống hỗ trợ
 
-                    <span class="text-cyan-600">
+                    <span class="text-amber-500">
 
                         nhiều nhóm người dùng
 
@@ -1098,70 +1069,93 @@ setInterval(() => {
 
                 </h2>
 
-                <p class="mt-5 max-w-3xl mx-auto
-                      text-slate-500
-                      text-lg
-                      leading-8">
+                <p class="mt-6
+                max-w-3xl
+                mx-auto
+                text-lg
+                leading-8
+                text-slate-500">
 
                     EDU DOC được xây dựng nhằm hỗ trợ sinh viên, giảng viên và
-                    quản trị viên trong việc quản lý, chia sẻ và khai thác học liệu
-                    một cách nhanh chóng, trực quan và hiệu quả.
+                    quản trị viên quản lý, chia sẻ và khai thác học liệu
+                    một cách trực quan, hiện đại và hiệu quả.
 
                 </p>
 
             </div>
 
-            <!-- Cards -->
-            <div class="mt-14 rounded-[36px]
-            border border-cyan-100
-            bg-white
-            shadow-lg
-            p-8 lg:p-10">
+            <!-- Main Card -->
+            <div class="relative
+            mt-16
+            rounded-[32px]
+            border
+            border-slate-200
+            bg-white/90
+            backdrop-blur-xl
+            shadow-[0_20px_60px_rgba(15,23,42,.08)]
+            p-8
+            lg:p-10">
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- ===========================
-                    STUDENT
-                    =========================== -->
-                    <div class="role-card reveal-item">
+                <div class="grid
+                grid-cols-1
+                lg:grid-cols-3
+                gap-7">
+
+                    <!-- ===================== STUDENT ===================== -->
+                    <div class="role-card group">
 
                         <div class="role-card-top"></div>
 
                         <div class="p-8">
 
                             <div class="role-icon">
+
                                 <i class="fa-solid fa-user-graduate"></i>
+
                             </div>
 
-                            <h3 class="mt-6 text-2xl font-black text-slate-900">
+                            <h3 class="mt-6
+                            text-2xl
+                            font-black
+                            text-slate-900">
+
                                 Sinh viên
+
                             </h3>
 
-                            <p class="mt-4 text-slate-500 leading-7">
-                                Sinh viên có thể tra cứu học liệu theo khoa, môn học và tải tài
-                                liệu phục vụ cho quá trình học tập một cách nhanh chóng.
+                            <p class="mt-4
+                            text-slate-500
+                            leading-7">
+
+                                Sinh viên có thể tra cứu tài liệu theo môn học,
+                                tìm kiếm nhanh và tải học liệu phục vụ học tập.
+
                             </p>
 
                             <div class="mt-7 space-y-3">
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Xem tài liệu môn học
-                                    </span>
+
+                                    <span>Xem tài liệu môn học</span>
+
                                 </div>
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Tìm kiếm theo từ khóa
-                                    </span>
+
+                                    <span>Tìm kiếm theo từ khóa</span>
+
                                 </div>
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Tải tài liệu học tập
-                                    </span>
+
+                                    <span>Tải tài liệu học tập</span>
+
                                 </div>
 
                             </div>
@@ -1169,50 +1163,61 @@ setInterval(() => {
                         </div>
 
                     </div>
-
-                    <!-- ===========================
-                     LECTURER
-                        =========================== -->
-                    <div class="role-card reveal-item">
+                    <!-- ===================== LECTURER ===================== -->
+                    <div class="role-card group">
 
                         <div class="role-card-top"></div>
 
                         <div class="p-8">
 
                             <div class="role-icon">
+
                                 <i class="fa-solid fa-chalkboard-user"></i>
+
                             </div>
 
-                            <h3 class="mt-6 text-2xl font-black text-slate-900">
+                            <h3 class="mt-6
+                            text-2xl
+                            font-black
+                            text-slate-900">
+
                                 Giảng viên
+
                             </h3>
 
-                            <p class="mt-4 text-slate-500 leading-7">
-                                Giảng viên có thể đăng tải, cập nhật phiên bản và quản lý các tài
-                                liệu của những môn học được phân công giảng dạy.
+                            <p class="mt-4
+                            text-slate-500
+                            leading-7">
+
+                                Giảng viên có thể đăng tải, cập nhật và quản lý
+                                học liệu của các môn học được phân công giảng dạy.
+
                             </p>
 
                             <div class="mt-7 space-y-3">
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Đăng tải học liệu
-                                    </span>
+
+                                    <span>Đăng tải học liệu</span>
+
                                 </div>
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Quản lý tài liệu của mình
-                                    </span>
+
+                                    <span>Quản lý tài liệu</span>
+
                                 </div>
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Cập nhật phiên bản tài liệu
-                                    </span>
+
+                                    <span>Cập nhật phiên bản</span>
+
                                 </div>
 
                             </div>
@@ -1221,49 +1226,61 @@ setInterval(() => {
 
                     </div>
 
-                    <!-- ===========================
-                    ADMIN
-                     =========================== -->
-                    <div class="role-card reveal-item">
+                    <!-- ===================== ADMIN ===================== -->
+                    <div class="role-card group">
 
                         <div class="role-card-top"></div>
 
                         <div class="p-8">
 
                             <div class="role-icon">
+
                                 <i class="fa-solid fa-shield-halved"></i>
+
                             </div>
 
-                            <h3 class="mt-6 text-2xl font-black text-slate-900">
+                            <h3 class="mt-6
+                            text-2xl
+                            font-black
+                            text-slate-900">
+
                                 Quản trị viên
+
                             </h3>
 
-                            <p class="mt-4 text-slate-500 leading-7">
-                                Quản trị viên quản lý toàn bộ hệ thống, người dùng, khoa, môn học,
-                                loại tài liệu và theo dõi các hoạt động trên website.
+                            <p class="mt-4
+                            text-slate-500
+                            leading-7">
+
+                                Quản trị viên chịu trách nhiệm quản lý toàn bộ
+                                hệ thống, người dùng, môn học và thống kê hoạt động.
+
                             </p>
 
                             <div class="mt-7 space-y-3">
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Quản lý người dùng
-                                    </span>
+
+                                    <span>Quản lý người dùng</span>
+
                                 </div>
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Quản lý học liệu
-                                    </span>
+
+                                    <span>Quản lý học liệu</span>
+
                                 </div>
 
                                 <div class="role-feature">
+
                                     <i class="fa-solid fa-check"></i>
-                                    <span class="font-semibold text-slate-700">
-                                        Thống kê & Nhật ký hệ thống
-                                    </span>
+
+                                    <span>Thống kê & Nhật ký</span>
+
                                 </div>
 
                             </div>
@@ -1274,95 +1291,160 @@ setInterval(() => {
 
                 </div>
 
-
-
-
-
-
-
-
             </div>
 
-
-
-
-
         </div>
+
     </section>
     <!-- GUEST SECTION -->
+    <section class="guest-section mb-20">
 
-    <section class="guest-section mb-16">
-
-        <div class="relative overflow-hidden rounded-[40px]
-        bg-gradient-to-br from-white via-cyan-50 to-sky-100
-        border border-cyan-100
-        shadow-[0_25px_70px_rgba(8,145,178,.12)]">
+        <div class="relative
+        overflow-hidden
+        rounded-[36px]
+        bg-gradient-to-br
+        from-white
+        via-slate-50
+        to-slate-100
+        border
+        border-slate-200
+        shadow-[0_25px_70px_rgba(15,23,42,.08)]">
 
             <!-- Background Blur -->
-            <div class="absolute -top-32 -left-32 w-[450px] h-[450px] rounded-full bg-cyan-300/20 blur-3xl"></div>
-            <div class="absolute -bottom-32 -right-32 w-[450px] h-[450px] rounded-full bg-sky-300/20 blur-3xl">
+            <div class="absolute
+            -top-32
+            -left-32
+            w-[420px]
+            h-[420px]
+            rounded-full
+            bg-amber-300/10
+            blur-[120px]">
+            </div>
+
+            <div class="absolute
+            -bottom-32
+            -right-32
+            w-[420px]
+            h-[420px]
+            rounded-full
+            bg-slate-300/20
+            blur-[120px]">
             </div>
 
             <!-- Dot Pattern -->
             <div class="absolute inset-0 opacity-[0.05]">
+
                 <div class="absolute inset-0" style="
-                    background-image: radial-gradient(circle,#0891b2 1px,transparent 1px);
-                    background-size:26px 26px;">
+                background-image:radial-gradient(circle,#64748b 1px,transparent 1px);
+                background-size:28px 28px;">
+
                 </div>
+
             </div>
 
-            <div class="relative max-w-5xl mx-auto text-center py-20 px-8">
+            <div class="relative
+            max-w-5xl
+            mx-auto
+            text-center
+            py-20
+            px-8">
 
+                <!-- Badge -->
+
+                <span class="inline-flex
+                items-center
+                gap-2
+                rounded-full
+                
+                px-5
+                py-2.5
+                text-xs
+                font-black
+                uppercase
+                tracking-[0.22em]
+                bg-slate-100
+                border border-slate-200
+                text-slate-700
+                shadow-none
+                shadow-lg
+                shadow-slate-900/10">
+
+                    <i class="fa-solid fa-graduation-cap"></i>
+
+                    EDU DOC
+
+                </span>
+
+                <!-- Title -->
 
                 <h1 class="mt-8
-                    text-4xl
-                    md:text-5xl
-                    leading-tight
-                    font-black
-                    tracking-tight
-                    text-slate-900">
+                text-4xl
+                md:text-5xl
+                leading-tight
+                font-black
+                tracking-tight
+                text-slate-900">
 
                     Quản lý
 
-                    <span class="text-cyan-600">
+                    <span class="text-amber-500">
+
                         học liệu
+
                     </span>
 
-                    <br>
+
 
                     thông minh
 
                 </h1>
 
                 <!-- Description -->
-                <p class="mt-8
+
+                <p class="mt-7
                 max-w-3xl
                 mx-auto
                 text-lg
                 leading-9
-                text-slate-500
-                font-medium">
+                text-slate-500">
 
                     EDU DOC giúp sinh viên và giảng viên quản lý,
-                    chia sẻ và tìm kiếm tài liệu môn học theo khoa,
+                    chia sẻ và tìm kiếm tài liệu theo khoa,
                     môn học và loại tài liệu trên một nền tảng
                     tập trung, hiện đại và dễ sử dụng.
 
                 </p>
 
-                <!-- Button -->
-                <div class="mt-10 flex justify-center flex-wrap gap-5">
+                <!-- ================= BUTTONS ================= -->
 
-                    <a href="{{ route('login') }}" class="inline-flex items-center gap-3
-                    px-8 py-4
+                <div class="mt-10
+                flex
+                justify-center
+                flex-wrap
+                gap-5">
+
+                    <!-- LOGIN -->
+
+                    <a href="{{ route('login') }}" class="inline-flex
+                    items-center
+                    gap-3
                     rounded-2xl
-                    bg-cyan-500
+                    bg-gradient-to-r
+                    from-slate-900
+                    via-slate-800
+                    to-slate-700
+                    px-8
+                    py-4
+                    text-sm
+                    font-bold
+                    tracking-wide
                     text-white
-                    font-black
-                    shadow-xl shadow-cyan-200
-                    hover:bg-cyan-600
+                    shadow-lg
+                    shadow-slate-900/20
+                    transition-all
+                    duration-300
                     hover:-translate-y-1
-                    transition-all">
+                    hover:shadow-xl">
 
                         Đăng nhập
 
@@ -1370,87 +1452,188 @@ setInterval(() => {
 
                     </a>
 
-                    <a href="{{ route('register') }}" class="inline-flex items-center gap-3
-                    px-8 py-4
+                    <!-- REGISTER -->
+
+                    <a href="{{ route('register') }}" class="inline-flex
+                    items-center
+                    gap-3
                     rounded-2xl
+                    border
+                    border-slate-200
                     bg-white
-                    border border-cyan-100
-                    text-cyan-700
-                    font-black
-                    transition-all duration-300
-                    hover:bg-orange-50
-                    hover:border-orange-300
-                    hover:text-orange-600
+                    px-8
+                    py-4
+                    text-sm
+                    font-bold
+                    text-slate-700
+                    transition-all
+                    duration-300
                     hover:-translate-y-1
-                    hover:shadow-lg hover:shadow-orange-100">
+                    hover:border-amber-300
+                    hover:bg-amber-50
+                    hover:text-amber-600
+                    hover:shadow-lg">
+
+                        <i class="fa-solid fa-user-plus"></i>
 
                         Tạo tài khoản
 
                     </a>
+
                 </div>
 
-                <!-- Statistics -->
-                <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- ================= STATISTICS ================= -->
 
-                    <div
-                        class="bg-white/90 backdrop-blur rounded-3xl p-7 border border-cyan-100 shadow-lg hover:-translate-y-2 transition">
+                <div class="mt-20
+                grid
+                grid-cols-1
+                md:grid-cols-3
+                gap-6">
 
-                        <div
-                            class="w-16 h-16 mx-auto rounded-2xl bg-cyan-100 text-cyan-600 flex items-center justify-center">
+                    <!-- DOCUMENTS -->
+
+                    <div class="rounded-3xl
+                    border
+                    border-slate-200
+                    bg-white/90
+                    backdrop-blur-xl
+                    p-7
+                    text-center
+                    shadow-md
+                    transition-all
+                    duration-300
+                    hover:-translate-y-2
+                    hover:shadow-xl">
+
+                        <div class="mx-auto
+                        flex
+                        h-16
+                        w-16
+                        items-center
+                        justify-center
+                        rounded-2xl
+                      bg-slate-100
+                        text-slate-700">
 
                             <i class="fa-solid fa-file-lines text-2xl"></i>
 
                         </div>
 
-                        <h3 class="mt-6 text-5xl font-black text-cyan-600">
+                        <h3 class="mt-6
+                        text-5xl
+                        font-black
+                        text-slate-900">
+
                             {{ number_format($totalDocuments) }}
+
                         </h3>
 
-                        <p class="mt-2 font-bold text-slate-500">
+                        <p class="mt-3
+                        font-semibold
+                        text-slate-500">
+
                             Tài liệu
+
                         </p>
 
                     </div>
 
-                    <div
-                        class="bg-white/90 backdrop-blur rounded-3xl p-7 border border-emerald-100 shadow-lg hover:-translate-y-2 transition">
+                    <!-- SUBJECTS -->
 
-                        <div
-                            class="w-16 h-16 mx-auto rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+                    <div class="rounded-3xl
+                    border
+                    border-slate-200
+                    bg-white/90
+                    backdrop-blur-xl
+                    p-7
+                    text-center
+                    shadow-md
+                    transition-all
+                    duration-300
+                    hover:-translate-y-2
+                    hover:shadow-xl">
+
+                        <div class="mx-auto
+                        flex
+                        h-16
+                        w-16
+                        items-center
+                        justify-center
+                        rounded-2xl
+                        bg-slate-100
+                        text-slate-700">
 
                             <i class="fa-solid fa-book-open text-2xl"></i>
 
                         </div>
 
-                        <h3 class="mt-6 text-5xl font-black text-emerald-600">
+                        <h3 class="mt-6
+                        text-5xl
+                        font-black
+                        text-slate-900">
+
                             {{ number_format($totalSubjects) }}
+
                         </h3>
 
-                        <p class="mt-2 font-bold text-slate-500">
+                        <p class="mt-3
+                        font-semibold
+                        text-slate-500">
+
                             Môn học
+
                         </p>
 
                     </div>
 
-                    <div
-                        class="bg-white/90 backdrop-blur rounded-3xl p-7 border border-violet-100 shadow-lg hover:-translate-y-2 transition">
+                    <!-- FACULTIES -->
 
-                        <div
-                            class="w-16 h-16 mx-auto rounded-2xl bg-violet-100 text-violet-600 flex items-center justify-center">
+                    <div class="rounded-3xl
+                    border
+                    border-slate-200
+                    bg-white/90
+                    backdrop-blur-xl
+                    p-7
+                    text-center
+                    shadow-md
+                    transition-all
+                    duration-300
+                    hover:-translate-y-2
+                    hover:shadow-xl">
+
+                        <div class="mx-auto
+                        flex
+                        h-16
+                        w-16
+                        items-center
+                        justify-center
+                        rounded-2xl
+                        bg-slate-100
+                        text-slate-700">
 
                             <i class="fa-solid fa-building-columns text-2xl"></i>
 
                         </div>
 
-                        <h3 class="mt-6 text-5xl font-black text-violet-600">
+                        <h3 class="mt-6
+                        text-5xl
+                        font-black
+                        text-slate-900">
+
                             {{ number_format($totalFaculties) }}
+
                         </h3>
 
-                        <p class="mt-2 font-bold text-slate-500">
+                        <p class="mt-3
+                        font-semibold
+                        text-slate-500">
+
                             Khoa
+
                         </p>
 
                     </div>
+
                 </div>
 
             </div>
@@ -1458,24 +1641,135 @@ setInterval(() => {
         </div>
 
     </section>
+    <!-- Lợi ích của hệ thống -->
+    <div class="mt-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm">
+
+        <div class="mb-8 text-center">
+
+            <h3 class="text-2xl font-bold text-slate-900">
+                Vì sao chọn EDU DOC?
+            </h3>
+
+            <p class="mt-2 max-w-3xl mx-auto text-slate-500 leading-7">
+                EDU DOC mang đến một môi trường quản lý học liệu hiện đại, giúp việc lưu trữ,
+                chia sẻ và khai thác tài liệu trở nên nhanh chóng, thuận tiện và hiệu quả.
+            </p>
+
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+
+            <!-- Card 1 -->
+            <div
+                class="rounded-2xl border border-slate-200 bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100">
+
+                    <i class="fa-solid fa-bolt text-xl text-amber-500"></i>
+
+                </div>
+
+                <h4 class="mt-5 text-lg font-semibold text-slate-900">
+                    Nhanh chóng
+                </h4>
+
+                <p class="mt-3 text-sm leading-7 text-slate-600">
+                    Tra cứu và truy cập tài liệu chỉ trong vài giây với bộ lọc và tìm kiếm thông minh.
+                </p>
+
+            </div>
+
+            <!-- Card 2 -->
+            <div
+                class="rounded-2xl border border-slate-200 bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100">
+
+                    <i class="fa-solid fa-shield-halved text-xl text-amber-500"></i>
+
+                </div>
+
+                <h4 class="mt-5 text-lg font-semibold text-slate-900">
+                    An toàn
+                </h4>
+
+                <p class="mt-3 text-sm leading-7 text-slate-600">
+                    Quản lý quyền truy cập theo từng vai trò, đảm bảo tài liệu được sử dụng đúng đối tượng.
+                </p>
+
+            </div>
+
+            <!-- Card 3 -->
+            <div
+                class="rounded-2xl border border-slate-200 bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100">
+
+                    <i class="fa-solid fa-layer-group text-xl text-amber-500"></i>
+
+                </div>
+
+                <h4 class="mt-5 text-lg font-semibold text-slate-900">
+                    Quản lý tập trung
+                </h4>
+
+                <p class="mt-3 text-sm leading-7 text-slate-600">
+                    Tất cả học liệu được lưu trữ trên một hệ thống thống nhất, dễ dàng quản lý và cập nhật.
+                </p>
+
+            </div>
+
+            <!-- Card 4 -->
+            <div
+                class="rounded-2xl border border-slate-200 bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+
+                <div
+                    class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-slate-200 bg-slate-100">
+
+                    <i class="fa-solid fa-hand-pointer text-xl text-amber-500"></i>
+
+                </div>
+
+                <h4 class="mt-5 text-lg font-semibold text-slate-900">
+                    Dễ sử dụng
+                </h4>
+
+                <p class="mt-3 text-sm leading-7 text-slate-600">
+                    Giao diện trực quan, thân thiện với người dùng và phù hợp cho cả giảng viên lẫn sinh viên.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
     <!-- ==========================================
         QUICK ACTIONS
     =========================================== -->
     <section class="mt-20">
 
         <!-- Heading -->
-        <div class="text-center mb-10">
-            <span class="inline-flex items-center gap-2
-                    px-5 py-2
-                    rounded-full
-                    bg-orange-50
-                    border border-orange-100
-                    text-orange-600
-                    text-xs
-                    font-black
-                    uppercase
-                    tracking-[0.2em]
-                    shadow-sm">
+        <div class="text-center mb-12">
+
+            <!-- Badge -->
+            <span class="inline-flex
+            items-center
+            gap-2
+            px-5
+            py-2.5
+            rounded-full
+            bg-slate-900
+            text-amber-400
+            text-xs
+            font-black
+            uppercase
+            tracking-[0.20em]
+            shadow-lg
+            shadow-slate-900/10">
 
                 <i class="fa-solid fa-compass"></i>
 
@@ -1483,62 +1777,95 @@ setInterval(() => {
 
             </span>
 
-            <h2 class="mt-5 text-4xl font-black text-slate-900">
+            <!-- Title -->
+            <h2 class="mt-6
+            text-4xl
+            md:text-5xl
+            font-black
+            tracking-tight
+            text-slate-900">
 
-                Truy cập nhanh
+                Truy cập
+
+                <span class="text-amber-500">
+
+                    nhanh
+
+                </span>
 
             </h2>
 
-            <p class="mt-3 text-slate-500 text-lg max-w-2xl mx-auto leading-8">
+            <!-- Description -->
+            <p class="mt-5
+            max-w-2xl
+            mx-auto
+            text-lg
+            leading-8
+            text-slate-500">
 
                 Khám phá danh sách khoa, môn học và kho tài liệu
-                chỉ với một lần nhấp chuột.
+                chỉ với một lần nhấp chuột trên hệ thống EDUDOC.
 
             </p>
 
         </div>
 
         <!-- Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+        <div class="grid
+        grid-cols-1
+        md:grid-cols-3
+        gap-7">
 
             <!-- ========================= -->
             <!-- FACULTY -->
             <!-- ========================= -->
 
-            <a href="{{ route('faculties.index') }}" class="group relative overflow-hidden
-            rounded-[32px]
+            <a href="{{ route('faculties.index') }}" class="group
+            quick-card
+            relative
+            overflow-hidden
+            rounded-[30px]
             bg-white
-            border border-cyan-100
+            border
+            border-slate-200
             p-8
-            shadow-[0_15px_40px_rgba(8,145,178,.08)]
+            shadow-[0_15px_40px_rgba(15,23,42,.06)]
             hover:-translate-y-2
-            hover:shadow-[0_25px_60px_rgba(8,145,178,.16)]
-            transition-all duration-300">
+            hover:shadow-[0_25px_60px_rgba(15,23,42,.12)]
+            transition-all
+            duration-300">
 
-                <!-- Background -->
+                <!-- Hover Background -->
                 <div class="absolute
-                -top-10
-                -right-10
+                -top-12
+                -right-12
                 w-40
                 h-40
                 rounded-full
-                bg-cyan-100
+                bg-amber-100/40
                 opacity-0
                 group-hover:opacity-100
-                transition">
+                transition
+                duration-300">
                 </div>
 
                 <div class="relative">
 
-                    <div class="w-16 h-16
+                    <!-- Icon -->
+                    <div class="quick-icon
+                    w-16
+                    h-16
                     rounded-3xl
-                    bg-cyan-50
-                    text-cyan-600
-                    flex items-center justify-center
+                    bg-slate-900
+                    text-amber-400
+                    flex
+                    items-center
+                    justify-center
                     text-2xl
-                    group-hover:bg-cyan-500
-                    group-hover:text-white
-                    transition">
+                    transition-all
+                    duration-300
+                    group-hover:bg-amber-500
+                    group-hover:text-white">
 
                         <i class="fa-solid fa-building-columns"></i>
 
@@ -1561,25 +1888,29 @@ setInterval(() => {
                         đang có trong hệ thống.
 
                     </p>
-
+                    <!-- Bottom -->
                     <div class="mt-8
-                    flex items-center
+                    flex
+                    items-center
                     justify-between">
 
-                        <span class="font-black
-                        text-cyan-600">
+                        <span class="font-bold text-amber-600">
 
                             Khám phá
 
                         </span>
 
-                        <div class="w-11 h-11
+                        <div class="w-11
+                        h-11
                         rounded-full
-                        bg-cyan-50
-                        flex items-center justify-center
-                        group-hover:bg-cyan-500
-                        group-hover:text-white
-                        transition">
+                        bg-slate-100
+                        flex
+                        items-center
+                        justify-center
+                        transition-all
+                        duration-300
+                        group-hover:bg-amber-500
+                        group-hover:text-white">
 
                             <i class="fa-solid fa-arrow-right"></i>
 
@@ -1595,39 +1926,52 @@ setInterval(() => {
             <!-- SUBJECT -->
             <!-- ========================= -->
 
-            <a href="{{ route('subjects.index') }}" class="group relative overflow-hidden
-            rounded-[32px]
+            <a href="{{ route('subjects.index') }}" class="group
+            quick-card
+            relative
+            overflow-hidden
+            rounded-[30px]
             bg-white
-            border border-sky-100
+            border
+            border-slate-200
             p-8
-            shadow-[0_15px_40px_rgba(14,165,233,.08)]
+            shadow-[0_15px_40px_rgba(15,23,42,.06)]
             hover:-translate-y-2
-            hover:shadow-[0_25px_60px_rgba(14,165,233,.16)]
-            transition-all duration-300">
+            hover:shadow-[0_25px_60px_rgba(15,23,42,.12)]
+            transition-all
+            duration-300">
 
+                <!-- Hover Background -->
                 <div class="absolute
-                -top-10
-                -right-10
+                -top-12
+                -right-12
                 w-40
                 h-40
                 rounded-full
-                bg-sky-100
+                bg-amber-100/40
                 opacity-0
                 group-hover:opacity-100
-                transition">
+                transition
+                duration-300">
                 </div>
 
                 <div class="relative">
 
-                    <div class="w-16 h-16
+                    <!-- Icon -->
+                    <div class="quick-icon
+                    w-16
+                    h-16
                     rounded-3xl
-                    bg-sky-50
-                    text-sky-600
-                    flex items-center justify-center
+                    bg-slate-900
+                    text-amber-400
+                    flex
+                    items-center
+                    justify-center
                     text-2xl
-                    group-hover:bg-sky-500
-                    group-hover:text-white
-                    transition">
+                    transition-all
+                    duration-300
+                    group-hover:bg-amber-500
+                    group-hover:text-white">
 
                         <i class="fa-solid fa-book-open"></i>
 
@@ -1646,28 +1990,34 @@ setInterval(() => {
                     text-slate-500
                     leading-7">
 
-                        Duyệt toàn bộ môn học và
-                        học liệu tương ứng.
+                        Duyệt toàn bộ danh sách môn học
+                        và học liệu được phân loại
+                        theo từng chuyên ngành.
 
                     </p>
 
                     <div class="mt-8
-                    flex items-center justify-between">
+                    flex
+                    items-center
+                    justify-between">
 
-                        <span class="font-black
-                        text-sky-600">
+                        <span class="font-bold text-amber-600">
 
                             Khám phá
 
                         </span>
 
-                        <div class="w-11 h-11
+                        <div class="w-11
+                        h-11
                         rounded-full
-                        bg-sky-50
-                        flex items-center justify-center
-                        group-hover:bg-sky-500
-                        group-hover:text-white
-                        transition">
+                        bg-slate-100
+                        flex
+                        items-center
+                        justify-center
+                        transition-all
+                        duration-300
+                        group-hover:bg-amber-500
+                        group-hover:text-white">
 
                             <i class="fa-solid fa-arrow-right"></i>
 
@@ -1678,49 +2028,62 @@ setInterval(() => {
                 </div>
 
             </a>
-
             <!-- ========================= -->
             <!-- DOCUMENT -->
             <!-- ========================= -->
 
-            <a href="{{ route('documents.index') }}" class="group relative overflow-hidden
-            rounded-[32px]
+            <a href="{{ route('documents.index') }}" class="group
+            quick-card
+            relative
+            overflow-hidden
+            rounded-[30px]
             bg-white
-            border border-emerald-100
+            border
+            border-slate-200
             p-8
-            shadow-[0_15px_40px_rgba(16,185,129,.08)]
+            shadow-[0_15px_40px_rgba(15,23,42,.06)]
             hover:-translate-y-2
-            hover:shadow-[0_25px_60px_rgba(16,185,129,.16)]
-            transition-all duration-300">
+            hover:shadow-[0_25px_60px_rgba(15,23,42,.12)]
+            transition-all
+            duration-300">
 
+                <!-- Hover Background -->
                 <div class="absolute
-                -top-10
-                -right-10
+                -top-12
+                -right-12
                 w-40
                 h-40
                 rounded-full
-                bg-emerald-100
+                bg-amber-100/40
                 opacity-0
                 group-hover:opacity-100
-                transition">
+                transition
+                duration-300">
                 </div>
 
                 <div class="relative">
 
-                    <div class="w-16 h-16
+                    <!-- Icon -->
+                    <div class="quick-icon
+                    w-16
+                    h-16
                     rounded-3xl
-                    bg-emerald-50
-                    text-emerald-600
-                    flex items-center justify-center
+                    bg-slate-900
+                    text-amber-400
+                    flex
+                    items-center
+                    justify-center
                     text-2xl
-                    group-hover:bg-emerald-500
-                    group-hover:text-white
-                    transition">
+                    transition-all
+                    duration-300
+                    group-hover:bg-amber-500
+                    group-hover:text-white">
 
                         <i class="fa-solid fa-file-lines"></i>
 
                     </div>
 
+                    <!-- Title -->
                     <h3 class="mt-7
                     text-2xl
                     font-black
@@ -1730,33 +2093,40 @@ setInterval(() => {
 
                     </h3>
 
+                    <!-- Description -->
                     <p class="mt-3
                     text-slate-500
                     leading-7">
 
-                        Giáo trình, slide,
-                        đề thi và nhiều học liệu
-                        hữu ích khác.
+                        Khám phá giáo trình, bài giảng,
+                        slide, đề thi và nhiều tài liệu học tập
+                        được cập nhật thường xuyên.
 
                     </p>
 
+                    <!-- Bottom -->
                     <div class="mt-8
-                    flex items-center justify-between">
+                    flex
+                    items-center
+                    justify-between">
 
-                        <span class="font-black
-                        text-emerald-600">
+                        <span class="font-bold text-amber-600">
 
                             Xem ngay
 
                         </span>
 
-                        <div class="w-11 h-11
+                        <div class="w-11
+                        h-11
                         rounded-full
-                        bg-emerald-50
-                        flex items-center justify-center
-                        group-hover:bg-emerald-500
-                        group-hover:text-white
-                        transition">
+                        bg-slate-100
+                        flex
+                        items-center
+                        justify-center
+                        transition-all
+                        duration-300
+                        group-hover:bg-amber-500
+                        group-hover:text-white">
 
                             <i class="fa-solid fa-arrow-right"></i>
 
@@ -1783,18 +2153,17 @@ setInterval(() => {
 
                 <div class="flex items-center gap-4">
 
-                    <div
-                        class="flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-50 border border-cyan-100">
-                        <i class="fa-solid fa-book-open text-2xl text-cyan-600"></i>
-                    </div>
 
                     <div>
 
 
 
-                        <h2 class="text-2xl font-bold text-slate-900 mt-1">
+                        <h1 class="text-3xl font-bold text-slate-900">
                             Danh sách môn học
-                        </h2>
+                        </h1>
+                        <p class="mt-2 text-sm leading-6 text-slate-500">
+                            Danh sách các môn học được quản lý và cập nhật trong hệ thống.
+                        </p>
 
                     </div>
 
@@ -1811,9 +2180,7 @@ setInterval(() => {
 
             </div>
 
-            <p class="mt-3 text-sm text-slate-500">
-                Danh sách các môn học được quản lý và cập nhật trong hệ thống.
-            </p>
+
 
             <div class="mt-5 h-px bg-slate-200"></div>
 
@@ -1822,31 +2189,40 @@ setInterval(() => {
 
             @foreach($subjects as $subject)
 
-            <a href="{{ route('subjects.show',$subject->subject_code) }}" class="group flex flex-col overflow-hidden rounded-3xl
-                    border border-slate-200 bg-white
-                    shadow-sm
-                    hover:shadow-xl
-                    hover:-translate-y-1
-                    transition-all duration-300">
+            <a href="{{ route('subjects.show',$subject->subject_code) }}" class="group flex flex-col overflow-hidden
+        rounded-3xl
+        border border-slate-200
+        bg-white
+        shadow-sm
+        transition-all duration-300
+        hover:-translate-y-1
+        hover:border-slate-300
+        hover:shadow-xl">
 
                 <!-- IMAGE -->
                 <div class="relative h-44 overflow-hidden">
 
                     <img src="{{ $subject->thumbnail ? asset('img/subjects/'.$subject->thumbnail) : asset('images/default-subject.jpg') }}"
                         alt="{{ $subject->subject_name }}"
-                        class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+                        class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
 
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent">
+                    </div>
 
                     @if($subject->faculty)
 
-                    <span class="absolute top-4 left-4
+                    <span class="absolute
+                top-4
+                left-4
                 rounded-full
+                border
+                border-white/60
                 bg-white/90
                 backdrop-blur
-                px-3 py-1
+                px-3
+                py-1
                 text-xs
-                font-medium
+                font-semibold
                 text-slate-700">
 
                         {{ $subject->faculty->faculty_name }}
@@ -1858,16 +2234,33 @@ setInterval(() => {
                 </div>
 
                 <!-- CONTENT -->
-                <div class="flex flex-col flex-1 p-5">
+                <div class="flex flex-1 flex-col p-5">
 
-                    <span class="text-xs font-semibold uppercase tracking-wider text-cyan-600">
+                    <!-- Subject Code -->
+                    <span class="inline-flex
+                w-fit
+                rounded-full
+                bg-amber-50
+                px-3
+                py-1
+                text-[11px]
+                font-bold
+                uppercase
+                tracking-[0.18em]
+                text-amber-600">
 
                         {{ $subject->subject_code }}
 
                     </span>
 
-                    <h3 class="mt-2 text-lg font-bold text-slate-800 line-clamp-2
-                group-hover:text-cyan-600 transition">
+                    <!-- Title -->
+                    <h3 class="mt-3
+                line-clamp-2
+                text-lg
+                font-black
+                text-slate-900
+                transition-colors
+                group-hover:text-amber-500">
 
                         {{ $subject->subject_name }}
 
@@ -1875,17 +2268,17 @@ setInterval(() => {
 
                     <div class="mt-auto pt-6">
 
-                        <div class="border-t border-slate-100 pt-4 flex items-center justify-between">
+                        <div class="flex items-center justify-between border-t border-slate-100 pt-4">
 
                             <div>
 
-                                <p class="text-2xl font-bold text-slate-900">
+                                <p class="text-2xl font-black text-slate-900">
 
                                     {{ number_format($subject->documents_count) }}
 
                                 </p>
 
-                                <p class="text-xs text-slate-500">
+                                <p class="mt-1 text-xs font-medium text-slate-500">
 
                                     Tài liệu
 
@@ -1893,12 +2286,21 @@ setInterval(() => {
 
                             </div>
 
-                            <div class="w-11 h-11 rounded-full
-                        bg-cyan-50
-                        text-cyan-600
-                        flex items-center justify-center
-                        transition
-                        group-hover:bg-cyan-500
+                            <!-- Arrow -->
+                            <div class="flex
+                        h-11
+                        w-11
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-slate-200
+                        bg-slate-100
+                        text-slate-600
+                        transition-all
+                        duration-300
+                        group-hover:border-amber-300
+                        group-hover:bg-amber-500
                         group-hover:text-white">
 
                                 <i class="fa-solid fa-arrow-right"></i>
@@ -1928,100 +2330,86 @@ setInterval(() => {
         <div class="flex flex-col h-full">
 
             <!-- HEADER -->
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6 flex items-center justify-between">
 
                 <div class="flex items-center gap-4">
 
-                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl
-                    bg-cyan-50 border border-cyan-100">
-
-                        <i class="fa-solid fa-clock-rotate-left text-2xl text-cyan-600"></i>
-
-                    </div>
 
                     <div>
 
 
-                        <h2 class="mt-1 text-2xl font-bold text-slate-900">
-                            Tài liệu mới nhất
-                        </h2>
 
-                        <p class="mt-1 text-sm text-slate-500">
+                        <h1 class="text-3xl font-bold text-slate-900">
+                            Tài liệu mới nhất
+
+                        </h1>
+
+                        <p class="mt-2 text-sm leading-6 text-slate-500">
+
                             Những tài liệu vừa được cập nhật trong hệ thống.
+
                         </p>
 
                     </div>
 
                 </div>
 
-
-
             </div>
 
             <!-- CARD -->
-            <div class="overflow-hidden rounded-3xl
-            border border-slate-200
+            <div class="overflow-hidden
+            rounded-3xl
+            border
+            border-slate-200
             bg-white
             shadow-sm">
+
                 @foreach($latestDocuments as $document)
 
                 @php
                 $ext = strtolower($document->currentVersion->file_extension ?? '');
                 @endphp
 
-                <div
-                    class="group flex items-center justify-between gap-6 border-b border-slate-100 px-6 py-5 transition hover:bg-slate-50">
+
+                <div class="group
+                flex
+                items-center
+                justify-between
+                gap-6
+                border-b
+                border-slate-100
+                px-6
+                py-5
+                transition
+                hover:bg-slate-50">
 
                     <!-- LEFT -->
                     <a href="{{ route('documents.show', $document->document_id) }}"
                         class="flex flex-1 items-center gap-5 min-w-0">
 
                         <!-- FILE ICON -->
-                        <div class="flex h-14 w-14 items-center justify-center rounded-2xl
+                        <div class="flex h-14 w-14 items-center justify-center
+                            rounded-2xl
+                            border border-slate-200
+                            bg-slate-100
+                            text-slate-600
+                            transition-all duration-300
+                            group-hover:border-amber-300
+                            group-hover:bg-amber-50
+                            group-hover:text-amber-500">
 
-            @if(in_array($ext,['pdf']))
-                bg-red-50 text-red-500
-            @elseif(in_array($ext,['doc','docx']))
-                bg-blue-50 text-blue-600
-            @elseif(in_array($ext,['xls','xlsx']))
-                bg-green-50 text-green-600
-            @elseif(in_array($ext,['ppt','pptx']))
-                bg-orange-50 text-orange-600
-            @elseif(in_array($ext,['zip','rar']))
-                bg-yellow-50 text-yellow-600
-            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                bg-pink-50 text-pink-600
-            @elseif(in_array($ext,['mp4','avi','mov']))
-                bg-purple-50 text-purple-600
-            @else
-                bg-slate-100 text-slate-500
-            @endif">
-
-                            @if(in_array($ext,['pdf']))
-                            <i class="fa-solid fa-file-pdf text-xl"></i>
-                            @elseif(in_array($ext,['doc','docx']))
-                            <i class="fa-solid fa-file-word text-xl"></i>
-                            @elseif(in_array($ext,['xls','xlsx']))
-                            <i class="fa-solid fa-file-excel text-xl"></i>
-                            @elseif(in_array($ext,['ppt','pptx']))
-                            <i class="fa-solid fa-file-powerpoint text-xl"></i>
-                            @elseif(in_array($ext,['zip','rar']))
-                            <i class="fa-solid fa-file-zipper text-xl"></i>
-                            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                            <i class="fa-solid fa-file-image text-xl"></i>
-                            @elseif(in_array($ext,['mp4','avi','mov']))
-                            <i class="fa-solid fa-file-video text-xl"></i>
-                            @else
-                            <i class="fa-solid fa-file text-xl"></i>
-                            @endif
+                            <i class="fa-solid fa-folder-open text-xl"></i>
 
                         </div>
-
                         <!-- CONTENT -->
                         <div class="min-w-0 flex-1">
 
-                            <h3
-                                class="truncate text-lg font-semibold text-slate-800 transition group-hover:text-cyan-600">
+                            <h3 class="truncate
+                            text-lg
+                            font-bold
+                            text-slate-900
+                            transition-colors
+                            group-hover:text-amber-500">
 
                                 {{ $document->title }}
 
@@ -2029,17 +2417,33 @@ setInterval(() => {
 
                             <div class="mt-3 flex flex-wrap gap-2">
 
-                                <span
-                                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+                                <!-- Subject -->
+                                <span class="inline-flex
+                                items-center
+                                rounded-full
+                                bg-slate-100
+                                px-3
+                                py-1
+                                text-xs
+                                font-medium
+                                text-slate-700">
 
-                                    <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
+                                    <i class="fa-solid fa-book mr-1 text-amber-500"></i>
 
                                     {{ $document->subject?->subject_name ?? 'Chưa có môn học' }}
 
                                 </span>
 
-                                <span
-                                    class="inline-flex items-center rounded-full bg-cyan-50 px-3 py-1 text-xs text-cyan-700">
+                                <!-- Download -->
+                                <span class="inline-flex
+                                items-center
+                                rounded-full
+                                bg-amber-50
+                                px-3
+                                py-1
+                                text-xs
+                                font-medium
+                                text-amber-600">
 
                                     <i class="fa-solid fa-download mr-1"></i>
 
@@ -2047,10 +2451,18 @@ setInterval(() => {
 
                                 </span>
 
-                                <span
-                                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+                                <!-- Date -->
+                                <span class="inline-flex
+                                items-center
+                                rounded-full
+                                bg-slate-100
+                                px-3
+                                py-1
+                                text-xs
+                                font-medium
+                                text-slate-600">
 
-                                    <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
+                                    <i class="fa-solid fa-calendar mr-1 text-amber-500"></i>
 
                                     {{ $document->created_at->format('d/m/Y') }}
 
@@ -2062,25 +2474,27 @@ setInterval(() => {
 
                     </a>
 
-                    <!-- BUTTON -->
+                    <!-- DOWNLOAD BUTTON -->
                     <div class="shrink-0">
 
                         <a href="{{ route('documents.download',$document) }}" class="inline-flex
                         items-center
                         gap-2
                         rounded-xl
-                        bg-cyan-500
+                        bg-slate-900
                         px-5
                         py-3
                         text-sm
                         font-semibold
                         text-white
-                        transition
-                        hover:bg-cyan-600">
+                        transition-all
+                        duration-300
+                        hover:-translate-y-0.5
+                        hover:bg-slate-800">
 
                             <i class="fa-solid fa-download"></i>
 
-                            Tải xuống
+                            Tải
 
                         </a>
 
@@ -2089,62 +2503,83 @@ setInterval(() => {
                 </div>
 
                 @endforeach
+
             </div>
+
         </div>
 
         <!-- ================= RIGHT ================= -->
         <div class="flex flex-col h-full">
 
             <!-- HEADER -->
-            <div class="flex items-center justify-between mb-6">
+            <div class="mb-6 flex items-center justify-between">
 
                 <div class="flex items-center gap-4">
 
-                    <div class="flex h-14 w-14 items-center justify-center
-                rounded-2xl
-                bg-orange-50
-                border border-orange-100">
 
-                        <i class="fa-solid fa-fire text-2xl text-orange-500"></i>
-
-                    </div>
 
                     <div>
 
 
+                        <h1 class="text-3xl font-bold text-slate-900">
 
-                        <h2 class="mt-1 text-2xl font-bold text-slate-900">
                             Tài liệu tải nhiều
-                        </h2>
 
-                        <p class="mt-1 text-sm text-slate-500">
+                        </h1>
+
+                        <p class="mt-2 text-sm leading-6 text-slate-500">
+
                             Những tài liệu được tải xuống nhiều nhất.
+
                         </p>
 
                     </div>
 
                 </div>
 
-
             </div>
 
             <!-- CARD -->
-            <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div class="rounded-3xl
+            border
+            border-slate-200
+            bg-white
+            p-5
+            shadow-sm">
 
                 <div class="space-y-4">
 
                     @foreach($topDocuments as $index => $document)
 
-                    <a href="{{ route('documents.show',$document->document_id) }}"
-                        class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-orange-300 hover:shadow-lg">
+                    <a href="{{ route('documents.show',$document->document_id) }}" class="group
+                    flex
+                    items-center
+                    gap-4
+                    rounded-2xl
+                    border
+                    border-slate-200
+                    bg-white
+                    p-4
+                    transition-all
+                    duration-300
+                    hover:-translate-y-1
+                    hover:border-amber-300
+                    hover:shadow-lg">
 
                         <!-- RANK -->
                         <div class="shrink-0">
 
                             @if($index==0)
 
-                            <div
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500 text-white font-bold shadow-sm">
+                            <div class="flex
+                            h-12
+                            w-12
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-amber-500
+                            text-white
+                            font-bold">
 
                                 #1
 
@@ -2152,8 +2587,15 @@ setInterval(() => {
 
                             @elseif($index==1)
 
-                            <div
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-400 text-white font-bold shadow-sm">
+                            <div class="flex
+                            h-12
+                            w-12
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-slate-500
+                            text-white
+                            font-bold">
 
                                 #2
 
@@ -2161,8 +2603,15 @@ setInterval(() => {
 
                             @else
 
-                            <div
-                                class="flex h-12 w-12 items-center justify-center rounded-full bg-orange-500 text-white font-bold shadow-sm">
+                            <div class="flex
+                            h-12
+                            w-12
+                            items-center
+                            justify-center
+                            rounded-full
+                            bg-slate-700
+                            text-white
+                            font-bold">
 
                                 #3
 
@@ -2175,8 +2624,12 @@ setInterval(() => {
                         <!-- CONTENT -->
                         <div class="flex-1 min-w-0">
 
-                            <h3
-                                class="truncate text-base font-semibold text-slate-900 group-hover:text-orange-500 transition">
+                            <h3 class="truncate
+                            text-base
+                            font-bold
+                            text-slate-900
+                            transition-colors
+                            group-hover:text-amber-500">
 
                                 {{ $document->title }}
 
@@ -2184,10 +2637,17 @@ setInterval(() => {
 
                             <div class="mt-2">
 
-                                <span
-                                    class="inline-flex items-center rounded-full bg-orange-50 px-3 py-1 text-xs font-medium text-orange-600">
+                                <span class="inline-flex
+                                items-center
+                                rounded-full
+                                bg-slate-100
+                                px-3
+                                py-1
+                                text-xs
+                                font-medium
+                                text-slate-700">
 
-                                    <i class="fa-solid fa-book mr-1"></i>
+                                    <i class="fa-solid fa-book mr-1 text-amber-500"></i>
 
                                     {{ $document->subject?->subject_name }}
 
@@ -2197,7 +2657,7 @@ setInterval(() => {
 
                             <div class="mt-3 flex items-center justify-between">
 
-                                <span class="text-sm font-semibold text-orange-500">
+                                <span class="text-sm font-semibold text-amber-500">
 
                                     <i class="fa-solid fa-download mr-1"></i>
 
@@ -2216,8 +2676,21 @@ setInterval(() => {
                         </div>
 
                         <!-- ARROW -->
-                        <div
-                            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition group-hover:bg-orange-500 group-hover:text-white">
+                        <div class="flex
+                        h-10
+                        w-10
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-slate-200
+                        bg-slate-100
+                        text-slate-600
+                        transition-all
+                        duration-300
+                        group-hover:border-amber-300
+                        group-hover:bg-amber-500
+                        group-hover:text-white">
 
                             <i class="fa-solid fa-arrow-right text-xs"></i>
 
@@ -2234,14 +2707,6 @@ setInterval(() => {
         </div>
 
     </div>
-
-
-
-
-
-
-
-
     @endif
     <!-- Phần Tài liệu sẽ chia quyền  giảng viên -->
     @if(auth()->user()->role_id==2)
@@ -2251,25 +2716,19 @@ setInterval(() => {
     <div class="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-8 mt-14 items-start">
 
         <!-- ================= LEFT ================= -->
+        <!-- ================= LEFT ================= -->
         <div class="flex flex-col h-full">
 
             <!-- HEADER -->
             <div class="flex items-center gap-4 mb-6">
 
-                <div class="flex h-14 w-14 items-center justify-center rounded-2xl
-                bg-cyan-50 border border-cyan-100">
-
-                    <i class="fa-solid fa-clock-rotate-left text-2xl text-cyan-600"></i>
-
-                </div>
-
                 <div>
 
-                    <h2 class="text-2xl font-bold text-slate-900">
+                    <h1 class="text-3xl font-bold text-slate-900">
                         Tài liệu đã đăng
-                    </h2>
+                    </h1>
 
-                    <p class="mt-1 text-sm text-slate-500">
+                    <p class="mt-2 text-sm leading-6 text-slate-500">
                         Quản lý các tài liệu mà bạn đã tải lên hệ thống.
                     </p>
 
@@ -2278,7 +2737,13 @@ setInterval(() => {
             </div>
 
             <!-- CARD -->
-            <div class="flex-1 rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div class="flex-1
+                overflow-hidden
+                rounded-3xl
+                border
+                border-slate-200
+                bg-white
+                shadow-sm">
 
                 @forelse($myDocuments as $document)
 
@@ -2286,62 +2751,34 @@ setInterval(() => {
                 $ext = strtolower($document->currentVersion->file_extension ?? '');
                 @endphp
 
-                <div class="group flex items-center justify-between gap-6
-                border-b border-slate-100
-                px-6 py-5
-                hover:bg-slate-50
-                transition">
+                <div class="group
+            flex
+            items-center
+            justify-between
+            gap-6
+            border-b
+            border-slate-100
+            px-6
+            py-5
+            transition
+            hover:bg-slate-50">
 
                     <!-- LEFT -->
                     <a href="{{ route('documents.show',$document->document_id) }}"
                         class="flex flex-1 items-center gap-5 min-w-0">
 
                         <!-- FILE ICON -->
-                        <div class="flex h-14 w-14 items-center justify-center rounded-2xl
+                        <div class="flex h-14 w-14 items-center justify-center
+                            rounded-2xl
+                            border border-slate-200
+                            bg-slate-100
+                            text-slate-600
+                            transition-all duration-300
+                            group-hover:border-amber-300
+                            group-hover:bg-amber-50
+                            group-hover:text-amber-500">
 
-                        @if(in_array($ext,['pdf']))
-                            bg-red-50 text-red-500
-                        @elseif(in_array($ext,['doc','docx']))
-                            bg-blue-50 text-blue-600
-                        @elseif(in_array($ext,['xls','xlsx']))
-                            bg-green-50 text-green-600
-                        @elseif(in_array($ext,['ppt','pptx']))
-                            bg-orange-50 text-orange-600
-                        @elseif(in_array($ext,['zip','rar']))
-                            bg-yellow-50 text-yellow-600
-                        @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                            bg-pink-50 text-pink-600
-                        @elseif(in_array($ext,['mp4','avi','mov']))
-                            bg-purple-50 text-purple-600
-                        @else
-                            bg-slate-100 text-slate-500
-                        @endif">
-
-                            @if(in_array($ext,['pdf']))
-                            <i class="fa-solid fa-file-pdf text-xl"></i>
-
-                            @elseif(in_array($ext,['doc','docx']))
-                            <i class="fa-solid fa-file-word text-xl"></i>
-
-                            @elseif(in_array($ext,['xls','xlsx']))
-                            <i class="fa-solid fa-file-excel text-xl"></i>
-
-                            @elseif(in_array($ext,['ppt','pptx']))
-                            <i class="fa-solid fa-file-powerpoint text-xl"></i>
-
-                            @elseif(in_array($ext,['zip','rar']))
-                            <i class="fa-solid fa-file-zipper text-xl"></i>
-
-                            @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
-                            <i class="fa-solid fa-file-image text-xl"></i>
-
-                            @elseif(in_array($ext,['mp4','avi','mov']))
-                            <i class="fa-solid fa-file-video text-xl"></i>
-
-                            @else
-                            <i class="fa-solid fa-file text-xl"></i>
-
-                            @endif
+                            <i class="fa-solid fa-folder-open text-xl"></i>
 
                         </div>
 
@@ -2349,11 +2786,11 @@ setInterval(() => {
                         <div class="min-w-0 flex-1">
 
                             <h3 class="truncate
-                            text-lg
-                            font-semibold
-                            text-slate-800
-                            group-hover:text-cyan-600
-                            transition">
+                        text-lg
+                        font-semibold
+                        text-slate-800
+                        transition-colors
+                        group-hover:text-amber-500">
 
                                 {{ $document->title }}
 
@@ -2361,15 +2798,25 @@ setInterval(() => {
 
                             <div class="mt-3 flex flex-wrap gap-2">
 
-                                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+                                <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-700">
 
-                                    <i class="fa-solid fa-book mr-1 text-cyan-600"></i>
+                                    <i class="fa-solid fa-book mr-1 text-amber-500"></i>
 
                                     {{ $document->subject->subject_name }}
 
                                 </span>
 
-                                <span class="rounded-full bg-cyan-50 px-3 py-1 text-xs text-cyan-700">
+                                <span class="rounded-full
+                            bg-amber-50
+                            px-3
+                            py-1
+                            text-xs
+                            text-amber-700">
 
                                     <i class="fa-solid fa-download mr-1"></i>
 
@@ -2377,9 +2824,14 @@ setInterval(() => {
 
                                 </span>
 
-                                <span class="rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-600">
+                                <span class="rounded-full
+                            bg-slate-100
+                            px-3
+                            py-1
+                            text-xs
+                            text-slate-600">
 
-                                    <i class="fa-solid fa-calendar mr-1 text-cyan-600"></i>
+                                    <i class="fa-solid fa-calendar mr-1 text-amber-500"></i>
 
                                     {{ $document->created_at->format('d/m/Y') }}
 
@@ -2390,26 +2842,28 @@ setInterval(() => {
                         </div>
 
                     </a>
-
                     <!-- BUTTON -->
                     <div class="shrink-0">
 
                         <a href="{{ route('documents.download',$document) }}" class="inline-flex
-                        items-center
-                        gap-2
-                        rounded-xl
-                        bg-cyan-500
-                        px-5
-                        py-3
-                        text-sm
-                        font-semibold
-                        text-white
-                        transition
-                        hover:bg-cyan-600">
+                    items-center
+                    gap-2
+                    rounded-xl
+                    bg-slate-900
+                    px-5
+                    py-3
+                    text-sm
+                    font-semibold
+                    text-white
+                    transition-all
+                    duration-300
+                    hover:bg-amber-500
+                    hover:-translate-y-0.5
+                    hover:shadow-lg">
 
                             <i class="fa-solid fa-download"></i>
 
-                            Tải xuống
+                            Tải
 
                         </a>
 
@@ -2419,23 +2873,31 @@ setInterval(() => {
 
                 @empty
 
+                <!-- EMPTY -->
                 <div class="py-20 text-center">
 
-                    <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
+                    <div class="mx-auto
+                flex
+                h-20
+                w-20
+                items-center
+                justify-center
+                rounded-full
+                bg-slate-100">
 
                         <i class="fa-solid fa-folder-open text-3xl text-slate-400"></i>
 
                     </div>
 
-                    <h3 class="mt-5 text-lg font-semibold text-slate-800">
+                    <h3 class="mt-6 text-lg font-bold text-slate-800">
 
                         Chưa có tài liệu
 
                     </h3>
 
-                    <p class="mt-2 text-sm text-slate-500">
+                    <p class="mt-2 text-sm leading-6 text-slate-500">
 
-                        Bạn chưa đăng tài liệu nào.
+                        Bạn chưa đăng tải tài liệu nào lên hệ thống.
 
                     </p>
 
@@ -2452,23 +2914,21 @@ setInterval(() => {
             <!-- HEADER -->
             <div class="flex items-center gap-4 mb-6">
 
-                <div class="flex h-14 w-14 items-center justify-center
-            rounded-2xl
-            bg-indigo-50
-            border border-indigo-100">
-
-                    <i class="fa-solid fa-chart-line text-2xl text-indigo-600"></i>
-
-                </div>
 
                 <div>
 
-                    <h2 class="text-2xl font-bold text-slate-900">
-                        Thống kê tương tác
-                    </h2>
 
-                    <p class="mt-1 text-sm text-slate-500">
-                        Theo dõi lượt xem, lượt tải và hiệu quả.
+
+                    <h1 class="text-3xl font-bold text-slate-900">
+
+                        Thống kê tương tác
+
+                    </h1>
+
+                    <p class="mt-2 text-sm leading-6 text-slate-500">
+
+                        Theo dõi hiệu quả các tài liệu mà bạn đã đăng tải.
+
                     </p>
 
                 </div>
@@ -2476,30 +2936,54 @@ setInterval(() => {
             </div>
 
             <!-- CARD -->
-            <div class="flex-1 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div class="flex-1
+                    rounded-3xl
+                    border
+                    border-slate-200
+                    bg-white
+                    p-6
+                    shadow-sm">
 
                 <div class="grid grid-cols-2 gap-4 h-full">
 
                     <!-- Tổng tài liệu -->
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 hover:shadow-md transition">
+                    <div class="rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-5
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:shadow-md">
 
                         <div class="flex items-start justify-between">
 
                             <div>
 
-                                <p class="text-xs uppercase tracking-wider text-slate-400 font-medium">
+                                <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">
+
                                     Tài liệu
+
                                 </p>
 
-                                <h3 class="mt-2 text-3xl font-bold text-slate-900">
+                                <h3 class="mt-2 text-3xl font-black text-slate-900">
+
                                     {{ number_format($totalDocuments) }}
+
                                 </h3>
 
                             </div>
 
-                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-cyan-50">
+                            <div class="flex
+                        h-11
+                        w-11
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-slate-100">
 
-                                <i class="fa-solid fa-file-lines text-lg text-cyan-600"></i>
+                                <i class="fa-solid fa-file-lines text-lg text-amber-500"></i>
 
                             </div>
 
@@ -2508,25 +2992,43 @@ setInterval(() => {
                     </div>
 
                     <!-- Tổng lượt tải -->
-                    <div class="rounded-2xl border border-slate-200 bg-white p-5 hover:shadow-md transition">
+                    <div class="rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-5
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:shadow-md">
 
                         <div class="flex items-start justify-between">
 
                             <div>
 
-                                <p class="text-xs uppercase tracking-wider text-slate-400 font-medium">
+                                <p class="text-xs uppercase tracking-wider text-slate-400 font-semibold">
+
                                     Lượt tải
+
                                 </p>
 
-                                <h3 class="mt-2 text-3xl font-bold text-slate-900">
+                                <h3 class="mt-2 text-3xl font-black text-slate-900">
+
                                     {{ number_format($totalDownloads) }}
+
                                 </h3>
 
                             </div>
 
-                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-50">
+                            <div class="flex
+                        h-11
+                        w-11
+                        items-center
+                        justify-center
+                        rounded-xl
+                        bg-slate-100">
 
-                                <i class="fa-solid fa-download text-lg text-emerald-600"></i>
+                                <i class="fa-solid fa-download text-lg text-slate-700"></i>
 
                             </div>
 
@@ -2534,44 +3036,88 @@ setInterval(() => {
 
                     </div>
 
-
                     @if($topDocuments->count())
 
-                    <a href="{{ route('documents.show', $topDocuments->first()->document_id) }}" class="col-span-2 block rounded-2xl border border-slate-200 bg-white p-5
-           hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    <!-- TOP DOCUMENT -->
+                    <a href="{{ route('documents.show',$topDocuments->first()->document_id) }}" class="col-span-2
+                block
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                p-5
+                transition-all
+                duration-300
+                hover:-translate-y-1
+                hover:border-amber-300
+                hover:shadow-lg">
 
                         <div class="flex items-center justify-between gap-4">
 
-                            <!-- Left -->
-                            <div class="flex items-center gap-4 flex-1 min-w-0">
+                            <div class="min-w-0 flex-1">
 
+                                <p class="text-xs
+                            font-bold
+                            uppercase
+                            tracking-[0.2em]
+                            text-amber-500">
 
-                                <div class="min-w-0">
+                                    Tài liệu nổi bật
 
-                                    <p class="text-xs uppercase tracking-wider font-semibold text-orange-500">
-                                        Tài liệu nổi bật
-                                    </p>
+                                </p>
 
-                                    <h4 class="mt-1 truncate text-base font-semibold text-slate-900">
-                                        {{ $topDocuments->first()->title }}
-                                    </h4>
+                                <h4 class="mt-2
+                            truncate
+                            text-base
+                            font-bold
+                            text-slate-900">
 
-                                    <p class="mt-1 text-sm text-slate-500">
-                                        {{ number_format($topDocuments->first()->download_count) }} lượt tải
-                                    </p>
+                                    {{ $topDocuments->first()->title }}
 
-                                </div>
+                                </h4>
+
+                                <p class="mt-2 text-sm text-slate-500">
+
+                                    {{ number_format($topDocuments->first()->download_count) }}
+                                    lượt tải
+
+                                </p>
 
                             </div>
 
-                            <!-- Right -->
                             <div class="flex items-center gap-3">
 
-                                <span class="rounded-full bg-orange-50 px-3 py-1 text-sm font-semibold text-orange-600">
-                                    🔥 Top 1
+                                <span class="rounded-full
+                            bg-amber-50
+                            px-3
+                            py-1
+                            text-sm
+                            font-semibold
+                            text-amber-700">
+
+                                    Top 1
+
                                 </span>
 
-                                <i class="fa-solid fa-arrow-right text-slate-400 group-hover:text-orange-500"></i>
+                                <div class="flex
+                            h-10
+                            w-10
+                            items-center
+                            justify-center
+                            rounded-full
+                            border
+                            border-slate-200
+                            bg-slate-100
+                            text-slate-600
+                            transition-all
+                            duration-300
+                            group-hover:border-amber-300
+                            group-hover:bg-amber-500
+                            group-hover:text-white">
+
+                                    <i class="fa-solid fa-arrow-right text-xs"></i>
+
+                                </div>
 
                             </div>
 
@@ -2580,15 +3126,18 @@ setInterval(() => {
                     </a>
 
                     @endif
+
                 </div>
 
             </div>
 
         </div>
 
-        @endif
+    </div>
 
-        @endauth
+    @endif
+
+    @endauth
 </main>
 @endsection
 @push('scripts')

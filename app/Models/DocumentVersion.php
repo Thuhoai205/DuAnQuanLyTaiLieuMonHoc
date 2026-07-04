@@ -13,23 +13,23 @@ class DocumentVersion extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'document_id',
-        'version_name',
-        'version_note',
+    'document_id',
+    'version_name',
+    'version_note',
 
-        'original_file_name',
-        'stored_file_name',
+    'original_file_name',
+    'stored_file_name',
 
-        'file_path',
+    'file_path',
+    'preview_file',
 
+    'file_extension',
+    'file_size',
 
-        'file_extension',
-        'file_size',
+    'uploaded_by',
 
-        'uploaded_by',
-
-        'is_current',
-    ];
+    'is_current',
+];
 
     protected $casts = [
         'file_size'  => 'integer',

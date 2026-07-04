@@ -4,60 +4,82 @@
 
 @section('content')
 
-<main class="min-h-screen bg-[#EAFBFF] py-12">
+<main class="min-h-screen  py-12">
 
     <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
         @if(auth()->check() && auth()->user()->role_id == 1)
+        <a href="javascript:history.back()" class="inline-flex items-center gap-2
+    px-5 py-2.5
+    rounded-xl
 
-        <a href="{{ url()->previous() }}"
-            class="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full bg-white border border-cyan-100 text-cyan-700 font-bold text-sm hover:bg-cyan-50 transition">
+    bg-white
+    border border-amber-300
+
+    text-slate-800
+    text-sm
+    font-semibold
+
+    shadow-sm
+    transition-all duration-300
+
+    hover:bg-amber-500
+    hover:border-amber-500
+    hover:text-white
+
+    active:scale-95
+
+    focus:outline-none
+    focus:ring-4
+    focus:ring-amber-200
+
+    mb-8">
+
             <i class="fa-solid fa-arrow-left"></i>
-            Quay về quản trị
+
+            Quay lại
+
         </a>
         @endif
         @if(auth()->check() && auth()->user()->role_id !=1)
 
         <!-- BACK -->
-        <a href="javascript:history.back()"
-            class="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full bg-white border border-cyan-100 text-cyan-700 font-bold text-sm hover:bg-cyan-50 transition">
+        <a href="javascript:history.back()" class="inline-flex items-center gap-2
+    px-5 py-2.5
+    rounded-xl
+
+    bg-white
+    border border-amber-300
+
+    text-slate-800
+    text-sm
+    font-semibold
+
+    shadow-sm
+    transition-all duration-300
+
+    hover:bg-amber-500
+    hover:border-amber-500
+    hover:text-white
+
+    active:scale-95
+
+    focus:outline-none
+    focus:ring-4
+    focus:ring-amber-200
+
+    mb-8">
+
             <i class="fa-solid fa-arrow-left"></i>
+
             Quay lại
+
         </a>
         @endif
         <!-- HEADER -->
         <div class="p-7 border-b border-cyan-100 flex items-start justify-between gap-6">
 
             @php
-            $ext = strtolower($document->currentVersion?->file_extension ?? '');
 
-            switch($ext){
-            case 'pdf':
-            $icon='fa-file-pdf';
-            $color='bg-red-50 text-red-500 border-red-100';
-            break;
-
-            case 'doc':
-            case 'docx':
-            $icon='fa-file-word';
-            $color='bg-blue-50 text-blue-600 border-blue-100';
-            break;
-
-            case 'ppt':
-            case 'pptx':
-            $icon='fa-file-powerpoint';
-            $color='bg-orange-50 text-orange-500 border-orange-100';
-            break;
-
-            case 'xls':
-            case 'xlsx':
-            $icon='fa-file-excel';
-            $color='bg-green-50 text-green-600 border-green-100';
-            break;
-
-            default:
-            $icon='fa-file-lines';
-            $color='bg-cyan-50 text-cyan-600 border-cyan-100';
-            }
 
             $isAdmin = auth()->check() &&
             auth()->user()->role->role_name == 'admin';
@@ -70,54 +92,91 @@
             <!-- LEFT -->
             <div class="flex items-center gap-5">
 
-                <div class="w-20 h-20 rounded-3xl flex flex-col items-center justify-center border {{ $color }}">
+                <!-- ICON -->
+                <div class="flex h-14 w-14 items-center justify-center
+                rounded-2xl
+                border border-slate-200
+                bg-white
+                text-slate-600
+                shadow-sm
+                transition-all duration-300
+                group-hover:border-amber-300
+                group-hover:bg-amber-50
+                group-hover:text-amber-500">
 
-                    <i class="fa-solid {{ $icon }} text-3xl"></i>
-
-                    <span class="text-[10px] font-black mt-1">
-                        {{ strtoupper($ext) }}
-                    </span>
+                    <i class="fa-solid fa-folder-open text-xl"></i>
 
                 </div>
 
+                <!-- CONTENT -->
                 <div>
 
-                    <h1 class="text-3xl font-black text-slate-900">
+                    <h1 class="text-3xl font-bold text-slate-900">
+
                         {{ $document->title }}
+
                     </h1>
 
-                    <p class="text-slate-500 mt-2 font-semibold">
+                    <p class="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-500">
 
-                        {{ $document->currentVersion?->original_file_name }}
+                        <span class="inline-flex items-center gap-1">
 
-                        •
+                            <i class="fa-solid fa-file text-amber-500"></i>
 
-                        {{ number_format($document->download_count) }} lượt tải
+                            {{ $document->currentVersion?->original_file_name }}
+
+                        </span>
+
+                        <span class="text-slate-300">•</span>
+
+                        <span class="inline-flex items-center gap-1">
+
+                            <i class="fa-solid fa-download text-amber-500"></i>
+
+                            {{ number_format($document->download_count) }} lượt tải
+
+                        </span>
 
                     </p>
 
                 </div>
 
             </div>
-
             <!-- RIGHT -->
             <div class="flex items-center gap-3 shrink-0">
 
                 {{-- Download --}}
                 @auth
 
-                <a href="{{ route('documents.download',$document->document_id) }}"
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold shadow-lg shadow-cyan-200 transition">
+                <a href="{{ route('documents.download',$document->document_id) }}" class="inline-flex items-center gap-2
+                px-6 py-3
+                rounded-2xl
+                bg-slate-900
+                hover:bg-amber-500
+                text-white
+                font-bold
+                shadow-lg
+                transition-all duration-300">
 
                     <i class="fa-solid fa-cloud-arrow-down"></i>
+
                     Tải xuống
 
                 </a>
 
                 @else
 
-                <button onclick="showLoginRequiredModal()"
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl border border-cyan-200 text-cyan-700 hover:bg-cyan-50 font-bold">
+                <button onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
+                px-6 py-3
+                rounded-2xl
+                border border-slate-300
+                bg-white
+                text-slate-700
+                font-bold
+                transition-all duration-300
+                hover:border-amber-300
+                hover:bg-amber-50
+                hover:text-amber-600">
 
                     <i class="fa-solid fa-lock"></i>
 
@@ -133,21 +192,37 @@
 
                 @if($isAdmin || $isOwner)
 
-                <a href="{{ route('documents.edit',$document->document_id) }}"
-                    class="w-12 h-12 rounded-2xl bg-amber-50 border border-amber-100 text-amber-500 hover:bg-amber-500 hover:text-white flex items-center justify-center transition">
+                <!-- Edit -->
+                <a href="{{ route('documents.edit',$document->document_id) }}" class="w-12 h-12
+                rounded-2xl
+                border border-slate-200
+                bg-white
+                text-slate-600
+                hover:border-amber-300
+                hover:bg-amber-50
+                hover:text-amber-600
+                flex items-center justify-center
+                transition-all duration-300">
 
                     <i class="fa-solid fa-pen"></i>
 
                 </a>
 
+                <!-- Delete -->
                 <form action="{{ route('documents.destroy', $document->document_id) }}" method="POST"
                     onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
 
                     @csrf
                     @method('DELETE')
 
-                    <button type="submit"
-                        class="w-12 h-12 rounded-2xl bg-red-50 border border-red-100 text-red-500 hover:bg-red-500 hover:text-white transition">
+                    <button type="submit" class="w-12 h-12
+                        rounded-2xl
+                        border border-red-200
+                        bg-white
+                        text-red-500
+                        hover:bg-red-500
+                        hover:text-white
+                        transition-all duration-300">
 
                         <i class="fa-solid fa-trash"></i>
 
@@ -163,56 +238,69 @@
 
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-
             <!-- ================= LEFT : PREVIEW ================= -->
             <div class="lg:col-span-2">
 
-                <div class="bg-white rounded-[30px] border border-cyan-100 shadow-sm overflow-hidden">
+                <div class="bg-white rounded-[30px] border border-slate-200 shadow-sm overflow-hidden">
 
-                    <div class="px-6 py-5 border-b border-cyan-100 bg-cyan-50 flex items-center justify-between">
+                    <!-- HEADER -->
+                    <div class="px-6 py-5 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
 
-                        <h2 class="text-xl font-black text-slate-800">
-                            <i class="fa-solid fa-eye text-cyan-600 mr-2"></i>
+                        <h2 class="text-xl font-bold text-slate-900">
+
+                            <i class="fa-solid fa-eye text-amber-500 mr-2"></i>
+
                             Xem trước tài liệu
+
                         </h2>
 
-                        <span class="text-sm text-cyan-600 font-bold">
+                        <span class="inline-flex items-center rounded-full
+                bg-slate-100
+                border border-slate-200
+                px-3 py-1
+                text-xs font-semibold
+                text-slate-600">
+
                             {{ strtoupper($document->currentVersion?->file_extension) }}
+
                         </span>
 
                     </div>
+
                     <div class="bg-slate-100">
 
                         @php
                         $version = $document->currentVersion;
+                        $preview = $version?->preview_file;
                         $ext = strtolower($version?->file_extension ?? '');
                         @endphp
 
-                        @if($version && $version->canPreview())
+                        @if($version && $preview)
 
-                        {{-- PDF preview --}}
-                        @if(Str::endsWith(strtolower($version->preview_file), '.pdf'))
+                        {{-- PDF --}}
+                        @if(Str::endsWith(strtolower($preview), '.pdf'))
 
-                        <iframe src="{{ asset('storage/'.$version->preview_file) }}" class="w-full h-[900px] bg-white">
+                        <iframe src="{{ asset('storage/'.$preview) }}" class="w-full h-[900px] bg-white"
+                            frameborder="0">
                         </iframe>
 
-                        {{-- Image preview --}}
-                        @else
+                        {{-- Image --}}
+                        @elseif(in_array($ext,['jpg','jpeg','png','gif','webp']))
 
-                        <div class="flex justify-center p-8 bg-slate-200">
+                        <div class="flex justify-center p-8 bg-slate-100">
 
-                            <img src="{{ asset('storage/'.$version->preview_file) }}"
-                                class="max-h-[900px] rounded-xl shadow-xl">
+                            <img src="{{ asset('storage/'.$preview) }}" class="max-h-[900px] rounded-2xl shadow-lg">
 
                         </div>
 
                         @endif
 
+                        {{-- Video --}}
                         @elseif(in_array($ext,['mp4','mov','avi','webm']))
 
                         <div class="p-8">
 
-                            <video controls class="w-full rounded-2xl shadow">
+                            <video controls class="w-full rounded-2xl shadow-sm">
 
                                 <source src="{{ asset('storage/'.$version->file_path) }}">
 
@@ -220,32 +308,40 @@
 
                         </div>
 
+                        {{-- Không có preview --}}
                         @else
 
                         <div class="h-[700px] flex flex-col items-center justify-center bg-white">
 
-                            <div class="w-28 h-28 rounded-full bg-cyan-50 flex items-center justify-center">
+                            <div
+                                class="w-28 h-28 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center">
 
-                                <i class="fa-solid fa-file-lines text-5xl text-cyan-500"></i>
+                                <i class="fa-solid fa-file-lines text-5xl text-amber-500"></i>
 
                             </div>
 
-                            <h3 class="mt-6 text-2xl font-black text-slate-800">
+                            <h3 class="mt-6 text-2xl font-bold text-slate-900">
 
                                 Không hỗ trợ xem trước
 
                             </h3>
 
-                            <p class="mt-3 text-slate-500 text-center max-w-lg">
+                            <p class="mt-3 text-slate-500 text-center max-w-lg leading-7">
 
                                 Tài liệu này chưa có file xem trước hoặc định dạng
-                                <strong>{{ strtoupper($ext) }}</strong>
+
+                                <strong class="text-slate-700">
+
+                                    {{ strtoupper($ext) }}
+
+                                </strong>
+
                                 không được hỗ trợ.
 
                             </p>
 
                             <a href="{{ route('documents.download',$document) }}"
-                                class="mt-8 inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-white font-bold shadow-lg shadow-cyan-200">
+                                class="mt-8 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:bg-amber-500">
 
                                 <i class="fa-solid fa-download"></i>
 
@@ -263,17 +359,18 @@
 
             </div>
 
-            <!-- ================= RIGHT : INFORMATION ================= -->
 
+            <!-- ================= RIGHT : INFORMATION ================= -->
             <div>
 
-                <div class="bg-white rounded-[30px] border border-cyan-100 shadow-sm overflow-hidden">
+                <div class="bg-white rounded-[30px] border border-slate-200 shadow-sm overflow-hidden">
 
-                    <div class="px-6 py-5 border-b border-cyan-100 bg-cyan-50">
+                    <!-- HEADER -->
+                    <div class="px-6 py-5 border-b border-slate-200 bg-slate-50">
 
-                        <h2 class="text-xl font-black text-slate-800">
+                        <h2 class="text-xl font-bold text-slate-900">
 
-                            <i class="fa-solid fa-circle-info text-cyan-600 mr-2"></i>
+                            <i class="fa-solid fa-circle-info text-amber-500 mr-2"></i>
 
                             Thông tin tài liệu
 
@@ -281,91 +378,177 @@
 
                     </div>
 
-                    <div class="p-6 space-y-6">
+                    <!-- CONTENT -->
+                    <div class="p-6">
 
-                        <div>
+                        <div class="space-y-5">
 
-                            <p class="text-xs uppercase text-slate-400 font-black">
-                                Môn học
-                            </p>
+                            <!-- Môn học -->
+                            <div class="flex items-start justify-between gap-4">
 
-                            <p class="font-bold mt-1">
-                                {{ $document->subject?->subject_name }}
-                            </p>
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Môn học
+                                </span>
 
-                        </div>
+                                <span class="text-sm font-semibold text-slate-900 text-right">
+                                    {{ $document->subject?->subject_name }}
+                                </span>
 
-                        <div>
+                            </div>
 
-                            <p class="text-xs uppercase text-slate-400 font-black">
-                                Loại tài liệu
-                            </p>
+                            <hr class="border-slate-100">
 
-                            <p class="font-bold mt-1">
-                                {{ $document->documentType?->type_name }}
-                            </p>
+                            <!-- Loại tài liệu -->
+                            <div class="flex items-start justify-between gap-4">
 
-                        </div>
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Loại tài liệu
+                                </span>
 
-                        <div>
+                                <span
+                                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
 
-                            <p class="text-xs uppercase text-slate-400 font-black">
-                                Người đăng
-                            </p>
+                                    {{ $document->documentType?->type_name }}
 
-                            <p class="font-bold mt-1">
-                                {{ $document->uploader?->full_name }}
-                            </p>
+                                </span>
 
-                        </div>
+                            </div>
 
-                        <div>
+                            <hr class="border-slate-100">
 
-                            <p class="text-xs uppercase text-slate-400 font-black">
-                                Ngày đăng
-                            </p>
+                            <!-- Người đăng -->
+                            <div class="flex items-start justify-between gap-4">
 
-                            <p class="font-bold mt-1">
-                                {{ $document->created_at->format('d/m/Y H:i') }}
-                            </p>
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Người đăng
+                                </span>
 
-                        </div>
+                                <span class="text-sm font-semibold text-slate-900 text-right">
 
-                        <div>
+                                    {{ $document->uploader?->full_name }}
 
-                            <p class="text-xs uppercase text-slate-400 font-black">
-                                Kích thước
-                            </p>
+                                </span>
 
-                            <p class="font-bold mt-1">
-                                {{ number_format($document->currentVersion?->file_size / 1024 /1024,2) }} MB
-                            </p>
+                            </div>
 
-                        </div>
+                            <hr class="border-slate-100">
 
-                        <div>
+                            <div class="flex items-start justify-between gap-4">
 
-                            <p class="text-xs uppercase text-slate-400 font-black">
-                                Lượt tải
-                            </p>
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Cập nhật lần cuối
+                                </span>
 
-                            <p class="font-bold mt-1">
-                                {{ number_format($document->download_count) }}
-                            </p>
+                                <span class="text-sm font-semibold text-slate-900 text-right">
+
+                                    @if($document->currentVersion)
+
+                                    {{ $document->currentVersion->uploader?->full_name }}
+
+                                    <br>
+
+
+                                    @else
+
+                                    Chưa cập nhật
+
+                                    @endif
+
+                                </span>
+
+                            </div>
+                            <hr class="border-slate-100">
+
+                            <!-- Ngày đăng -->
+                            <div class="flex items-start justify-between gap-4">
+
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Ngày đăng
+                                </span>
+
+                                <span class="text-sm font-semibold text-slate-900">
+
+                                    {{ $document->created_at->format('d/m/Y H:i') }}
+
+                                </span>
+
+                            </div>
+
+                            <hr class="border-slate-100">
+
+                            <!-- Cập nhật lần cuối -->
+                            <div class="flex items-start justify-between gap-4">
+
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Cập nhật
+                                </span>
+
+                                <span class="text-sm font-semibold text-slate-900">
+
+                                    {{ $document->updated_at->format('d/m/Y H:i') }}
+
+                                </span>
+
+                            </div>
+
+                            <hr class="border-slate-100">
+
+                            <!-- Kích thước -->
+                            <div class="flex items-start justify-between gap-4">
+
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Kích thước
+                                </span>
+
+                                <span
+                                    class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700">
+
+                                    {{ number_format($document->currentVersion?->file_size / 1024 / 1024,2) }}
+                                    MB
+
+                                </span>
+
+                            </div>
+
+                            <hr class="border-slate-100">
+
+                            <!-- Lượt tải -->
+                            <div class="flex items-start justify-between gap-4">
+
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Lượt tải
+                                </span>
+
+                                <span
+                                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+
+                                    <i class="fa-solid fa-download text-amber-500 mr-1"></i>
+
+                                    {{ number_format($document->download_count) }}
+
+                                </span>
+
+                            </div>
 
                         </div>
 
                         @if($document->description)
 
-                        <div>
+                        <div class="mt-8">
 
-                            <p class="text-xs uppercase text-slate-400 font-black mb-2">
-                                Mô tả
-                            </p>
+                            <h3 class="mb-3 text-sm font-semibold text-slate-700">
 
-                            <div class="rounded-xl bg-slate-50 border p-4">
+                                Mô tả tài liệu
 
-                                {{ $document->description }}
+                            </h3>
+
+                            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+
+                                <p class="text-sm leading-7 text-slate-600">
+
+                                    {{ $document->description }}
+
+                                </p>
 
                             </div>
 
@@ -378,7 +561,6 @@
                 </div>
 
             </div>
-
         </div>
         <!-- RELATED -->
         <section class="mt-10">
@@ -386,13 +568,19 @@
             <div class="flex items-center justify-between mb-6">
 
                 <div>
-                    <h2 class="text-2xl font-black text-cyan-950">
+
+                    <h2 class="text-2xl font-bold text-slate-900">
+
                         Tài liệu liên quan
+
                     </h2>
 
-                    <p class="text-sm text-slate-500 mt-1">
-                        Các tài liệu cùng môn học
+                    <p class="mt-1 text-sm text-slate-500">
+
+                        Các tài liệu thuộc cùng môn học
+
                     </p>
+
                 </div>
 
             </div>
@@ -403,79 +591,98 @@
 
                 @php
                 $ext = strtolower($related->currentVersion?->file_extension ?? '');
-
-                switch ($ext) {
-                case 'pdf':
-                $icon = 'fa-file-pdf';
-                $color = 'bg-red-50 text-red-500';
-                break;
-
-                case 'doc':
-                case 'docx':
-                $icon = 'fa-file-word';
-                $color = 'bg-blue-50 text-blue-500';
-                break;
-
-                case 'xls':
-                case 'xlsx':
-                $icon = 'fa-file-excel';
-                $color = 'bg-green-50 text-green-500';
-                break;
-
-                case 'ppt':
-                case 'pptx':
-                $icon = 'fa-file-powerpoint';
-                $color = 'bg-orange-50 text-orange-500';
-                break;
-
-                case 'zip':
-                case 'rar':
-                $icon = 'fa-file-zipper';
-                $color = 'bg-yellow-50 text-yellow-600';
-                break;
-
-                default:
-                $icon = 'fa-file-lines';
-                $color = 'bg-cyan-50 text-cyan-500';
-                }
                 @endphp
 
                 <a href="{{ route('documents.show',$related->document_id) }}"
-                    class="group bg-white rounded-[28px] border border-cyan-100 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition duration-300">
+                    class="group rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
 
-                    <div class="w-14 h-14 rounded-2xl {{ $color }} flex items-center justify-center mb-5">
+                    <!-- ICON -->
+                    <div class="flex h-14 w-14 items-center justify-center rounded-2xl
+                bg-slate-100
+                border border-slate-200
+                text-slate-600
+                transition-all duration-300
+                group-hover:bg-amber-50
+                group-hover:border-amber-300
+                group-hover:text-amber-500">
 
-                        <i class="fa-solid {{ $icon }} text-2xl"></i>
+                        @if($ext == 'pdf')
+
+                        <i class="fa-solid fa-file-pdf text-2xl"></i>
+
+                        @elseif(in_array($ext,['doc','docx']))
+
+                        <i class="fa-solid fa-file-word text-2xl"></i>
+
+                        @elseif(in_array($ext,['xls','xlsx']))
+
+                        <i class="fa-solid fa-file-excel text-2xl"></i>
+
+                        @elseif(in_array($ext,['ppt','pptx']))
+
+                        <i class="fa-solid fa-file-powerpoint text-2xl"></i>
+
+                        @elseif(in_array($ext,['zip','rar']))
+
+                        <i class="fa-solid fa-file-zipper text-2xl"></i>
+
+                        @else
+
+                        <i class="fa-solid fa-file-lines text-2xl"></i>
+
+                        @endif
 
                     </div>
 
-                    <h3 class="font-black text-slate-800 group-hover:text-cyan-600 transition line-clamp-2">
+                    <!-- TITLE -->
+                    <h3
+                        class="mt-5 line-clamp-2 text-lg font-bold text-slate-900 transition group-hover:text-amber-600">
 
                         {{ $related->title }}
 
                     </h3>
 
-                    <div class="mt-4 space-y-2 text-sm text-slate-500">
+                    <!-- INFO -->
+                    <div class="mt-5 flex flex-wrap gap-2">
 
-                        <div>
-                            <i class="fa-solid fa-book text-cyan-500 mr-2"></i>
+                        <span
+                            class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">
+
+                            <i class="fa-solid fa-book mr-1 text-amber-500"></i>
+
                             {{ $related->subject?->subject_name }}
-                        </div>
 
-                        <div>
-                            <i class="fa-solid fa-layer-group text-cyan-500 mr-2"></i>
+                        </span>
+
+                        <span
+                            class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700">
+
+                            <i class="fa-solid fa-layer-group mr-1 text-amber-500"></i>
+
                             {{ $related->documentType?->type_name }}
-                        </div>
 
-                        <div>
-                            <i class="fa-solid fa-download text-cyan-500 mr-2"></i>
-                            {{ number_format($related->download_count) }} lượt tải
-                        </div>
+                        </span>
 
-                        <div>
-                            <i class="fa-solid fa-calendar text-cyan-500 mr-2"></i>
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div class="mt-5 flex items-center justify-between border-t border-slate-100 pt-4">
+
+                        <span class="text-xs text-slate-500">
+
+                            <i class="fa-solid fa-download text-amber-500 mr-1"></i>
+
+                            {{ number_format($related->download_count) }}
+
+                        </span>
+
+                        <span class="text-xs text-slate-500">
+
+                            <i class="fa-solid fa-calendar text-amber-500 mr-1"></i>
+
                             {{ $related->created_at->format('d/m/Y') }}
-                        </div>
+
+                        </span>
 
                     </div>
 
@@ -485,23 +692,24 @@
 
                 <div class="col-span-full">
 
-                    <div class="bg-white rounded-[28px] border border-dashed border-cyan-200 py-14 text-center">
+                    <div class="rounded-3xl border border-slate-200 bg-white py-16 text-center shadow-sm">
 
-                        <div class="w-16 h-16 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
+                        <div
+                            class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100 border border-slate-200">
 
-                            <i class="fa-solid fa-folder-open text-2xl text-cyan-500"></i>
+                            <i class="fa-solid fa-folder-open text-3xl text-amber-500"></i>
 
                         </div>
 
-                        <h3 class="mt-5 text-lg font-black text-slate-700">
+                        <h3 class="mt-6 text-2xl font-bold text-slate-900">
 
                             Chưa có tài liệu liên quan
 
                         </h3>
 
-                        <p class="mt-2 text-sm text-slate-500">
+                        <p class="mx-auto mt-3 max-w-md text-slate-500 leading-7">
 
-                            Hiện chưa có tài liệu khác thuộc môn học này.
+                            Hiện tại chưa có tài liệu nào khác thuộc môn học này.
 
                         </p>
 

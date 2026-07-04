@@ -3,7 +3,7 @@
 @section('content')
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<!-- ĐÃ ĐỔI SANG FONT ROBOTO CHUYÊN NGHIỆP VÀ HIỆN ĐẠI HƠN -->
+
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
 <style>
@@ -12,135 +12,327 @@ body {
 }
 </style>
 
-<div class="min-h-screen bg-[#EAFBFF] py-10">
+<div class="min-h-screen
+bg-gradient-to-br
+from-slate-100
+via-white
+to-slate-200
+relative
+overflow-hidden
+py-8">
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Background -->
+    <div class="absolute -top-40 -left-40
+        w-[420px]
+        h-[420px]
+        rounded-full
+        bg-slate-300/40
+        blur-[120px]">
+    </div>
 
-        {{-- HEADER --}}
-        <div class="mb-10 flex items-center justify-between flex-wrap gap-4">
+    <div class="absolute -bottom-40 -right-40
+        w-[420px]
+        h-[420px]
+        rounded-full
+        bg-amber-200/30
+        blur-[120px]">
+    </div>
+
+    <div class="relative
+        max-w-7xl
+        mx-auto
+        px-5">
+
+        <!-- HEADER -->
+        <div class="flex
+            items-center
+            justify-between
+            flex-wrap
+            gap-5
+            mb-8">
 
             <div>
-                <span
-                    class="inline-flex items-center px-4 py-1.5 rounded-full bg-cyan-50 text-cyan-600 text-xs font-black tracking-widest border border-cyan-100">
-                    TÀI KHOẢN
-                </span>
 
-                <h1 class="text-4xl font-black text-slate-800 mt-4 tracking-tight">
-                    Quản lý hồ sơ
+
+
+                <h1 class="text-3xl font-bold text-slate-900">
+                    Hồ sơ của tôi
                 </h1>
 
-                <p class="text-slate-500 mt-2 text-sm font-medium">
-                    Xem và cập nhật thông tin tài khoản của bạn
+                <p class="mt-2
+                    text-slate-500">
+
+                    Quản lý thông tin và bảo mật tài khoản của bạn.
+
                 </p>
+
             </div>
 
-            <div
-                class="hidden md:flex items-center gap-4 px-5 py-4 bg-white rounded-3xl border border-cyan-100 shadow-sm hover:shadow-lg transition-all duration-300">
+            <div class="hidden
+                md:flex
+                items-center
+                gap-4
+                rounded-3xl
+                border
+                border-slate-200
+                bg-white/90
+                backdrop-blur-xl
+                px-5
+                py-4
+                shadow-[0_15px_40px_rgba(15,23,42,.08)]">
 
-                <div
-                    class="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500 via-cyan-500 to-cyan-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/25 shrink-0">
-                    <i class="fas fa-shield-alt text-lg"></i>
+                <div class="w-12
+                    h-12
+                    rounded-2xl
+                    bg-slate-900
+                    text-amber-400
+                    flex
+                    items-center
+                    justify-center">
+
+                    <i class="fa-solid fa-shield-halved text-lg"></i>
+
                 </div>
 
-                <div class="leading-tight">
-                    <p class="text-sm font-black text-slate-800 tracking-tight">
+                <div>
+
+                    <p class="font-bold text-slate-900">
+
                         Bảo mật tài khoản
+
                     </p>
 
-                    <p class="text-xs text-slate-500 mt-1 font-medium leading-relaxed">
-                        Dữ liệu được mã hóa và bảo vệ an toàn
+                    <p class="text-sm text-slate-500">
+
+                        Dữ liệu được bảo vệ an toàn.
+
                     </p>
+
                 </div>
 
             </div>
 
         </div>
 
-        {{-- CONTENT --}}
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- GRID -->
+        <div class="grid
+            grid-cols-1
+            lg:grid-cols-12
+            gap-6">
 
-            {{-- LEFT --}}
-            <div
-                class="lg:col-span-4 bg-white rounded-[2rem] overflow-hidden border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)]">
+            <!-- LEFT -->
+            <div class="lg:col-span-4">
 
-                {{-- TOP BG --}}
-                <div class="h-36 bg-gradient-to-r from-cyan-500 via-cyan-500 to-cyan-600"></div>
+                <div class="rounded-3xl
+                    overflow-hidden
+                    bg-white/90
+                    backdrop-blur-xl
+                    border
+                    border-slate-200
+                    shadow-[0_20px_60px_rgba(15,23,42,.08)]">
 
-                <div class="px-8 pb-8 relative">
+                    <!-- TOP -->
+                    <div class="h-28
+                        bg-gradient-to-r
+                        from-slate-900
+                        via-slate-800
+                        to-slate-700">
+                    </div>
 
-                    {{-- AVATAR --}}
-                    <div class="flex justify-center -mt-16">
-                        <form id="avatar-form" action="{{ route('profile.update.avatar') }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
+                    <div class="px-6
+                        pb-6
+                        relative">
 
-                            <div class="relative group">
-                                <label for="avatar-upload" class="cursor-pointer">
-                                    <div class="w-32 h-32 rounded-full bg-white p-2 shadow-xl overflow-hidden">
-                                        @if(Auth::user()->avatar)
-                                        <img id="avatar-preview" src="{{ asset('storage/' . Auth::user()->avatar) }}"
-                                            class="w-full h-full rounded-full object-cover">
-                                        @else
-                                        <div id="avatar-placeholder"
-                                            class="w-full h-full rounded-full bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center text-white text-4xl font-black">
-                                            {{ strtoupper(substr(Auth::user()->full_name, 0, 1)) }}
+                        <!-- Avatar -->
+                        <div class="flex justify-center -mt-14">
+
+                            <form id="avatar-form" action="{{ route('profile.update.avatar') }}" method="POST"
+                                enctype="multipart/form-data">
+
+                                @csrf
+
+                                <div class="relative group">
+
+                                    <label for="avatar-upload" class="cursor-pointer">
+
+                                        <div class="w-28
+                                            h-28
+                                            rounded-full
+                                            bg-white
+                                            p-2
+                                            shadow-xl">
+
+                                            @if(Auth::user()->avatar)
+
+                                            <img id="avatar-preview" src="{{ asset('storage/'.Auth::user()->avatar) }}"
+                                                class="w-full
+                                                    h-full
+                                                    rounded-full
+                                                    object-cover">
+
+                                            @else
+
+                                            <div id="avatar-placeholder" class="w-full
+                                                    h-full
+                                                    rounded-full
+                                                    bg-gradient-to-br
+                                                    from-slate-900
+                                                    to-slate-700
+                                                    flex
+                                                    items-center
+                                                    justify-center
+                                                    text-4xl
+                                                    font-black
+                                                    text-white">
+
+                                                {{ strtoupper(substr(Auth::user()->full_name,0,1)) }}
+
+                                            </div>
+
+                                            @endif
+
                                         </div>
-                                        @endif
-                                    </div>
 
-                                    <div
-                                        class="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-white border border-cyan-100 shadow-lg flex items-center justify-center text-slate-600 group-hover:text-cyan-600 transition">
-                                        <i class="fas fa-camera"></i>
-                                    </div>
-                                </label>
+                                        <div class="absolute
+                                            bottom-1
+                                            right-1
+                                            w-10
+                                            h-10
+                                            rounded-full
+                                            bg-white
+                                            border
+                                            border-slate-200
+                                            shadow-lg
+                                            flex
+                                            items-center
+                                            justify-center
+                                            text-amber-500
+                                            transition
+                                            group-hover:scale-110">
 
-                                <input type="file" id="avatar-upload" name="avatar" class="hidden" accept="image/*"
-                                    onchange="previewAndSubmit(this)">
+                                            <i class="fa-solid fa-camera"></i>
+
+                                        </div>
+
+                                    </label>
+
+                                    <input id="avatar-upload" type="file" name="avatar" class="hidden" accept="image/*"
+                                        onchange="previewAndSubmit(this)">
+
+                                </div>
+
+                            </form>
+
+                        </div>
+
+                        <!-- INFO -->
+                        <div class="text-center mt-5">
+
+                            <h2 class="text-2xl
+                                font-black
+                                text-slate-900">
+
+                                {{ Auth::user()->full_name }}
+
+                            </h2>
+
+                            <p class="mt-2
+                                text-slate-500">
+
+                                {{ Auth::user()->email }}
+
+                            </p>
+
+                            <div class="inline-flex
+                                items-center
+                                gap-2
+                                mt-5
+                                rounded-full
+                                bg-amber-50
+                                border
+                                border-amber-200
+                                px-4
+                                py-2">
+
+                                <span class="w-2.5
+                                    h-2.5
+                                    rounded-full
+                                    bg-amber-500
+                                    animate-pulse">
+                                </span>
+
+                                <span class="text-sm
+                                    font-semibold
+                                    text-amber-700">
+
+                                    Đang hoạt động
+
+                                </span>
+
                             </div>
-                        </form>
-                    </div>
 
-                    {{-- USER INFO --}}
-                    <div class="text-center mt-6">
-                        <h2 class="text-2xl font-black text-slate-800 tracking-tight">
-                            {{ Auth::user()->full_name }}
-                        </h2>
-
-                        <p class="text-slate-400 mt-2 text-sm font-semibold">
-                            {{ Auth::user()->email }}
-                        </p>
-
-                        <div
-                            class="mt-5 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cyan-50 border border-cyan-100">
-                            <span class="w-2.5 h-2.5 rounded-full bg-cyan-500 animate-pulse"></span>
-
-                            <span class="text-sm font-bold text-cyan-600">
-                                Đang hoạt động
-                            </span>
-                        </div>
-                    </div>
-
-                    {{-- STATS --}}
-                    <div class="grid grid-cols-2 gap-4 mt-8">
-
-                        <div class="bg-cyan-50 rounded-2xl border border-cyan-100 p-4 text-center">
-                            <p class="text-xs text-slate-400 font-black uppercase tracking-wider">
-                                Thành viên
-                            </p>
-
-                            <h4 class="mt-2 text-sm font-black text-slate-700">
-                                Chính thức
-                            </h4>
                         </div>
 
-                        <div class="bg-cyan-50 rounded-2xl border border-cyan-100 p-4 text-center">
-                            <p class="text-xs text-slate-400 font-black uppercase tracking-wider">
-                                Tham gia
-                            </p>
+                        <!-- STATS -->
+                        <div class="grid
+                            grid-cols-2
+                            gap-4
+                            mt-7">
 
-                            <h4 class="mt-2 text-sm font-black text-slate-700">
-                                {{ Auth::user()->created_at ? Auth::user()->created_at->format('m/Y') : 'Mới' }}
-                            </h4>
+                            <div class="rounded-2xl
+                                bg-slate-50
+                                border
+                                border-slate-200
+                                p-4
+                                text-center">
+
+                                <p class="text-xs
+                                    uppercase
+                                    tracking-widest
+                                    text-slate-400
+                                    font-bold">
+
+                                    Thành viên
+
+                                </p>
+
+                                <h4 class="mt-2
+                                    font-bold
+                                    text-slate-900">
+
+                                    Chính thức
+
+                                </h4>
+
+                            </div>
+
+                            <div class="rounded-2xl
+                                bg-slate-50
+                                border
+                                border-slate-200
+                                p-4
+                                text-center">
+
+                                <p class="text-xs
+                                    uppercase
+                                    tracking-widest
+                                    text-slate-400
+                                    font-bold">
+
+                                    Tham gia
+
+                                </p>
+
+                                <h4 class="mt-2
+                                    font-bold
+                                    text-slate-900">
+
+                                    {{ Auth::user()->created_at ? Auth::user()->created_at->format('m/Y') : 'Mới' }}
+
+                                </h4>
+
+                            </div>
+
                         </div>
 
                     </div>
@@ -149,138 +341,383 @@ body {
 
             </div>
 
-            {{-- RIGHT --}}
-            <div class="lg:col-span-8 space-y-8">
+            <!-- RIGHT -->
+            <div class="lg:col-span-8 space-y-6">
+                <!-- ================= THÔNG TIN CÁ NHÂN ================= -->
 
-                {{-- PERSONAL --}}
-                <div
-                    class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-8">
+                <div class="rounded-3xl
+                    border
+                    border-slate-200
+                    bg-white/90
+                    backdrop-blur-xl
+                    p-6
+                    shadow-[0_20px_60px_rgba(15,23,42,.08)]">
 
-                    <div class="flex items-center justify-between mb-8">
+                    <!-- Header -->
+
+                    <div class="flex
+                        items-center
+                        justify-between
+                        mb-6">
+
                         <div>
-                            <h3 class="text-2xl font-black text-slate-800 tracking-tight">
+
+                            <h3 class="text-2xl
+                                font-black
+                                text-slate-900">
+
                                 Thông tin cá nhân
+
                             </h3>
 
-                            <p class="text-sm text-slate-400 mt-1 font-semibold">
-                                Cập nhật thông tin tài khoản
+                            <p class="mt-1
+                                text-sm
+                                text-slate-500">
+
+                                Cập nhật thông tin tài khoản.
+
                             </p>
+
                         </div>
 
-                        <div class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                            <i class="fas fa-user-edit text-xl"></i>
+                        <div class="w-14
+                            h-14
+                            rounded-2xl
+                            bg-slate-900
+                            text-amber-400
+                            flex
+                            items-center
+                            justify-center">
+
+                            <i class="fa-solid fa-user-pen text-xl"></i>
+
                         </div>
+
                     </div>
 
-                    <form action="{{ route('profile.update') }}" method="POST" class="space-y-6">
+                    <form action="{{ route('profile.update') }}" method="POST" class="space-y-5">
+
                         @csrf
                         @method('PUT')
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="grid
+                            grid-cols-1
+                            md:grid-cols-2
+                            gap-5">
+
+                            <!-- Họ tên -->
 
                             <div>
-                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
+
+                                <label class="block
+                                    mb-2
+                                    text-xs
+                                    uppercase
+                                    tracking-wider
+                                    font-bold
+                                    text-slate-500">
+
                                     Họ và tên
+
                                 </label>
 
-                                <div class="relative flex items-center">
-                                    <i
-                                        class="fa-solid fa-user absolute left-5 text-slate-400 text-base pointer-events-none"></i>
+                                <div class="relative">
 
-                                    <input type="text" name="full_name"
-                                        value="{{ Auth::user()->full_name ?? 'Giảng viên A' }}"
-                                        class="w-full h-14 pl-14 pr-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition text-slate-700">
+                                    <i class="fa-solid fa-user
+                                        absolute
+                                        left-5
+                                        top-1/2
+                                        -translate-y-1/2
+                                        text-slate-400">
+                                    </i>
+
+                                    <input type="text" name="full_name" value="{{ Auth::user()->full_name }}" class="w-full
+                                        h-12
+                                        rounded-xl
+                                        border
+                                        border-slate-200
+                                        bg-slate-50
+                                        pl-12
+                                        pr-4
+                                        text-sm
+                                        font-medium
+                                        text-slate-700
+                                        focus:outline-none
+                                        focus:border-amber-400
+                                        focus:ring-4
+                                        focus:ring-amber-100">
+
                                 </div>
+
                             </div>
+
+                            <!-- Email -->
 
                             <div>
-                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
-                                    Địa chỉ Email
+
+                                <label class="block
+                                    mb-2
+                                    text-xs
+                                    uppercase
+                                    tracking-wider
+                                    font-bold
+                                    text-slate-500">
+
+                                    Email
+
                                 </label>
 
-                                <div class="relative flex items-center">
-                                    <i
-                                        class="fa-solid fa-envelope absolute left-5 text-slate-400 text-base pointer-events-none"></i>
+                                <div class="relative">
 
-                                    <input type="email" name="email" value="{{ Auth::user()->email ?? 'gv@gmail.com' }}"
-                                        class="w-full h-14 pl-14 pr-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition text-slate-700">
+                                    <i class="fa-solid fa-envelope
+                                        absolute
+                                        left-5
+                                        top-1/2
+                                        -translate-y-1/2
+                                        text-slate-400">
+                                    </i>
+
+                                    <input type="email" name="email" value="{{ Auth::user()->email }}" class="w-full
+                                        h-12
+                                        rounded-xl
+                                        border
+                                        border-slate-200
+                                        bg-slate-50
+                                        pl-12
+                                        pr-4
+                                        text-sm
+                                        font-medium
+                                        text-slate-700
+                                        focus:outline-none
+                                        focus:border-amber-400
+                                        focus:ring-4
+                                        focus:ring-amber-100">
+
                                 </div>
+
                             </div>
 
                         </div>
 
-                        <div class="flex justify-end pt-2">
-                            <button type="submit"
-                                class="h-14 px-8 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-black text-sm shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center gap-2">
-                                <i class="fas fa-save"></i>
+                        <div class="flex justify-end">
+
+                            <button type="submit" class="inline-flex
+                                items-center
+                                gap-2
+                                rounded-xl
+                                bg-gradient-to-r
+                                from-slate-900
+                                via-slate-800
+                                to-slate-700
+                                px-7
+                                py-3
+                                text-sm
+                                font-bold
+                                text-white
+                                shadow-lg
+                                shadow-slate-900/20
+                                transition-all
+                                duration-300
+                                hover:-translate-y-0.5
+                                hover:shadow-xl">
+
+                                <i class="fa-solid fa-floppy-disk"></i>
+
                                 Lưu thay đổi
+
                             </button>
+
                         </div>
+
                     </form>
 
                 </div>
+                <!-- ================= BẢO MẬT TÀI KHOẢN ================= -->
 
-                {{-- PASSWORD --}}
-                <div
-                    class="bg-white rounded-[2rem] border border-cyan-100 shadow-[0_15px_45px_rgba(8,145,178,0.08)] p-8">
+                <div class="rounded-3xl
+                    border
+                    border-slate-200
+                    bg-white/90
+                    backdrop-blur-xl
+                    p-6
+                    shadow-[0_20px_60px_rgba(15,23,42,.08)]">
 
-                    <div class="flex items-center justify-between mb-8">
+                    <!-- Header -->
+
+                    <div class="flex
+                        items-center
+                        justify-between
+                        mb-6">
+
                         <div>
-                            <h3 class="text-2xl font-black text-slate-800 tracking-tight">
+
+                            <h3 class="text-2xl
+                                font-black
+                                text-slate-900">
+
                                 Bảo mật tài khoản
+
                             </h3>
 
-                            <p class="text-sm text-slate-400 mt-1 font-semibold">
-                                Đổi mật khẩu để bảo vệ tài khoản
+                            <p class="mt-1
+                                text-sm
+                                text-slate-500">
+
+                                Thay đổi mật khẩu để tăng cường bảo mật.
+
                             </p>
+
                         </div>
 
-                        <div class="w-14 h-14 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
-                            <i class="fas fa-shield-halved text-xl"></i>
+                        <div class="w-14
+                            h-14
+                            rounded-2xl
+                            bg-slate-900
+                            text-amber-400
+                            flex
+                            items-center
+                            justify-center">
+
+                            <i class="fa-solid fa-lock"></i>
+
                         </div>
+
                     </div>
 
-                    <form action="{{ route('profile.password') }}" method="POST" class="space-y-6">
+                    <form action="{{ route('profile.password') }}" method="POST" class="space-y-5">
+
                         @csrf
                         @method('PUT')
 
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="grid
+                            grid-cols-1
+                            md:grid-cols-3
+                            gap-5">
+
+                            <!-- Current Password -->
 
                             <div>
-                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
+
+                                <label class="block
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    uppercase
+                                    tracking-wider
+                                    text-slate-500">
+
                                     Mật khẩu hiện tại
+
                                 </label>
 
-                                <input type="password" name="current_password" placeholder="Nhập mật khẩu"
-                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition">
+                                <input type="password" name="current_password" placeholder="Nhập mật khẩu" class="w-full
+                                    h-12
+                                    rounded-xl
+                                    border
+                                    border-slate-200
+                                    bg-slate-50
+                                    px-4
+                                    text-sm
+                                    focus:outline-none
+                                    focus:border-amber-400
+                                    focus:ring-4
+                                    focus:ring-amber-100">
+
                             </div>
 
+                            <!-- New Password -->
+
                             <div>
-                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
+
+                                <label class="block
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    uppercase
+                                    tracking-wider
+                                    text-slate-500">
+
                                     Mật khẩu mới
+
                                 </label>
 
-                                <input type="password" name="new_password" placeholder="Nhập mật khẩu mới"
-                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition">
+                                <input type="password" name="new_password" placeholder="Nhập mật khẩu mới" class="w-full
+                                    h-12
+                                    rounded-xl
+                                    border
+                                    border-slate-200
+                                    bg-slate-50
+                                    px-4
+                                    text-sm
+                                    focus:outline-none
+                                    focus:border-amber-400
+                                    focus:ring-4
+                                    focus:ring-amber-100">
+
                             </div>
 
+                            <!-- Confirm Password -->
+
                             <div>
-                                <label class="block text-xs font-black text-slate-400 uppercase tracking-wider mb-3">
+
+                                <label class="block
+                                    mb-2
+                                    text-xs
+                                    font-bold
+                                    uppercase
+                                    tracking-wider
+                                    text-slate-500">
+
                                     Xác nhận mật khẩu
+
                                 </label>
 
                                 <input type="password" name="new_password_confirmation" placeholder="Nhập lại mật khẩu"
-                                    class="w-full h-14 px-5 rounded-2xl bg-cyan-50 border border-cyan-100 focus:outline-none focus:border-cyan-500 focus:bg-white font-semibold text-sm transition">
+                                    class="w-full
+                                    h-12
+                                    rounded-xl
+                                    border
+                                    border-slate-200
+                                    bg-slate-50
+                                    px-4
+                                    text-sm
+                                    focus:outline-none
+                                    focus:border-amber-400
+                                    focus:ring-4
+                                    focus:ring-amber-100">
+
                             </div>
 
                         </div>
 
-                        <div class="flex justify-end pt-2">
-                            <button type="submit"
-                                class="h-14 px-8 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-black text-sm shadow-lg shadow-cyan-200 transition-all active:scale-95 flex items-center gap-2">
-                                <i class="fas fa-lock"></i>
+                        <div class="flex justify-end">
+
+                            <button type="submit" class="inline-flex
+                                items-center
+                                gap-2
+                                rounded-xl
+                                bg-gradient-to-r
+                                from-slate-900
+                                via-slate-800
+                                to-slate-700
+                                px-7
+                                py-3
+                                text-sm
+                                font-bold
+                                text-white
+                                shadow-lg
+                                shadow-slate-900/20
+                                transition-all
+                                duration-300
+                                hover:-translate-y-0.5
+                                hover:shadow-xl">
+
+                                <i class="fa-solid fa-key"></i>
+
                                 Đổi mật khẩu
+
                             </button>
+
                         </div>
 
                     </form>
@@ -300,12 +737,13 @@ function previewAndSubmit(input) {
 
     if (input.files && input.files[0]) {
 
-        let reader = new FileReader();
+        const reader = new FileReader();
 
         reader.onload = function(e) {
 
-            let img = document.getElementById('avatar-preview');
-            let placeholder = document.getElementById('avatar-placeholder');
+            const img = document.getElementById('avatar-preview');
+
+            const placeholder = document.getElementById('avatar-placeholder');
 
             if (img) {
 
@@ -313,20 +751,26 @@ function previewAndSubmit(input) {
 
             } else if (placeholder) {
 
-                let newImg = document.createElement('img');
+                const newImg = document.createElement('img');
 
                 newImg.id = 'avatar-preview';
+
                 newImg.src = e.target.result;
+
                 newImg.className = 'w-full h-full rounded-full object-cover';
 
                 placeholder.parentNode.replaceChild(newImg, placeholder);
+
             }
 
             document.getElementById('avatar-form').submit();
+
         }
 
         reader.readAsDataURL(input.files[0]);
+
     }
+
 }
 </script>
 

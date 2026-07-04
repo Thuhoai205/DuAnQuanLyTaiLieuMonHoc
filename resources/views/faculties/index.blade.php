@@ -38,7 +38,7 @@
 
 }
 </style>
-<main class="min-h-screen bg-[#EAFBFF]">
+<main class="min-h-screen ">
     <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
     <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
         <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
@@ -62,44 +62,57 @@
         </div>
     </div>
 
-    <div class="bg-cyan-50 py-3 border-b border-cyan-100">
+    <div class="bg-slate-100 py-3 border-b border-slate-200">
+
         <div class="max-w-7xl mx-auto px-4 md:px-6 flex items-center text-sm">
-            <a href="/" class="text-slate-600 hover:text-cyan-600 transition">
+
+            <a href="/" class="text-slate-500 hover:text-slate-900 transition-colors duration-300">
+
                 Trang chủ
+
             </a>
 
-            <span class="mx-2 text-slate-400">
+            <span class="mx-3 text-slate-300">
                 /
             </span>
 
-            <span class="font-medium text-cyan-600">
-                Khoa
+            <span class="font-semibold text-slate-700">
+
+                Danh mục Khoa
+
             </span>
+
         </div>
+
     </div>
 
-
-    <section class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+    <section class="max-w-7xl mx-auto px-6 pt-10 pb-10">
         <!-- ================= HEADER ================= -->
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 mb-12">
 
             <div class="flex items-center gap-4">
 
-                <div class="w-14 h-14 rounded-2xl bg-cyan-50 border border-cyan-100
-                       flex items-center justify-center">
+                <div class="flex h-14 w-14 items-center justify-center
+        rounded-2xl
+        border border-slate-200
+        bg-slate-100
+        transition-all duration-300
+        hover:border-amber-300
+        hover:bg-amber-50">
 
-                    <i class="fa-solid fa-building-columns  text-cyan-600 text-2xl"></i>
+                    <i class="fa-solid fa-building-columns text-2xl text-amber-500"></i>
 
                 </div>
 
                 <div>
 
-                    <h1 class="text-3xl font-bold text-slate-900">
+                    <h1 class="text-3xl font-bold tracking-tight text-slate-900">
                         Danh mục Khoa
                     </h1>
 
-                    <p class="mt-2 text-sm text-slate-500 leading-7 max-w-2xl">
-                        Khám phá các khoa đào tạo, xem danh sách môn học và tài liệu học tập.
+                    <p class="mt-2 max-w-2xl text-sm leading-7 text-slate-500">
+                        Khám phá các khoa đào tạo, xem danh sách môn học và tài liệu học tập được quản lý trong hệ
+                        thống.
                     </p>
 
                 </div>
@@ -110,18 +123,25 @@
 
                 <div class="relative">
 
-                    <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-cyan-500"></i>
+                    <div class="absolute inset-y-0 left-5 flex items-center">
+
+                        <i class="fa-solid fa-magnifying-glass text-amber-500 text-lg"></i>
+
+                    </div>
 
                     <input id="facultySearch" type="text" onkeyup="searchFaculties()" placeholder="Tìm kiếm khoa..."
-                        class="h-14 w-full rounded-2xl border border-slate-200 bg-white
-                pl-12 pr-5
-                text-sm text-slate-700
-                placeholder:text-slate-400
-                transition
-                focus:border-cyan-500
-                focus:outline-none
-                focus:ring-4
-                focus:ring-cyan-100">
+                        class="w-full
+        rounded-2xl
+        border
+        border-slate-200
+        py-4
+        pl-14
+        pr-5
+        text-slate-700
+        placeholder:text-slate-400
+        focus:border-amber-400
+        focus:ring-4
+        focus:ring-amber-100">
 
                 </div>
 
@@ -141,24 +161,25 @@
                 data-code="{{ strtolower($faculty->faculty_code) }}">
 
                 <div class="group h-full rounded-3xl border border-slate-200 bg-white
-        hover:border-cyan-300 hover:shadow-xl hover:-translate-y-1
-        transition-all duration-300 overflow-hidden">
+                    hover:border-amber-300 hover:shadow-xl hover:-translate-y-1
+                    transition-all duration-300 overflow-hidden">
 
                     <!-- TOP -->
-                    <div class="h-1 bg-gradient-to-r from-cyan-500 to-sky-500"></div>
-
+                    <div class="h-1 bg-amber-500"></div>
                     <div class="p-6 flex flex-col h-full">
 
                         <!-- Header -->
                         <div class="flex items-start justify-between">
 
-                            <div class="w-12 h-12 rounded-2xl bg-cyan-50
-                    flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-2xl
+    bg-white
+    border border-slate-200
+    shadow-sm
+    flex items-center justify-center">
 
-                                <i class="fa-solid fa-building-columns text-cyan-600 text-xl"></i>
+                                <i class="fa-solid fa-building-columns text-slate-700 text-xl"></i>
 
                             </div>
-
                             @if($faculty->is_active)
 
                             <span class="inline-flex items-center gap-1.5
@@ -181,7 +202,7 @@
 
                                 <span class="w-2 h-2 rounded-full bg-red-500"></span>
 
-                                Khóa
+                                Không hoạt động
 
                             </span>
 
@@ -202,7 +223,7 @@
                         <!-- NAME -->
                         <h3 class="mt-4 text-xl font-bold text-slate-900
                 leading-snug line-clamp-2
-                group-hover:text-cyan-600 transition">
+                group-hover:text-amber-600 transition">
 
                             {{ $faculty->faculty_name }}
 
@@ -223,7 +244,6 @@
                             <div class="py-4 text-center">
 
                                 <p class="text-2xl font-bold text-slate-900">
-
                                     {{ $faculty->subjects_count }}
 
                                 </p>
@@ -256,9 +276,13 @@
 
                         <!-- Button -->
                         <a href="{{ route('faculties.show',$faculty->faculty_id) }}" class="mt-6 flex items-center justify-center gap-2
-                rounded-2xl bg-cyan-500 py-3
-                text-sm font-semibold text-white
-                hover:bg-cyan-600 transition">
+rounded-2xl
+bg-slate-900
+py-3
+text-sm font-semibold
+text-white
+transition-all duration-300
+hover:bg-amber-500">
 
                             Xem chi tiết
 
@@ -293,10 +317,14 @@
             <!-- Chỉ dùng cho tìm kiếm -->
             <div id="noFacultyResult" class="hidden col-span-full py-20 text-center">
 
-                <div class="w-20 h-20 mx-auto rounded-full bg-cyan-50 flex items-center justify-center">
-                    <i class="fa-solid fa-magnifying-glass text-3xl text-cyan-500"></i>
-                </div>
+                <div class="w-20 h-20 mx-auto rounded-full
+bg-slate-100
+border border-slate-200
+flex items-center justify-center">
 
+                    <i class="fa-solid fa-magnifying-glass text-3xl text-amber-500"></i>
+
+                </div>
                 <h3 class="mt-5 text-lg font-semibold text-slate-700">
                     Không tìm thấy khoa
                 </h3>

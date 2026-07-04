@@ -3,172 +3,532 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Đăng nhập hệ thống</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Đăng nhập | EDUDOC</title>
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    <!-- BƯỚC NHÚNG FONT TỪ GOOGLE FONTS -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+
 </head>
 
-<body
-    class="min-h-screen bg-[#EAFBFF] flex items-center justify-center px-4 relative overflow-hidden font-['Roboto',_sans-serif]">
+<body class="min-h-screen
+bg-gradient-to-br
+from-slate-100
+via-white
+to-slate-200
+font-['Roboto',sans-serif]
+relative
+overflow-hidden">
 
     <!-- BACKGROUND DECOR -->
-    <div class="absolute -top-32 -left-32 w-96 h-96 bg-cyan-200/60 rounded-full blur-3xl"></div>
-    <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-cyan-300/50 rounded-full blur-3xl"></div>
-
-    <!-- ĐÃ ĐỔI items-center THÀNH items-stretch ĐỂ HAI BÊN ĐỀU NHAU -->
-    <div class="relative w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-4 items-stretch">
-
-        <!-- LEFT INTRO -->
-        <div class="hidden lg:block pr-2">
-            <!-- ĐÃ THÊM h-full flex flex-col justify-between ĐỂ NỘI THẤT TỰ GIÃN ĐỀU THEO CHIỀU CAO CARD PHẢI -->
-            <div
-                class="h-full flex flex-col justify-between rounded-[40px] bg-cyan-600 text-white p-10 shadow-2xl shadow-cyan-200">
-
-                <!-- TOP CONTENT (Gồm nút quay lại và icon) -->
-                <div>
-                    <a href="javascript:history.back()"
-                        class="inline-flex items-center gap-2 mb-6 px-5 py-2.5 rounded-full bg-slate-100 hover:bg-cyan-50 text-slate-600 hover:text-cyan-600 text-xs font-black uppercase tracking-wider transition-all">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        Quay lại
-                    </a>
-                    <div class="w-20 h-20 rounded-3xl bg-cyan-300 text-cyan-950 flex items-center justify-center mb-8">
-                        <i class="fa-solid fa-book-open text-4xl"></i>
-                    </div>
-                </div>
-
-                <!-- MIDDLE CONTENT (Tiêu đề đã thu nhỏ và mô tả ngắn gọn) -->
-                <div class="my-auto py-4">
-                    <h1 class="text-5xl font-black leading-tight mb-4">
-                        Kho học liệu môn học hiện đại
-                    </h1>
-                    <p class="text-cyan-50 text-base leading-relaxed">
-                        Đăng nhập để tìm kiếm, tải tài liệu học tập và quản lý học liệu theo từng môn học.
-                    </p>
-                </div>
-
-                <!-- BOTTOM CONTENT (Khối số liệu thống kê luôn nằm dưới đáy card) -->
-                <div class="grid grid-cols-2 gap-4 mt-auto">
-                    <div class="bg-cyan-700/60 rounded-3xl p-5">
-                        <p class="text-4xl font-black">1.2K+</p>
-                        <p class="text-cyan-100 text-sm font-bold mt-1">Tài liệu</p>
-                    </div>
-
-                    <div class="bg-cyan-700/60 rounded-3xl p-5">
-                        <p class="text-4xl font-black">24/7</p>
-                        <p class="text-cyan-100 text-sm font-bold mt-1">Truy cập</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- LOGIN CARD -->
-        <div class="w-full max-w-md mx-auto pl-2 flex flex-col justify-center">
-
-            <!-- LOGO -->
-            <div class="flex flex-col items-center mb-8">
-                <div class="flex items-center gap-3">
-                    <div
-                        class="w-14 h-14 flex items-center justify-center rounded-2xl bg-cyan-500 text-white shadow-lg shadow-cyan-200">
-                        <i class="fa-solid fa-graduation-cap text-2xl"></i>
-                    </div>
-                    <a href="{{ route('home') }}"
-                        class="text-3xl font-black tracking-tight text-slate-900 flex items-center">
-                        EDU
-                        <span class="relative text-cyan-600 ml-1">
-                            DOC
-                            <span class="absolute -top-2 -right-4 text-[10px] text-cyan-500 font-black">HH</span>
-                        </span>
-                    </a>
-                </div>
-                <p class="text-xs text-slate-400 uppercase tracking-[0.3em] mt-3 font-bold">
-                    Hệ thống học liệu
-                </p>
-            </div>
-
-            <!-- CARD CONTENT -->
-            <div
-                class="bg-white/95 backdrop-blur-xl p-8 rounded-[32px] shadow-[0_20px_60px_rgba(8,145,178,0.12)] border border-cyan-100">
-
-                <div class="text-center mb-7">
-                    <h3 class="text-2xl font-black text-cyan-950">
-                        Đăng nhập hệ thống
-                    </h3>
-                    <p class="text-slate-500 text-sm font-semibold mt-2">
-                        Vui lòng nhập thông tin tài khoản của bạn
-                    </p>
-                </div>
-
-                {{-- SUCCESS --}}
-                @if (session('success'))
-                <div
-                    class="bg-emerald-50 text-emerald-600 border border-emerald-100 p-3 rounded-2xl text-sm font-semibold mb-4">
-                    {{ session('success') }}
-                </div>
-                @endif
-
-                {{-- ERROR --}}
-                @if ($errors->any())
-                <div class="bg-red-50 text-red-500 border border-red-100 p-3 rounded-2xl text-sm font-semibold mb-4">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                        <li>• {{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
-
-                <!-- FORM -->
-                <form method="POST" action="{{ route('login') }}" class="space-y-5">
-                    @csrf
-
-                    <!-- EMAIL -->
-                    <div>
-                        <label class="text-xs font-black text-slate-400 uppercase tracking-wider">Email</label>
-                        <div
-                            class="flex items-center bg-cyan-50 border border-cyan-100 rounded-2xl px-4 mt-2 focus-within:ring-2 focus-within:ring-cyan-300 transition">
-                            <i class="fa-solid fa-envelope text-cyan-600 mr-3"></i>
-                            <input type="email" name="email" value="{{ old('email') }}"
-                                class="w-full bg-transparent py-4 outline-none text-sm font-semibold text-slate-700 placeholder-slate-400"
-                                placeholder="Nhập email..." required>
-                        </div>
-                    </div>
-
-                    <!-- PASSWORD -->
-                    <div>
-                        <label class="text-xs font-black text-slate-400 uppercase tracking-wider">Mật khẩu</label>
-                        <div
-                            class="flex items-center bg-cyan-50 border border-cyan-100 rounded-2xl px-4 mt-2 focus-within:ring-2 focus-within:ring-cyan-300 transition">
-                            <i class="fa-solid fa-lock text-cyan-600 mr-3"></i>
-                            <input type="password" name="password"
-                                class="w-full bg-transparent py-4 outline-none text-sm font-semibold text-slate-700 placeholder-slate-400"
-                                placeholder="Nhập mật khẩu..." required>
-                        </div>
-                    </div>
-
-                    <!-- BUTTON -->
-                    <button type="submit"
-                        class="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-cyan-200 hover:-translate-y-0.5 transition-all duration-300">
-                        <i class="fa-solid fa-right-to-bracket mr-2"></i>
-                        Đăng nhập
-                    </button>
-                </form>
-
-                <!-- REGISTER -->
-                <p class="text-center text-sm text-slate-500 mt-6 font-semibold">
-                    Chưa có tài khoản?
-                    <a href="{{ route('register') }}" class="text-cyan-600 font-black hover:text-cyan-700">
-                        Đăng ký
-                    </a>
-                </p>
-
-            </div>
-
-        </div>
+    <div class="absolute -top-44 -left-44 w-[500px] h-[500px]
+        rounded-full
+        bg-slate-300/40
+        blur-[140px]">
     </div>
+
+    <div class="absolute -bottom-44 -right-44 w-[500px] h-[500px]
+        rounded-full
+        bg-amber-200/30
+        blur-[140px]">
+    </div>
+
+    <!-- GRID -->
+    <div class="relative
+min-h-screen
+flex
+items-center
+justify-center
+px-4
+py-6">
+        <div class="w-full max-w-[1020px] scale-[0.9] origin-center grid lg:grid-cols-2 gap-5 items-stretch">
+            <!-- ================= LEFT HERO ================= -->
+            <div class="hidden lg:block">
+
+                <div class="h-full rounded-[28px]
+                    bg-gradient-to-br
+                    from-slate-900
+                    via-slate-800
+                    to-slate-700
+                    text-white
+                    p-7
+                    shadow-[0_25px_60px_rgba(15,23,42,0.25)]
+                    flex
+                    flex-col">
+
+                    <!-- BACK -->
+                    <a href="javascript:history.back()" class="inline-flex items-center gap-2
+                        self-start
+                        rounded-full
+                        border border-white/10
+                        bg-white/10
+                        backdrop-blur-xl
+                        px-4 py-2
+                        text-xs
+                        font-semibold
+                        uppercase
+                        tracking-wider
+                        transition
+                        hover:bg-white/20">
+
+                        <i class="fa-solid fa-arrow-left"></i>
+
+                        Quay lại
+
+                    </a>
+
+                    <!-- CONTENT -->
+                    <div class="flex-1 flex flex-col justify-center">
+
+                        <!-- LOGO -->
+                        <div class="mb-8
+    flex
+    h-20
+    w-20
+    items-center
+    justify-center
+    rounded-2xl
+    bg-white
+    p-2
+    shadow-lg">
+
+                            <img src="{{ asset('img/logo01.png') }}" alt="EDUDOC Logo"
+                                class="w-full h-full object-contain">
+
+                        </div>
+                        <!-- BADGE -->
+                        <span class="inline-flex
+                            w-fit
+                            items-center
+                            gap-2
+                            rounded-full
+                            bg-white/10
+                            px-3
+py-1
+                            text-xs
+                            font-bold
+                            uppercase
+                            tracking-[0.25em]
+                            text-amber-300">
+
+                            <i class="fa-solid fa-graduation-cap"></i>
+
+                            EDUDOC
+
+                        </span>
+
+                        <!-- TITLE -->
+                        <h1 class="mt-5
+                            text-4xl
+                            font-black
+                            leading-tight">
+
+                            Kho học liệu
+
+                            <span class=" text-amber-300">
+
+                                hiện đại
+
+                            </span>
+
+                        </h1>
+
+                        <!-- DESCRIPTION -->
+                        <p class="mt-6
+                            max-w-md
+                            text-base
+leading-7
+                            text-slate-300">
+
+                            Đăng nhập để truy cập hệ thống quản lý tài liệu môn học,
+                            tìm kiếm giáo trình, bài giảng, slide,
+                            đề thi và chia sẻ học liệu nhanh chóng.
+
+                        </p>
+
+                    </div>
+
+                    <!-- STATISTICS -->
+                    <div class="grid grid-cols-2 gap-5 mt-5">
+
+                        <div class="rounded-2xl
+                            border border-white/10
+                            bg-white/10
+                            backdrop-blur-xl
+                            p-4">
+
+                            <p class="text-4xl font-black text-amber-300">
+
+                                1.2K+
+
+                            </p>
+
+                            <p class="mt-2 text-sm font-medium text-slate-300">
+
+                                Tài liệu
+
+                            </p>
+
+                        </div>
+
+                        <div class="rounded-2xl
+    border border-white/10
+    bg-white/10
+    backdrop-blur-xl
+    p-4">
+
+                            <p class="text-2xl font-black text-amber-300">
+                                {{ now()->format('d/m/Y') }}
+                            </p>
+
+                            <p class="mt-2 text-sm font-medium text-slate-300">
+                                Hôm nay
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- ================= LOGIN CARD ================= -->
+            <div class="flex items-center justify-center">
+
+                <div class="w-full max-w-md">
+
+                    <!-- ================= LOGO ================= -->
+                    <div class="text-center mb-6">
+
+                        <a href="{{ route('home') }}" class="inline-flex items-center gap-4 group">
+
+                            <!-- Logo -->
+                            <div class="w-14 h-14 flex items-center justify-center"> <img
+                                    src="{{ asset('img/logo01.png') }}" alt="EDUDOC Logo"
+                                    class="w-14 h-14 object-contain"> </div>
+                            <!-- Brand -->
+                            <div class="text-left">
+
+                                <h1 class="text-[34px] font-black tracking-tight leading-none">
+
+                                    <span class="text-slate-900">EDU</span>
+
+                                    <span class="text-amber-500">DOC</span>
+
+                                </h1>
+
+                                <p class="mt-1
+                                    text-[11px]
+                                    uppercase
+                                    tracking-[0.35em]
+                                    font-semibold
+                                    text-slate-400">
+
+                                    Learning Resources
+
+                                </p>
+
+                            </div>
+
+                        </a>
+
+                    </div>
+
+                    <!-- CARD -->
+                    <div class="rounded-[28px]
+                        border
+                        border-slate-200
+                        bg-white/90
+                        backdrop-blur-2xl
+                        p-6
+                        shadow-[0_20px_60px_rgba(15,23,42,0.08)]">
+
+                        <!-- TITLE -->
+                        <div class="text-center mb-6">
+
+                            <h2 class="text-3xl font-black text-slate-900">
+
+                                Đăng nhập
+
+                            </h2>
+
+                            <p class="mt-3 text-sm text-slate-500">
+
+                                Vui lòng đăng nhập để tiếp tục sử dụng hệ thống.
+
+                            </p>
+
+                        </div>
+
+                        {{-- SUCCESS --}}
+                        @if(session('success'))
+
+                        <div class="mb-5
+                            rounded-2xl
+                            border
+                            border-emerald-200
+                            bg-emerald-50
+                            p-4
+                            text-sm
+                            font-medium
+                            text-emerald-700">
+
+                            {{ session('success') }}
+
+                        </div>
+
+                        @endif
+
+                        {{-- ERROR --}}
+                        @if($errors->any())
+
+                        <div class="mb-5
+                rounded-2xl
+                border
+                border-red-200
+                bg-red-50
+                p-4">
+
+                            <ul class="space-y-1 text-sm text-red-600">
+
+                                @foreach($errors->all() as $error)
+
+                                <li>
+
+                                    • {{ $error }}
+
+                                </li>
+
+                                @endforeach
+
+                            </ul>
+
+                        </div>
+
+                        @endif
+
+                        <!-- FORM -->
+                        <form method="POST" action="{{ route('login') }}" class="space-y-4">
+
+                            @csrf
+
+                            <!-- EMAIL -->
+                            <div>
+
+                                <label class="mb-2 block
+                        text-xs
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-slate-500">
+
+                                    Email
+
+                                </label>
+
+                                <div class="flex items-center
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-slate-50
+                        px-4
+
+                        focus-within:border-amber-400
+                        focus-within:ring-4
+                        focus-within:ring-amber-100
+                        transition">
+
+                                    <i class="fa-solid fa-envelope text-slate-500"></i>
+
+                                    <input type="email" name="email" value="{{ old('email') }}" required
+                                        placeholder="Nhập email..." class="w-full
+                            bg-transparent
+                            px-4
+                            py-3
+                            text-sm
+                            font-medium
+                            text-slate-700
+                            placeholder:text-slate-400
+                            outline-none">
+
+                                </div>
+
+                            </div>
+
+                            <!-- PASSWORD -->
+                            <div>
+
+                                <label class="mb-2 block
+                        text-xs
+                        font-bold
+                        uppercase
+                        tracking-wider
+                        text-slate-500">
+
+                                    Mật khẩu
+
+                                </label>
+
+                                <div class="flex items-center
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-slate-50
+                        px-4
+
+                        focus-within:border-amber-400
+                        focus-within:ring-4
+                        focus-within:ring-amber-100
+                        transition">
+
+                                    <i class="fa-solid fa-lock text-slate-500"></i>
+
+                                    <input type="password" name="password" required placeholder="Nhập mật khẩu..."
+                                        class="w-full
+                            bg-transparent
+                            px-4
+                            py-3
+                            text-sm
+                            font-medium
+                            text-slate-700
+                            placeholder:text-slate-400
+                            outline-none">
+
+                                </div>
+
+                            </div>
+
+                            <!-- REMEMBER -->
+                            <div class="flex items-center justify-between">
+
+                                <label class="flex items-center gap-2
+                        text-sm
+                        text-slate-600">
+
+                                    <input type="checkbox" name="remember"
+                                        class="rounded border-slate-300 text-amber-500 focus:ring-amber-300">
+
+                                    Ghi nhớ đăng nhập
+
+                                </label>
+
+                                @if(Route::has('password.request'))
+
+                                <a href="{{ route('password.request') }}" class="text-sm
+                        font-semibold
+                        text-amber-600
+                        hover:text-amber-700">
+
+                                    Quên mật khẩu?
+
+                                </a>
+
+                                @endif
+
+                            </div>
+
+                            <!-- LOGIN BUTTON -->
+                            <button type="submit" class="w-full
+                    rounded-2xl
+                    bg-gradient-to-r
+                    from-slate-900
+                    via-slate-800
+                    to-slate-700
+
+                    py-3
+
+                    text-sm
+                    font-bold
+                    tracking-wide
+                    text-white
+
+                    shadow-lg
+                    shadow-slate-900/20
+
+                    transition-all
+                    duration-300
+
+                    hover:-translate-y-0.5
+                    hover:shadow-xl">
+
+                                <i class="fa-solid fa-right-to-bracket mr-2"></i>
+
+                                Đăng nhập
+
+                            </button>
+                        </form>
+
+                        <!-- REGISTER -->
+                        <div class="mt-5 text-center">
+
+                            <p class="text-sm text-slate-500">
+
+                                Chưa có tài khoản?
+
+                                <a href="{{ route('register') }}" class="ml-1
+                        font-semibold
+                        text-amber-600
+                        transition-colors
+                        hover:text-amber-700">
+
+                                    Đăng ký ngay
+
+                                </a>
+
+                            </p>
+
+                        </div>
+
+                        <!-- DIVIDER -->
+                        <div class="relative my-5">
+
+                            <div class="border-t border-slate-200"></div>
+
+                            <span class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2
+                    bg-white
+                    px-4
+                    text-xs
+                    uppercase
+                    tracking-widest
+                    text-slate-400">
+
+                                EDUDOC
+
+                            </span>
+
+                        </div>
+
+                        <!-- FOOTER -->
+                        <div class="text-center">
+
+                            <p class="text-xs text-slate-400 leading-5">
+
+                                © {{ date('Y') }}
+
+                                <span class="font-semibold text-slate-600">
+
+                                    EDUDOC
+
+                                </span>
+
+                                · Hệ thống quản lý tài liệu môn học
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
 </body>
 

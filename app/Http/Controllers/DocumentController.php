@@ -15,8 +15,15 @@ use App\Models\DocumentVersion;
 use App\Models\DownloadHistory;
 use App\Models\User;
 use App\Models\SubjectTeacher;
+use App\Services\DocumentPreviewService;
 class DocumentController extends Controller
 {
+    private DocumentPreviewService $previewService;
+
+public function __construct(DocumentPreviewService $previewService)
+{
+    $this->previewService = $previewService;
+}
     public function index(Request $request)
     {
         $query = Document::with([
@@ -212,35 +219,79 @@ class DocumentController extends Controller
                     $storedName,
                     'public'
                 );
+                                    /*
+                    |--------------------------------------------------------------------------
+                    | Tạo file preview
+                    |--------------------------------------------------------------------------
+                    */
+
+                    $previewFile = null;
+
+                    // PDF dùng luôn
+                    if ($extension === 'pdf') {
+
+                        $previewFile = $filePath;
+
+                    }
+
+                    // Ảnh dùng luôn
+                    elseif (in_array($extension, [
+                        'jpg',
+                        'jpeg',
+                        'png',
+                        'gif',
+                        'webp'
+                    ])) {
+
+                        $previewFile = $filePath;
+
+                    }
+
+                    // Office -> Convert sang PDF
+                    elseif (in_array($extension, [
+                        'doc',
+                        'docx',
+                        'xls',
+                        'xlsx',
+                        'ppt',
+                        'pptx',
+                    ])) {
+
+                        $previewFile = $this->previewService
+                            ->convertToPdf($filePath);
+
+                    }
 
                 $latestVersion = DocumentVersion::where(
                     'document_id',
                     $document->document_id
                 )->count();
 
-                DocumentVersion::create([
+              DocumentVersion::create([
 
-                    'document_id'        => $document->document_id,
+                'document_id'        => $document->document_id,
 
-                    'version_name'       => ($latestVersion + 1).'.0',
+                'version_name'       => ($latestVersion + 1).'.0',
 
-                    'version_note'       => 'Updated version',
+                'version_note'       => 'Updated version',
 
-                    'original_file_name' => $file->getClientOriginalName(),
+                'original_file_name' => $file->getClientOriginalName(),
 
-                    'stored_file_name'   => $storedName,
+                'stored_file_name'   => $storedName,
 
-                    'file_path'          => $filePath,
+                'file_path'          => $filePath,
 
-                    'file_extension'     => $extension,
+                'preview_file'       => $previewFile,
 
-                    'file_size'          => $file->getSize(),
+                'file_extension'     => $extension,
 
-                    'uploaded_by'        => Auth::id(),
+                'file_size'          => $file->getSize(),
 
-                    'is_current'         => true,
+                'uploaded_by'        => Auth::id(),
 
-                ]);
+                'is_current'         => true,
+
+            ]);
             }
 
             DB::commit();
@@ -722,22 +773,42 @@ class DocumentController extends Controller
             | Chỉ PDF và ảnh mới xem trực tiếp
             |--------------------------------------------------------------------------
             */
-
             $previewFile = null;
 
-            if (
-                $extension === 'pdf' ||
-                in_array($extension, [
-                    'jpg',
-                    'jpeg',
-                    'png',
-                    'gif',
-                    'webp',
-                ])
-            ) {
+            // PDF dùng luôn
+            if ($extension === 'pdf') {
+
                 $previewFile = $filePath;
+
             }
 
+            // Ảnh dùng luôn
+            elseif (in_array($extension, [
+                'jpg',
+                'jpeg',
+                'png',
+                'gif',
+                'webp'
+            ])) {
+
+                $previewFile = $filePath;
+
+            }
+
+            // Office -> Convert sang PDF
+            elseif (in_array($extension, [
+                'doc',
+                'docx',
+                'xls',
+                'xlsx',
+                'ppt',
+                'pptx',
+            ])) {
+
+                $previewFile = $this->previewService
+                    ->convertToPdf($filePath);
+
+            }
             /*
             |--------------------------------------------------------------------------
             | Tạo tài liệu
@@ -764,22 +835,23 @@ class DocumentController extends Controller
 
             DocumentVersion::create([
 
-                'document_id'       => $document->document_id,
-                'version_name'      => '1.0',
-                'version_note'      => 'Initial version',
+            'document_id'       => $document->document_id,
+            'version_name'      => '1.0',
+            'version_note'      => 'Initial version',
 
-                'original_file_name'=> $file->getClientOriginalName(),
-                'stored_file_name'  => $storedName,
+            'original_file_name'=> $file->getClientOriginalName(),
+            'stored_file_name'  => $storedName,
 
-                'file_path'         => $filePath,
+            'file_path'         => $filePath,
+            'preview_file'      => $previewFile,
 
-                'file_extension'    => $extension,
-                'file_size'         => $file->getSize(),
+            'file_extension'    => $extension,
+            'file_size'         => $file->getSize(),
 
-                'uploaded_by'       => $user->user_id,
-                'is_current'        => true,
+            'uploaded_by'       => $user->user_id,
+            'is_current'        => true,
 
-            ]);
+        ]);
 
             DB::commit();
 
