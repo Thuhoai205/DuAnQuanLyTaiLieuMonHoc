@@ -4,286 +4,590 @@
 @section('page-title', 'Chỉnh sửa người dùng')
 
 @section('content')
-
-<div class="space-y-6">
+<div class="space-y-8">
 
     <!-- PAGE HEADER -->
-    <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
+            <!-- LEFT -->
             <div>
-                <h2 class="text-lg font-black text-slate-700">
+
+                <h2 class="text-2xl font-extrabold text-slate-900">
+
                     Chỉnh sửa người dùng
+
                 </h2>
 
-                <p class="text-sm text-slate-500 font-semibold mt-1">
-                    Cập nhật thông tin tài khoản, vai trò và trạng thái hoạt động.
+                <p class="mt-2 text-sm font-medium text-slate-500">
+
+                    Cập nhật thông tin tài khoản, vai trò và trạng thái hoạt động của người dùng.
+
                 </p>
+
             </div>
-            <a href="{{ url()->previous() }}"
-                class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-slate-200 text-slate-600 text-sm font-black hover:bg-slate-100 transition w-fit">
+
+            <!-- RIGHT -->
+            <a href="{{ url()->previous() }}" class="inline-flex items-center gap-3
+                h-11
+                px-5
+                rounded-xl
+                border-2 border-amber-300
+                bg-white
+                text-slate-800
+                text-sm
+                font-semibold
+                transition-all duration-300
+                hover:bg-amber-50
+                hover:border-amber-500
+                w-fit">
+
                 <i class="fa-solid fa-arrow-left"></i>
+
                 <span>Quay lại</span>
+
             </a>
+
         </div>
+
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-        <!-- USER INFO CARD -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+        <!-- USER INFO -->
         <div class="lg:col-span-4">
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
-                <div class="bg-slate-50 border-b border-slate-200 p-6 text-center">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+                <!-- HEADER -->
+                <div class="bg-gradient-to-r from-slate-900 to-slate-800 p-8 text-center">
+
                     <img id="avatarPreview"
-                        src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=0ea5e9&color=fff' }}"
-                        class="w-28 h-28 rounded-md object-cover border-4 border-white shadow-sm mx-auto">
+                        src="{{ $user->avatar
+                            ? asset('storage/'.$user->avatar)
+                            : 'https://ui-avatars.com/api/?name='.urlencode($user->full_name).'&background=0f172a&color=fff' }}" class="w-32 h-32
+                        rounded-3xl
+                        object-cover
+                        border-4 border-white
+                        shadow-xl
+                        mx-auto">
 
-                    <h2 class="text-lg font-black text-slate-700 mt-5">
+                    <h2 class="mt-5 text-2xl font-bold text-white">
+
                         {{ $user->full_name }}
+
                     </h2>
 
-                    <p class="text-slate-400 text-sm font-semibold mt-1">
-                        {{ '@' . $user->username }}
+                    <p class="mt-2 text-sm text-slate-300">
+
+                        {{ '@'.$user->username }}
+
                     </p>
+
                 </div>
 
-                <div class="p-5 space-y-3">
+                <!-- INFO -->
+                <div class="p-6 space-y-4">
 
-                    <div
-                        class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 px-4 py-3">
-                        <span class="text-sm font-bold text-slate-500">
+                    <div class="flex items-center justify-between
+                        rounded-xl
+                        border border-slate-200
+                        bg-slate-50
+                        px-5 py-4">
+
+                        <span class="text-sm font-medium text-slate-500">
+
                             Vai trò
+
                         </span>
 
-                        <span class="text-sm font-black text-sky-600">
+                        <span class="px-3 py-1
+                            rounded-full
+                            bg-amber-100
+                            text-amber-700
+                            text-xs
+                            font-semibold">
+
                             {{ $user->role->role_name ?? 'Chưa có' }}
+
                         </span>
+
                     </div>
 
-                    <div
-                        class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 px-4 py-3">
-                        <span class="text-sm font-bold text-slate-500">
+                    <div class="flex items-center justify-between
+                        rounded-xl
+                        border border-slate-200
+                        bg-slate-50
+                        px-5 py-4">
+
+                        <span class="text-sm font-medium text-slate-500">
+
                             Trạng thái
+
                         </span>
 
                         @if($user->is_active)
-                        <span class="px-3 py-1 rounded bg-emerald-50 text-emerald-600 text-xs font-black">
+
+                        <span class="px-3 py-1
+                            rounded-full
+                            bg-emerald-100
+                            text-emerald-700
+                            text-xs
+                            font-semibold">
+
                             Hoạt động
+
                         </span>
+
                         @else
-                        <span class="px-3 py-1 rounded bg-red-50 text-red-500 text-xs font-black">
+
+                        <span class="px-3 py-1
+                            rounded-full
+                            bg-red-100
+                            text-red-600
+                            text-xs
+                            font-semibold">
+
                             Bị khóa
+
                         </span>
+
                         @endif
+
                     </div>
 
-                    <div
-                        class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 px-4 py-3">
-                        <span class="text-sm font-bold text-slate-500">
+                    <div class="flex items-center justify-between
+                        rounded-xl
+                        border border-slate-200
+                        bg-slate-50
+                        px-5 py-4">
+
+                        <span class="text-sm font-medium text-slate-500">
+
                             Ngày tạo
+
                         </span>
 
-                        <span class="text-sm font-black text-slate-700">
-                            {{ $user->created_at ? $user->created_at->format('d/m/Y') : 'Chưa có' }}
+                        <span class="text-sm font-semibold text-slate-800">
+
+                            {{ optional($user->created_at)->format('d/m/Y') ?? 'Chưa có' }}
+
                         </span>
+
                     </div>
 
-                    <div
-                        class="flex items-center justify-between rounded-md bg-slate-50 border border-slate-200 px-4 py-3">
-                        <span class="text-sm font-bold text-slate-500">
+                    <div class="flex items-center justify-between
+                        rounded-xl
+                        border border-slate-200
+                        bg-slate-50
+                        px-5 py-4">
+
+                        <span class="text-sm font-medium text-slate-500">
+
                             Cập nhật
+
                         </span>
 
-                        <span class="text-sm font-black text-slate-700">
-                            {{ $user->updated_at ? $user->updated_at->format('d/m/Y') : 'Chưa có' }}
+                        <span class="text-sm font-semibold text-slate-800">
+
+                            {{ optional($user->updated_at)->format('d/m/Y') ?? 'Chưa có' }}
+
                         </span>
+
                     </div>
 
                 </div>
 
             </div>
+
         </div>
 
-        <!-- EDIT FORM -->
+        <!-- FORM -->
         <div class="lg:col-span-8">
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
-                <div class="px-5 py-4 border-b border-slate-200 bg-white">
-                    <h3 class="text-sm font-black text-slate-700">
-                        Thông tin chỉnh sửa
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                <!-- FORM HEADER -->
+                <div class="px-7 py-6 border-b border-slate-200 bg-slate-50">
+
+                    <h3 class="text-xl font-bold text-slate-900">
+
+                        Thông tin người dùng
+
                     </h3>
 
-                    <p class="text-xs text-slate-400 font-semibold mt-1">
-                        Các trường có thể cập nhật cho tài khoản người dùng.
+                    <p class="mt-1 text-sm text-slate-500">
+
+                        Cập nhật các thông tin cơ bản của tài khoản.
+
                     </p>
+
                 </div>
 
-                <form action="{{ route('admin.users.update', $user->user_id) }}" method="POST"
-                    enctype="multipart/form-data" autocomplete="off" class="p-5 space-y-6">
+                <form action="{{ route('admin.users.update',$user->user_id) }}" method="POST"
+                    enctype="multipart/form-data" autocomplete="off" class="p-7 space-y-7">
 
                     @csrf
                     @method('PUT')
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                         <!-- FULL NAME -->
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase mb-2">
+
+                            <label class="block mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+
                                 Họ và tên
+
                             </label>
 
-                            <input type="text" name="full_name" value="{{ old('full_name', $user->full_name) }}"
-                                placeholder="Nhập họ và tên" class="w-full h-11 px-4 rounded-md bg-slate-50 border text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500
-                                @error('full_name') border-red-400 @else border-slate-200 @enderror">
+                            <input type="text" name="full_name" value="{{ old('full_name',$user->full_name) }}"
+                                placeholder="Nhập họ và tên" class="w-full h-12
+                                rounded-xl
+                                border
+                                bg-white
+                                px-4
+                                text-sm
+                                font-medium
+                                text-slate-700
+                                outline-none
+                                transition-all
+                                focus:border-amber-400
+                                focus:ring-4
+                                focus:ring-amber-100
+                                @error('full_name')
+                                border-red-400
+                                @else
+                                border-slate-300
+                                @enderror">
 
                             @error('full_name')
-                            <p class="text-xs text-red-500 font-bold mt-2">
+
+                            <p class="mt-2 text-xs font-medium text-red-500">
+
                                 {{ $message }}
+
                             </p>
+
                             @enderror
+
                         </div>
 
                         <!-- USERNAME -->
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase mb-2">
+
+                            <label class="block mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+
                                 Tên tài khoản
+
                             </label>
 
-                            <input type="text" name="username" value="{{ old('username', $user->username) }}"
-                                placeholder="Nhập username" class="w-full h-11 px-4 rounded-md bg-slate-50 border text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500
-                                @error('username') border-red-400 @else border-slate-200 @enderror">
+                            <input type="text" name="username" value="{{ old('username',$user->username) }}"
+                                placeholder="Nhập username" class="w-full h-12
+                                rounded-xl
+                                border
+                                bg-white
+                                px-4
+                                text-sm
+                                font-medium
+                                text-slate-700
+                                outline-none
+                                transition-all
+                                focus:border-amber-400
+                                focus:ring-4
+                                focus:ring-amber-100
+                                @error('username')
+                                border-red-400
+                                @else
+                                border-slate-300
+                                @enderror">
 
                             @error('username')
-                            <p class="text-xs text-red-500 font-bold mt-2">
+
+                            <p class="mt-2 text-xs font-medium text-red-500">
+
                                 {{ $message }}
+
                             </p>
+
                             @enderror
+
                         </div>
 
                         <!-- EMAIL -->
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase mb-2">
+
+                            <label class="block mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+
                                 Email
+
                             </label>
 
-                            <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                                placeholder="Nhập email" class="w-full h-11 px-4 rounded-md bg-slate-50 border text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500
-                                @error('email') border-red-400 @else border-slate-200 @enderror">
+                            <input type="email" name="email" value="{{ old('email',$user->email) }}"
+                                placeholder="example@gmail.com" class="w-full h-12
+                                rounded-xl
+                                border
+                                bg-white
+                                px-4
+                                text-sm
+                                font-medium
+                                text-slate-700
+                                outline-none
+                                transition-all
+                                focus:border-amber-400
+                                focus:ring-4
+                                focus:ring-amber-100
+                                @error('email')
+                                border-red-400
+                                @else
+                                border-slate-300
+                                @enderror">
 
                             @error('email')
-                            <p class="text-xs text-red-500 font-bold mt-2">
+
+                            <p class="mt-2 text-xs font-medium text-red-500">
+
                                 {{ $message }}
+
                             </p>
+
                             @enderror
+
                         </div>
 
                         <!-- ROLE -->
                         <div>
-                            <label class="block text-xs font-black text-slate-500 uppercase mb-2">
+
+                            <label class="block mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+
                                 Vai trò
+
                             </label>
 
-                            <select name="role_id" class="w-full h-11 px-4 rounded-md bg-slate-50 border text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500
-                                @error('role_id') border-red-400 @else border-slate-200 @enderror">
+                            <select name="role_id" class="w-full h-12
+                                rounded-xl
+                                border
+                                bg-white
+                                px-4
+                                text-sm
+                                font-medium
+                                text-slate-700
+                                outline-none
+                                transition-all
+                                focus:border-amber-400
+                                focus:ring-4
+                                focus:ring-amber-100
+                                @error('role_id')
+                                border-red-400
+                                @else
+                                border-slate-300
+                                @enderror">
 
                                 @foreach($roles as $role)
-                                <option value="{{ $role->role_id }}" @selected((int) old('role_id', $user->role_id) ===
-                                    (int) $role->role_id)>
+
+                                <option value="{{ $role->role_id }}" @selected((int)old('role_id',$user->
+                                    role_id)===(int)$role->role_id)>
+
                                     {{ $role->role_name }}
+
                                 </option>
+
                                 @endforeach
 
                             </select>
 
                             @error('role_id')
-                            <p class="text-xs text-red-500 font-bold mt-2">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                        </div>
 
+                            <p class="mt-2 text-xs font-medium text-red-500">
+
+                                {{ $message }}
+
+                            </p>
+
+                            @enderror
+
+                        </div>
                         <!-- PASSWORD -->
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-black text-slate-500 uppercase mb-2">
+                        <div class="md:col-span-2">
+
+                            <label class="block mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+
                                 Mật khẩu mới
+
                             </label>
 
-                            <input type="password" name="password" placeholder="Để trống nếu không muốn đổi mật khẩu"
-                                class="w-full h-11 px-4 rounded-md bg-slate-50 border text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500
-                                @error('password') border-red-400 @else border-slate-200 @enderror">
+                            <input type="password" name="password"
+                                placeholder="Để trống nếu không muốn thay đổi mật khẩu" class="w-full h-12
+                                rounded-xl
+                                border
+                                border-slate-300
+                                bg-white
+                                px-4
+                                text-sm
+                                font-medium
+                                text-slate-700
+                                outline-none
+                                transition-all
+                                focus:border-amber-400
+                                focus:ring-4
+                                focus:ring-amber-100
+                                @error('password')
+                                border-red-400
+                                @enderror">
 
                             @error('password')
-                            <p class="text-xs text-red-500 font-bold mt-2">
+
+                            <p class="mt-2 text-xs font-medium text-red-500">
+
                                 {{ $message }}
+
                             </p>
+
                             @enderror
+
                         </div>
 
                         <!-- AVATAR -->
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-black text-slate-500 uppercase mb-2">
+                        <div class="md:col-span-2">
+
+                            <label class="block mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+
                                 Ảnh đại diện
+
                             </label>
 
-                            <input type="file" name="avatar" accept="image/*" onchange="previewAvatar(this)" class="w-full rounded-md bg-slate-50 border border-slate-200 text-sm text-slate-600
-                                file:mr-4 file:py-3 file:px-5 file:rounded-md file:border-0
-                                file:bg-sky-50 file:text-sky-600 file:font-black hover:file:bg-sky-100">
+                            <input type="file" name="avatar" accept="image/*" onchange="previewAvatar(this)" class="w-full
+                                rounded-xl
+                                border
+                                border-slate-300
+                                bg-white
+                                text-sm
+                                text-slate-600
 
-                            <p class="text-xs text-slate-400 font-semibold mt-2">
-                                Chỉ hỗ trợ JPG, JPEG, PNG, WEBP. Dung lượng tối đa 2MB.
+                                file:mr-4
+                                file:px-5
+                                file:py-3
+                                file:rounded-l-xl
+                                file:border-0
+                                file:bg-amber-500
+                                file:text-white
+                                file:font-semibold
+                                hover:file:bg-amber-600">
+
+                            <p class="mt-2 text-xs text-slate-400">
+
+                                Hỗ trợ JPG, JPEG, PNG, WEBP. Dung lượng tối đa 2MB.
+
                             </p>
 
                             @error('avatar')
-                            <p class="text-xs text-red-500 font-bold mt-2">
+
+                            <p class="mt-2 text-xs font-medium text-red-500">
+
                                 {{ $message }}
+
                             </p>
+
                             @enderror
+
                         </div>
 
                         <!-- STATUS -->
-                        <div class="sm:col-span-2 rounded-md border border-slate-200 bg-slate-50 p-5">
-                            <label class="block text-xs font-black text-slate-500 uppercase mb-3">
-                                Trạng thái hoạt động
-                            </label>
+                        <div class="md:col-span-2">
 
-                            <label class="inline-flex items-center cursor-pointer">
-                                <input type="hidden" name="is_active" value="0">
+                            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
 
-                                <input type="checkbox" name="is_active" value="1" class="w-5 h-5 accent-sky-500"
-                                    @checked((bool) old('is_active', $user->is_active))>
+                                <label class="block mb-4 text-xs font-semibold uppercase tracking-wide text-slate-500">
 
-                                <span class="ml-3 text-sm font-bold text-slate-600">
-                                    Cho phép tài khoản đăng nhập hệ thống
-                                </span>
-                            </label>
+                                    Trạng thái tài khoản
+
+                                </label>
+
+                                <label class="inline-flex items-center cursor-pointer">
+
+                                    <input type="hidden" name="is_active" value="0">
+
+                                    <input type="checkbox" name="is_active" value="1" class="w-5 h-5 accent-amber-500"
+                                        @checked((bool) old('is_active',$user->is_active))>
+
+                                    <span class="ml-3 text-sm font-medium text-slate-700">
+
+                                        Cho phép người dùng đăng nhập hệ thống
+
+                                    </span>
+
+                                </label>
+
+                                <p class="mt-3 text-xs text-slate-500">
+
+                                    Nếu tắt, tài khoản sẽ không thể đăng nhập cho đến khi được kích hoạt lại.
+
+                                </p>
+
+                            </div>
+
                         </div>
 
                     </div>
-
                     <!-- ACTIONS -->
-                    <div
-                        class="pt-5 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3">
-                        <a href="{{ route('admin.users.index') }}"
-                            class="h-11 px-5 rounded-md bg-slate-100 text-slate-600 text-sm font-black flex items-center justify-center hover:bg-slate-200 transition">
-                            Hủy
-                        </a>
+                    <div class="pt-6 border-t border-slate-200">
 
-                        <button type="submit"
-                            class="h-11 px-5 rounded-md bg-sky-500 hover:bg-sky-600 text-white text-sm font-black flex items-center justify-center gap-2 transition">
-                            <i class="fa-solid fa-floppy-disk"></i>
-                            Lưu thay đổi
-                        </button>
+                        <div class="flex flex-col sm:flex-row sm:justify-end gap-3">
+
+                            <!-- Hủy -->
+                            <a href="{{ route('admin.users.index') }}" class="inline-flex items-center justify-center gap-2
+                                h-12
+                                px-6
+                                rounded-xl
+                                border border-slate-300
+                                bg-white
+                                text-slate-700
+                                text-sm
+                                font-semibold
+                                transition-all duration-300
+                                hover:bg-slate-900
+                                hover:border-slate-900
+                                hover:text-white">
+
+                                <i class="fa-solid fa-xmark"></i>
+
+                                Hủy
+
+                            </a>
+
+                            <!-- Lưu -->
+                            <button type="submit" class="inline-flex items-center justify-center gap-2
+                                h-12
+                                px-7
+                                rounded-xl
+                                bg-amber-500
+                                text-white
+                                text-sm
+                                font-semibold
+                                shadow-lg shadow-amber-200
+                                transition-all duration-300
+                                hover:bg-amber-600">
+
+                                <i class="fa-solid fa-floppy-disk"></i>
+
+                                Lưu thay đổi
+
+                            </button>
+
+                        </div>
+
                     </div>
 
                 </form>
 
             </div>
+
         </div>
 
     </div>
 
 </div>
-
 @endsection
 
 @push('scripts')

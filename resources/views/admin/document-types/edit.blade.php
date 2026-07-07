@@ -13,198 +13,596 @@ $selectedColor = old('color', $documentType->color ?? 'cyan');
 $documentCount = $documentType->documents_count ?? 0;
 
 $colorPalettes = [
-'cyan' => 'bg-cyan-50 text-cyan-600 border-cyan-100',
-'blue' => 'bg-blue-50 text-blue-600 border-blue-100',
-'orange' => 'bg-orange-50 text-orange-600 border-orange-100',
-'purple' => 'bg-purple-50 text-purple-600 border-purple-100',
-'green' => 'bg-green-50 text-green-600 border-green-100',
-'red' => 'bg-red-50 text-red-600 border-red-100',
-'emerald' => 'bg-emerald-50 text-emerald-600 border-emerald-100',
+'cyan' => [
+'label' => 'Cyan',
+'class' => 'bg-cyan-50 text-cyan-600 border-cyan-100',
+],
+'blue' => [
+'label' => 'Blue',
+'class' => 'bg-blue-50 text-blue-600 border-blue-100',
+],
+'orange' => [
+'label' => 'Orange',
+'class' => 'bg-orange-50 text-orange-600 border-orange-100',
+],
+'purple' => [
+'label' => 'Purple',
+'class' => 'bg-purple-50 text-purple-600 border-purple-100',
+],
+'green' => [
+'label' => 'Green',
+'class' => 'bg-green-50 text-green-600 border-green-100',
+],
+'red' => [
+'label' => 'Red',
+'class' => 'bg-red-50 text-red-600 border-red-100',
+],
+'emerald' => [
+'label' => 'Emerald',
+'class' => 'bg-emerald-50 text-emerald-600 border-emerald-100',
+],
 ];
 @endphp
 
 <div class="space-y-6">
 
-    {{-- HEADER --}}
-    <div class="bg-white border rounded-md shadow-sm p-5 flex justify-between items-center">
-        <div>
-            <h2 class="text-lg font-black">Chỉnh sửa loại tài liệu</h2>
-            <p class="text-sm text-slate-500">Cập nhật thông tin loại tài liệu</p>
+    <!-- PAGE HEADER -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+            <div>
+
+                <h2 class="text-2xl font-black text-slate-800">
+
+                    Chỉnh sửa loại tài liệu
+
+                </h2>
+
+                <p class="mt-2 text-sm text-slate-500">
+
+                    Cập nhật thông tin và cấu hình loại tài liệu.
+
+                </p>
+
+            </div>
+
+            <a href="{{ route('admin.document-types.index') }}" class="inline-flex
+                items-center
+                gap-2
+                h-11
+                px-5
+                rounded-xl
+                border
+                border-slate-200
+                bg-white
+                text-slate-700
+                text-sm
+                font-semibold
+                hover:bg-slate-50
+                transition-all duration-300">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Quay lại
+
+            </a>
+
         </div>
 
-        <a href="{{ route('admin.document-types.index') }}"
-            class="h-11 px-4 flex items-center bg-slate-100 text-slate-700 rounded-md font-black">
-            ← Quay lại
-        </a>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- CONTENT -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
 
-        {{-- PREVIEW --}}
-        <div class="bg-white border rounded-md shadow-sm p-5">
+        <!-- PREVIEW -->
+        <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
-            <div class="flex items-center gap-3 mb-4">
+            <div class="px-6 py-5 border-b border-slate-200 bg-slate-50">
 
-                <div class="w-10 h-10 rounded-md bg-sky-50 flex items-center justify-center">
-                    <i id="previewIcon" class="{{ $selectedIcon }} text-sky-600 text-lg"></i>
-                </div>
+                <h3 class="text-base font-black text-slate-800">
 
-                <div>
-                    <h3 id="previewName" class="font-black text-slate-700">
-                        {{ $documentType->type_name }}
-                    </h3>
-                    <p class="text-xs text-slate-400">
-                        ID: #{{ $documentType->document_type_id }}
-                    </p>
-                </div>
+                    Xem trước
+
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-500">
+
+                    Hiển thị thông tin sau khi chỉnh sửa.
+
+                </p>
+
             </div>
 
-            <div class="space-y-3 text-sm">
+            <div class="p-6">
 
-                <div class="flex justify-between">
-                    <span class="text-slate-500">Tài liệu</span>
-                    <span class="font-black">{{ $documentCount }}</span>
+                <div class="flex items-center gap-4">
+
+                    <div class="w-14 h-14 rounded-xl bg-amber-50 flex items-center justify-center">
+
+                        <i id="previewIcon" class="{{ $selectedIcon }} text-xl text-amber-500"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h3 id="previewName" class="text-lg font-black text-slate-800">
+
+                            {{ $documentType->type_name }}
+
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-400">
+
+                            ID #{{ $documentType->document_type_id }}
+
+                        </p>
+
+                    </div>
+
                 </div>
 
-                <div class="flex justify-between">
-                    <span class="text-slate-500">Trạng thái</span>
-                    <span id="previewStatus" class="px-2 py-1 rounded text-xs font-black
-                        {{ $isActive ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500' }}">
-                        {{ $isActive ? 'Hoạt động' : 'Ẩn' }}
-                    </span>
+                <div class="mt-8 space-y-5">
+
+                    <div class="flex items-center justify-between">
+
+                        <span class="text-sm font-medium text-slate-500">
+
+                            Tổng tài liệu
+
+                        </span>
+
+                        <span class="font-black text-amber-500">
+
+                            {{ number_format($documentCount) }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex items-center justify-between">
+
+                        <span class="text-sm font-medium text-slate-500">
+
+                            Trạng thái
+
+                        </span>
+
+                        <span id="previewStatus" class="inline-flex
+                            items-center
+                            gap-2
+                            rounded-full
+                            px-3
+                            py-1
+                            text-xs
+                            font-bold
+                            {{ $isActive
+                                ? 'bg-emerald-50 text-emerald-600'
+                                : 'bg-red-50 text-red-600' }}">
+
+                            <span class="w-2 h-2 rounded-full
+                                {{ $isActive
+                                    ? 'bg-emerald-500'
+                                    : 'bg-red-500' }}"></span>
+
+                            {{ $isActive ? 'Hoạt động' : 'Đã khóa' }}
+
+                        </span>
+
+                    </div>
+
                 </div>
 
             </div>
 
         </div>
 
-        {{-- FORM --}}
-        <div class="lg:col-span-2 bg-white border rounded-md shadow-sm p-5">
+        <!-- FORM -->
+        <div class="xl:col-span-2 bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
-            <form action="{{ route('admin.document-types.update', $documentType->document_type_id) }}" method="POST"
-                class="space-y-5">
+            <div class="px-6 py-5 border-b border-slate-200 bg-slate-50">
+
+                <h3 class="text-base font-black text-slate-800">
+
+                    Thông tin loại tài liệu
+
+                </h3>
+
+                <p class="mt-1 text-sm text-slate-500">
+
+                    Cập nhật đầy đủ thông tin của loại tài liệu.
+
+                </p>
+
+            </div>
+
+            <form action="{{ route('admin.document-types.update',$documentType->document_type_id) }}" method="POST"
+                class="p-6 space-y-6">
 
                 @csrf
                 @method('PUT')
-
-                {{-- NAME --}}
+                <!-- TÊN LOẠI -->
                 <div>
-                    <label class="text-sm font-black text-slate-600">Tên loại</label>
-                    <input type="text" name="type_name" value="{{ old('type_name', $documentType->type_name) }}"
-                        class="w-full h-11 px-4 mt-2 bg-slate-50 border rounded-md font-semibold">
+
+                    <label class="block text-sm font-bold text-slate-700 mb-2">
+
+                        Tên loại tài liệu <span class="text-red-500">*</span>
+
+                    </label>
+
+                    <input id="type_name" type="text" name="type_name"
+                        value="{{ old('type_name',$documentType->type_name) }}" placeholder="Nhập tên loại tài liệu..."
+                        class="w-full
+                        h-12
+                        px-4
+                        rounded-xl
+                        border
+                        @error('type_name')
+                            border-red-400
+                        @else
+                            border-slate-200
+                        @enderror
+                        bg-slate-50
+                        text-slate-700
+                        font-medium
+                        placeholder:text-slate-400
+                        focus:bg-white
+                        focus:border-amber-500
+                        focus:ring-4
+                        focus:ring-amber-100
+                        outline-none
+                        transition-all">
+
+                    @error('type_name')
+
+                    <p class="mt-2 text-sm font-medium text-red-500">
+
+                        {{ $message }}
+
+                    </p>
+
+                    @enderror
+
                 </div>
 
-                {{-- DESCRIPTION --}}
+                <!-- MÔ TẢ -->
                 <div>
-                    <label class="text-sm font-black text-slate-600">Mô tả</label>
-                    <textarea name="description" rows="3"
-                        class="w-full px-4 py-3 mt-2 bg-slate-50 border rounded-md font-semibold">{{ old('description', $documentType->description) }}</textarea>
+
+                    <label class="block text-sm font-bold text-slate-700 mb-2">
+
+                        Mô tả
+
+                    </label>
+
+                    <textarea name="description" rows="4" placeholder="Nhập mô tả loại tài liệu..." class="w-full
+                        px-4
+                        py-3
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-slate-50
+                        text-slate-700
+                        font-medium
+                        placeholder:text-slate-400
+                        focus:bg-white
+                        focus:border-amber-500
+                        focus:ring-4
+                        focus:ring-amber-100
+                        outline-none
+                        transition-all">{{ old('description',$documentType->description) }}</textarea>
+
                 </div>
 
-                {{-- ICON SELECT (FIX) --}}
+                <!-- ICON -->
                 <div>
-                    <label class="text-sm font-black text-slate-600">Icon</label>
 
-                    <select name="icon" id="iconSelect"
-                        class="w-full h-11 mt-2 bg-slate-50 border rounded-md font-semibold">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">
+
+                        Biểu tượng
+
+                    </label>
+
+                    <select name="icon" id="iconSelect" class="w-full
+                        h-12
+                        px-4
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-slate-50
+                        text-slate-700
+                        font-medium
+                        focus:bg-white
+                        focus:border-amber-500
+                        focus:ring-4
+                        focus:ring-amber-100
+                        outline-none
+                        transition-all">
+
                         @foreach($icons as $icon)
+
                         <option value="{{ $icon['value'] }}" @selected($selectedIcon===$icon['value'])>
+
                             {{ $icon['label'] }}
+
                         </option>
+
                         @endforeach
+
                     </select>
+
                 </div>
 
-                {{-- COLOR --}}
+                <!-- MÀU -->
                 <div>
-                    <label class="text-sm font-black text-slate-600">Màu</label>
 
-                    <div class="grid grid-cols-3 gap-2 mt-2">
-                        @foreach($colorPalettes as $key => $class)
-                        <label class="cursor-pointer">
+                    <label class="text-xs font-black uppercase tracking-wide text-slate-500">
+
+                        Màu hiển thị
+
+                    </label>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+
+                        @foreach($colorPalettes as $key => $color)
+
+                        <label class="cursor-pointer group">
+
                             <input type="radio" name="color" value="{{ $key }}" class="hidden peer"
-                                @checked($selectedColor===$key)>
+                                @checked(old('color',$selectedColor)==$key)>
 
-                            <div class="px-3 py-2 rounded-md border font-black text-sm
-                                    {{ $class }}
-                                    peer-checked:ring-2 peer-checked:ring-cyan-200">
+                            <div class="rounded-xl
+                                    border-2
+                                    px-4
+                                    py-3
+                                    text-center
+                                    font-bold
+                                    text-sm
+                                    transition-all
+                                    duration-300
+                                    {{ $color['class'] }}
+                                    peer-checked:border-amber-500
+                                    peer-checked:ring-4
+                                    peer-checked:ring-amber-100
+                                    hover:scale-105">
 
-                                {{ ucfirst($key) }}
+                                {{ $color['label'] }}
+
                             </div>
+
                         </label>
+
                         @endforeach
+
                     </div>
+
                 </div>
-
-                {{-- STATUS (FIXED ONLY ONE) --}}
+                <!-- TRẠNG THÁI -->
                 <div>
-                    <label class="text-sm font-black text-slate-600">Trạng thái</label>
 
-                    <button type="button" id="statusBtn"
-                        class="w-full flex items-center justify-between px-5 py-4 mt-2 rounded-md border bg-slate-50">
+                    <label class="block text-sm font-bold text-slate-700 mb-3">
 
-                        <div>
-                            <p class="font-black">Bật / tắt loại tài liệu</p>
-                            <p class="text-xs text-slate-400">Hiển thị trong hệ thống</p>
+                        Trạng thái
+
+                    </label>
+
+                    <button type="button" id="statusBtn" class="w-full
+                        flex
+                        items-center
+                        justify-between
+                        rounded-xl
+                        border
+                        border-slate-200
+                        bg-slate-50
+                        px-5
+                        py-4
+                        hover:border-amber-300
+                        hover:bg-amber-50
+                        transition-all
+                        duration-300">
+
+                        <div class="text-left">
+
+                            <p class="font-black text-slate-800">
+
+                                Hiển thị loại tài liệu
+
+                            </p>
+
+                            <p class="mt-1 text-sm text-slate-500">
+
+                                Cho phép người dùng sử dụng loại tài liệu này.
+
+                            </p>
+
                         </div>
 
-                        <i id="statusIcon"
-                            class="fa-solid {{ $isActive ? 'fa-toggle-on text-emerald-500' : 'fa-toggle-off text-slate-400' }} text-2xl">
+                        <i id="statusIcon" class="fa-solid
+                            {{ $isActive
+                                ? 'fa-toggle-on text-emerald-500'
+                                : 'fa-toggle-off text-slate-400'
+                            }}
+                            text-4xl
+                            transition-all
+                            duration-300">
+
                         </i>
+
                     </button>
 
                     <input type="hidden" name="is_active" id="is_active" value="{{ $isActive ? 1 : 0 }}">
+
                 </div>
 
-                {{-- BUTTON --}}
-                <div class="flex justify-end gap-3">
-                    <a href="{{ route('admin.document-types.index') }}"
-                        class="h-11 px-4 flex items-center bg-slate-100 rounded-md font-black">
-                        Hủy
-                    </a>
+                <!-- BUTTON -->
+                <div class="pt-2 border-t border-slate-200">
 
-                    <button class="h-11 px-4 bg-sky-500 text-white rounded-md font-black">
-                        Cập nhật
-                    </button>
+                    <div class="flex justify-end gap-3">
+
+                        <!-- HỦY -->
+                        <a href="{{ route('admin.document-types.index') }}" class="inline-flex
+                            items-center
+                            gap-2
+                            h-11
+                            px-5
+                            rounded-xl
+                            border
+                            border-slate-200
+                            bg-white
+                            text-slate-700
+                            text-sm
+                            font-semibold
+                            hover:bg-slate-50
+                            transition-all
+                            duration-300">
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+                            Hủy
+
+                        </a>
+
+                        <!-- SAVE -->
+                        <button type="submit" class="inline-flex
+                            items-center
+                            gap-2
+                            h-11
+                            px-6
+                            rounded-xl
+                            bg-amber-500
+                            text-white
+                            text-sm
+                            font-bold
+                            hover:bg-amber-600
+                            transition-all
+                            duration-300">
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+
+                            Cập nhật loại tài liệu
+
+                        </button>
+
+                    </div>
+
                 </div>
 
             </form>
 
         </div>
+
     </div>
+
 </div>
 
 @endsection
-
 @push('scripts')
+
 <script>
-// ICON PREVIEW (FIXED)
-document.getElementById('iconSelect').addEventListener('change', function() {
-    document.getElementById('previewIcon').className =
-        this.value + " text-sky-600 text-lg";
-});
+const typeName = document.getElementById('type_name');
+const previewName = document.getElementById('previewName');
 
+const iconSelect = document.getElementById('iconSelect');
+const previewIcon = document.getElementById('previewIcon');
+
+const statusBtn = document.getElementById('statusBtn');
+const statusIcon = document.getElementById('statusIcon');
+const previewStatus = document.getElementById('previewStatus');
+const hiddenStatus = document.getElementById('is_active');
+
+
+//==============================
+// LIVE PREVIEW NAME
+//==============================
+if (typeName) {
+
+    typeName.addEventListener('input', function() {
+
+        previewName.textContent =
+            this.value.trim() || 'Tên loại tài liệu';
+
+    });
+
+}
+
+
+//==============================
+// LIVE PREVIEW ICON
+//==============================
+if (iconSelect) {
+
+    iconSelect.addEventListener('change', function() {
+
+        previewIcon.className =
+            this.value + ' text-xl text-amber-500';
+
+    });
+
+}
+
+
+//==============================
 // STATUS TOGGLE
-document.getElementById('statusBtn').addEventListener('click', function() {
+//==============================
+if (statusBtn) {
 
-    const input = document.getElementById('is_active');
-    const icon = document.getElementById('statusIcon');
-    const badge = document.getElementById('previewStatus');
+    statusBtn.addEventListener('click', function() {
 
-    if (input.value == 1) {
-        input.value = 0;
+        if (hiddenStatus.value == 1) {
 
-        icon.className = "fa-solid fa-toggle-off text-slate-400 text-2xl";
-        badge.className = "px-2 py-1 rounded text-xs font-black bg-red-50 text-red-500";
-        badge.innerText = "Ẩn";
+            hiddenStatus.value = 0;
 
-    } else {
-        input.value = 1;
+            statusIcon.className =
+                'fa-solid fa-toggle-off text-4xl text-slate-400 transition-all duration-300';
 
-        icon.className = "fa-solid fa-toggle-on text-emerald-500 text-2xl";
-        badge.className = "px-2 py-1 rounded text-xs font-black bg-emerald-50 text-emerald-600";
-        badge.innerText = "Hoạt động";
-    }
+            previewStatus.className =
+                'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold bg-red-50 text-red-600';
+
+            previewStatus.innerHTML =
+                '<span class="w-2 h-2 rounded-full bg-red-500"></span>Đã khóa';
+
+        } else {
+
+            hiddenStatus.value = 1;
+
+            statusIcon.className =
+                'fa-solid fa-toggle-on text-4xl text-emerald-500 transition-all duration-300';
+
+            previewStatus.className =
+                'inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-bold bg-emerald-50 text-emerald-600';
+
+            previewStatus.innerHTML =
+                '<span class="w-2 h-2 rounded-full bg-emerald-500"></span>Hoạt động';
+
+        }
+
+    });
+
+}
+
+
+//==============================
+// LIVE COLOR PREVIEW
+//==============================
+document.querySelectorAll('input[name="color"]').forEach(function(item) {
+
+    item.addEventListener('change', function() {
+
+        previewIcon.parentElement.className =
+            'w-14 h-14 rounded-xl flex items-center justify-center ' +
+            this.parentElement.querySelector('div').className
+            .replace('rounded-xl', '')
+            .replace('border-2', '')
+            .replace('p-4', '')
+            .replace('text-center', '')
+            .replace('transition-all', '')
+            .replace('duration-300', '')
+            .replace('peer-checked:ring-4', '')
+            .replace('peer-checked:ring-amber-100', '')
+            .replace('peer-checked:border-amber-500', '');
+
+    });
+
 });
 </script>
+
 @endpush

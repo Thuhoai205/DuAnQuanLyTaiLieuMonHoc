@@ -26,444 +26,993 @@ $isStudent = $user->role_id == 3;
 
 $lecturerDownloadCount = $isLecturer ? $userDocuments->sum('download_count') : $totalDownloads;
 @endphp
-
-<div class="space-y-6">
+<div class="space-y-8">
 
     <!-- PAGE HEADER -->
-    <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+
             <div>
-                <h2 class="text-lg font-black text-slate-700">
+
+                <h2 class="text-2xl font-extrabold text-slate-900">
                     Chi tiết người dùng
                 </h2>
 
-                <p class="text-sm text-slate-500 font-semibold mt-1">
-                    Xem thông tin tài khoản, vai trò và hoạt động của người dùng.
+                <p class="mt-2 text-sm font-medium text-slate-500">
+                    Xem thông tin tài khoản, vai trò và hoạt động của người dùng trong hệ thống.
                 </p>
+
             </div>
 
-            <div class="flex flex-wrap items-center gap-3">
-                <a href="{{ route('admin.users.edit', $user->user_id) }}"
-                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-sm font-black hover:bg-sky-600 transition">
+            <div class="flex flex-wrap gap-3">
+
+                <a href="{{ route('admin.users.edit',$user->user_id) }}" class="inline-flex items-center gap-2
+                    h-11
+                    px-5
+                    rounded-xl
+                    bg-slate-900
+                    text-white
+                    text-sm
+                    font-semibold
+                    transition-all duration-300
+                    hover:bg-amber-500">
+
                     <i class="fa-solid fa-pen-to-square"></i>
+
                     Chỉnh sửa
+
                 </a>
 
-                <a href="{{ urldecode(request('return', route('admin.users.index'))) }}"
-                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-slate-200 text-slate-600 text-sm font-black hover:bg-slate-100 transition">
+                <a href="{{ urldecode(request('return', route('admin.users.index'))) }}" class="inline-flex items-center gap-2
+                    h-11
+                    px-5
+                    rounded-xl
+                    border-2 border-amber-300
+                    bg-white
+                    text-slate-800
+                    text-sm
+                    font-semibold
+                    transition-all duration-300
+                    hover:bg-amber-50
+                    hover:border-amber-500">
+
                     <i class="fa-solid fa-arrow-left"></i>
+
                     Quay lại
+
                 </a>
+
             </div>
+
         </div>
+
     </div>
 
+
     <!-- USER PROFILE -->
-    <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-        <div class="p-6 border-b border-slate-200 bg-slate-50">
-            <div class="flex flex-col md:flex-row md:items-center gap-6">
-                <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=0ea5e9&color=fff' }}"
-                    class="w-28 h-28 rounded-md object-cover border-4 border-white shadow-sm">
+    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+        <!-- TOP -->
+        <div class="bg-gradient-to-r from-slate-900 to-slate-800 px-8 py-8">
+
+            <div class="flex flex-col md:flex-row items-center gap-8">
+
+                <img src="{{ $user->avatar ? asset('storage/'.$user->avatar) : 'https://ui-avatars.com/api/?name='.urlencode($user->full_name).'&background=0f172a&color=fff' }}"
+                    class="w-32 h-32 rounded-3xl border-4 border-white object-cover shadow-xl">
 
                 <div class="flex-1">
-                    <div class="flex flex-wrap items-center gap-3 mb-3">
-                        <span class="px-3 py-1 rounded bg-sky-50 text-sky-600 text-xs font-black border border-sky-100">
-                            {{ $user->role->role_name ?? 'Chưa có role' }}
+
+                    <div class="flex flex-wrap gap-3 mb-4">
+
+                        <span class="px-4 py-1 rounded-full
+                        bg-amber-100
+                        text-amber-700
+                        border border-amber-300
+                        text-xs
+                        font-semibold">
+
+                            {{ $user->role->role_name ?? 'Chưa có vai trò' }}
+
                         </span>
 
                         @if($user->is_active)
-                        <span
-                            class="px-3 py-1 rounded bg-emerald-50 text-emerald-600 text-xs font-black border border-emerald-100">
+
+                        <span class="px-4 py-1 rounded-full
+                        bg-emerald-100
+                        text-emerald-700
+                        border border-emerald-300
+                        text-xs
+                        font-semibold">
+
                             Hoạt động
+
                         </span>
+
                         @else
-                        <span class="px-3 py-1 rounded bg-red-50 text-red-500 text-xs font-black border border-red-100">
+
+                        <span class="px-4 py-1 rounded-full
+                        bg-red-100
+                        text-red-600
+                        border border-red-300
+                        text-xs
+                        font-semibold">
+
                             Bị khóa
+
                         </span>
+
                         @endif
+
                     </div>
 
-                    <h2 class="text-2xl font-black text-slate-700">
+                    <h2 class="text-3xl font-extrabold text-white">
+
                         {{ $user->full_name }}
+
                     </h2>
 
-                    <p class="text-sm text-slate-500 font-semibold mt-2">
-                        {{ '@' . $user->username }} • {{ $user->email }}
+                    <p class="mt-3 text-sm text-slate-200">
+
+                        {{ '@'.$user->username }}
+
+                        •
+
+                        {{ $user->email }}
+
                     </p>
+
                 </div>
+
             </div>
+
         </div>
 
+        <!-- INFO -->
         <div class="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-200">
-            <div class="p-5">
-                <p class="text-xs font-black uppercase text-slate-400">
+
+            <div class="p-6">
+
+                <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                     Mã người dùng
                 </p>
 
-                <h3 class="text-xl font-black text-slate-700 mt-2">
+                <h3 class="mt-2 text-2xl font-bold text-slate-900">
+
                     #{{ $user->user_id }}
+
                 </h3>
+
             </div>
 
-            <div class="p-5">
-                <p class="text-xs font-black uppercase text-slate-400">
+            <div class="p-6">
+
+                <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                     Ngày tạo
                 </p>
 
-                <h3 class="text-xl font-black text-slate-700 mt-2">
-                    {{ $user->created_at ? $user->created_at->format('d/m/Y') : 'Chưa có' }}
+                <h3 class="mt-2 text-xl font-bold text-slate-800">
+
+                    {{ optional($user->created_at)->format('d/m/Y') ?? 'Chưa có' }}
+
                 </h3>
+
             </div>
 
-            <div class="p-5">
-                <p class="text-xs font-black uppercase text-slate-400">
+            <div class="p-6">
+
+                <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
                     Cập nhật gần nhất
                 </p>
 
-                <h3 class="text-xl font-black text-slate-700 mt-2">
-                    {{ $user->updated_at ? $user->updated_at->format('d/m/Y') : 'Chưa có' }}
+                <h3 class="mt-2 text-xl font-bold text-slate-800">
+
+                    {{ optional($user->updated_at)->format('d/m/Y') ?? 'Chưa có' }}
+
                 </h3>
+
             </div>
+
         </div>
+
     </div>
 
-    <!-- ROLE STATISTICS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
+    <!-- STATISTICS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         @if($isLecturer)
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Tài liệu upload
-            </p>
 
-            <h3 class="text-2xl font-black text-slate-700 mt-2">
-                {{ number_format($totalDocuments) }}
-            </h3>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Tài liệu Upload
+                    </p>
+
+                    <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+                        {{ number_format($totalDocuments) }}
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Tài liệu đã đăng tải
+                    </p>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-file-lines text-xl"></i>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Môn phụ trách
-            </p>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
 
-            <h3 class="text-2xl font-black text-slate-700 mt-2">
-                {{ number_format($totalSubjects) }}
-            </h3>
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Môn học
+                    </p>
+
+                    <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+                        {{ number_format($totalSubjects) }}
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Môn học phụ trách
+                    </p>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-book-open text-xl"></i>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Lượt tải tài liệu
-            </p>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
 
-            <h3 class="text-2xl font-black text-slate-700 mt-2">
-                {{ number_format($lecturerDownloadCount) }}
-            </h3>
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Lượt tải
+                    </p>
+
+                    <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+                        {{ number_format($lecturerDownloadCount) }}
+                    </h3>
+
+                    <p class="mt-2 text-sm text-slate-500">
+                        Lượt tải tài liệu
+                    </p>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-download text-xl"></i>
+
+                </div>
+
+            </div>
+
         </div>
+
         @endif
+
 
         @if($isStudent)
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Lượt tải
-            </p>
 
-            <h3 class="text-2xl font-black text-slate-700 mt-2">
-                {{ number_format($totalDownloads) }}
-            </h3>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Lượt tải
+                    </p>
+
+                    <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+
+                        {{ number_format($totalDownloads) }}
+
+                    </h3>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-download"></i>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Tài liệu yêu thích
-            </p>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
 
-            <h3 class="text-2xl font-black text-slate-700 mt-2">
-                {{ number_format($totalFavorites) }}
-            </h3>
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Yêu thích
+                    </p>
+
+                    <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+
+                        {{ number_format($totalFavorites) }}
+
+                    </h3>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-heart"></i>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Lịch sử tìm kiếm
-            </p>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
 
-            <h3 class="text-2xl font-black text-slate-700 mt-2">
-                {{ number_format($totalSearches) }}
-            </h3>
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Tìm kiếm
+                    </p>
+
+                    <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+
+                        {{ number_format($totalSearches) }}
+
+                    </h3>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-sky-500 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                </div>
+
+            </div>
+
         </div>
+
         @endif
 
+
         @if($isAdmin)
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Nhật ký hoạt động
-            </p>
 
-            <h3 class="text-2xl font-black text-slate-700 mt-2">
-                {{ number_format($totalLogs) }}
-            </h3>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Nhật ký
+                    </p>
+
+                    <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+
+                        {{ number_format($totalLogs) }}
+
+                    </h3>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Trạng thái
-            </p>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
 
-            <h3 class="text-xl font-black mt-2 {{ $user->is_active ? 'text-emerald-600' : 'text-red-500' }}">
-                {{ $user->is_active ? 'Hoạt động' : 'Bị khóa' }}
-            </h3>
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Trạng thái
+                    </p>
+
+                    <h3 class="mt-3 text-2xl font-bold {{ $user->is_active ? 'text-emerald-600' : 'text-red-600' }}">
+
+                        {{ $user->is_active ? 'Hoạt động' : 'Bị khóa' }}
+
+                    </h3>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-emerald-500 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-shield-halved"></i>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <p class="text-xs font-bold uppercase text-slate-400">
-                Vai trò
-            </p>
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 hover:shadow-md transition-all">
 
-            <h3 class="text-xl font-black text-slate-700 mt-2">
-                Admin
-            </h3>
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                        Vai trò
+                    </p>
+
+                    <h3 class="mt-3 text-2xl font-bold text-slate-900">
+
+                        Admin
+
+                    </h3>
+
+                </div>
+
+                <div class="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center">
+
+                    <i class="fa-solid fa-user-shield"></i>
+
+                </div>
+
+            </div>
+
         </div>
+
         @endif
 
     </div>
 
+
     <!-- MAIN DETAIL -->
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
 
         <div class="xl:col-span-2 space-y-6">
-
             <!-- ACCOUNT INFO -->
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-                <div class="px-5 py-4 border-b border-slate-200">
-                    <h2 class="text-sm font-black text-slate-700">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200">
+
+                    <h2 class="text-lg font-bold text-slate-900">
+
                         Thông tin tài khoản
+
                     </h2>
 
-                    <p class="text-xs text-slate-400 font-semibold mt-1">
+                    <p class="mt-1 text-sm text-slate-500">
+
                         Thông tin cơ bản của người dùng trong hệ thống.
+
                     </p>
+
                 </div>
 
-                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="rounded-md bg-slate-50 border border-slate-200 p-4">
-                        <p class="text-xs font-black uppercase text-slate-400">
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-5">
+
+                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+
                             Họ và tên
+
                         </p>
 
-                        <h4 class="text-base font-black text-slate-700 mt-2">
+                        <h4 class="mt-2 text-lg font-bold text-slate-900">
+
                             {{ $user->full_name }}
+
                         </h4>
+
                     </div>
 
-                    <div class="rounded-md bg-slate-50 border border-slate-200 p-4">
-                        <p class="text-xs font-black uppercase text-slate-400">
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-5">
+
+                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+
                             Username
+
                         </p>
 
-                        <h4 class="text-base font-black text-slate-700 mt-2">
-                            {{ '@' . $user->username }}
+                        <h4 class="mt-2 text-lg font-bold text-slate-900">
+
+                            {{ '@'.$user->username }}
+
                         </h4>
+
                     </div>
 
-                    <div class="rounded-md bg-slate-50 border border-slate-200 p-4">
-                        <p class="text-xs font-black uppercase text-slate-400">
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-5">
+
+                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+
                             Email
+
                         </p>
 
-                        <h4 class="text-base font-black text-slate-700 mt-2">
+                        <h4 class="mt-2 text-lg font-bold text-slate-900">
+
                             {{ $user->email }}
+
                         </h4>
+
                     </div>
 
-                    <div class="rounded-md bg-slate-50 border border-slate-200 p-4">
-                        <p class="text-xs font-black uppercase text-slate-400">
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-5">
+
+                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+
                             Vai trò
+
                         </p>
 
-                        <h4 class="text-base font-black text-slate-700 mt-2">
-                            {{ $user->role->role_name ?? 'Chưa có role' }}
+                        <h4 class="mt-2 text-lg font-bold text-slate-900">
+
+                            {{ $user->role->role_name ?? 'Chưa có vai trò' }}
+
                         </h4>
+
                     </div>
+
                 </div>
+
             </div>
 
-            <!-- LECTURER SUBJECTS -->
+
             @if($isLecturer)
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-                <div class="px-5 py-4 border-b border-slate-200">
-                    <h2 class="text-sm font-black text-slate-700">
+
+            <!-- SUBJECTS -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200">
+
+                    <h2 class="text-lg font-bold text-slate-900">
+
                         Môn học phụ trách
+
                     </h2>
+
                 </div>
 
-                <div class="p-5 space-y-4">
+                <div class="p-6 space-y-4">
+
                     @forelse($userSubjects as $subject)
-                    <div
-                        class="p-4 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-between gap-4">
+
+                    <div class="flex items-center justify-between gap-5
+                        rounded-xl
+                        border border-slate-200
+                        bg-slate-50
+                        p-5">
+
                         <div>
-                            <h3 class="font-black text-slate-700">
+
+                            <h3 class="text-base font-bold text-slate-900">
+
                                 {{ $subject->subject_name }}
+
                             </h3>
 
-                            <p class="text-sm font-semibold text-slate-500 mt-1">
+                            <p class="mt-1 text-sm text-slate-500">
+
                                 {{ $subject->subject_code }}
+
                             </p>
+
                         </div>
 
-                        <a href="{{ route('admin.subjects.show', $subject->subject_code) }}"
-                            class="px-3 py-2 rounded-md bg-white text-sky-600 text-sm font-black border border-slate-200 hover:bg-sky-500 hover:text-white transition">
+                        <a href="{{ route('admin.subjects.show',$subject->subject_code) }}" class="inline-flex items-center
+                            gap-2
+                            px-4 py-2
+                            rounded-xl
+                            bg-slate-900
+                            text-white
+                            text-sm
+                            font-semibold
+                            hover:bg-amber-500
+                            transition-all">
+
+                            <i class="fa-solid fa-eye"></i>
+
                             Xem
+
                         </a>
+
                     </div>
+
                     @empty
-                    <p class="text-sm text-slate-500 font-semibold">
-                        Giảng viên này chưa được phân công môn học.
+
+                    <p class="text-sm text-slate-500">
+
+                        Giảng viên chưa được phân công môn học.
+
                     </p>
+
                     @endforelse
+
                 </div>
+
             </div>
 
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-                <div class="px-5 py-4 border-b border-slate-200">
-                    <h2 class="text-sm font-black text-slate-700">
-                        Tài liệu đã upload
+
+            <!-- DOCUMENTS -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200">
+
+                    <h2 class="text-lg font-bold text-slate-900">
+
+                        Tài liệu đã Upload
+
                     </h2>
+
                 </div>
 
-                <div class="p-5 space-y-4">
+                <div class="p-6 space-y-4">
+
                     @forelse($userDocuments as $document)
+
                     @php
                     $extension = $document->currentVersion->file_extension ?? 'FILE';
                     @endphp
 
-                    <div
-                        class="p-4 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-between gap-4">
+                    <div class="flex items-center justify-between gap-5
+                        rounded-xl
+                        border border-slate-200
+                        bg-slate-50
+                        p-5">
+
                         <div>
-                            <h3 class="font-black text-slate-700">
+
+                            <h3 class="text-base font-bold text-slate-900">
+
                                 {{ $document->title }}
+
                             </h3>
 
-                            <p class="text-sm font-semibold text-slate-500 mt-1">
+                            <p class="mt-2 text-sm text-slate-500">
+
                                 {{ strtoupper($extension) }}
-                                • {{ number_format($document->download_count) }} lượt tải
+
+                                •
+
+                                {{ number_format($document->download_count) }}
+
+                                lượt tải
+
                             </p>
+
                         </div>
 
-                        <span
-                            class="px-3 py-1 rounded bg-white border border-slate-200 text-slate-600 text-xs font-black">
-                            {{ $document->is_active ? 'Đang hiển thị' : 'Đã ẩn' }}
+                        <span class="px-4 py-2 rounded-full
+                            text-xs font-semibold
+
+                            {{ $document->is_active
+                                ? 'bg-emerald-100 text-emerald-700'
+                                : 'bg-red-100 text-red-600' }}">
+
+                            {{ $document->is_active
+                                ? 'Đang hiển thị'
+                                : 'Đã ẩn' }}
+
                         </span>
+
                     </div>
+
                     @empty
-                    <p class="text-sm text-slate-500 font-semibold">
-                        Giảng viên này chưa upload tài liệu.
+
+                    <p class="text-sm text-slate-500">
+
+                        Chưa có tài liệu nào.
+
                     </p>
+
                     @endforelse
+
                 </div>
+
             </div>
+
             @endif
 
-            <!-- STUDENT INFO -->
+
             @if($isStudent)
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-                <div class="px-5 py-4 border-b border-slate-200">
-                    <h2 class="text-sm font-black text-slate-700">
+
+            <!-- STUDENT -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+                <div class="px-6 py-5 border-b border-slate-200">
+
+                    <h2 class="text-lg font-bold text-slate-900">
+
                         Thông tin học tập
+
                     </h2>
+
                 </div>
 
-                <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="rounded-md bg-slate-50 border border-slate-200 p-4">
-                        <p class="text-xs font-black uppercase text-slate-400">
+                <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-5">
+
+                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+
                             Lượt tải tài liệu
+
                         </p>
 
-                        <h4 class="text-2xl font-black text-slate-700 mt-2">
+                        <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+
                             {{ number_format($totalDownloads) }}
-                        </h4>
+
+                        </h3>
+
                     </div>
 
-                    <div class="rounded-md bg-slate-50 border border-slate-200 p-4">
-                        <p class="text-xs font-black uppercase text-slate-400">
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-5">
+
+                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+
                             Tài liệu yêu thích
+
                         </p>
 
-                        <h4 class="text-2xl font-black text-slate-700 mt-2">
+                        <h3 class="mt-3 text-3xl font-extrabold text-slate-900">
+
                             {{ number_format($totalFavorites) }}
-                        </h4>
+
+                        </h3>
+
                     </div>
+
                 </div>
+
             </div>
+
             @endif
 
         </div>
-
-        <!-- SIDE ACTIONS -->
+        <!-- RIGHT SIDEBAR -->
         <div class="space-y-6">
 
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-                <h3 class="text-sm font-black text-slate-700 mb-4">
-                    Thao tác nhanh
-                </h3>
+            <!-- QUICK ACTION -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 
-                <div class="space-y-3">
-                    <a href="{{ route('admin.users.edit', $user->user_id) }}"
-                        class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-md bg-sky-500 text-white text-sm font-black hover:bg-sky-600 transition">
+                <div class="px-6 py-5 border-b border-slate-200">
+
+                    <h2 class="text-lg font-bold text-slate-900">
+
+                        Thao tác nhanh
+
+                    </h2>
+
+                    <p class="mt-1 text-sm text-slate-500">
+
+                        Các thao tác quản trị dành cho tài khoản này.
+
+                    </p>
+
+                </div>
+
+                <div class="p-6 space-y-4">
+
+                    <!-- EDIT -->
+                    <a href="{{ route('admin.users.edit',$user->user_id) }}" class="w-full inline-flex items-center justify-center gap-3
+                        h-12
+                        rounded-xl
+                        bg-slate-900
+                        text-white
+                        text-sm
+                        font-semibold
+                        hover:bg-amber-500
+                        transition-all duration-300">
+
                         <i class="fa-solid fa-pen"></i>
+
                         Chỉnh sửa người dùng
+
                     </a>
 
                     @if($user->user_id != auth()->id())
-                    <form action="{{ route('admin.users.status', $user->user_id) }}" method="POST">
+
+                    <!-- LOCK -->
+                    <form action="{{ route('admin.users.status',$user->user_id) }}" method="POST">
+
                         @csrf
                         @method('PATCH')
 
-                        <button type="submit"
-                            class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-md bg-amber-50 text-amber-600 text-sm font-black hover:bg-amber-500 hover:text-white transition border border-amber-100">
+                        <button type="submit" class="w-full inline-flex items-center justify-center gap-3
+                            h-12
+                            rounded-xl
+                            border-2 border-amber-300
+                            bg-white
+                            text-amber-700
+                            text-sm
+                            font-semibold
+                            hover:bg-amber-500
+                            hover:text-white
+                            transition-all duration-300">
+
                             <i class="fa-solid {{ $user->is_active ? 'fa-lock' : 'fa-lock-open' }}"></i>
+
                             {{ $user->is_active ? 'Khóa tài khoản' : 'Mở khóa tài khoản' }}
+
                         </button>
+
                     </form>
 
                     @if(!$isAdmin)
-                    <form action="{{ route('admin.users.destroy', $user->user_id) }}" method="POST"
+
+                    <!-- DELETE -->
+                    <form action="{{ route('admin.users.destroy',$user->user_id) }}" method="POST"
                         class="delete-user-form">
+
                         @csrf
                         @method('DELETE')
 
-                        <button type="submit"
-                            class="w-full inline-flex items-center justify-center gap-2 h-11 rounded-md bg-red-50 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition border border-red-100">
+                        <button type="submit" class="w-full inline-flex items-center justify-center gap-3
+                            h-12
+                            rounded-xl
+                            border-2 border-red-300
+                            bg-white
+                            text-red-600
+                            text-sm
+                            font-semibold
+                            hover:bg-red-500
+                            hover:text-white
+                            transition-all duration-300">
+
                             <i class="fa-solid fa-trash"></i>
+
                             Xóa người dùng
+
                         </button>
+
                     </form>
+
                     @endif
+
                     @endif
+
                 </div>
+
             </div>
 
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-                <h3 class="text-sm font-black text-slate-700 mb-4">
-                    Thống kê khác
-                </h3>
 
-                <div class="space-y-4">
-                    <div class="flex justify-between text-sm font-bold text-slate-600">
-                        <span>Nhật ký</span>
-                        <span>{{ number_format($totalLogs) }}</span>
-                    </div>
+            <!-- OTHER STATS -->
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 
-                    <div class="flex justify-between text-sm font-bold text-slate-600">
-                        <span>Tìm kiếm</span>
-                        <span>{{ number_format($totalSearches) }}</span>
-                    </div>
+                <div class="px-6 py-5 border-b border-slate-200">
 
-                    <div class="flex justify-between text-sm font-bold text-slate-600">
-                        <span>Yêu thích</span>
-                        <span>{{ number_format($totalFavorites) }}</span>
-                    </div>
+                    <h2 class="text-lg font-bold text-slate-900">
+
+                        Thống kê khác
+
+                    </h2>
+
                 </div>
+
+                <div class="p-6 space-y-5">
+
+                    <div class="flex items-center justify-between">
+
+                        <span class="text-sm font-medium text-slate-500">
+
+                            Nhật ký hoạt động
+
+                        </span>
+
+                        <span class="text-base font-bold text-slate-900">
+
+                            {{ number_format($totalLogs) }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex items-center justify-between">
+
+                        <span class="text-sm font-medium text-slate-500">
+
+                            Lượt tìm kiếm
+
+                        </span>
+
+                        <span class="text-base font-bold text-slate-900">
+
+                            {{ number_format($totalSearches) }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex items-center justify-between">
+
+                        <span class="text-sm font-medium text-slate-500">
+
+                            Tài liệu yêu thích
+
+                        </span>
+
+                        <span class="text-base font-bold text-slate-900">
+
+                            {{ number_format($totalFavorites) }}
+
+                        </span>
+
+                    </div>
+
+                    <div class="border-t border-slate-200 pt-5">
+
+                        <div class="flex items-center justify-between">
+
+                            <span class="text-sm font-semibold text-slate-500">
+
+                                Trạng thái
+
+                            </span>
+
+                            @if($user->is_active)
+
+                            <span class="px-3 py-1 rounded-full
+                                bg-emerald-100
+                                text-emerald-700
+                                text-xs
+                                font-semibold">
+
+                                Hoạt động
+
+                            </span>
+
+                            @else
+
+                            <span class="px-3 py-1 rounded-full
+                                bg-red-100
+                                text-red-600
+                                text-xs
+                                font-semibold">
+
+                                Bị khóa
+
+                            </span>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
         </div>
@@ -474,37 +1023,77 @@ $lecturerDownloadCount = $isLecturer ? $userDocuments->sum('download_count') : $
 
 <!-- DELETE MODAL -->
 <div id="delete-user-modal"
-    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm px-4">
 
-    <div class="w-full max-w-md bg-white rounded-md shadow-2xl border border-slate-200 overflow-hidden">
-        <div class="p-6 text-center">
-            <div class="w-14 h-14 mx-auto rounded-md bg-red-50 text-red-500 flex items-center justify-center mb-4">
-                <i class="fa-solid fa-triangle-exclamation text-xl"></i>
+    <div class="w-full max-w-md overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
+
+        <!-- Header -->
+        <div class="px-8 pt-8 text-center">
+
+            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100">
+
+                <i class="fa-solid fa-trash-can text-2xl text-red-600"></i>
+
             </div>
 
-            <h3 class="text-xl font-black text-slate-700">
+            <h3 class="mt-5 text-2xl font-bold text-slate-900">
+
                 Xóa người dùng?
+
             </h3>
 
-            <p class="text-sm text-slate-500 font-semibold mt-3 leading-relaxed">
-                Người dùng sẽ bị xóa mềm và có thể khôi phục lại trong mục người dùng đã xóa.
+            <p class="mt-3 text-sm leading-6 text-slate-500">
+
+                Người dùng sẽ được chuyển vào
+
+                <strong class="font-semibold text-slate-700">
+
+                    Thùng rác
+
+                </strong>
+
+                và có thể khôi phục lại sau nếu cần.
+
             </p>
+
         </div>
 
-        <div class="px-6 pb-6 grid grid-cols-2 gap-3">
-            <button type="button" id="cancel-delete-user"
-                class="h-11 rounded-md bg-slate-100 text-slate-600 text-sm font-black hover:bg-slate-200 transition">
+        <!-- Buttons -->
+        <div class="mt-8 border-t border-slate-200 px-8 py-6 flex gap-3">
+
+            <button type="button" id="cancel-delete-user" class="flex-1 h-11 rounded-xl
+                border border-slate-300
+                bg-white
+                text-slate-700
+                text-sm
+                font-semibold
+                transition-all duration-300
+                hover:bg-slate-100">
+
                 Hủy
+
             </button>
 
-            <button type="button" id="confirm-delete-user"
-                class="h-11 rounded-md bg-red-500 text-white text-sm font-black hover:bg-red-600 transition">
+            <button type="button" id="confirm-delete-user" class="flex-1 h-11 rounded-xl
+                bg-red-600
+                text-white
+                text-sm
+                font-semibold
+                shadow-sm
+                transition-all duration-300
+                hover:bg-red-700">
+
+                <i class="fa-solid fa-trash mr-2"></i>
+
                 Xóa
-            </button>
-        </div>
-    </div>
-</div>
 
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 @endsection
 
 @push('scripts')

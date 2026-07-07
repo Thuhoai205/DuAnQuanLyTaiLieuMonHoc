@@ -18,7 +18,7 @@ class DocumentController extends Controller
 {
     private DocumentPreviewService $previewService;
 
-public function __construct(DocumentPreviewService $previewService)
+    public function __construct(DocumentPreviewService $previewService)
 {
     $this->previewService = $previewService;
 }
@@ -613,28 +613,50 @@ public function __construct(DocumentPreviewService $previewService)
     /**
      * Xóa vĩnh viễn
      */
-    public function forceDelete(string $id)
-    {
-        $document = Document::onlyTrashed()
-            ->findOrFail($id);
+   public function forceDelete(string $id)
+{
+    $document = Document::onlyTrashed()
+        ->with('documentVersions')
+        ->findOrFail($id);
 
-        foreach ($document->documentVersions as $version) {
+    // Không cho xóa nếu tài liệu đã được sử dụng
+  if (
+    $document->download_count > 0 ||
+    $document->view_count > 0
+) {
 
-            if (
-                $version->file_path &&
-                Storage::disk('public')->exists($version->file_path)
-            ) {
-                Storage::disk('public')->delete(
-                    $version->file_path
-                );
-            }
+    return back()->with(
+        'error',
+        'Không thể xóa vĩnh viễn vì tài liệu đã được sử dụng. Bạn chỉ có thể giữ tài liệu trong thùng rác hoặc khôi phục lại.'
+    );
+
+}
+
+    // Xóa tất cả file vật lý
+    foreach ($document->documentVersions as $version) {
+
+        if (
+            $version->file_path &&
+            Storage::disk('public')->exists($version->file_path)
+        ) {
+            Storage::disk('public')->delete($version->file_path);
         }
 
-        $document->forceDelete();
-
-        return back()->with(
-            'success',
-            'Đã xóa vĩnh viễn tài liệu'
-        );
+        // Xóa luôn file preview nếu có
+        if (
+            $version->preview_file &&
+            Storage::disk('public')->exists($version->preview_file)
+        ) {
+            Storage::disk('public')->delete($version->preview_file);
+        }
     }
+
+    // Xóa vĩnh viễn khỏi CSDL
+    $document->forceDelete();
+
+    return back()->with(
+        'success',
+        'Đã xóa vĩnh viễn tài liệu.'
+    );
+}
 }

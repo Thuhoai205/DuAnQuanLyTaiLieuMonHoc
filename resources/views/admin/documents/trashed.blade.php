@@ -4,7 +4,23 @@
 @section('page-title', 'Tài liệu đã xóa')
 
 @section('content')
+@if(session('success'))
+<div class="mb-5 rounded-md border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-700">
+    <div class="flex items-center gap-3">
+        <i class="fa-solid fa-circle-check text-lg"></i>
+        <span class="font-semibold">{{ session('success') }}</span>
+    </div>
+</div>
+@endif
 
+@if(session('error'))
+<div class="mb-5 rounded-md border border-red-200 bg-red-50 px-5 py-4 text-red-700">
+    <div class="flex items-center gap-3">
+        <i class="fa-solid fa-circle-exclamation text-lg"></i>
+        <span class="font-semibold">{{ session('error') }}</span>
+    </div>
+</div>
+@endif
 <div class="space-y-6">
 
     <!-- PAGE HEADER -->

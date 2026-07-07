@@ -7,93 +7,203 @@
 
 <div class="space-y-6">
 
-    {{-- HEADER --}}
-    <div class="bg-white border rounded-xl shadow-sm p-6 flex justify-between items-center">
-        <div>
-            <h1 class="text-[16px] font-black text-slate-800">Nhật ký hệ thống</h1>
-            <p class="text-[14px] text-slate-500 mt-1">
-                Theo dõi hoạt động hệ thống
-            </p>
+    <!-- PAGE HEADER -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+            <div>
+
+                <h2 class="text-2xl font-black text-slate-800">
+
+                    Nhật ký hệ thống
+
+                </h2>
+
+                <p class="mt-2 text-sm text-slate-500">
+
+                    Theo dõi toàn bộ hoạt động của người dùng và hệ thống.
+
+                </p>
+
+            </div>
+
+            <div class="w-14
+                h-14
+                rounded-xl
+                bg-amber-50
+                text-amber-500
+                flex
+                items-center
+                justify-center">
+
+                <i class="fa-solid fa-clock-rotate-left text-xl"></i>
+
+            </div>
+
         </div>
 
-        <div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center border">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-        </div>
     </div>
 
-    {{-- FILTER --}}
-    <div class="bg-white border rounded-xl p-6">
+    <!-- FILTER -->
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
 
         <form method="GET" id="logsFilterForm" action="{{ route('admin.logs.index') }}"
             class="grid grid-cols-1 md:grid-cols-4 gap-4">
 
-            <input type="text" name="keyword" id="keywordInput" value="{{ request('keyword') }}" placeholder="Search..."
-                class="h-12 px-4 rounded-xl bg-slate-50 border">
+            <!-- SEARCH -->
+            <input type="text" name="keyword" id="keywordInput" value="{{ request('keyword') }}"
+                placeholder="Tìm kiếm người dùng hoặc mô tả..." class="h-12
+                px-4
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-50
+                text-sm
+                font-medium
+                text-slate-700
+                placeholder:text-slate-400
+                outline-none
+                transition-all
+                duration-300
+                focus:bg-white
+                focus:border-amber-500
+                focus:ring-4
+                focus:ring-amber-100">
 
-            <select name="action" id="actionSelect" class="h-12 px-4 rounded-xl bg-slate-50 border">
+            <!-- ACTION -->
+            <select name="action" id="actionSelect" class="h-12
+                px-4
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-50
+                text-sm
+                font-medium
+                text-slate-700
+                outline-none
+                transition-all
+                duration-300
+                focus:bg-white
+                focus:border-amber-500
+                focus:ring-4
+                focus:ring-amber-100">
 
-                <option value="">Tất cả</option>
-                <option value="login" @selected(request('action')=='login' )>Login</option>
-                <option value="logout" @selected(request('action')=='logout' )>Logout</option>
-                <option value="register" @selected(request('action')=='register' )>Register</option>
+                <option value="">Tất cả hoạt động</option>
+
+                <option value="login" @selected(request('action')=='login' )>
+
+                    Đăng nhập
+
+                </option>
+
+                <option value="logout" @selected(request('action')=='logout' )>
+
+                    Đăng xuất
+
+                </option>
+
+                <option value="register" @selected(request('action')=='register' )>
+
+                    Đăng ký
+
+                </option>
+
             </select>
 
-            <button class="h-12 bg-cyan-600 text-white font-black rounded-xl">
-                Lọc
+            <!-- FILTER BUTTON -->
+            <button type="submit" class="rounded-xl
+                bg-amber-500
+                text-white
+                text-sm
+                font-bold
+                hover:bg-amber-600
+                transition-all
+                duration-300">
+
+                Lọc dữ liệu
+
             </button>
 
-            <button type="button" id="resetLogsButton" class="h-12 bg-slate-100 font-black rounded-xl">
-                Reset
+            <!-- RESET -->
+            <button type="button" id="resetLogsButton" class="rounded-xl
+                border
+                border-slate-200
+                bg-white
+                text-slate-700
+                text-sm
+                font-semibold
+                hover:bg-slate-50
+                transition-all
+                duration-300">
+
+                Đặt lại
+
             </button>
 
         </form>
+
     </div>
-    <div id="logs-list-area" class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
+
+    <!-- TABLE -->
+    <div id="logs-list-area" class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
 
         <div class="overflow-x-auto">
 
-
-
             <table class="w-full">
 
-                <thead class="bg-slate-50 border-b border-slate-200">
+                <!-- TABLE HEADER -->
+                <thead class="bg-slate-50/80 border-b border-slate-200">
 
-                    <tr class="text-xs font-black uppercase text-slate-500">
+                    <tr class="text-[13px] font-black uppercase tracking-wide text-slate-600">
 
                         <!-- STT -->
-                        <th class="w-16 px-4 py-4 text-center">
+                        <th class="w-16 px-6 py-4 text-center">
+
                             STT
+
                         </th>
 
-                        <!-- Người dùng -->
-                        <th class="w-72 px-4 py-4 text-left">
+                        <!-- USER -->
+                        <th class="w-80 px-6 py-4 text-left">
+
                             Người dùng
+
                         </th>
 
-                        <!-- Hành động -->
-                        <th class="w-36 px-4 py-4 text-center">
-                            Hành động
+                        <!-- ACTION -->
+                        <th class="w-40 px-6 py-4 text-center">
+
+                            Hoạt động
+
                         </th>
 
-                        <!-- Mô tả -->
-                        <th class="px-4 py-4 text-left">
-                            Mô tả
+                        <!-- DESCRIPTION -->
+                        <th class="px-6 py-4 text-left">
+
+                            Nội dung
+
                         </th>
 
                         <!-- IP -->
-                        <th class="w-40 px-4 py-4 text-center">
+                        <th class="w-44 px-6 py-4 text-center">
+
                             Địa chỉ IP
+
                         </th>
 
-                        <!-- Thời gian -->
-                        <th class="w-48 px-4 py-4 text-center">
+                        <!-- TIME -->
+                        <th class="w-52 px-6 py-4 text-center">
+
                             Thời gian
+
                         </th>
 
                     </tr>
 
                 </thead>
 
+                <!-- TABLE BODY -->
                 <tbody class="divide-y divide-slate-100">
 
                     @forelse($logs as $index => $log)
@@ -101,22 +211,23 @@
                     @php
 
                     $user = $log->user;
-                    $name = $user->full_name ?? 'System';
+
+                    $name = $user->full_name ?? 'Hệ thống';
 
                     if($log->login_at && !$log->logout_at){
 
-                    $action='LOGIN';
-                    $badge='bg-emerald-50 text-emerald-600';
+                    $action='Đăng nhập';
+                    $badge='bg-emerald-50 text-emerald-600 border border-emerald-100';
 
                     }elseif($log->logout_at){
 
-                    $action='LOGOUT';
-                    $badge='bg-orange-50 text-orange-600';
+                    $action='Đăng xuất';
+                    $badge='bg-orange-50 text-orange-600 border border-orange-100';
 
                     }else{
 
-                    $action='REGISTER';
-                    $badge='bg-sky-50 text-sky-600';
+                    $action='Đăng ký';
+                    $badge='bg-sky-50 text-sky-600 border border-sky-100';
 
                     }
 
@@ -124,10 +235,10 @@
 
                     @endphp
 
-                    <tr class="hover:bg-slate-50 transition">
+                    <tr class="hover:bg-amber-50/40 transition-all duration-300">
 
                         <!-- STT -->
-                        <td class="px-4 py-4 text-center">
+                        <td class="px-6 py-5 text-center">
 
                             <span class="font-black text-slate-500">
 
@@ -137,33 +248,57 @@
 
                         </td>
 
-                        <!-- Người dùng -->
-                        <td class="px-4 py-4">
+                        <!-- USER -->
+                        <td class="px-6 py-5">
 
-                            <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-4">
 
-                                <div
-                                    class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center shrink-0">
+                                <div class="w-11
+                                    h-11
+                                    rounded-full
+                                    bg-amber-50
+                                    text-amber-500
+                                    flex
+                                    items-center
+                                    justify-center
+                                    shrink-0">
 
                                     <i class="fa-solid fa-user"></i>
 
                                 </div>
 
-                                <span class="font-bold text-slate-700 whitespace-nowrap">
+                                <div>
 
-                                    {{ $name }}
+                                    <h4 class="text-sm font-black text-slate-800">
 
-                                </span>
+                                        {{ $name }}
+
+                                    </h4>
+
+                                    <p class="mt-1 text-xs text-slate-500">
+
+                                        {{ $user->email ?? 'Tài khoản hệ thống' }}
+
+                                    </p>
+
+                                </div>
 
                             </div>
 
                         </td>
+                        <!-- ACTION -->
+                        <td class="px-6 py-5 text-center">
 
-                        <!-- Hành động -->
-                        <td class="px-4 py-4 text-center">
-
-                            <span
-                                class="inline-flex items-center justify-center w-24 h-8 rounded-md text-xs font-black {{ $badge }}">
+                            <span class="inline-flex
+                                items-center
+                                justify-center
+                                min-w-[110px]
+                                rounded-full
+                                px-4
+                                py-2
+                                text-xs
+                                font-bold
+                                {{ $badge }}">
 
                                 {{ $action }}
 
@@ -171,36 +306,58 @@
 
                         </td>
 
-                        <!-- Mô tả -->
-                        <td class="px-4 py-4">
+                        <!-- DESCRIPTION -->
+                        <td class="px-6 py-5">
 
-                            <span class="text-sm text-slate-600">
+                            <p class="text-sm
+                                text-slate-600
+                                leading-6">
 
-                                {{ $log->description ?? '-' }}
+                                {{ $log->description ?? 'Không có mô tả.' }}
+
+                            </p>
+
+                        </td>
+
+                        <!-- IP ADDRESS -->
+                        <td class="px-6 py-5 text-center">
+
+                            <span class="inline-flex
+                                items-center
+                                rounded-full
+                                bg-slate-100
+                                px-3
+                                py-1
+                                text-xs
+                                font-semibold
+                                text-slate-700">
+
+                                {{ $log->ip_address ?? '---' }}
 
                             </span>
 
                         </td>
 
-                        <!-- IP -->
-                        <td class="px-4 py-4 text-center whitespace-nowrap">
+                        <!-- TIME -->
+                        <td class="px-6 py-5 text-center">
 
-                            <span class="font-medium text-slate-600">
+                            <div class="flex
+                                flex-col
+                                items-center">
 
-                                {{ $log->ip_address ?? '-' }}
+                                <span class="font-bold text-slate-700">
 
-                            </span>
+                                    {{ \Carbon\Carbon::parse($time)->format('d/m/Y') }}
 
-                        </td>
+                                </span>
 
-                        <!-- Thời gian -->
-                        <td class="px-4 py-4 text-center whitespace-nowrap">
+                                <span class="mt-1 text-xs text-slate-500">
 
-                            <span class="font-semibold text-slate-700">
+                                    {{ \Carbon\Carbon::parse($time)->format('H:i:s') }}
 
-                                {{ \Carbon\Carbon::parse($time)->format('d/m/Y H:i') }}
+                                </span>
 
-                            </span>
+                            </div>
 
                         </td>
 
@@ -210,20 +367,38 @@
 
                     <tr>
 
-                        <td colspan="6" class="py-14 text-center">
+                        <td colspan="6" class="py-20">
 
-                            <div
-                                class="w-16 h-16 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
+                            <div class="flex flex-col items-center">
 
-                                <i class="fa-solid fa-clock-rotate-left text-2xl"></i>
+                                <!-- ICON -->
+                                <div class="w-20
+                                h-20
+                                rounded-full
+                                bg-amber-50
+                                flex
+                                items-center
+                                justify-center">
+
+                                    <i class="fa-solid fa-clock-rotate-left text-3xl text-amber-400"></i>
+
+                                </div>
+
+                                <!-- TITLE -->
+                                <h3 class="mt-5 text-lg font-black text-slate-800">
+
+                                    Chưa có nhật ký nào
+
+                                </h3>
+
+                                <!-- DESCRIPTION -->
+                                <p class="mt-2 text-sm font-medium text-slate-500">
+
+                                    Hiện tại chưa có hoạt động nào được ghi nhận trong hệ thống.
+
+                                </p>
 
                             </div>
-
-                            <p class="text-sm font-black text-slate-500">
-
-                                Chưa có nhật ký nào
-
-                            </p>
 
                         </td>
 
@@ -235,71 +410,162 @@
 
             </table>
 
-            </table>
         </div>
 
-        {{-- Phân trang giữ nguyên --}}
+        {{-- PAGINATION --}}
+        @if($logs->count())
 
-        <!-- PAGINATION -->
-        <div
-            class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="border-t border-slate-200 bg-slate-50 px-6 py-5">
 
-            <p class="text-sm font-bold text-slate-500">
-                Hiển thị
-                <span class="text-sky-600">{{ $logs->firstItem() ?? 0 }}</span>
-                -
-                <span class="text-sky-600">{{ $logs->lastItem() ?? 0 }}</span>
-                trong tổng
-                <span class="text-sky-600">{{ $logs->total() }}</span>
-                người dùng
-            </p>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
 
-            <div class="flex items-center gap-2">
+                <!-- INFO -->
+                <p class="text-sm font-medium text-slate-500">
 
-                @if ($logs->onFirstPage())
-                <span
-                    class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
-                    <i class="fa-solid fa-angle-left"></i>
-                </span>
-                @else
-                <a href="{{ $logs->previousPageUrl() }}"
-                    class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
-                    <i class="fa-solid fa-angle-left"></i>
-                </a>
-                @endif
+                    Hiển thị
 
-                @for ($page = 1; $page <= max($logs->lastPage(), 1); $page++)
-                    @if ($page == $logs->currentPage())
-                    <span
-                        class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center font-black">
-                        {{ $page }}
+                    <span class="font-bold text-amber-500">
+                        {{ $logs->firstItem() ?? 0 }}
                     </span>
-                    @else
-                    <a href="{{ $logs->url($page) }}"
-                        class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center font-bold transition">
-                        {{ $page }}
-                    </a>
-                    @endif
-                    @endfor
 
-                    @if ($logs->hasMorePages())
-                    <a href="{{ $logs->nextPageUrl() }}"
-                        class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
-                        <i class="fa-solid fa-angle-right"></i>
-                    </a>
-                    @else
-                    <span
-                        class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
-                        <i class="fa-solid fa-angle-right"></i>
+                    -
+
+                    <span class="font-bold text-amber-500">
+                        {{ $logs->lastItem() ?? 0 }}
                     </span>
+
+                    trong tổng
+
+                    <span class="font-bold text-amber-500">
+                        {{ $logs->total() }}
+                    </span>
+
+                    nhật ký
+
+                </p>
+
+                <!-- PAGINATION -->
+                <div class="flex items-center gap-2">
+
+                    {{-- Previous --}}
+                    @if ($logs->onFirstPage())
+
+                    <span class="w-10 h-10 rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-300
+                flex items-center justify-center
+                cursor-not-allowed">
+
+                        <i class="fa-solid fa-angle-left"></i>
+
+                    </span>
+
+                    @else
+
+                    <a href="{{ $logs->previousPageUrl() }}" class="ajax-log-page
+                w-10 h-10
+                rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-600
+                hover:bg-amber-500
+                hover:border-amber-500
+                hover:text-white
+                flex items-center justify-center
+                transition-all duration-300">
+
+                        <i class="fa-solid fa-angle-left"></i>
+
+                    </a>
+
                     @endif
+
+
+                    {{-- Page Number --}}
+                    @for ($page = 1; $page <= max($logs->lastPage(),1); $page++)
+
+                        @if ($page == $logs->currentPage())
+
+                        <span class="w-10 h-10
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    font-bold
+                    flex items-center justify-center">
+
+                            {{ $page }}
+
+                        </span>
+
+                        @else
+
+                        <a href="{{ $logs->url($page) }}" class="ajax-log-page
+                    w-10 h-10
+                    rounded-xl
+                    bg-white
+                    border border-slate-200
+                    text-slate-600
+                    font-semibold
+                    hover:bg-amber-500
+                    hover:border-amber-500
+                    hover:text-white
+                    flex items-center justify-center
+                    transition-all duration-300">
+
+                            {{ $page }}
+
+                        </a>
+
+                        @endif
+
+                        @endfor
+
+
+                        {{-- Next --}}
+                        @if ($logs->hasMorePages())
+
+                        <a href="{{ $logs->nextPageUrl() }}" class="ajax-log-page
+                w-10 h-10
+                rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-600
+                hover:bg-amber-500
+                hover:border-amber-500
+                hover:text-white
+                flex items-center justify-center
+                transition-all duration-300">
+
+                            <i class="fa-solid fa-angle-right"></i>
+
+                        </a>
+
+                        @else
+
+                        <span class="w-10 h-10
+                rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-300
+                flex items-center justify-center
+                cursor-not-allowed">
+
+                            <i class="fa-solid fa-angle-right"></i>
+
+                        </span>
+
+                        @endif
+
+                </div>
 
             </div>
+
         </div>
 
-    </div>
+        @endif
 
-</div>
+    </div>
 
 </div>
 
@@ -316,7 +582,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let timer = null;
 
-    function buildUrl() {
+    //==========================
+    // BUILD URL
+    //==========================
+    function buildUrl(page = null) {
+
         const params = new URLSearchParams();
 
         const kw = keyword.value.trim();
@@ -325,12 +595,20 @@ document.addEventListener('DOMContentLoaded', function() {
         if (kw) params.append('keyword', kw);
         if (ac) params.append('action', ac);
 
-        return form.getAttribute('action') + (params.toString() ? '?' + params.toString() : '');
+        if (page) {
+            params.append('page', page);
+        }
+
+        return form.action + (params.toString() ? '?' + params.toString() : '');
+
     }
 
+    //==========================
+    // LOAD AJAX
+    //==========================
     function load(url) {
 
-        area.style.opacity = 0.5;
+        area.style.opacity = '.5';
 
         fetch(url, {
                 headers: {
@@ -346,40 +624,90 @@ document.addEventListener('DOMContentLoaded', function() {
                 const newArea = doc.getElementById('logs-list-area');
 
                 if (newArea) {
+
                     area.innerHTML = newArea.innerHTML;
-                    window.history.pushState({}, '', url);
+
+                    history.pushState({}, '', url);
+
                 }
 
             })
             .finally(() => {
-                area.style.opacity = 1;
+
+                area.style.opacity = '1';
+
             });
+
     }
 
-    // SEARCH (FIX debounce)
+    //==========================
+    // SEARCH
+    //==========================
     keyword.addEventListener('input', function() {
+
         clearTimeout(timer);
+
         timer = setTimeout(() => {
+
             load(buildUrl());
+
         }, 400);
+
     });
 
+    //==========================
     // FILTER
+    //==========================
     action.addEventListener('change', function() {
+
         load(buildUrl());
+
     });
 
+    //==========================
     // SUBMIT
+    //==========================
     form.addEventListener('submit', function(e) {
+
         e.preventDefault();
+
         load(buildUrl());
+
     });
 
-    // RESET (FIX QUAN TRỌNG)
+    //==========================
+    // RESET
+    //==========================
     reset.addEventListener('click', function() {
-        keyword.value = '';
-        action.value = '';
-        load(form.getAttribute('action'));
+
+        form.reset();
+
+        load(form.action);
+
+    });
+
+    //==========================
+    // AJAX PAGINATION
+    //==========================
+    document.addEventListener('click', function(e) {
+
+        const link = e.target.closest('.ajax-log-page');
+
+        if (!link) return;
+
+        e.preventDefault();
+
+        load(link.href);
+
+    });
+
+    //==========================
+    // BACK BUTTON
+    //==========================
+    window.addEventListener('popstate', function() {
+
+        load(location.href);
+
     });
 
 });

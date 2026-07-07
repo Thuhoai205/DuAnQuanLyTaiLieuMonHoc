@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class Subject extends Model
 {
@@ -123,8 +124,17 @@ class Subject extends Model
     }
     public function getThumbnailUrlAttribute()
 {
-    return $this->thumbnail
-        ? asset('img/subjects/' . $this->thumbnail)
-        : asset('img/subjects/01.jpg');
+    // Không có ảnh
+    if (empty($this->thumbnail)) {
+        return asset('img/subjects/01.jpg');
+    }
+
+    // Nếu là ảnh upload trong storage
+    if (Storage::disk('public')->exists('subjects/' . $this->thumbnail)) {
+        return asset('storage/subjects/' . $this->thumbnail);
+    }
+
+    // Nếu là ảnh mặc định trong public/img/subjects
+    return asset('img/subjects/' . $this->thumbnail);
 }
 }

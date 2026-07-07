@@ -48,13 +48,25 @@ class FacultyController extends Controller
 {
     $faculty = Faculty::with([
         'subjects' => function ($q) {
-            $q->withCount('documents');
+            $q->withCount([
+                'documents',
+                'lecturers'
+            ]);
         }
     ])
     ->withCount('subjects')
     ->findOrFail($id);
 
+    // Tổng số tài liệu
     $faculty->documents_count = $faculty->subjects->sum('documents_count');
+
+    // Tổng số giảng viên (không trùng)
+    $faculty->lecturers_count = $faculty->subjects
+        ->flatMap(function ($subject) {
+            return $subject->lecturers;
+        })
+        ->unique('user_id')
+        ->count();
 
     return view('admin.faculties.show', compact('faculty'));
 }

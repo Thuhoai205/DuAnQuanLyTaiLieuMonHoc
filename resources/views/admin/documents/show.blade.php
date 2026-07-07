@@ -322,13 +322,31 @@ $versionExt = strtolower($document->currentVersion->file_extension ?? '');
 
                     </div>
 
-                    <a href="{{ asset('storage/' . $document->currentVersion->file_path) }}" target="_blank"
-                        class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-sm font-black hover:bg-sky-600 transition">
+                    @php
+                    $version = $document->currentVersion;
+                    @endphp
+
+                    @if($version->preview_file)
+
+                    <a href="{{ asset('storage/'.$version->preview_file) }}" target="_blank"
+                        class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-sm font-bold hover:bg-sky-600">
 
                         <i class="fa-solid fa-eye"></i>
-                        Xem file
+                        Xem trước
 
                     </a>
+
+                    @else
+
+                    <a href="{{ asset('storage/'.$version->file_path) }}" target="_blank"
+                        class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-slate-700 text-white text-sm font-bold hover:bg-slate-800">
+
+                        <i class="fa-solid fa-file"></i>
+                        Mở file
+
+                    </a>
+
+                    @endif
 
                 </div>
 

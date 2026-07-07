@@ -21,277 +21,800 @@ $colorMap = [
 $totalTrashedDocumentTypes = $totalTrashedDocumentTypes ?? 0;
 
 @endphp
-
 <div class="space-y-6">
 
     <!-- HEADER -->
-    <div class="bg-white border rounded-md shadow-sm p-5 flex justify-between items-center">
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
 
-        <div>
-            <h2 class="text-lg font-black">Danh sách loại tài liệu</h2>
-            <p class="text-sm text-slate-500">Quản lý loại tài liệu</p>
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+            <div>
+
+                <h2 class="text-2xl font-black text-slate-800">
+
+                    Danh sách loại tài liệu
+
+                </h2>
+
+                <p class="mt-2 text-sm text-slate-500">
+
+                    Quản lý các loại tài liệu được sử dụng trong hệ thống.
+
+                </p>
+
+            </div>
+
+            <div class="flex items-center gap-3">
+
+                <!-- THÙNG RÁC -->
+                <a href="{{ route('admin.document-types.trashed') }}" class="inline-flex
+                    items-center
+                    gap-2
+                    h-11
+                    px-5
+                    rounded-xl
+                    border
+                    border-red-100
+                    bg-white
+                    text-red-600
+                    text-sm
+                    font-semibold
+                    hover:bg-red-50
+                    transition-all duration-300">
+
+                    <i class="fa-solid fa-trash-can"></i>
+
+
+
+                    @if($totalTrashedDocumentTypes > 0)
+
+                    <span class="min-w-6
+                        h-6
+                        px-2
+                        rounded-full
+                        bg-red-600
+                        text-white
+                        text-xs
+                        font-bold
+                        flex
+                        items-center
+                        justify-center">
+
+                        {{ $totalTrashedDocumentTypes }}
+
+                    </span>
+
+                    @endif
+
+                </a>
+
+                <!-- THÊM -->
+                <a href="{{ route('admin.document-types.create') }}" class="inline-flex
+                    items-center
+                    gap-2
+                    h-11
+                    px-5
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    text-sm
+                    font-bold
+                    hover:bg-amber-600
+                    transition-all duration-300">
+
+                    <i class="fa-solid fa-plus"></i>
+
+                    Thêm loại tài liệu
+
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="flex gap-3">
-
-            <a href="{{ route('admin.document-types.trashed') }}"
-                class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
-                <i class="fa-solid fa-trash-can-arrow-up"></i>
-                @if($totalTrashedDocumentTypes> 0)
-                <span
-                    class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
-                    {{ $totalTrashedDocumentTypes }}
-                </span>
-                @endif
-            </a>
-
-            <a href="{{ route('admin.document-types.create') }}"
-                class="h-11 px-4 flex items-center bg-sky-500 text-white rounded-md font-black hover:bg-sky-600 transition">
-
-                <i class="fa-solid fa-plus mr-2"></i>
-                Thêm môn học
-            </a>
-
-        </div>
     </div>
 
     <!-- FILTER -->
-    <div class="bg-white border rounded-md shadow-sm p-5">
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
+
         <form id="filter-form" class="grid grid-cols-12 gap-4">
 
-            <input type="text" name="search" class="col-span-7 h-11 px-4 bg-slate-50 border rounded-md"
-                placeholder="Tìm loại tài liệu...">
+            <!-- SEARCH -->
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Tìm kiếm loại tài liệu..."
+                class="col-span-7
+                h-11
+                px-4
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-50
+                text-sm
+                font-medium
+                text-slate-700
+                placeholder:text-slate-400
+                outline-none
+                transition-all duration-300
+                focus:bg-white
+                focus:border-amber-500
+                focus:ring-4
+                focus:ring-amber-100">
 
-            <select name="status" class="col-span-3 h-11 px-4 bg-slate-50 border rounded-md">
-                <option value="">Tất cả</option>
-                <option value="1">Hoạt động</option>
-                <option value="0">Ẩn</option>
+            <!-- STATUS -->
+            <select name="status" class="col-span-3
+                h-11
+                px-4
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-50
+                text-sm
+                font-medium
+                text-slate-700
+                outline-none
+                transition-all duration-300
+                focus:bg-white
+                focus:border-amber-500
+                focus:ring-4
+                focus:ring-amber-100">
+
+                <option value="">Tất cả trạng thái</option>
+
+                <option value="1" @selected(request('status')=='1' )>
+
+                    Hoạt động
+
+                </option>
+
+                <option value="0" @selected(request('status')=='0' )>
+
+                    Đã khóa
+
+                </option>
+
             </select>
 
+            <!-- BUTTON -->
             <div class="col-span-2 flex gap-2">
-                <button class="w-full bg-sky-500 text-white rounded-md font-black">Lọc</button>
-                <a href="{{ route('admin.document-types.index') }}"
-                    class="w-full bg-slate-100 flex items-center justify-center rounded-md font-black">
+
+                <button type="submit" class="flex-1
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    text-sm
+                    font-bold
+                    hover:bg-amber-600
+                    transition-all duration-300">
+
+                    Lọc
+
+                </button>
+
+                <button type="button" id="btnReset"
+                    class="flex-1 inline-flex items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-semibold hover:bg-slate-50">
+
                     Reset
-                </a>
+
+                </button>
+
             </div>
 
         </form>
+
     </div>
-
     <!-- TABLE -->
-    <div class="bg-white border rounded-md overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-visible">
 
-        <!-- HEADER -->
-        <div class="px-5 py-4 border-b flex justify-between">
+        <!-- CARD HEADER -->
+        <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between">
+
             <div>
-                <h2 class="text-sm font-black">Loại tài liệu</h2>
-                <p class="text-xs text-slate-400">Danh sách hệ thống</p>
+
+                <h2 class="text-base font-black text-slate-800">
+
+                    Danh sách loại tài liệu
+
+                </h2>
+
+                <p class="mt-1 text-sm text-slate-500">
+
+                    Danh sách các loại tài liệu hiện có trong hệ thống.
+
+                </p>
+
             </div>
 
-            <span class="px-3 py-1 bg-sky-50 text-sky-600 text-xs font-black rounded-md">
+            <span class="inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-amber-100
+                bg-amber-50
+                px-4
+                py-2
+                text-sm
+                font-bold
+                text-amber-600">
+
+                <i class="fa-solid fa-layer-group"></i>
+
                 {{ $totalTypes }} loại
+
             </span>
+
         </div>
 
-        <!-- GRID HEADER -->
-        <div class="px-5 py-3 bg-slate-50 border-b grid grid-cols-12 text-xs font-black text-slate-500 uppercase">
-            <div class="col-span-1">STT</div>
-            <div class="col-span-4">Tên loại</div>
-            <div class="col-span-2">Tài liệu</div>
-            <div class="col-span-2">Trạng thái</div>
-            <div class="col-span-3 text-right">Hành động</div>
+        <!-- TABLE HEADER -->
+        <div class="grid
+            grid-cols-12
+            items-center
+            px-6
+            py-4
+            bg-slate-50/80
+            border-b
+            border-slate-200
+            text-[13px]
+            font-black
+            uppercase
+            tracking-wide
+            text-slate-600">
+
+            <!-- STT -->
+            <div class="col-span-1">
+
+                STT
+
+            </div>
+
+            <!-- NAME -->
+            <div class="col-span-4">
+
+                Loại tài liệu
+
+            </div>
+
+            <!-- COUNT -->
+            <div class="col-span-2">
+
+                Số tài liệu
+
+            </div>
+
+            <!-- STATUS -->
+            <div class="col-span-2 text-center">
+
+                Trạng thái
+
+            </div>
+
+            <!-- ACTION -->
+            <div class="col-span-3 text-center">
+
+                Thao tác
+
+            </div>
+
         </div>
 
-        <!-- BODY -->
-        <div id="table-body" class="divide-y">
+        <!-- TABLE BODY -->
+        <div id="table-body" class="divide-y divide-slate-100">
 
-            @foreach($documentTypes as $type)
+            @forelse($documentTypes as $type)
 
             @php
             $active = $type->is_active;
             $colorClass = $colorMap[$type->color] ?? $colorMap['cyan'];
             @endphp
-
-            <div id="document-type-{{ $type->document_type_id }}"
-                class="grid grid-cols-12 px-5 py-4 items-center hover:bg-slate-50">
+            <div id="document-type-{{ $type->document_type_id }}" class="grid
+                grid-cols-12
+                items-center
+                px-6
+                py-5
+                hover:bg-amber-50/40
+                transition-all
+                duration-300">
 
                 <!-- STT -->
-                <div class="col-span-1 font-black text-slate-500">
-                    {{ ($documentTypes->currentPage() - 1) * $documentTypes->perPage() + $loop->iteration }}
-                </div>
-                <!-- NAME + ICON + COLOR -->
-                <div class="col-span-4 flex items-center gap-2">
+                <div class="col-span-1">
 
-                    <span class="w-9 h-9 rounded-md flex items-center justify-center shrink-0 {{ $colorClass }}">
-                        <i class="{{ $type->icon }} text-sm"></i>
+                    <span class="font-black text-slate-500">
+
+                        {{ ($documentTypes->currentPage()-1) * $documentTypes->perPage() + $loop->iteration }}
+
                     </span>
-                    <span class="font-black text-slate-700 truncate text-sm">
-                        {{ $type->type_name }}
-                    </span>
+
                 </div>
 
-                <!-- COUNT -->
-                <div class="col-span-2 font-black text-slate-700 truncate text-sm">
-                    {{ $type->documents_count }}
+                <!-- LOẠI TÀI LIỆU -->
+                <div class="col-span-4">
+
+                    <div class="flex items-center gap-4">
+
+                        <!-- ICON -->
+                        <div class="w-11
+                            h-11
+                            rounded-xl
+                            flex
+                            items-center
+                            justify-center
+                            shrink-0
+                            {{ $colorClass }}">
+
+                            <i class="{{ $type->icon }} text-base"></i>
+
+                        </div>
+
+                        <!-- INFO -->
+                        <div class="min-w-0">
+
+                            <h4 class="text-sm
+                                font-black
+                                text-slate-800
+                                truncate">
+
+                                {{ $type->type_name }}
+
+                            </h4>
+
+                            @if($type->description)
+
+                            <p class="mt-1
+                                text-xs
+                                text-slate-500
+                                truncate">
+
+                                {{ $type->description }}
+
+                            </p>
+
+                            @else
+
+                            <p class="mt-1
+                                text-xs
+                                italic
+                                text-slate-400">
+
+                                Không có mô tả
+
+                            </p>
+
+                            @endif
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <!-- STATUS -->
+                <!-- SỐ TÀI LIỆU -->
                 <div class="col-span-2">
-                    <span id="status-{{ $type->document_type_id }}" class="text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1
-                            {{ $active ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-500' }}">
 
-                        <span class="w-1.5 h-1.5 rounded-full
-                                {{ $active ? 'bg-emerald-500' : 'bg-red-500' }}"></span>
+                    <span class="inline-flex
+        items-center
+        rounded-full
+        bg-slate-100
+        px-3
+        py-1
+        text-xs
+        font-bold
+        text-slate-700">
 
-                        {{ $active ? 'Hoạt động' : 'Ẩn' }}
+                        {{ number_format($type->documents_count) }} tài liệu
+
                     </span>
+
+                </div>
+
+                <!-- TRẠNG THÁI -->
+                <div class="col-span-2 flex justify-center">
+
+                    @if($active)
+
+                    <span class="inline-flex
+                        items-center
+                        gap-2
+                        rounded-full
+                        bg-emerald-50
+                        px-3
+                        py-1
+                        text-xs
+                        font-bold
+                        text-emerald-600">
+
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+
+                        Hoạt động
+
+                    </span>
+
+                    @else
+
+                    <span class="inline-flex
+                        items-center
+                        gap-2
+                        rounded-full
+                        bg-red-50
+                        px-3
+                        py-1
+                        text-xs
+                        font-bold
+                        text-red-600">
+
+                        <span class="w-2 h-2 rounded-full bg-red-500"></span>
+
+                        Đã khóa
+
+                    </span>
+
+                    @endif
+
                 </div>
 
                 <!-- ACTION -->
-                <div class="col-span-3 flex justify-end gap-2">
+                <div class="col-span-3 flex justify-center">
+                    <div class="relative">
 
-                    <!-- VIEW -->
-                    <a href="{{ route('admin.document-types.show', [
-    'document_type' => $type->document_type_id,
-    'return' => urlencode(request()->fullUrl() . '#document-type-' . $type->document_type_id)
-]) }}" class="w-9 h-9 flex items-center justify-center rounded-md bg-sky-50 text-sky-600">
-                        <i class="fa-solid fa-eye"></i>
-                    </a>
+                        <!-- BUTTON -->
+                        <button type="button" class="action-btn
+                            w-10
+                            h-10
+                            rounded-xl
+                            border
+                            border-slate-200
+                            bg-white
+                            text-slate-500
+                            hover:bg-amber-50
+                            hover:text-amber-500
+                            transition-all duration-300" data-id="{{ $type->document_type_id }}">
 
-                    <!-- EDIT -->
-                    <a href="{{ route('admin.document-types.edit', $type->document_type_id) }}"
-                        class="w-9 h-9 flex items-center justify-center rounded-md bg-amber-50 text-amber-500">
-                        <i class="fa-solid fa-pen"></i>
-                    </a>
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
 
-                    <!-- TOGGLE -->
-                    <button type="button" onclick="toggleStatus('{{ $type->document_type_id }}', this)" class="w-9 h-9 flex items-center justify-center rounded-md
-                            {{ $active ? 'bg-emerald-50 text-emerald-600' : 'bg-yellow-50 text-yellow-600' }}">
+                        </button>
 
-                        <i class="fa-solid {{ $active ? 'fa-lock-open' : 'fa-lock' }}"></i>
-                    </button>
+                        <!-- DROPDOWN -->
+                        <div id="action-menu-{{ $type->document_type_id }}" class="hidden
+                            absolute
+                            right-0
+                            top-12
+                            w-56
+                            rounded-xl
+                            bg-white
+                            border
+                            border-slate-200
+                            shadow-xl
+                            overflow-hidden
+                            z-[9999]">
 
-                    <!-- DELETE -->
-                    <button type="button" onclick="deleteType('{{ $type->document_type_id }}', this)"
-                        class="w-9 h-9 flex items-center justify-center rounded-md bg-red-50 text-red-500">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
+                            <!-- VIEW -->
+                            <a href="{{ route('admin.document-types.show',[
+                                'document_type'=>$type->document_type_id,
+                                'return'=>urlencode(request()->fullUrl().'#document-type-'.$type->document_type_id)
+                            ]) }}" class="flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                text-sm
+                                font-medium
+                                text-slate-700
+                                hover:bg-slate-50">
+
+                                <i class="fa-solid fa-eye w-5 text-slate-500"></i>
+
+                                Xem chi tiết
+
+                            </a>
+
+                            <!-- EDIT -->
+                            <a href="{{ route('admin.document-types.edit',$type->document_type_id) }}" class="flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                text-sm
+                                font-medium
+                                text-amber-600
+                                hover:bg-amber-50">
+
+                                <i class="fa-solid fa-pen w-5"></i>
+
+                                Chỉnh sửa
+
+                            </a>
+
+                            <!-- LOCK -->
+                            <button type="button" onclick="toggleStatus('{{ $type->document_type_id }}',this)" class="w-full
+                                flex
+                                items-center
+                                gap-3
+                                px-4
+                                py-3
+                                text-sm
+                                font-medium
+                                {{ $active
+                                    ? 'text-emerald-600 hover:bg-emerald-50'
+                                    : 'text-yellow-600 hover:bg-yellow-50' }}">
+
+                                <i class="fa-solid {{ $active ? 'fa-lock-open' : 'fa-lock' }} w-5"></i>
+
+                                {{ $active ? 'Khóa loại tài liệu' : 'Mở khóa loại tài liệu' }}
+
+                            </button>
+
+                            <!-- DELETE -->
+                            <form action="{{ route('admin.document-types.destroy',$type->document_type_id) }}"
+                                method="POST" class="delete-type-form">
+
+                                @csrf
+                                @method('DELETE')
+
+                                <button type="button" onclick="deleteType('{{ $type->document_type_id }}')" class="w-full
+                                    flex
+                                    items-center
+                                    gap-3
+                                    px-4
+                                    py-3
+                                    text-sm
+                                    font-medium
+                                    text-red-600
+                                    hover:bg-red-50">
+
+                                    <i class="fa-solid fa-trash w-5"></i>
+
+                                    Xóa
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            @endforeach
+            @empty
+
+            <!-- EMPTY -->
+            <div class="py-20">
+
+                <div class="flex flex-col items-center">
+
+                    <div class="w-20
+                        h-20
+                        rounded-full
+                        bg-amber-50
+                        flex
+                        items-center
+                        justify-center">
+
+                        <i class="fa-solid fa-folder-open text-3xl text-amber-400"></i>
+
+                    </div>
+
+                    <h3 class="mt-5 text-lg font-black text-slate-800">
+
+                        Chưa có loại tài liệu
+
+                    </h3>
+
+                    <p class="mt-2 text-sm font-medium text-slate-500">
+
+                        Hãy tạo loại tài liệu đầu tiên cho hệ thống.
+
+                    </p>
+
+                    <a href="{{ route('admin.document-types.create') }}" class="mt-6
+                        inline-flex
+                        items-center
+                        gap-2
+                        rounded-xl
+                        bg-amber-500
+                        px-5
+                        py-3
+                        text-sm
+                        font-bold
+                        text-white
+                        hover:bg-amber-600
+                        transition-all duration-300">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                        Thêm loại tài liệu
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            @endforelse
 
         </div>
-        <div
-            class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
-            <p class="text-sm font-bold text-slate-500">
+        <!-- PAGINATION -->
 
-                Hiển thị
-                <span class="text-sky-600">{{ $documentTypes->firstItem() ?? 0 }}</span>
-                -
-                <span class="text-sky-600">{{ $documentTypes->lastItem() ?? 0 }}</span>
-                trong tổng
-                <span class="text-sky-600">{{ $documentTypes->total() }}</span>
-                loại tài liệu
+        {{-- PAGINATION --}}
+        {{-- PAGINATION --}}
+        @if($documentTypes->count())
 
-            </p>
+        <div class="border-t border-slate-200 bg-slate-50 px-6 py-5">
 
-            <div class="flex items-center gap-2">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
 
-                {{-- Previous --}}
-                @if ($documentTypes->onFirstPage())
+                <!-- INFO -->
+                <p class="text-sm font-medium text-slate-500">
 
-                <span
-                    class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+                    Hiển thị
 
-                    <i class="fa-solid fa-angle-left"></i>
+                    <span class="font-bold text-amber-500">
+                        {{ $documentTypes->firstItem() ?? 0 }}
+                    </span>
 
-                </span>
+                    -
 
-                @else
+                    <span class="font-bold text-amber-500">
+                        {{ $documentTypes->lastItem() ?? 0 }}
+                    </span>
 
-                <a href="{{ $documentTypes->previousPageUrl() }}"
-                    class="ajax-document-type-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+                    trong tổng
 
-                    <i class="fa-solid fa-angle-left"></i>
+                    <span class="font-bold text-amber-500">
+                        {{ $documentTypes->total() }}
+                    </span>
 
-                </a>
+                    loại tài liệu
 
-                @endif
+                </p>
 
+                <!-- PAGINATION -->
+                <div class="flex items-center gap-2">
 
-                {{-- Number --}}
-                @for ($page = 1; $page <= max($documentTypes->lastPage(),1); $page++)
+                    {{-- Previous --}}
+                    @if ($documentTypes->onFirstPage())
 
-                    @if ($page == $documentTypes->currentPage())
+                    <span class="w-10 h-10 rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-300
+                flex items-center justify-center
+                cursor-not-allowed">
 
-                    <span
-                        class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center font-black">
-
-                        {{ $page }}
+                        <i class="fa-solid fa-angle-left"></i>
 
                     </span>
 
                     @else
 
-                    <a href="{{ $documentTypes->url($page) }}"
-                        class="ajax-document-type-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center font-bold transition">
+                    <a href="{{ $documentTypes->previousPageUrl() }}" class="ajax-document-type-page
+                w-10 h-10
+                rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-600
+                hover:bg-amber-500
+                hover:border-amber-500
+                hover:text-white
+                flex items-center justify-center
+                transition-all duration-300">
 
-                        {{ $page }}
+                        <i class="fa-solid fa-angle-left"></i>
 
                     </a>
 
                     @endif
 
-                    @endfor
+
+                    {{-- Page Number --}}
+                    @for ($page = 1; $page <= max($documentTypes->lastPage(),1); $page++)
+
+                        @if ($page == $documentTypes->currentPage())
+
+                        <span class="w-10 h-10
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    font-bold
+                    flex items-center justify-center">
+
+                            {{ $page }}
+
+                        </span>
+
+                        @else
+
+                        <a href="{{ $documentTypes->url($page) }}" class="ajax-document-type-page
+                    w-10 h-10
+                    rounded-xl
+                    bg-white
+                    border border-slate-200
+                    text-slate-600
+                    font-semibold
+                    hover:bg-amber-500
+                    hover:border-amber-500
+                    hover:text-white
+                    flex items-center justify-center
+                    transition-all duration-300">
+
+                            {{ $page }}
+
+                        </a>
+
+                        @endif
+
+                        @endfor
 
 
-                    {{-- Next --}}
-                    @if ($documentTypes->hasMorePages())
+                        {{-- Next --}}
+                        @if ($documentTypes->hasMorePages())
 
-                    <a href="{{ $documentTypes->nextPageUrl() }}"
-                        class="ajax-document-type-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+                        <a href="{{ $documentTypes->nextPageUrl() }}" class="ajax-document-type-page
+                w-10 h-10
+                rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-600
+                hover:bg-amber-500
+                hover:border-amber-500
+                hover:text-white
+                flex items-center justify-center
+                transition-all duration-300">
 
-                        <i class="fa-solid fa-angle-right"></i>
+                            <i class="fa-solid fa-angle-right"></i>
 
-                    </a>
+                        </a>
 
-                    @else
+                        @else
 
-                    <span
-                        class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+                        <span class="w-10 h-10
+                rounded-xl
+                bg-white
+                border border-slate-200
+                text-slate-300
+                flex items-center justify-center
+                cursor-not-allowed">
 
-                        <i class="fa-solid fa-angle-right"></i>
+                            <i class="fa-solid fa-angle-right"></i>
 
-                    </span>
+                        </span>
 
-                    @endif
+                        @endif
+
+                </div>
 
             </div>
 
         </div>
+
+        @endif
+
     </div>
 
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @endsection
 @push('scripts')
 <script>
 // =========================
-// FILTER AJAX
-// =========================
-document.getElementById('filter-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-
-    const url = window.location.pathname + '?' + new URLSearchParams(new FormData(this));
-    load(url);
-});
-
-// =========================
-// LOAD TABLE (AJAX)
+// LOAD TABLE AJAX
 // =========================
 async function load(url) {
 
@@ -302,119 +825,208 @@ async function load(url) {
     });
 
     const html = await res.text();
+
     const doc = new DOMParser().parseFromString(html, 'text/html');
 
-    const newTable = doc.getElementById('table-body');
-    const oldTable = document.getElementById('table-body');
-
-    if (newTable && oldTable) {
-        oldTable.innerHTML = newTable.innerHTML;
+    // body
+    const newBody = doc.getElementById('table-body');
+    if (newBody) {
+        document.getElementById('table-body').innerHTML = newBody.innerHTML;
     }
+
+    // pagination
+    const newPagination = doc.querySelector('#pagination-wrapper');
+    const oldPagination = document.querySelector('#pagination-wrapper');
+
+    if (newPagination && oldPagination) {
+        oldPagination.innerHTML = newPagination.innerHTML;
+    }
+
+    initActionMenu();
+    initPagination();
 
     history.pushState({}, '', url);
 }
 
 // =========================
-// TOGGLE STATUS (FIX ICON + MÀU)
+// FILTER
 // =========================
-async function toggleStatus(id, btn) {
+document.getElementById('filter-form')?.addEventListener('submit', function(e) {
 
-    const res = await fetch(`/admin/document-types/${id}/status`, {
-        method: 'PATCH',
-        headers: {
-            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json'
+    e.preventDefault();
+
+    const url = window.location.pathname + '?' +
+        new URLSearchParams(new FormData(this));
+
+    load(url);
+
+});
+
+// =========================
+// RESET
+// =========================
+document.getElementById('btnReset')?.addEventListener('click', function() {
+
+    document.getElementById('filter-form').reset();
+
+    load(window.location.pathname);
+
+});
+
+// =========================
+// PAGINATION AJAX
+// =========================
+function initPagination() {
+
+    document.querySelectorAll('.pagination a').forEach(link => {
+
+        link.onclick = function(e) {
+
+            e.preventDefault();
+
+            load(this.href);
+
         }
+
     });
 
-    const data = await res.json();
-    if (!data.success) return;
-
-    const badge = document.getElementById(`status-${id}`);
-    const icon = btn.querySelector('i');
-
-    if (data.status) {
-
-        // ACTIVE
-        badge.className =
-            "text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1 bg-emerald-50 text-emerald-600";
-
-        badge.innerHTML =
-            `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Hoạt động`;
-
-        btn.className =
-            "w-9 h-9 flex items-center justify-center rounded-md bg-emerald-50 text-emerald-600 hover:bg-emerald-100";
-
-        icon.className = "fa-solid fa-lock-open text-sm";
-
-    } else {
-
-        // INACTIVE
-        badge.className =
-            "text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1 bg-red-50 text-red-500";
-
-        badge.innerHTML =
-            `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Ẩn`;
-
-        btn.className =
-            "w-9 h-9 flex items-center justify-center rounded-md bg-yellow-50 text-yellow-600 hover:bg-yellow-100";
-
-        icon.className = "fa-solid fa-lock text-sm";
-    }
 }
 
 // =========================
-// DELETE (SOFT DELETE + LOCK LOGIC)
+// ACTION MENU
 // =========================
-async function deleteType(id, btn) {
+function initActionMenu() {
 
-    if (!confirm('Bạn có chắc muốn xóa loại tài liệu này?')) return;
+    document.querySelectorAll('.action-btn').forEach(btn => {
 
-    const res = await fetch(`/admin/document-types/${id}`, {
-        method: 'DELETE',
+        btn.onclick = function(e) {
+
+            e.stopPropagation();
+
+            const id = this.dataset.id;
+
+            document.querySelectorAll('[id^="action-menu-"]').forEach(menu => {
+
+                if (menu.id !== 'action-menu-' + id) {
+
+                    menu.classList.add('hidden');
+
+                }
+
+            });
+
+            document
+                .getElementById('action-menu-' + id)
+                ?.classList.toggle('hidden');
+
+        };
+
+    });
+
+}
+
+// click ngoài menu
+document.addEventListener('click', function() {
+
+    document.querySelectorAll('[id^="action-menu-"]').forEach(menu => {
+
+        menu.classList.add('hidden');
+
+    });
+
+});
+
+// =========================
+// TOGGLE STATUS
+// =========================
+async function toggleStatus(id) {
+
+    const res = await fetch(`/admin/document-types/${id}/status`, {
+
+        method: 'PATCH',
+
         headers: {
+
             'X-CSRF-TOKEN': '{{ csrf_token() }}',
-            'Accept': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
+
+            'Accept': 'application/json'
+
         }
+
     });
 
     const data = await res.json();
 
-    // CASE 1: bị khóa (có tài liệu)
+    if (!data.success) return;
+
+    load(location.pathname + location.search);
+
+}
+
+// =========================
+// DELETE
+// =========================
+async function deleteType(id) {
+
+    if (!confirm('Bạn có chắc muốn xóa loại tài liệu này?')) {
+
+        return;
+
+    }
+
+    const res = await fetch(`/admin/document-types/${id}`, {
+
+        method: 'DELETE',
+
+        headers: {
+
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+
+            'Accept': 'application/json',
+
+            'X-Requested-With': 'XMLHttpRequest'
+
+        }
+
+    });
+
+    const data = await res.json();
     if (data.type === 'locked') {
 
         alert(data.message);
 
-        const row = btn.closest('.grid');
-        const badge = row.querySelector('[id^="status-"]');
-
-        if (badge) {
-            badge.className =
-                "text-xs px-2 py-1 rounded font-black inline-flex items-center gap-1 bg-red-50 text-red-500";
-
-            badge.innerHTML =
-                `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Ẩn`;
-        }
+        await load(location.pathname + location.search);
 
         return;
+
     }
 
-    // CASE 2: xóa thành công
     if (data.success) {
 
-        btn.closest('.grid').remove();
+        load(location.pathname + location.search);
 
-        const badge = document.getElementById('trash-count');
-        if (badge) badge.textContent = data.trashed_count;
     }
+
 }
 
 // =========================
-// BACK BUTTON FIX HISTORY
+// BACK BUTTON
 // =========================
 window.addEventListener('popstate', function() {
-    location.reload();
+
+    load(location.href);
+
+});
+
+// =========================
+// INIT
+// =========================
+document.addEventListener('DOMContentLoaded', function() {
+
+    initActionMenu();
+
+    initPagination();
+
 });
 </script>
 @endpush

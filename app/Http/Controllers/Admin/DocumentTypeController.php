@@ -151,32 +151,33 @@ class DocumentTypeController extends Controller
      * UPDATE
      * ========================= */
     public function update(Request $request, string $id)
-    {
-        $type = DocumentType::findOrFail($id);
+{
+    $type = DocumentType::findOrFail($id);
 
-        $request->validate([
-            'type_name' => [
-                'required',
-                'string',
-                'max:100',
-                Rule::unique('document_types', 'type_name')
-                    ->ignore($type->document_type_id, 'document_type_id'),
-            ],
-        ]);
+    $request->validate([
+        'type_name' => [
+            'required',
+            'string',
+            'max:100',
+            Rule::unique('document_types', 'type_name')
+                ->ignore($type->document_type_id, 'document_type_id'),
+        ],
+        'is_active' => 'required|boolean',
+    ]);
 
-        $type->update([
-            'type_name' => $request->type_name,
-            'description' => $request->description,
-            'icon' => $request->icon ?? 'fa-solid fa-file-lines',
-            'color' => $request->color ?? 'cyan',
-            'updated_by' => Auth::id(),
-        ]);
+    $type->update([
+        'type_name'  => $request->type_name,
+        'description'=> $request->description,
+        'icon'       => $request->icon ?? 'fa-solid fa-file-lines',
+        'color'      => $request->color ?? 'cyan',
+        'is_active'  => $request->boolean('is_active'),
+        'updated_by' => Auth::id(),
+    ]);
 
-        return redirect()
-            ->route('admin.document-types.index')
-            ->with('success', 'Cập nhật thành công.');
-    }
-
+    return redirect()
+        ->route('admin.document-types.index')
+        ->with('success', 'Cập nhật thành công.');
+}
     /* =========================
      * TOGGLE STATUS (AJAX)
      * ========================= */

@@ -13,175 +13,312 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
 @endphp
 
 <div class="space-y-6">
-
     <!-- PAGE ACTIONS -->
-    <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
+    <div class="bg-white border border-slate-200 rounded-md shadow-sm p-6">
+
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+            <!-- LEFT -->
             <div>
-                <h2 class="text-[16px]  font-black text-slate-700">
+
+                <h2 class="text-xl font-extrabold text-slate-900">
+
                     Danh sách người dùng
+
                 </h2>
 
-                <p class="text-[13px] text-slate-500 font-semibold mt-1">
+                <p class="mt-2 text-sm font-medium text-slate-500">
+
                     Quản lý tài khoản Admin, Giảng viên và Sinh viên trong hệ thống.
+
                 </p>
+
             </div>
 
+            <!-- RIGHT -->
             <div class="flex flex-wrap items-center gap-3">
 
-                <a href="{{ route('admin.users.trashed') }}"
-                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-white border border-red-200 text-red-500 text-sm font-black hover:bg-red-500 hover:text-white transition">
+                <!-- Thùng rác -->
+                <a href="{{ route('admin.users.trashed') }}" class="inline-flex items-center gap-2
+                h-11
+                px-4
+                rounded-xl
+                border border-red-200
+                bg-white
+                text-red-500
+                text-sm
+                font-bold
+                transition-all duration-300
+                hover:bg-red-500
+                hover:text-white">
+
                     <i class="fa-solid fa-trash-can-arrow-up"></i>
 
                     @if($totalTrashedUsers > 0)
-                    <span
-                        class="min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs font-black flex items-center justify-center">
+
+                    <span class="min-w-6 h-6 px-2 rounded-full
+                    bg-red-500
+                    text-white
+                    text-[11px]
+                    font-black
+                    flex items-center justify-center">
+
                         {{ $totalTrashedUsers }}
+
                     </span>
+
                     @endif
+
                 </a>
 
-                <a href="{{ route('admin.users.create') }}"
-                    class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-[16px] font-black hover:bg-sky-600 transition">
+                <!-- Thêm người dùng -->
+                <a href="{{ route('admin.users.create') }}" class="inline-flex items-center gap-2
+                h-11
+                px-5
+                rounded-xl
+                bg-slate-900
+                text-white
+                text-sm
+                font-bold
+                shadow-sm
+                transition-all duration-300
+                hover:bg-amber-500">
+
                     <i class="fa-solid fa-user-plus"></i>
+
                     <span>Thêm người dùng</span>
+
                 </a>
 
             </div>
+
         </div>
-    </div>
 
-    <!-- SUMMARY CARDS -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- SUMMARY CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
-                        Tổng người dùng
-                    </p>
+            <!-- Tổng người dùng -->
+            <div
+                class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
-                        {{ number_format($totalUsers) }}
-                    </h3>
+                <div class="flex items-center justify-between">
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Tài khoản trong hệ thống
-                    </p>
+                    <div>
+
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                            Tổng người dùng
+                        </p>
+
+                        <h3 class="mt-2 text-3xl font-black text-slate-900">
+                            {{ number_format($totalUsers) }}
+                        </h3>
+
+                        <p class="mt-2 text-sm text-slate-500 font-medium">
+                            Tài khoản trong hệ thống
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center shadow-sm">
+
+                        <i class="fa-solid fa-users text-xl"></i>
+
+                    </div>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-sky-500 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-users"></i>
-                </div>
             </div>
-        </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
-                        Giảng viên
-                    </p>
+            <!-- Giảng viên -->
+            <div
+                class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
-                        {{ number_format($totalTeachers) }}
-                    </h3>
+                <div class="flex items-center justify-between">
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Tài khoản giảng viên
-                    </p>
+                    <div>
+
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                            Giảng viên
+                        </p>
+
+                        <h3 class="mt-2 text-3xl font-black text-slate-900">
+                            {{ number_format($totalTeachers) }}
+                        </h3>
+
+                        <p class="mt-2 text-sm text-slate-500 font-medium">
+                            Tài khoản giảng viên
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-sm">
+
+                        <i class="fa-solid fa-chalkboard-user text-xl"></i>
+
+                    </div>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-emerald-500 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-chalkboard-user"></i>
-                </div>
             </div>
-        </div>
 
-        <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
-                        Sinh viên
-                    </p>
+            <!-- Sinh viên -->
+            <div
+                class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6 transition-all duration-300 hover:shadow-md hover:-translate-y-1">
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
-                        {{ number_format($totalStudents) }}
-                    </h3>
+                <div class="flex items-center justify-between">
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Tài khoản sinh viên
-                    </p>
+                    <div>
+
+                        <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                            Sinh viên
+                        </p>
+
+                        <h3 class="mt-2 text-3xl font-black text-slate-900">
+                            {{ number_format($totalStudents) }}
+                        </h3>
+
+                        <p class="mt-2 text-sm text-slate-500 font-medium">
+                            Tài khoản sinh viên
+                        </p>
+
+                    </div>
+
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-blue-500 text-white flex items-center justify-center shadow-sm">
+
+                        <i class="fa-solid fa-user-graduate text-xl"></i>
+
+                    </div>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-amber-500 text-white flex items-center justify-center">
-                    <i class="fa-solid fa-user-graduate"></i>
-                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 
     <!-- FILTER -->
     <div class="bg-white border border-slate-200 rounded-md shadow-sm p-5">
+
         <form id="user-filter-form" method="GET" action="{{ route('admin.users.index') }}"
             class="grid grid-cols-1 md:grid-cols-5 gap-4">
 
+            <!-- Search -->
             <div class="md:col-span-2">
+
                 <input type="text" name="search" value="{{ request('search') }}"
-                    placeholder="Tìm theo tên, email, username..."
-                    class="w-full h-11 px-4 rounded-md bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500">
+                    placeholder="Tìm theo tên, email, username..." class="w-full h-11 px-4 rounded-md
+                bg-slate-50
+                border border-slate-200
+                text-sm font-semibold text-slate-600
+                outline-none
+                focus:ring-2
+                focus:ring-amber-200
+                focus:border-amber-500">
+
             </div>
 
+            <!-- Role -->
             <div>
-                <select name="role_id"
-                    class="w-full h-11 px-4 rounded-md bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-600 outline-none focus:ring-2 focus:ring-sky-500/20 focus:border-sky-500">
+
+                <select name="role_id" class="w-full h-11 px-4 rounded-md
+                bg-slate-50
+                border border-slate-200
+                text-sm font-semibold text-slate-600
+                outline-none
+                focus:ring-2
+                focus:ring-amber-200
+                focus:border-amber-500">
+
                     <option value="">Tất cả vai trò</option>
 
                     @foreach($roles as $role)
+
                     <option value="{{ $role->role_id }}" @selected(request('role_id')==$role->role_id)>
+
                         {{ $role->role_name }}
+
                     </option>
+
                     @endforeach
+
                 </select>
+
             </div>
 
-            <button type="submit"
-                class="h-11 rounded-md bg-sky-500 text-white text-sm font-black hover:bg-sky-600 transition">
+            <!-- Filter -->
+            <button type="submit" class="h-11 rounded-md
+            bg-slate-900
+            text-white
+            text-sm font-black
+            hover:bg-amber-500
+            transition-all duration-300">
+
                 <i class="fa-solid fa-filter mr-2"></i>
+
                 Lọc
+
             </button>
 
-            <a href="{{ route('admin.users.index') }}" id="reset-user-filter"
-                class="h-11 rounded-md bg-slate-100 text-slate-600 text-sm font-black flex items-center justify-center hover:bg-slate-200 transition">
+            <!-- Reset -->
+            <a href="{{ route('admin.users.index') }}" id="reset-user-filter" class="h-11 rounded-md
+            border border-slate-300
+            bg-white
+            text-slate-600
+            text-sm font-black
+            flex items-center justify-center
+            hover:border-amber-300
+            hover:bg-amber-50
+            hover:text-amber-600
+            transition-all duration-300">
+
                 Reset
+
             </a>
 
         </form>
-    </div>
 
+    </div>
     <!-- USERS LIST -->
     <div id="users-list-wrapper">
 
-        <div id="users-table-wrapper" class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
+        <div id="users-table-wrapper" class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
 
             <!-- HEADER -->
             <div
-                class="px-5 py-4 border-b border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                class="px-6 py-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+
                 <div>
-                    <h2 class="text-[16px] font-black text-slate-700">
+
+                    <h2 class="text-xl font-bold tracking-tight text-slate-900">
+
                         Người dùng hệ thống
+
                     </h2>
 
-                    <p class="text-[13px] text-slate-400 font-semibold mt-1">
+                    <p class="mt-1 text-sm font-medium text-slate-500">
+
                         Danh sách tài khoản đang hoạt động trong hệ thống.
+
                     </p>
+
                 </div>
 
-                <span
-                    class="px-3 py-1 rounded bg-sky-50 text-sky-600 text-[13px] font-black border border-sky-100 w-fit">
+                <span class="px-3 py-1.5 rounded-full
+                bg-amber-50
+                border border-amber-200
+                text-amber-600
+                text-sm
+                font-semibold
+                tracking-wide
+                w-fit">
+
                     {{ number_format($users->total()) }} tài khoản
+
                 </span>
+
             </div>
 
             <div class="overflow-x-auto">
@@ -190,201 +327,432 @@ $totalTrashedUsers = $totalTrashedUsers ?? 0;
 
                     <!-- TABLE HEADER -->
                     <thead class="bg-slate-50 border-b border-slate-200">
+
                         <tr>
 
-                            <!-- STT (THÊM MỚI) -->
-                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
+                            <!-- STT -->
+                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+
                                 STT
+
                             </th>
 
-                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
+                            <!-- USER -->
+                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+
                                 Người dùng
+
                             </th>
 
-                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
+                            <!-- EMAIL -->
+                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+
                                 Email
+
                             </th>
 
-                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
+                            <!-- ROLE -->
+                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+
                                 Vai trò
+
                             </th>
 
-                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500">
+                            <!-- STATUS -->
+                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500">
+
                                 Trạng thái
+
                             </th>
 
-                            <th class="px-5 py-4 text-[14px] font-black uppercase text-slate-500 text-right">
+                            <!-- ACTION -->
+                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-slate-500 ">
+
                                 Hành động
+
                             </th>
 
                         </tr>
+
                     </thead>
 
                     <!-- TABLE BODY -->
                     <tbody class="divide-y divide-slate-100">
-
                         @forelse($users as $user)
-                        <tr id="user-{{ $user->user_id }}" class="hover:bg-slate-50 transition">
 
-                            <!-- STT (THÊM MỚI) -->
-                            <td class="px-5 py-4 text-sm font-black text-slate-500">
+                        <tr id="user-{{ $user->user_id }}" class="hover:bg-slate-50 transition-all duration-200">
+
+                            <!-- STT -->
+                            <td class="px-6 py-5 text-sm font-semibold text-slate-600">
+
                                 {{ ($users->currentPage() - 1) * $users->perPage() + $loop->iteration }}
+
                             </td>
 
                             <!-- USER -->
-                            <td class="px-5 py-4">
+                            <td class="px-6 py-5">
+
                                 <div class="flex items-center gap-3">
-                                    <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=0ea5e9&color=fff' }}"
-                                        class="w-11 h-11 rounded-md object-cover border border-slate-200">
+
+                                    <img src="{{ $user->avatar ? asset('storage/' . $user->avatar) : 'https://ui-avatars.com/api/?name=' . urlencode($user->full_name) . '&background=0f172a&color=fff' }}"
+                                        class="w-11 h-11 rounded-xl object-cover border border-slate-200">
 
                                     <div class="min-w-0">
-                                        <h4 class="font-black text-slate-700 truncate text-sm">
+
+                                        <h4 class="text-sm font-bold text-slate-800 truncate">
+
                                             {{ $user->full_name }}
+
                                         </h4>
 
-                                        <p class="text-xs text-slate-500 truncate">
-                                            {{ '@' . $user->username }}
+                                        <p class="mt-0.5 text-xs font-medium text-slate-500 truncate">
+
+                                            {{ '@'.$user->username }}
+
                                         </p>
+
                                     </div>
+
                                 </div>
+
                             </td>
 
-                            <td class="px-5 py-4">
-                                <span class="font-black text-slate-700 truncate text-sm">
+                            <!-- EMAIL -->
+                            <td class="px-6 py-5">
+
+                                <span class="text-sm font-semibold text-slate-700">
+
                                     {{ $user->email }}
+
                                 </span>
+
                             </td>
 
-                            <td class="px-5 py-4">
-                                <span class="px-3 py-1 rounded bg-slate-100 text-slate-600 text-xs font-black">
+                            <!-- ROLE -->
+                            <td class="px-6 py-5">
+
+                                <span class="inline-flex items-center
+                                px-3 py-1
+                                rounded-full
+                                bg-slate-100
+                                text-slate-700
+                                text-xs
+                                font-semibold
+                                tracking-wide">
+
                                     {{ $user->role->role_name ?? 'Chưa có role' }}
+
                                 </span>
+
                             </td>
 
-                            <td class="px-5 py-4">
-                                <form action="{{ route('admin.users.status', $user->user_id) }}" method="POST">
+                            <!-- STATUS -->
+                            <td class="px-6 py-5">
+
+                                <form action="{{ route('admin.users.status',$user->user_id) }}" method="POST">
+
                                     @csrf
                                     @method('PATCH')
 
-                                    <button type="submit" class="px-3 py-1 rounded text-xs font-black transition
-                                    {{ $user->is_active
-                                        ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white'
-                                        : 'bg-red-50 text-red-500 hover:bg-red-500 hover:text-white' }}">
+                                    <button type="submit" class="px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300
+
+                            {{ $user->is_active
+                                ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-500 hover:text-white'
+                                : 'bg-red-50 text-red-600 hover:bg-red-500 hover:text-white' }}">
+
                                         {{ $user->is_active ? 'Hoạt động' : 'Bị khóa' }}
+
                                     </button>
+
                                 </form>
+
                             </td>
 
-                            <td class="px-5 py-4">
-                                <div class="flex items-center justify-end gap-2">
+                            <!-- ACTION -->
+                            <td class="px-6 py-5">
 
-                                    <a href="{{ route('admin.users.show', [
-                            'user' => $user->user_id,
-                            'return' => urlencode(request()->fullUrl() . '#user-' . $user->user_id)
-                        ]) }}" class="w-9 h-9 rounded-md bg-sky-50 text-sky-600 hover:bg-sky-500 hover:text-white flex items-center justify-center transition">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </a>
+                                <div class="relative flex items-center justify-center">
+                                    <!-- BUTTON -->
+                                    <button type="button" class="action-btn
+           w-10 h-10
+           rounded-xl
+           border border-slate-200
+           bg-white
+           text-slate-500
+           hover:bg-amber-50
+           hover:text-amber-500
+           transition-all duration-300" data-id="{{ $user->user_id }}">
 
-                                    <a href="{{ route('admin.users.edit', $user->user_id) }}"
-                                        class="w-9 h-9 rounded-md bg-amber-50 text-amber-500 hover:bg-amber-500 hover:text-white flex items-center justify-center transition">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
+                                        <i class="fa-solid fa-ellipsis-vertical"></i>
 
-                                    @if($user->role_id != 1)
-                                    <form action="{{ route('admin.users.destroy', $user->user_id) }}" method="POST"
-                                        class="delete-user-form">
-                                        @csrf
-                                        @method('DELETE')
+                                    </button>
 
-                                        <button type="submit"
-                                            class="w-9 h-9 rounded-md bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition flex items-center justify-center">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </form>
-                                    @endif
+                                    <!-- MENU -->
+                                    <div id="action-menu-{{ $user->user_id }}"
+                                        class="hidden absolute right-0 top-12 w-44 rounded-xl bg-white border border-slate-200 shadow-xl z-[9999] overflow-hidden">
+                                        <!-- View -->
+                                        <a href="{{ route('admin.users.show',[
+                                        'user'=>$user->user_id,
+                                        'return'=>urlencode(request()->fullUrl().'#user-'.$user->user_id)
+                                           ]) }}" class="flex items-center gap-3
+                                        px-4 py-3
+                                        text-sm font-semibold
+                                        text-slate-700
+                                        hover:bg-slate-50">
+
+                                            <i class="fa-solid fa-eye w-5 text-slate-500"></i>
+
+                                            Xem chi tiết
+
+                                        </a>
+
+                                        <!-- Edit -->
+                                        <a href="{{ route('admin.users.edit',$user->user_id) }}" class="flex items-center gap-3
+                                            px-4 py-3
+                                            text-sm font-semibold
+                                            text-amber-600
+                                            hover:bg-amber-50">
+
+                                            <i class="fa-solid fa-pen w-5"></i>
+
+                                            Chỉnh sửa
+
+                                        </a>
+
+                                        @if($user->role_id != 1)
+
+                                        <form action="{{ route('admin.users.destroy',$user->user_id) }}" method="POST"
+                                            class="delete-user-form" onclick="event.stopPropagation();">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="submit" onclick="event.stopPropagation();"
+                                                class="w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold text-red-600 hover:bg-red-50">
+
+                                                <i class="fa-solid fa-trash w-5"></i>
+                                                Xóa
+
+                                            </button>
+
+                                        </form>
+
+                                        @endif
+
+                                    </div>
 
                                 </div>
-                            </td>
 
+                            </td>
                         </tr>
                         @empty
+
                         <tr>
-                            <td colspan="6" class="px-5 py-12 text-center">
-                                <div
-                                    class="w-14 h-14 mx-auto rounded-md bg-slate-100 text-slate-400 flex items-center justify-center mb-3">
-                                    <i class="fa-solid fa-users text-xl"></i>
+
+                            <td colspan="6" class="px-6 py-16 text-center">
+
+                                <div class="mx-auto mb-4
+                                flex h-16 w-16
+                                items-center justify-center
+                                rounded-2xl
+                                bg-slate-100
+                                text-slate-400">
+
+                                    <i class="fa-solid fa-users text-2xl"></i>
+
                                 </div>
 
-                                <p class="text-sm font-bold text-slate-500">
-                                    Không tìm thấy người dùng nào.
+                                <h3 class="text-lg font-bold text-slate-700">
+
+                                    Không tìm thấy người dùng
+
+                                </h3>
+
+                                <p class="mt-2 text-sm font-medium text-slate-500">
+
+                                    Không có dữ liệu phù hợp với điều kiện tìm kiếm.
+
                                 </p>
+
                             </td>
+
                         </tr>
+
                         @endforelse
 
                     </tbody>
 
                 </table>
-            </div>
-            <div
-                class="mt-5 bg-white border border-slate-200 rounded-md shadow-sm px-5 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
 
-                <p class="text-[13px] font-bold text-slate-500">
+            </div>
+
+            <!-- FOOTER -->
+            <div class="mt-5
+                    bg-white
+                    border border-slate-200
+                    rounded-2xl
+                    shadow-sm
+                    px-6 py-4
+                    flex flex-col md:flex-row
+                    items-center justify-between
+                    gap-4">
+
+                <!-- INFO -->
+                <p class="text-sm font-medium text-slate-500">
+
                     Hiển thị
-                    <span class="text-sky-600">{{ $users->firstItem() ?? 0 }}</span>
+
+                    <span class="font-bold text-amber-600">
+
+                        {{ $users->firstItem() ?? 0 }}
+
+                    </span>
+
                     -
-                    <span class="text-sky-600">{{ $users->lastItem() ?? 0 }}</span>
+
+                    <span class="font-bold text-amber-600">
+
+                        {{ $users->lastItem() ?? 0 }}
+
+                    </span>
+
                     trong tổng
-                    <span class="text-sky-600">{{ $users->total() }}</span>
+
+                    <span class="font-bold text-amber-600">
+
+                        {{ $users->total() }}
+
+                    </span>
+
                     người dùng
+
                 </p>
 
+                <!-- PAGINATION -->
                 <div class="flex items-center gap-2">
 
+
+
+
+
+
+
                     @if ($users->onFirstPage())
-                    <span
-                        class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                    <span class="w-10 h-10
+                    rounded-xl
+                    bg-slate-50
+                    border border-slate-200
+                    text-slate-300
+                    flex items-center justify-center
+                    cursor-not-allowed">
+
                         <i class="fa-solid fa-angle-left"></i>
+
                     </span>
+
                     @else
-                    <a href="{{ $users->previousPageUrl() }}"
-                        class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                    <a href="{{ $users->previousPageUrl() }}" class="ajax-user-page
+                    w-10 h-10
+                    rounded-xl
+                    bg-white
+                    border border-slate-200
+                    text-slate-600
+                    hover:bg-slate-900
+                    hover:border-slate-900
+                    hover:text-white
+                    flex items-center justify-center
+                    transition-all duration-300">
+
                         <i class="fa-solid fa-angle-left"></i>
+
                     </a>
+
                     @endif
 
+                    {{-- PAGE NUMBER --}}
                     @for ($page = 1; $page <= max($users->lastPage(), 1); $page++)
+
                         @if ($page == $users->currentPage())
-                        <span
-                            class="w-10 h-10 rounded-md bg-sky-500 text-white flex items-center justify-center font-black">
+
+                        <span class="w-10 h-10
+                        rounded-xl
+                        bg-slate-900
+                        text-white
+                        text-sm
+                        font-semibold
+                        shadow-sm
+                        flex items-center justify-center">
+
                             {{ $page }}
+
                         </span>
+
                         @else
-                        <a href="{{ $users->url($page) }}"
-                            class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center font-bold transition">
+
+                        <a href="{{ $users->url($page) }}" class="ajax-user-page
+                        w-10 h-10
+                        rounded-xl
+                        bg-white
+                        border border-slate-200
+                        text-slate-600
+                        text-sm
+                        font-semibold
+                        hover:bg-amber-500
+                        hover:border-amber-500
+                        hover:text-white
+                        flex items-center justify-center
+                        transition-all duration-300">
+
                             {{ $page }}
+
                         </a>
+
                         @endif
+
                         @endfor
 
+                        {{-- NEXT --}}
                         @if ($users->hasMorePages())
-                        <a href="{{ $users->nextPageUrl() }}"
-                            class="ajax-user-page w-10 h-10 rounded-md bg-white border border-slate-200 text-slate-500 hover:bg-sky-500 hover:text-white hover:border-sky-500 flex items-center justify-center transition">
+
+                        <a href="{{ $users->nextPageUrl() }}" class="ajax-user-page
+                    w-10 h-10
+                    rounded-xl
+                    bg-white
+                    border border-slate-200
+                    text-slate-600
+                    hover:bg-slate-900
+                    hover:border-slate-900
+                    hover:text-white
+                    flex items-center justify-center
+                    transition-all duration-300">
+
                             <i class="fa-solid fa-angle-right"></i>
+
                         </a>
+
                         @else
-                        <span
-                            class="w-10 h-10 rounded-md bg-slate-50 border border-slate-200 text-slate-300 flex items-center justify-center cursor-not-allowed">
+
+                        <span class="w-10 h-10
+                    rounded-xl
+                    bg-slate-50
+                    border border-slate-200
+                    text-slate-300
+                    flex items-center justify-center
+                    cursor-not-allowed">
+
                             <i class="fa-solid fa-angle-right"></i>
+
                         </span>
+
                         @endif
 
                 </div>
+
             </div>
 
         </div>
-
-        <!-- PAGINATION -->
 
     </div>
 </div>
@@ -521,10 +889,21 @@ document.addEventListener('DOMContentLoaded', function() {
         closeDeleteModal();
     });
 
-    confirmDeleteBtn?.addEventListener('click', function() {
+    confirmDeleteBtn?.addEventListener('click', function(e) {
+
+        e.preventDefault();
+        e.stopPropagation();
+
         if (deleteForm) {
-            deleteForm.submit();
+
+            const form = deleteForm;
+
+            closeDeleteModal();
+
+            form.submit();
+
         }
+
     });
 
     deleteModal?.addEventListener('click', function(e) {
@@ -538,6 +917,45 @@ document.addEventListener('DOMContentLoaded', function() {
             closeDeleteModal();
         }
     });
+});
+
+function toggleActionMenu(event, id) {
+    event.preventDefault();
+
+    event.stopPropagation();
+
+    document.querySelectorAll('[id^="action-menu-"]').forEach(menu => {
+
+        if (menu.id !== 'action-menu-' + id) {
+            menu.classList.add('hidden');
+        }
+
+    });
+
+    document.getElementById('action-menu-' + id).classList.toggle('hidden');
+}
+
+document.addEventListener('click', function(e) {
+
+    const btn = e.target.closest('.action-btn');
+
+    // Đóng tất cả menu
+    document.querySelectorAll('[id^="action-menu-"]').forEach(menu => {
+        if (!btn || menu.id !== 'action-menu-' + btn.dataset.id) {
+            menu.classList.add('hidden');
+        }
+    });
+
+    if (!btn) return;
+
+    e.stopPropagation();
+
+    const id = btn.dataset.id;
+
+    document
+        .getElementById('action-menu-' + id)
+        .classList.toggle('hidden');
+
 });
 </script>
 @endpush

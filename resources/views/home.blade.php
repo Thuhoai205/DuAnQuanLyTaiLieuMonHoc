@@ -2202,10 +2202,8 @@ setInterval(() => {
                 <!-- IMAGE -->
                 <div class="relative h-44 overflow-hidden">
 
-                    <img src="{{ $subject->thumbnail ? asset('img/subjects/'.$subject->thumbnail) : asset('images/default-subject.jpg') }}"
-                        alt="{{ $subject->subject_name }}"
+                    <img src="{{ $subject->thumbnail_url }}" alt="{{ $subject->subject_name }}"
                         class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
-
                     <div class="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent">
                     </div>
 

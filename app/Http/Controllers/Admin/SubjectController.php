@@ -11,57 +11,95 @@ use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Storage;
 class SubjectController extends Controller
 {
     /* =========================
      * INDEX
      * ========================= */
     public function index(Request $request)
-    {
-        $query = Subject::with(['faculty', 'lecturers'])
-            ->withCount(['documents', 'lecturers']);
+{
+    $query = Subject::with([
+        'faculty',
+        'lecturers'
+    ])->withCount([
+        'documents',
+        'lecturers'
+    ]);
 
-        // SEARCH
-        if ($request->filled('search')) {
-            $search = $request->search;
+    /*
+    |--------------------------------------------------------------------------
+    | Tìm kiếm
+    |--------------------------------------------------------------------------
+    */
+    if ($request->filled('search')) {
 
-            $query->where(function ($q) use ($search) {
-                $q->where('subject_code', 'like', "%{$search}%")
-                    ->orWhere('subject_name', 'like', "%{$search}%");
-            });
-        }
+        $search = trim($request->search);
 
-        // FACULTY FILTER
-        if ($request->filled('faculty_id')) {
-            $query->where('faculty_id', $request->faculty_id);
-        }
+        $query->where(function ($q) use ($search) {
 
-        // STATUS (0/1)
+            $q->where('subject_code', 'like', "%{$search}%")
+              ->orWhere('subject_name', 'like', "%{$search}%");
+
+        });
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Lọc theo khoa
+    |--------------------------------------------------------------------------
+    */
+    if ($request->filled('faculty_id')) {
+
+        $query->where(
+            'faculty_id',
+            $request->faculty_id
+        );
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Lọc trạng thái
+    |--------------------------------------------------------------------------
+    */
     if ($request->filled('status')) {
-        $query->where('is_active', (int) $request->status);
+
+        $query->where(
+            'status',
+            $request->status
+        );
+
     }
 
-        $subjects = $query->orderBy('subject_name')
-            ->paginate(10)
-            ->withQueryString();
-        $totalTrashedSubjects = Subject::onlyTrashed()->count();
+    $subjects = $query
+        ->orderBy('subject_name')
+        ->paginate(10)
+        ->withQueryString();
 
-        return view('admin.subjects.index', [
-            'subjects' => $subjects,
-            
-            'faculties' => Faculty::where('is_active', true)
-                ->orderBy('faculty_name')
-                ->get(),
+    $totalTrashedSubjects = Subject::onlyTrashed()->count();
 
-            'totalSubjects' => Subject::count(),
-            'totalTeachers' => User::where('role_id', 2)->where('is_active', true)->count(),
-            'totalDocuments' => Document::count(),
+    return view('admin.subjects.index', [
 
-            'totalTrashedSubjects'
-        ]);
-    }
+        'subjects' => $subjects,
 
+        'faculties' => Faculty::where('is_active', true)
+            ->orderBy('faculty_name')
+            ->get(),
+
+        'totalSubjects' => Subject::count(),
+
+        'totalTeachers' => User::where('role_id', 2)
+            ->where('is_active', true)
+            ->count(),
+
+        'totalDocuments' => Document::count(),
+
+        'totalTrashedSubjects' => $totalTrashedSubjects,
+
+    ]);
+}
     /* =========================
      * CREATE
      * ========================= */
@@ -86,32 +124,57 @@ class SubjectController extends Controller
      * STORE
      * ========================= */
     public function store(Request $request)
-    {
-        $request->validate([
-            'subject_code' => 'required|string|max:20|unique:subjects,subject_code',
-            'subject_name' => 'required|string|max:150',
-            'faculty_id' => 'required|exists:faculties,faculty_id',
-        ]);
+{
+    $request->validate([
+        'subject_code'      => 'required|string|max:20|unique:subjects,subject_code',
+        'subject_name'      => 'required|string|max:150',
+        'faculty_id'        => 'required|exists:faculties,faculty_id',
+        'thumbnail_upload'  => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
 
-        $subject = Subject::create([
-            'subject_code' => strtoupper($request->subject_code),
-            'subject_name' => $request->subject_name,
-            'slug' => Str::slug($request->subject_name),
-            'description' => $request->description,
-            'thumbnail' => $request->thumbnail ?? '01.jpg',
-            'icon' => $request->icon ?? 'fa-solid fa-book-open',
-            'color' => $request->color ?? 'blue',
-            'status' => 'active',
-            'faculty_id' => $request->faculty_id,
-            'created_by' => Auth::id(),
-            'updated_by' => Auth::id(),
-        ]);
+    // Mặc định dùng ảnh hệ thống
+    $thumbnail = $request->thumbnail ?? '01.jpg';
 
-        $this->syncLecturers($subject, $request->teacher_ids ?? []);
+    // Nếu upload ảnh mới
+    if ($request->hasFile('thumbnail_upload')) {
 
-        return redirect()->route('admin.subjects.index')
-            ->with('success', 'Thêm môn học thành công.');
+        $file = $request->file('thumbnail_upload');
+
+        $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+            . '.' . $file->getClientOriginalExtension();
+
+        $file->storeAs(
+            'subjects',
+            $filename,
+            'public'
+        );
+
+        $thumbnail = $filename;
     }
+
+    $subject = Subject::create([
+        'subject_code' => strtoupper($request->subject_code),
+        'subject_name' => $request->subject_name,
+        'slug' => Str::slug($request->subject_name),
+        'description' => $request->description,
+        'thumbnail' => $thumbnail,
+        'icon' => $request->icon ?? 'fa-solid fa-book-open',
+        'color' => $request->color ?? 'blue',
+        'status' => 'active',
+        'faculty_id' => $request->faculty_id,
+        'created_by' => Auth::id(),
+        'updated_by' => Auth::id(),
+    ]);
+
+    $this->syncLecturers(
+        $subject,
+        $request->teacher_ids ?? []
+    );
+
+    return redirect()
+        ->route('admin.subjects.index')
+        ->with('success', 'Thêm môn học thành công.');
+}
 
     /* =========================
      * SHOW
@@ -129,13 +192,8 @@ class SubjectController extends Controller
     ->where('subject_code', $id)
     ->firstOrFail();
 
-    // FIX THUMBNAIL PATH
-   $subject->thumbnail_url = $subject->thumbnail
-    ? asset('img/subjects/' . $subject->thumbnail)
-    : asset('img/subjects/01.jpg');
     return view('admin.subjects.show', compact('subject'));
 }
-
     /* =========================
      * EDIT
      * ========================= */
@@ -168,15 +226,53 @@ class SubjectController extends Controller
      * ========================= */
    public function update(Request $request, string $id)
 {
+    $request->validate([
+    'subject_name' => 'required|string|max:150',
+    'faculty_id' => 'required|exists:faculties,faculty_id',
+    'thumbnail_upload' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+]);
     $subject = Subject::where(
         'subject_code',
         $id
     )->firstOrFail();
+    $thumbnail = $subject->thumbnail;
+
+if ($request->hasFile('thumbnail_upload')) {
+
+    if (
+        $subject->thumbnail &&
+        Storage::disk('public')->exists('subjects/' . $subject->thumbnail)
+    ) {
+        Storage::disk('public')->delete(
+            'subjects/' . $subject->thumbnail
+        );
+    }
+
+    $file = $request->file('thumbnail_upload');
+
+    $filename = time().'_'.
+        Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+        .'.'.$file->getClientOriginalExtension();
+
+    $file->storeAs(
+        'subjects',
+        $filename,
+        'public'
+    );
+
+    $thumbnail = $filename;
+
+}
+elseif ($request->filled('thumbnail')) {
+
+    $thumbnail = $request->thumbnail;
+
+}
 $subject->update([
     'subject_name' => $request->subject_name,
     'slug' => Str::slug($request->subject_name),
     'description' => $request->description,
-    'thumbnail' => $request->thumbnail ?? $subject->thumbnail,
+    'thumbnail' => $thumbnail,
     'icon' => $request->icon ?? $subject->icon,
     'color' => $request->color ?? $subject->color,
     'status' => $request->status,
@@ -211,59 +307,148 @@ Document::where(
     /* =========================
      * SOFT DELETE (AJAX SUPPORT)
      * ========================= */
-   public function destroy(string $id)
+
+
+public function destroy(string $id)
 {
     $subject = Subject::where('subject_code', $id)
+        ->withCount(['documents', 'lecturers'])
         ->firstOrFail();
+
+    // Nếu môn học đã có dữ liệu thì chỉ khóa
+    if (
+        $subject->documents_count > 0 ||
+        $subject->lecturers_count > 0
+    ) {
+
+        $subject->update([
+            'status'     => 'archived',
+            'updated_by' => Auth::id(),
+        ]);
+
+        // Đồng bộ trạng thái tài liệu
+        Document::where('subject_code', $subject->subject_code)
+            ->update([
+                'is_active' => false,
+            ]);
+
+        return response()->json([
+            'success' => true,
+            'action'  => 'archived',
+            'message' => 'Môn học đã có dữ liệu nên không thể xóa. Hệ thống đã khóa môn học.',
+        ]);
+    }
+
+    // Nếu chưa có dữ liệu thì cho xóa mềm
+    $subject->update([
+        'deleted_by' => Auth::id(),
+        'updated_by' => Auth::id(),
+    ]);
 
     $subject->delete();
 
     return response()->json([
         'success' => true,
-        'trashed_count' => Subject::onlyTrashed()->count()
+        'action'  => 'deleted',
+        'message' => 'Đã chuyển môn học vào thùng rác.',
+        'trashed_count' => Subject::onlyTrashed()->count(),
     ]);
 }
 
     /* =========================
      * TRASH LIST
      * ========================= */
-    public function trashed()
-    {
-        $subjects = Subject::onlyTrashed()
-            ->with('faculty')
-            ->withCount(['documents', 'lecturers'])
-            ->latest('deleted_at')
-            ->paginate(10);
+   public function trashed()
+{
+    $subjects = Subject::onlyTrashed()
+        ->with('faculty')
+        ->withCount(['documents', 'lecturers'])
+        ->latest('deleted_at')
+        ->paginate(10);
 
-        return view('admin.subjects.trashed', compact('subjects'));
-    }
+    return view('admin.subjects.trashed', compact('subjects'));
+}
 
     /* =========================
      * RESTORE
      * ========================= */
-    public function restore(string $id)
-    {
-        Subject::onlyTrashed()
-            ->where('subject_code', $id)
-            ->firstOrFail()
-            ->restore();
+   public function restore(string $id)
+{
+    $subject = Subject::onlyTrashed()
+        ->where('subject_code', $id)
+        ->firstOrFail();
 
-        return back()->with('success', 'Khôi phục thành công.');
-    }
+    $subject->restore();
 
+    $subject->update([
+        'deleted_by' => null,
+        'updated_by' => Auth::id(),
+    ]);
+
+    return redirect()
+        ->route('admin.subjects.trashed')
+        ->with('success', 'Khôi phục môn học thành công.');
+}
     /* =========================
      * FORCE DELETE
      * ========================= */
     public function forceDelete(string $id)
-    {
-        Subject::onlyTrashed()
-            ->where('subject_code', $id)
-            ->firstOrFail()
-            ->forceDelete();
+{
+    $subject = Subject::onlyTrashed()
+        ->where('subject_code', $id)
+        ->firstOrFail();
 
-        return back()->with('success', 'Đã xóa vĩnh viễn.');
+    if ($subject->documents()->count() > 0) {
+
+        return back()->with(
+            'error',
+            'Không thể xóa vĩnh viễn vì môn học vẫn còn tài liệu.'
+        );
+
     }
 
+    $subject->forceDelete();
+
+    return back()->with(
+        'success',
+        'Đã xóa vĩnh viễn môn học.'
+    );
+}
+public function restoreMultiple(Request $request)
+{
+    $codes = $request->subject_codes ?? [];
+
+    if (empty($codes)) {
+
+        return back()->with(
+            'error',
+            'Vui lòng chọn ít nhất một môn học.'
+        );
+
+    }
+
+    $subjects = Subject::onlyTrashed()
+        ->whereIn('subject_code', $codes)
+        ->get();
+
+    foreach ($subjects as $subject) {
+
+        $subject->restore();
+
+        $subject->update([
+            'deleted_by' => null,
+            'updated_by' => Auth::id(),
+        ]);
+
+    }
+
+    return redirect()
+        ->route('admin.subjects.trashed')
+        ->with(
+            'success',
+            'Khôi phục các môn học đã chọn thành công.'
+        );
+}
     /* =========================
      * TOGGLE STATUS (AJAX)
      * ========================= */

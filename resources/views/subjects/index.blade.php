@@ -223,9 +223,8 @@ hover:border-amber-300">
                     <!-- IMAGE -->
                     <div class="relative overflow-hidden h-48 w-full bg-slate-100">
 
-                        <img src="{{ $hasThumbnail ? asset('img/subjects/'.$subject->thumbnail) : asset('images/default-subject.jpg') }}"
-                            class="w-full h-full object-cover transition duration-700 ease-out group-hover:scale-105"
-                            alt="{{ $subject->subject_name }}">
+                        <img src="{{ $subject->thumbnail_url }}" alt="{{ $subject->subject_name }}"
+                            class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
 
                         <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent"></div>
 

@@ -33,6 +33,8 @@
         border-radius: 999px;
     }
 
+    /* ================= MENU ================= */
+
     .nav-link {
         display: flex;
         align-items: center;
@@ -41,41 +43,46 @@
         color: #a8b3c2;
         font-size: 11px;
         font-weight: 700;
-        transition: all 0.22s ease;
+        transition: all .25s ease;
         border-left: 3px solid transparent;
     }
 
     .nav-link:hover {
-        background: rgba(255, 255, 255, 0.045);
+        background: rgba(245, 158, 11, .08);
         color: #ffffff;
-        border-left-color: #38bdf8;
+        border-left-color: #f59e0b;
     }
 
     .nav-link.active {
-        background: rgba(56, 189, 248, 0.12);
+        background: rgba(245, 158, 11, .14);
         color: #ffffff;
-        border-left-color: #38bdf8;
+        border-left-color: #f59e0b;
     }
 
     .nav-link .nav-icon {
         width: 18px;
         text-align: center;
         color: #7f8ea3;
+        transition: .25s;
     }
 
     .nav-link:hover .nav-icon,
     .nav-link.active .nav-icon {
-        color: #38bdf8;
+        color: #f59e0b;
     }
 
+    /* ================= MENU TITLE ================= */
+
     .menu-title {
-        color: #6b7a90;
+        color: #6b7280;
         font-size: 10px;
         font-weight: 800;
         text-transform: uppercase;
-        letter-spacing: 0.04em;
+        letter-spacing: .08em;
         padding: 18px 18px 8px;
     }
+
+    /* ================= TOP ICON ================= */
 
     .top-icon {
         width: 42px;
@@ -85,7 +92,7 @@
         align-items: center;
         justify-content: center;
         color: #64748b;
-        transition: all 0.2s ease;
+        transition: all .25s ease;
     }
 
     .top-icon i {
@@ -93,13 +100,13 @@
     }
 
     .top-icon:hover {
-        background: #f1f5f9;
-        color: #0ea5e9;
+        background: #fef3c7;
+        color: #f59e0b;
     }
     </style>
 </head>
 
-<body class="h-screen overflow-hidden bg-[#eef2f7] text-slate-700">
+<body class="h-screen overflow-hidden  text-slate-700">
 
     @php
     $todayLogCount = \App\Models\ActivityLog::whereDate('created_at', today())->count();
@@ -116,38 +123,41 @@
                 <!-- background glow -->
                 <div class="absolute -top-10 -right-10 w-28 h-28 rounded-full bg-cyan-500/10 blur-2xl"></div>
                 <div class="absolute -bottom-10 -left-10 w-28 h-28 rounded-full bg-sky-500/10 blur-2xl"></div>
+                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group flex-shrink-0">
 
-                <a href="{{ route('admin.dashboard') }}" class="relative flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-[14px]
+    overflow-hidden
+    bg-white
+    shadow-md
+    ring-1 ring-slate-200">
 
-                    <!-- ICON -->
-                    <div
-                        class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 via-cyan-500 to-sky-600 text-white flex items-center justify-center shadow-md shadow-cyan-500/20 ring-1 ring-white/10 group-hover:scale-105 transition">
+                        <img src="{{ asset('img/logo01.png') }}" class="w-full h-full object-cover">
 
-                        <i class="fa-solid fa-graduation-cap text-base"></i>
                     </div>
+                    <div class="leading-tight">
 
-                    <!-- TEXT -->
-                    <div class="leading-none">
-
-                        <h1 class="text-lg font-black tracking-[-0.04em]">
-                            <span class="text-white">EDU</span><span class="text-cyan-400">DOC</span>
+                        <h1 class="text-xl font-black tracking-tight">
+                            <span class="text-white">EDU</span>
+                            <span class="text-amber-500">DOC</span>
                         </h1>
 
-                        <p class="mt-1 text-[9px] font-bold uppercase tracking-[0.28em] text-slate-500">
+                        <p class="mt-0.5 text-[9px] uppercase tracking-[0.28em] text-slate-500 font-semibold">
                             Admin Panel
                         </p>
-
                     </div>
 
+                </a>
                 </a>
             </div>
 
             <!-- NAVIGATION -->
             <nav class="sidebar-scroll flex-1 overflow-y-auto py-3">
 
-                <div class="menu-title">
-                    Navigation
+                <div class="menu-title flex items-center gap-2">
+                    <i class="fa-solid fa-compass text-[10px] text-amber-500"></i>
+                    <span>Tổng quan</span>
                 </div>
+
 
                 <a href="{{ route('admin.dashboard') }}"
                     class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
@@ -156,8 +166,9 @@
 
                 </a>
 
-                <div class="menu-title">
-                    Quản lý
+                <div class="menu-title flex items-center gap-2">
+                    <i class="fa-solid fa-folder-tree text-[10px] text-amber-500"></i>
+                    <span>Quản lý</span>
                 </div>
 
                 <a href="{{ route('admin.users.index') }}"
@@ -190,17 +201,10 @@
 
                 </a>
 
-                <div class="menu-title">
-                    Báo cáo
+                <div class="menu-title flex items-center gap-2">
+                    <i class="fa-solid fa-chart-column text-[10px] text-amber-500"></i>
+                    <span>Thống kê & Báo cáo</span>
                 </div>
-
-                <a href="{{ route('admin.statistics.index') }}"
-                    class="nav-link {{ request()->routeIs('admin.statistics.*') ? 'active' : '' }}">
-                    <i class="nav-icon fa-solid fa-chart-pie"></i>
-                    <span>Thống kê</span>
-
-
-                </a>
 
                 <a href="{{ route('admin.logs.index') }}"
                     class="nav-link {{ request()->routeIs('admin.logs.*') ? 'active' : '' }}">
@@ -213,9 +217,9 @@
                     </span>
                     @endif
                 </a>
-
-                <div class="menu-title">
-                    Khác
+                <div class="menu-title flex items-center gap-2">
+                    <i class="fa-solid fa-gear text-[10px] text-amber-500"></i>
+                    <span>Hệ thống</span>
                 </div>
 
                 <a href="{{ route('home') }}" class="nav-link">
@@ -242,46 +246,23 @@
             <header class="h-16 min-h-16 bg-white border-b border-slate-200 flex items-center px-5 shadow-sm z-40">
                 <!-- LEFT ICONS -->
                 <div class="relative flex items-center gap-1">
-
-
-
-                    <!-- SEARCH BOX -->
-                    <div id="adminSearchBox"
-                        class="hidden absolute left-0 top-[115%] w-[320px] bg-white border border-slate-200 rounded-2xl shadow-xl p-3 z-[9999]">
-                        <div class="flex items-center gap-3 px-3 py-2 rounded-xl bg-slate-50 border border-slate-100">
-                            <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
-
-                            <input type="text" id="adminSearchInput" placeholder="Nhập từ khóa tìm kiếm..."
-                                class="w-full bg-transparent outline-none text-sm font-semibold text-slate-700 placeholder:text-slate-400">
-                        </div>
-
-                        <p class="mt-2 text-[11px] font-semibold text-slate-400">
-                            Nhấn Enter để tìm kiếm trong trang hiện tại
-                        </p>
-                    </div>
-
                     <!-- FULLSCREEN BUTTON -->
                     <button type="button" id="adminFullscreenToggle" class="top-icon">
                         <i id="adminFullscreenIcon" class="fa-solid fa-expand text-sm"></i>
                     </button>
-
                 </div>
-
                 <!-- RIGHT -->
                 <div class="ml-auto flex items-center gap-2">
-
                     <!-- NOTIFICATION -->
                     <div class="relative">
                         @includeIf('admin.partials.notifications')
                     </div>
-
                     <!-- DATE -->
                     <div
                         class="hidden lg:flex items-center gap-2 px-3 py-2 rounded-xl text-slate-500 text-[13px] font-bold">
                         <i class="fa-regular fa-calendar"></i>
                         <span>{{ now()->format('d/m/Y') }}</span>
                     </div>
-
                     <!-- USER -->
                     <div class="relative group">
                         <button type="button"
@@ -296,7 +277,6 @@
 
                             <i class="fa-solid fa-angle-down text-xs text-slate-400"></i>
                         </button>
-
                         <!-- DROPDOWN -->
                         <div
                             class="absolute right-0 top-[115%] w-64 bg-white rounded-xl shadow-xl border border-slate-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible translate-y-2 group-hover:translate-y-0 transition-all duration-200 z-[9999] overflow-hidden">
@@ -313,58 +293,79 @@
 
                             <a href="{{ route('profile') }}"
                                 class="flex items-center gap-3 px-4 py-3 text-[13px] font-bold text-slate-600 hover:bg-slate-50">
-                                <i class="fa-solid fa-user text-sky-500 w-5"></i>
-                                <span>Hồ sơ cá nhân</span>
+                                <i class="fa-solid fa-user text-amber-500 w-5"></i> <span>Hồ sơ cá nhân</span>
                             </a>
-
                             <form action="{{ route('logout') }}" method="POST">
                                 @csrf
-
                                 <button type="submit"
                                     class="w-full flex items-center gap-3 px-4 py-3 text-[13px] font-bold text-red-500 hover:bg-red-50">
                                     <i class="fa-solid fa-right-from-bracket w-5"></i>
                                     <span>Đăng xuất</span>
                                 </button>
                             </form>
-
                         </div>
                     </div>
-
                 </div>
             </header>
-
             <!-- PAGE HEADER -->
-            <div
-                class="h-[76px] min-h-[76px] bg-[#eef2f7] px-7 flex items-center justify-between border-b border-slate-200/60">
+            <div class="h-[76px] min-h-[76px]
+    bg-amber-50
+    px-7
+    flex items-center justify-between
+    border-b border-amber-100">
 
+                <!-- LEFT -->
                 <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 rounded-lg bg-sky-500 text-white flex items-center justify-center shadow">
+
+                    <div class="w-10 h-10
+            rounded-lg
+            bg-slate-900
+            text-white
+            flex items-center justify-center
+            shadow-sm">
+
                         <i class="fa-solid fa-house"></i>
+
                     </div>
 
                     <div>
-                        <h2 class="text-[15px] font-bold text-slate-700">
+
+                        <h2 class="text-[15px] font-bold text-slate-800">
+
                             @yield('page-title', 'Dashboard')
+
                         </h2>
 
-                        <p class="text-[13px] font-semibold text-slate-400 mt-0.5">
+                        <p class="text-[13px] font-medium text-slate-500 mt-0.5">
+
                             Hệ thống quản lý tài liệu môn học
+
                         </p>
+
                     </div>
+
                 </div>
 
+                <!-- RIGHT -->
                 <div class="hidden md:flex items-center gap-2 text-xs font-bold text-slate-500">
-                    <a href="{{ route('admin.dashboard') }}" class="hover:text-sky-500">
+
+                    <a href="{{ route('admin.dashboard') }}" class="transition hover:text-amber-500">
+
                         <i class="fa-solid fa-house text-[11px]"></i>
+
                     </a>
 
-                    <span>/</span>
+                    <span class="text-slate-300">/</span>
 
-                    <span>@yield('page-title', 'Dashboard')</span>
+                    <span class="text-slate-700">
+
+                        @yield('page-title', 'Dashboard')
+
+                    </span>
+
                 </div>
 
             </div>
-
             <!-- CONTENT -->
             <section class="flex-1 overflow-y-auto bg-[#eef2f7] p-7">
 
@@ -377,105 +378,50 @@
         </main>
 
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchToggle = document.getElementById('adminSearchToggle');
-        const searchBox = document.getElementById('adminSearchBox');
-        const searchInput = document.getElementById('adminSearchInput');
 
-        const fullscreenToggle = document.getElementById('adminFullscreenToggle');
-        const fullscreenIcon = document.getElementById('adminFullscreenIcon');
-
-        // Mở / đóng ô tìm kiếm
-        if (searchToggle && searchBox && searchInput) {
-            searchToggle.addEventListener('click', function(event) {
-                event.stopPropagation();
-
-                searchBox.classList.toggle('hidden');
-
-                if (!searchBox.classList.contains('hidden')) {
-                    setTimeout(function() {
-                        searchInput.focus();
-                    }, 100);
-                }
-            });
-
-            searchBox.addEventListener('click', function(event) {
-                event.stopPropagation();
-            });
-
-            document.addEventListener('click', function() {
-                searchBox.classList.add('hidden');
-            });
-
-            searchInput.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter') {
-                    const keyword = searchInput.value.trim();
-
-                    if (keyword === '') {
-                        return;
-                    }
-
-                    const currentPath = window.location.pathname;
-
-                    const routes = {
-                        users: "{{ route('admin.users.index') }}",
-                        subjects: "{{ route('admin.subjects.index') }}",
-                        documentTypes: "{{ route('admin.document-types.index') }}",
-                        logs: "{{ route('admin.logs.index') }}",
-                    };
-
-                    let url;
-                    let paramName;
-
-                    if (currentPath.includes('/admin/users')) {
-                        url = new URL(routes.users, window.location.origin);
-                        paramName = 'search';
-                    } else if (currentPath.includes('/admin/subjects')) {
-                        url = new URL(routes.subjects, window.location.origin);
-                        paramName = 'search';
-                    } else if (currentPath.includes('/admin/document-types')) {
-                        url = new URL(routes.documentTypes, window.location.origin);
-                        paramName = 'keyword';
-                    } else if (currentPath.includes('/admin/logs')) {
-                        url = new URL(routes.logs, window.location.origin);
-                        paramName = 'keyword';
-                    } else {
-                        url = new URL(routes.subjects, window.location.origin);
-                        paramName = 'search';
-                    }
-
-                    url.searchParams.set(paramName, keyword);
-
-                    window.location.href = url.toString();
-                }
-            });
-        }
-
-        // Bật / tắt toàn màn hình
-        if (fullscreenToggle && fullscreenIcon) {
-            fullscreenToggle.addEventListener('click', function() {
-                if (!document.fullscreenElement) {
-                    document.documentElement.requestFullscreen();
-                } else {
-                    document.exitFullscreen();
-                }
-            });
-
-            document.addEventListener('fullscreenchange', function() {
-                if (document.fullscreenElement) {
-                    fullscreenIcon.classList.remove('fa-expand');
-                    fullscreenIcon.classList.add('fa-compress');
-                } else {
-                    fullscreenIcon.classList.remove('fa-compress');
-                    fullscreenIcon.classList.add('fa-expand');
-                }
-            });
-        }
-    });
-    </script>
     @stack('scripts')
 
 </body>
 
 </html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    const fullscreenToggle = document.getElementById('adminFullscreenToggle');
+    const fullscreenIcon = document.getElementById('adminFullscreenIcon');
+
+    if (!fullscreenToggle || !fullscreenIcon) return;
+
+    fullscreenToggle.addEventListener('click', async function() {
+
+        try {
+
+            if (!document.fullscreenElement) {
+
+                await document.documentElement.requestFullscreen();
+
+            } else {
+
+                await document.exitFullscreen();
+
+            }
+
+        } catch (error) {
+
+            console.error('Fullscreen Error:', error);
+
+        }
+
+    });
+
+    document.addEventListener('fullscreenchange', function() {
+
+        const isFullscreen = !!document.fullscreenElement;
+
+        fullscreenIcon.classList.toggle('fa-expand', !isFullscreen);
+        fullscreenIcon.classList.toggle('fa-compress', isFullscreen);
+
+    });
+
+});
+</script>

@@ -7,19 +7,44 @@
 
 <div class="space-y-6">
 
-    {{-- HEADER --}}
-    <div class="bg-white border rounded-md shadow-sm p-5 flex justify-between items-center">
-        <div>
-            <h2 class="text-lg font-black text-slate-700">Người dùng đã xóa</h2>
-            <p class="text-sm text-slate-500 mt-1">
-                Danh sách tài khoản đã bị xóa mềm
-            </p>
+    <!-- PAGE HEADER -->
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm p-6">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+            <div>
+
+                <h2 class="text-2xl font-extrabold text-slate-900">
+                    Người dùng đã xóa
+                </h2>
+
+                <p class="mt-2 text-sm font-medium text-slate-500">
+                    Danh sách các tài khoản đã bị xóa mềm và có thể khôi phục.
+                </p>
+
+            </div>
+
+            <a href="{{ route('admin.users.index') }}" class="inline-flex items-center gap-2
+            h-11
+            px-5
+            rounded-xl
+            border border-slate-300
+            bg-white
+            text-slate-700
+            text-sm
+            font-semibold
+            transition-all duration-300
+            hover:bg-slate-900
+            hover:text-white">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Quay lại
+
+            </a>
+
         </div>
 
-        <a href="{{ route('admin.users.index') }}"
-            class="px-4 py-2 bg-white border rounded-md text-slate-600 text-sm font-black hover:bg-slate-100">
-            ← Quay lại
-        </a>
     </div>
 
     {{-- BULK FORM --}}
@@ -28,42 +53,83 @@
     </form>
 
     {{-- TABLE --}}
-    <div class="bg-white border rounded-md shadow-sm overflow-hidden">
+    <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
 
-        <div class="p-4 border-b flex justify-between items-center">
-            <span class="font-black text-slate-600">
+        <div class="px-6 py-5 border-b border-slate-200 flex items-center justify-between">
+
+            <span class="inline-flex items-center
+        px-4 py-2
+        rounded-full
+        bg-amber-50
+        border border-amber-200
+        text-amber-700
+        text-sm
+        font-semibold">
+
                 {{ $users->total() }} tài khoản
+
             </span>
 
-            <button type="submit" form="restore-multiple-form" id="restore-selected-btn" disabled
-                class="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-md text-sm font-black opacity-50">
-                Khôi phục đã chọn
-            </button>
-        </div>
+            <button type="submit" form="restore-multiple-form" id="restore-selected-btn" disabled class="inline-flex items-center gap-2
+            h-11
+            px-5
+            rounded-xl
+            bg-emerald-500
+            text-white
+            text-sm
+            font-semibold
+            opacity-50
+            transition-all duration-300
+            disabled:cursor-not-allowed">
 
+                <i class="fa-solid fa-rotate-left"></i>
+
+                Khôi phục đã chọn
+
+            </button>
+
+        </div>
         <table class="w-full">
-            <thead class="bg-slate-50 text-xs text-slate-500">
+            <thead class="bg-slate-50 border-b border-slate-200">
+
                 <tr>
-                    <th class="p-3">
-                        <input type="checkbox" id="check-all">
+
+                    <th class="px-6 py-4 w-14 text-center">
+                        <input type="checkbox" id="check-all"
+                            class="w-5 h-5 rounded border-slate-300 accent-amber-500 cursor-pointer">
                     </th>
-                    <th class="p-3">Người dùng</th>
-                    <th class="p-3">Email</th>
-                    <th class="p-3">Role</th>
-                    <th class="p-3">Xóa lúc</th>
-                    <th class="p-3 text-right">Hành động</th>
+
+
+                    <th class="px-6 py-4 text-left text-xs uppercase tracking-wide font-semibold text-slate-500">
+                        Người dùng
+                    </th>
+
+                    <th class="px-6 py-4 text-left text-xs uppercase tracking-wide font-semibold text-slate-500">
+                        Email
+                    </th>
+
+                    <th class="px-6 py-4 text-left text-xs uppercase tracking-wide font-semibold text-slate-500">
+                        Vai trò
+                    </th>
+
+                    <th class="px-6 py-4 text-left text-xs uppercase tracking-wide font-semibold text-slate-500">
+                        Xóa lúc
+                    </th>
+
+                    <th class="px-6 py-4 text-right text-xs uppercase tracking-wide font-semibold text-slate-500">
+                        Hành động
+                    </th>
+
                 </tr>
             </thead>
-
             <tbody>
                 @forelse($users as $user)
-                <tr class="border-t">
-
-                    <td class="p-3">
-                        <input type="checkbox" class="user-checkbox" name="user_ids[]" value="{{ $user->user_id }}"
-                            form="restore-multiple-form">
+                <tr class="border-t border-slate-100 hover:bg-slate-50 transition-all duration-300">
+                    <td class="px-6 py-5 w-14 text-center">
+                        <input type="checkbox"
+                            class="user-checkbox w-5 h-5 rounded border-slate-300 accent-amber-500 cursor-pointer"
+                            name="user_ids[]" value="{{ $user->user_id }}" form="restore-multiple-form">
                     </td>
-
                     <td class="p-3">
                         <div class="flex items-center gap-3">
                             <img src="{{ $user->avatar ? asset('storage/'.$user->avatar)
@@ -71,20 +137,38 @@
                                 class="w-10 h-10 rounded-md">
 
                             <div>
-                                <p class="font-black">{{ $user->full_name }}</p>
-                                <p class="text-xs text-slate-400">{{ '@'.$user->username }}</p>
+                                <p class="text-sm font-bold text-slate-800">
+                                    {{ $user->full_name }}
+                                </p>
+
+                                <p class="mt-1 text-xs text-slate-500">
+                                    {{ '@'.$user->username }}
+                                </p>
                             </div>
                         </div>
                     </td>
 
-                    <td class="p-3 text-sm text-slate-600">{{ $user->email }}</td>
+                    <td class="px-6 py-5 text-sm font-medium text-slate-700">{{ $user->email }}</td>
 
-                    <td class="p-3">
-                        {{ $user->role->role_name ?? '-' }}
+                    <td class="px-6 py-5">
+
+                        <span class="inline-flex items-center
+                    px-3 py-1
+                    rounded-full
+                    bg-slate-100
+                    text-slate-700
+                    text-xs
+                    font-semibold">
+
+                            {{ $user->role->role_name ?? '-' }}
+
+                        </span>
+
                     </td>
+                    <td class="px-6 py-5 text-sm font-medium text-slate-500">
 
-                    <td class="p-3 text-sm text-slate-500">
                         {{ $user->deleted_at }}
+
                     </td>
 
                     <td class="p-3 text-right">
@@ -95,9 +179,21 @@
                             @csrf
                             @method('PATCH')
 
-                            <button type="submit"
-                                class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-md text-sm font-black">
+                            <button type="submit" class="inline-flex items-center gap-2
+                            px-4
+                            py-2
+                            rounded-xl
+                            bg-emerald-500
+                            text-white
+                            text-sm
+                            font-semibold
+                            transition-all duration-300
+                            hover:bg-emerald-600">
+
+                                <i class="fa-solid fa-rotate-left"></i>
+
                                 Khôi phục
+
                             </button>
                         </form>
 
@@ -106,8 +202,29 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-center p-10 text-slate-500">
-                        Không có dữ liệu
+                    <td colspan="6" class="py-16 text-center">
+
+                        <div class="mx-auto w-16 h-16 rounded-2xl
+                            bg-slate-100
+                            flex items-center justify-center
+                            text-slate-400">
+
+                            <i class="fa-solid fa-users text-2xl"></i>
+
+                        </div>
+
+                        <h3 class="mt-5 text-lg font-bold text-slate-700">
+
+                            Không có người dùng đã xóa
+
+                        </h3>
+
+                        <p class="mt-2 text-sm text-slate-500">
+
+                            Danh sách hiện đang trống.
+
+                        </p>
+
                     </td>
                 </tr>
                 @endforelse
