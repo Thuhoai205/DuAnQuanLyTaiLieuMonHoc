@@ -220,16 +220,16 @@
 
 
                         <a href="{{ route('documents.index') }}" class="inline-flex items-center gap-2
-    rounded-xl
-    border border-slate-300
-    bg-white
-    px-5 py-3
-    text-sm
-    font-medium
-    text-slate-700
-    transition-all duration-300
-    hover:border-slate-400
-    hover:bg-slate-100">
+                    rounded-xl
+                    border border-slate-300
+                    bg-white
+                    px-5 py-3
+                    text-sm
+                    font-medium
+                    text-slate-700
+                    transition-all duration-300
+                    hover:border-slate-400
+                    hover:bg-slate-100">
 
                             <i class="fa-solid fa-rotate-left text-sm"></i>
 
@@ -602,51 +602,105 @@
 </main>
 <!-- LOGIN REQUIRED MODAL -->
 <div id="loginRequiredModal"
-    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/50 backdrop-blur-sm px-4">
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm px-4">
 
-    <div class="w-full max-w-md rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-2xl">
+    <div class="w-full max-w-md overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl">
 
-        <!-- ICON -->
-        <div
-            class="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-slate-200 bg-slate-100">
+        <!-- HEADER -->
+        <div class="border-b border-slate-200 bg-slate-50 px-8 py-8 text-center">
 
-            <i class="fa-solid fa-lock text-3xl text-amber-500"></i>
+            <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-amber-50">
+
+                <i class="fa-solid fa-lock text-3xl text-amber-500"></i>
+
+            </div>
+
+            <h2 class="mt-6 text-2xl font-black text-slate-800">
+
+                Yêu cầu đăng nhập
+
+            </h2>
+
+            <p class="mt-3 text-sm leading-7 text-slate-500">
+
+                Bạn cần đăng nhập để có thể tải xuống tài liệu học tập và
+                sử dụng đầy đủ các chức năng của hệ thống.
+
+            </p>
 
         </div>
 
-        <!-- TITLE -->
-        <h3 class="text-2xl font-bold text-slate-900">
+        <!-- CONTENT -->
+        <div class="px-8 py-6">
 
-            Yêu cầu đăng nhập
+            <div class="flex items-start gap-3 rounded-2xl border border-amber-100 bg-amber-50 p-4">
 
-        </h3>
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white">
 
-        <!-- DESCRIPTION -->
-        <p class="mt-3 leading-7 text-slate-500">
+                    <i class="fa-solid fa-circle-info text-amber-500"></i>
 
-            Bạn cần đăng nhập để tải tài liệu học tập.
-            Vui lòng đăng nhập để tiếp tục.
+                </div>
 
-        </p>
+                <div>
 
-        <!-- BUTTON -->
-        <div class="mt-8 flex items-center justify-center gap-3">
+                    <h4 class="text-sm font-bold text-slate-800">
 
-            <!-- Close -->
-            <button onclick="closeLoginRequiredModal()"
-                class="rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-100">
+                        Thông tin
 
-                Đóng
+                    </h4>
 
-            </button>
+                    <p class="mt-1 text-sm leading-6 text-slate-600">
 
-            <!-- Login -->
-            <a href="{{ route('login') }}"
-                class="rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-amber-500">
+                        Sau khi đăng nhập, bạn có thể tải tài liệu,
+                        lưu lịch sử tải xuống và truy cập đầy đủ các tài nguyên học tập.
 
-                Đăng nhập
+                    </p>
 
-            </a>
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="mt-8 flex gap-3">
+
+                <!-- CLOSE -->
+                <button type="button" onclick="closeLoginRequiredModal()" class="flex-1
+                    rounded-xl
+                    border
+                    border-slate-200
+                    bg-white
+                    py-3
+                    text-sm
+                    font-bold
+                    text-slate-700
+                    hover:bg-slate-50
+                    transition-all
+                    duration-300">
+
+                    Đóng
+
+                </button>
+
+                <!-- LOGIN -->
+                <a href="{{ route('login') }}" class="flex-1
+                    rounded-xl
+                    bg-amber-500
+                    py-3
+                    text-center
+                    text-sm
+                    font-bold
+                    text-white
+                    hover:bg-amber-600
+                    transition-all
+                    duration-300">
+
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i>
+
+                    Đăng nhập
+
+                </a>
+
+            </div>
 
         </div>
 

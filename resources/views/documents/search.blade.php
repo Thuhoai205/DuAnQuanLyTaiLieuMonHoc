@@ -45,8 +45,8 @@
 
         <!-- BG -->
         <div class="absolute inset-0 opacity-50">
-            <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
-                class="w-full h-full object-cover">
+            <img src="{{ asset('img/02.jpg') }}" alt="Educational Resources Banner"
+                class="w-full h-full object-cover opacity-60">
         </div>
         <div class="absolute inset-0 bg-black/30"></div>
 
@@ -98,13 +98,13 @@
             </p>
             <!-- SEARCH -->
             <div class="banner-subtitle mt-10
-    bg-white/95
-    backdrop-blur-xl
-    rounded-[2rem]
-    p-5
-    border border-slate-200
-    shadow-xl">
-                <form id="sortForm" action="{{ route('documents.search') }}" method="GET"
+                            bg-white/95
+                            backdrop-blur-xl
+                            rounded-[2rem]
+                            p-5
+                            border border-slate-200
+                            shadow-xl">
+                <form id="searchForm" action="{{ route('documents.search') }}" method="GET"
                     class="grid grid-cols-1 lg:grid-cols-12 gap-4">
                     <!-- Từ khóa -->
                     <div class="lg:col-span-4 relative">
@@ -114,31 +114,31 @@
 
                         <input type="text" name="keyword" value="{{ request('keyword') }}"
                             placeholder="Tên tài liệu, môn học..." class="w-full h-14
-    pl-14 pr-4
-    rounded-2xl
-    bg-white
-    border border-slate-200
-    text-slate-700
-    font-semibold
-    placeholder:text-slate-400
-    focus:outline-none
-    focus:border-amber-400
-    focus:ring-4
-    focus:ring-amber-100">
+                            pl-14 pr-4
+                            rounded-2xl
+                            bg-white
+                            border border-slate-200
+                            text-slate-700
+                            font-semibold
+                            placeholder:text-slate-400
+                            focus:outline-none
+                            focus:border-amber-400
+                            focus:ring-4
+                            focus:ring-amber-100">
                     </div>
 
                     <!-- Môn học -->
                     <div class="lg:col-span-2">
 
                         <select name="subject_code" class="w-full h-14 px-5 rounded-2xl
-bg-white
-border border-slate-200
-text-slate-700
-font-semibold
-focus:outline-none
-focus:border-amber-400
-focus:ring-4
-focus:ring-amber-100">
+                        bg-white
+                        border border-slate-200
+                        text-slate-700
+                        font-semibold
+                        focus:outline-none
+                        focus:border-amber-400
+                        focus:ring-4
+                        focus:ring-amber-100">
 
                             <option value="">Tất cả môn học</option>
 
@@ -161,14 +161,14 @@ focus:ring-amber-100">
                     <div class="lg:col-span-2">
 
                         <select name="document_type_id" class="w-full h-14 px-5 rounded-2xl
-bg-white
-border border-slate-200
-text-slate-700
-font-semibold
-focus:outline-none
-focus:border-amber-400
-focus:ring-4
-focus:ring-amber-100">
+                        bg-white
+                        border border-slate-200
+                        text-slate-700
+                        font-semibold
+                        focus:outline-none
+                        focus:border-amber-400
+                        focus:ring-4
+                        focus:ring-amber-100">
 
                             <option value="">Loại tài liệu</option>
 
@@ -191,14 +191,14 @@ focus:ring-amber-100">
                     <div class="lg:col-span-2">
 
                         <select name="faculty_id" class="w-full h-14 px-5 rounded-2xl
-bg-white
-border border-slate-200
-text-slate-700
-font-semibold
-focus:outline-none
-focus:border-amber-400
-focus:ring-4
-focus:ring-amber-100">
+                        bg-white
+                        border border-slate-200
+                        text-slate-700
+                        font-semibold
+                        focus:outline-none
+                        focus:border-amber-400
+                        focus:ring-4
+                        focus:ring-amber-100">
 
                             <option value="">Tất cả khoa</option>
 
@@ -221,13 +221,13 @@ focus:ring-amber-100">
                     <div class="lg:col-span-2">
 
                         <button type="submit" class="w-full h-14
-    rounded-2xl
-    bg-slate-900
-    hover:bg-amber-500
-    text-white
-    font-bold
-    shadow-lg
-    transition-all duration-300">
+                            rounded-2xl
+                            bg-slate-900
+                            hover:bg-amber-500
+                            text-white
+                            font-bold
+                            shadow-lg
+                            transition-all duration-300">
 
                             <i class="fa-solid fa-magnifying-glass mr-2"></i>
 
@@ -476,7 +476,6 @@ focus:ring-amber-100">
 
                         </div>
 
-                        <!-- BUTTON -->
                         <!-- ACTION -->
                         <div class="flex items-center gap-2 flex-wrap justify-end">
 
@@ -687,8 +686,118 @@ focus:ring-amber-100">
 
     </section>
 </main>
-@endsection
+<!-- LOGIN REQUIRED MODAL -->
+<div id="loginRequiredModal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm">
 
+    <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl">
+
+        <!-- HEADER -->
+        <div class="px-8 py-7 border-b border-slate-200 bg-slate-50">
+
+            <div class="mx-auto w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center">
+
+                <i class="fa-solid fa-lock text-2xl text-amber-500"></i>
+
+            </div>
+
+            <h2 class="mt-5 text-center text-2xl font-black text-slate-800">
+
+                Yêu cầu đăng nhập
+
+            </h2>
+
+            <p class="mt-2 text-center text-sm text-slate-500 leading-6">
+
+                Bạn cần đăng nhập để có thể tải xuống tài liệu này.
+
+            </p>
+
+        </div>
+
+        <!-- CONTENT -->
+        <div class="px-8 py-6">
+
+            <div class="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+
+                <div class="flex items-start gap-3">
+
+                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
+
+                        <i class="fa-solid fa-circle-info text-amber-500"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4 class="font-bold text-slate-800">
+
+                            Tại sao cần đăng nhập?
+
+                        </h4>
+
+                        <p class="mt-1 text-sm text-slate-600 leading-6">
+
+                            Sau khi đăng nhập, bạn có thể tải tài liệu, lưu lịch sử tải xuống
+                            và sử dụng đầy đủ các chức năng của hệ thống.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="mt-8 flex gap-3">
+
+                <button type="button" onclick="closeLoginRequiredModal()" class="flex-1
+                    h-11
+                    rounded-xl
+                    border
+                    border-slate-200
+                    bg-white
+                    text-slate-700
+                    text-sm
+                    font-bold
+                    hover:bg-slate-50
+                    transition-all
+                    duration-300">
+
+                    Đóng
+
+                </button>
+
+                <a href="{{ route('login') }}" class="flex-1
+                    h-11
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    text-sm
+                    font-bold
+                    flex
+                    items-center
+                    justify-center
+                    hover:bg-amber-600
+                    transition-all
+                    duration-300">
+
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i>
+
+                    Đăng nhập
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@endsection
+@push('scripts')
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -882,3 +991,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 </script>
+@endpush

@@ -3,69 +3,156 @@
 @section('title', 'Đăng tải tài liệu')
 
 @section('content')
-
 <div class="min-h-screen bg-slate-50 py-12">
 
+    <div class="mx-auto max-w-6xl px-6">
 
-    <div class="max-w-5xl mx-auto px-6">
+        <!-- PAGE HEADER -->
+        <section class="mb-8 overflow-hidden rounded-3xl border border-amber-200 bg-amber-500 shadow-lg">
 
-        <!-- HEADER -->
-        <div class="mb-8">
+            <div class="flex flex-col gap-8 px-10 py-8 lg:flex-row lg:items-center lg:justify-between">
 
-            <div class="flex items-center gap-4">
+                <!-- LEFT -->
+                <div class="flex items-center gap-5">
 
-                <div
-                    class="w-14 h-14 rounded-2xl bg-cyan-500 text-white flex items-center justify-center shadow-lg shadow-cyan-200">
+                    <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-white shadow-md">
 
-                    <i class="fa-solid fa-cloud-arrow-up text-xl"></i>
+                        <i class="fa-solid fa-cloud-arrow-up text-3xl text-amber-500"></i>
+
+                    </div>
+
+                    <div>
+
+                        <span
+                            class="inline-flex items-center rounded-full bg-white/20 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-white">
+
+                            QUẢN LÝ TÀI LIỆU
+
+                        </span>
+
+                        <h1 class="mt-3 text-3xl font-black text-white">
+
+                            Đăng tải tài liệu
+
+                        </h1>
+
+                        <p class="mt-2 max-w-2xl text-sm leading-6 text-amber-50">
+
+                            Thêm tài liệu mới vào hệ thống để chia sẻ với sinh viên
+                            thuộc các môn học được phân công giảng dạy.
+
+                        </p>
+
+                    </div>
 
                 </div>
 
-                <div>
+                <!-- RIGHT -->
+                <div class="rounded-2xl border border-white/20 bg-white/10 px-6 py-4 backdrop-blur-sm">
 
-                    <h1 class="text-4xl font-black text-cyan-950">
-                        Đăng tải tài liệu
-                    </h1>
+                    <div class="flex items-center gap-4">
 
-                    <p class="text-slate-500 font-medium mt-1">
-                        Tải lên học liệu cho các môn học bạn được phân công giảng dạy.
-                    </p>
+                        <div class="flex h-12 w-12 items-center justify-center rounded-xl bg-white">
+
+                            <i class="fa-solid fa-file-arrow-up text-amber-500"></i>
+
+                        </div>
+
+                        <div>
+
+                            <p class="text-xs font-bold uppercase tracking-widest text-amber-100">
+
+                                Trạng thái
+
+                            </p>
+
+                            <p class="mt-1 text-sm font-semibold text-white">
+
+                                Sẵn sàng tải lên
+
+                            </p>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
         <!-- SUCCESS -->
         @if(session('success'))
-        <div class="mb-6 bg-green-50 border border-green-200 text-green-700 rounded-2xl p-4">
-            {{ session('success') }}
+
+        <div class="mb-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-5 py-4 text-emerald-700 shadow-sm">
+
+            <div class="flex items-center gap-3">
+
+                <i class="fa-solid fa-circle-check text-lg"></i>
+
+                <span class="font-semibold">
+
+                    {{ session('success') }}
+
+                </span>
+
+            </div>
+
         </div>
+
         @endif
 
         <!-- ERROR -->
         @if($errors->any())
-        <div class="mb-6 bg-red-50 border border-red-200 rounded-2xl p-5">
 
-            <h5 class="font-bold text-red-600 mb-3">
-                Có lỗi xảy ra:
-            </h5>
+        <div class="mb-6 rounded-2xl border border-red-200 bg-red-50 px-6 py-5 shadow-sm">
 
-            <ul class="list-disc pl-5 text-red-500 space-y-1">
+            <div class="flex items-center gap-3 mb-3">
+
+                <i class="fa-solid fa-circle-exclamation text-red-500"></i>
+
+                <h4 class="font-black text-red-600">
+
+                    Không thể đăng tải tài liệu
+
+                </h4>
+
+            </div>
+
+            <ul class="space-y-2 text-sm text-red-500">
 
                 @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
+
+                <li>• {{ $error }}</li>
+
                 @endforeach
 
             </ul>
 
         </div>
+
         @endif
 
         <!-- FORM -->
-        <div
-            class="bg-white rounded-[32px] border border-cyan-100 shadow-[0_20px_60px_rgba(8,145,178,0.12)] overflow-hidden">
+        <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+
+            <!-- HEADER -->
+            <div class="border-b border-slate-200 bg-slate-50 px-8 py-6">
+
+                <h2 class="text-2xl font-black text-slate-800">
+
+                    Thông tin tài liệu
+
+                </h2>
+
+                <p class="mt-2 text-sm text-slate-500">
+
+                    Nhập đầy đủ thông tin trước khi tải tài liệu lên hệ thống.
+
+                </p>
+
+            </div>
 
             <div class="p-8">
 
@@ -73,38 +160,59 @@
 
                     @csrf
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
 
-                        <!-- TÊN TÀI LIỆU -->
+                        <!-- TÊN -->
                         <div class="md:col-span-2">
 
+                            <label class="mb-2 block text-sm font-bold text-slate-700">
 
-                            <label class="block text-sm font-black text-slate-700 mb-2">
-                                Tên tài liệu
+                                Tiêu đề tài liệu
+                                <span class="text-red-500">*</span>
+
                             </label>
 
-                            <input type="text" name="title" value="{{ old('title') }}" class="w-full rounded-2xl border px-5 py-4
-                            @error('title') border-red-400 @else border-cyan-100 @enderror
-                            focus:ring-2 focus:ring-cyan-400">
+                            <input type="text" name="title" required value="{{ old('title') }}"
+                                placeholder="Nhập tiêu đề tài liệu..." class="h-12 w-full rounded-xl border
+                                @error('title')
+                                    border-red-400
+                                @else
+                                    border-slate-200
+                                @enderror
+                                bg-slate-50 px-4 text-slate-700 font-medium
+                                placeholder:text-slate-400
+                                focus:border-amber-500
+                                focus:bg-white
+                                focus:ring-4
+                                focus:ring-amber-100
+                                outline-none transition">
+
                         </div>
-                        <!-- MÔN HỌC -->
+
+                        <!-- SUBJECT -->
                         <div>
 
-                            <label class="block text-sm font-black text-slate-700 mb-2">
-                                Môn học <span class="text-red-500">*</span>
+                            <label class="mb-2 block text-sm font-bold text-slate-700">
+
+                                Môn học
+                                <span class="text-red-500">*</span>
+
                             </label>
 
-                            <select name="subject_code"
-                                class="w-full rounded-2xl border border-cyan-100 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+                            <select name="subject_code" required class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 font-medium
+                                text-slate-700 focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-100
+                                outline-none">
 
                                 <option value="">
+
                                     -- Chọn môn học --
+
                                 </option>
 
                                 @foreach($subjects as $subject)
 
-                                <option value="{{ $subject->subject_code }}"
-                                    {{ old('subject_code') == $subject->subject_code ? 'selected' : '' }}>
+                                <option value="{{ $subject->subject_code }}" @selected(old('subject_code')==$subject->
+                                    subject_code)>
 
                                     {{ $subject->subject_name }}
 
@@ -116,24 +224,30 @@
 
                         </div>
 
-                        <!-- LOẠI TÀI LIỆU -->
+                        <!-- DOCUMENT TYPE -->
                         <div>
 
-                            <label class="block text-sm font-black text-slate-700 mb-2">
+                            <label class="mb-2 block text-sm font-bold text-slate-700">
+
                                 Loại tài liệu
+                                <span class="text-red-500">*</span>
+
                             </label>
 
-                            <select name="document_type_id"
-                                class="w-full rounded-2xl border border-cyan-100 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+                            <select name="document_type_id" required class="h-12 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 font-medium
+                                text-slate-700 focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-100
+                                outline-none">
 
                                 <option value="">
+
                                     -- Chọn loại tài liệu --
+
                                 </option>
 
                                 @foreach($documentTypes as $type)
 
-                                <option value="{{ $type->document_type_id }}"
-                                    {{ old('document_type_id') == $type->document_type_id ? 'selected' : '' }}>
+                                <option value="{{ $type->document_type_id }}" @selected(old('document_type_id')==$type->
+                                    document_type_id)>
 
                                     {{ $type->type_name }}
 
@@ -145,49 +259,72 @@
 
                         </div>
 
-                        <!-- MÔ TẢ -->
+                        <!-- DESCRIPTION -->
                         <div class="md:col-span-2">
 
-                            <label class="block text-sm font-black text-slate-700 mb-2">
-                                Mô tả
+                            <label class="mb-2 block text-sm font-bold text-slate-700">
+
+                                Mô tả tài liệu
+
                             </label>
 
-                            <textarea rows="5" name="description" placeholder="Nhập mô tả ngắn về tài liệu..."
-                                class="w-full rounded-2xl border border-cyan-100 px-5 py-4 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ old('description') }}</textarea>
+                            <textarea name="description" rows="5" placeholder="Nhập mô tả ngắn về tài liệu..."
+                                class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 font-medium text-slate-700 placeholder:text-slate-400 focus:border-amber-500 focus:bg-white focus:ring-4 focus:ring-amber-100 outline-none resize-none transition">{{ old('description') }}</textarea>
 
                         </div>
 
-                        <!-- FILE -->
+                        <!-- FILE TÀI LIỆU -->
                         <div class="md:col-span-2">
 
-                            <label class="block text-sm font-black text-slate-700 mb-3">
-                                File tài liệu
+                            <label class="mb-3 block text-sm font-bold text-slate-700">
+
+                                Tệp tài liệu
+                                <span class="text-red-500">*</span>
+
                             </label>
 
                             <label
-                                class="flex flex-col items-center justify-center border-2 border-dashed border-cyan-200 bg-cyan-50 rounded-[28px] p-10 cursor-pointer hover:bg-cyan-100 transition">
-
-                                <div
-                                    class="w-20 h-20 rounded-full bg-cyan-500 text-white flex items-center justify-center mb-5">
-
-                                    <i class="fa-solid fa-file-arrow-up text-3xl"></i>
-
-                                </div>
-
-                                <h4 class="font-black text-cyan-700 text-lg">
-                                    Chọn file để tải lên
-                                </h4>
-
-                                <p class="text-slate-500 text-sm mt-2">
-                                    PDF, DOCX, XLSX, PPTX, ZIP...
-                                </p>
+                                class="group flex cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-amber-200 bg-amber-50 px-8 py-10 transition-all duration-300 hover:border-amber-400 hover:bg-amber-100">
 
                                 <input id="fileInput" type="file" name="file" required
                                     accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip" class="hidden">
 
-                                <span id="fileName" class="mt-4 text-sm font-semibold text-cyan-600">
-                                    Chưa chọn file
-                                </span>
+                                <!-- ICON -->
+                                <div
+                                    class="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-amber-500 text-white shadow-lg shadow-amber-200 transition group-hover:scale-105">
+
+                                    <i class="fa-solid fa-cloud-arrow-up text-3xl"></i>
+
+                                </div>
+
+                                <!-- TITLE -->
+                                <h3 class="text-lg font-black text-slate-800">
+
+                                    Chọn tệp để tải lên
+
+                                </h3>
+
+                                <!-- DESC -->
+                                <p class="mt-2 text-center text-sm text-slate-500">
+
+                                    Hỗ trợ:
+                                    <span class="font-semibold">
+
+                                        PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, ZIP
+
+                                    </span>
+
+                                </p>
+
+                                <!-- FILE NAME -->
+                                <div id="fileName"
+                                    class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2 text-sm font-bold text-amber-600 shadow-sm">
+
+                                    <i class="fa-solid fa-file"></i>
+
+                                    Chưa chọn tệp
+
+                                </div>
 
                             </label>
 
@@ -195,24 +332,32 @@
 
                     </div>
 
-                    <!-- BUTTON -->
-                    <div class="mt-8 flex justify-end gap-4">
+                    <!-- ACTION -->
+                    <div class="mt-10 border-t border-slate-200 pt-6">
 
-                        <a href="{{ url()->previous() }}"
-                            class="px-6 py-3 rounded-2xl border border-slate-300 font-bold text-slate-600 hover:bg-slate-100">
+                        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
 
-                            Hủy
+                            <!-- CANCEL -->
+                            <a href="{{ url()->previous() }}"
+                                class="inline-flex h-11 items-center justify-center rounded-xl border border-slate-200 bg-white px-6 text-sm font-bold text-slate-700 transition-all duration-300 hover:border-slate-300 hover:bg-slate-100">
 
-                        </a>
+                                <i class="fa-solid fa-arrow-left mr-2"></i>
 
-                        <button type="submit"
-                            class="px-8 py-3 rounded-2xl bg-cyan-500 hover:bg-cyan-600 text-white font-black shadow-lg shadow-cyan-200">
+                                Quay lại
 
-                            <i class="fa-solid fa-cloud-arrow-up mr-2"></i>
+                            </a>
 
-                            Đăng tải tài liệu
+                            <!-- SAVE -->
+                            <button type="submit"
+                                class="inline-flex h-11 items-center justify-center rounded-xl bg-amber-500 px-7 text-sm font-bold text-white shadow-lg shadow-amber-200 transition-all duration-300 hover:bg-amber-600">
 
-                        </button>
+                                <i class="fa-solid fa-cloud-arrow-up mr-2"></i>
+
+                                Đăng tải tài liệu
+
+                            </button>
+
+                        </div>
 
                     </div>
 
@@ -224,20 +369,34 @@
 
     </div>
 
-
 </div>
 
-<script>
-document
-    .getElementById('fileInput')
-    .addEventListener('change', function() {
 
-        const fileName = this.files && this.files.length ?
-            this.files[0].name :
-            'Chưa chọn file';
-
-        document.getElementById('fileName').innerText = fileName;
-    });
-</script>
 
 @endsection
+@push('scripts')
+<script>
+const input = document.getElementById('fileInput');
+const fileName = document.getElementById('fileName');
+
+input.addEventListener('change', function() {
+
+    if (this.files.length > 0) {
+
+        fileName.innerHTML = `
+            <i class="fa-solid fa-file-circle-check text-emerald-500"></i>
+            ${this.files[0].name}
+        `;
+
+    } else {
+
+        fileName.innerHTML = `
+            <i class="fa-solid fa-file"></i>
+            Chưa chọn tệp
+        `;
+
+    }
+
+});
+</script>
+@endpush

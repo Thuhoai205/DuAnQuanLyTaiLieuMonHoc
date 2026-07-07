@@ -42,8 +42,8 @@
      <!-- HERO BANNER: Khối banner ảnh nền chứa chữ "Giới thiệu" giống hệt image_5ea826.jpg -->
      <div class="relative w-full h-[260px] md:h-[320px] overflow-hidden">
          <!-- Ảnh nền (Đã được thay bằng hình ảnh thư viện học thuật/công nghệ số hiện đại) -->
-         <img src="https://i.pinimg.com/1200x/96/d3/c9/96d3c90189af11a192ba76519fb7cf2a.jpg"
-             alt="Educational Resources Banner" class="w-full h-full object-cover opacity-60">
+         <img src="{{ asset('img/02.jpg') }}" alt="Educational Resources Banner"
+             class="w-full h-full object-cover opacity-60">
 
          <!-- Lớp phủ tối (Overlay) để làm nổi bật chữ trắng phía trên giống hình mẫu -->
          <div class="absolute inset-0 bg-black/30"></div>
@@ -210,7 +210,7 @@
                      <!-- Header -->
                      <div class="flex items-start justify-between gap-4 mb-6">
                          @php
-                         $documentCount = $subject->documents_count ?? 0;
+                         $documentCount = $subject->faculty_count ?? 0;
                          $teacherCount = $subject->lecturers->count();
                          $active = $subject->status === 'active';
                          $colorMap = [
@@ -256,12 +256,17 @@
                      <div class="mt-6 grid grid-cols-2 gap-3">
 
                          <div class="rounded-2xl bg-slate-50 border border-slate-200 p-4">
-                             <p class="text-2xl font-black text-amber-950">
+
+                             <p class="text-2xl font-black text-amber-600">
+
                                  {{ $subject->documents_count }}
+
                              </p>
 
-                             <p class="text-xs font-bold text-slate-900 mt-1">
+                             <p class="mt-1 text-xs font-bold text-slate-500">
+
                                  Tài liệu
+
                              </p>
 
                          </div>
@@ -283,9 +288,9 @@
                      <div class="mt-7 flex items-center justify-between">
 
                          <span class="text-xs font-black uppercase tracking-wider
-                 {{ $subject->documents_count > 0 ? 'text-emerald-600' : 'text-red-500' }}">
+                 {{ $subject->faculty_count > 0 ? 'text-emerald-600' : 'text-red-500' }}">
 
-                             {{ $subject->documents_count > 0 ? 'Có tài liệu' : 'Chưa có tài liệu' }}
+                             {{ $subject->faculty_count > 0 ? 'Có tài liệu' : 'Chưa có tài liệu' }}
 
                          </span>
 

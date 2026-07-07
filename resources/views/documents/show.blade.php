@@ -166,19 +166,20 @@
 
                 @else
 
-                <button onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
-                px-6 py-3
-                rounded-2xl
-                border border-slate-300
-                bg-white
-                text-slate-700
-                font-bold
-                transition-all duration-300
-                hover:border-amber-300
-                hover:bg-amber-50
-                hover:text-amber-600">
+                <button type="button" onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
+                    rounded-xl
+                    border border-slate-300
+                    bg-white
+                    px-4 py-2
+                    text-sm font-semibold
+                    text-slate-700
+                    transition-all duration-300
+                    hover:border-yellow-600
+                    hover:bg-yellow-50
+                    hover:text-yellow-700
+                    shadow-sm">
 
-                    <i class="fa-solid fa-lock"></i>
+                    <i class="fa-solid fa-lock text-xs"></i>
 
                     Đăng nhập để tải
 
@@ -724,19 +725,159 @@
         </section>
     </div>
 </main>
-@endsection
-<script>
-function showLoginRequiredModal() {
-    const modal = document.getElementById('loginRequiredModal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-}
+<!-- LOGIN REQUIRED MODAL -->
+<div id="loginRequiredModal"
+    class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/60 backdrop-blur-sm">
 
-function closeLoginRequiredModal() {
+    <div class="w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl">
+
+        <!-- HEADER -->
+        <div class="px-8 py-7 border-b border-slate-200 bg-slate-50">
+
+            <div class="mx-auto w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center">
+
+                <i class="fa-solid fa-lock text-2xl text-amber-500"></i>
+
+            </div>
+
+            <h2 class="mt-5 text-center text-2xl font-black text-slate-800">
+
+                Yêu cầu đăng nhập
+
+            </h2>
+
+            <p class="mt-2 text-center text-sm text-slate-500 leading-6">
+
+                Bạn cần đăng nhập để có thể tải xuống tài liệu này.
+
+            </p>
+
+        </div>
+
+        <!-- CONTENT -->
+        <div class="px-8 py-6">
+
+            <div class="rounded-2xl border border-amber-100 bg-amber-50 p-4">
+
+                <div class="flex items-start gap-3">
+
+                    <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center">
+
+                        <i class="fa-solid fa-circle-info text-amber-500"></i>
+
+                    </div>
+
+                    <div>
+
+                        <h4 class="font-bold text-slate-800">
+
+                            Tại sao cần đăng nhập?
+
+                        </h4>
+
+                        <p class="mt-1 text-sm text-slate-600 leading-6">
+
+                            Sau khi đăng nhập, bạn có thể tải tài liệu, lưu lịch sử tải xuống
+                            và sử dụng đầy đủ các chức năng của hệ thống.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="mt-8 flex gap-3">
+
+                <button type="button" onclick="closeLoginRequiredModal()" class="flex-1
+                    h-11
+                    rounded-xl
+                    border
+                    border-slate-200
+                    bg-white
+                    text-slate-700
+                    text-sm
+                    font-bold
+                    hover:bg-slate-50
+                    transition-all
+                    duration-300">
+
+                    Đóng
+
+                </button>
+
+                <a href="{{ route('login') }}" class="flex-1
+                    h-11
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    text-sm
+                    font-bold
+                    flex
+                    items-center
+                    justify-center
+                    hover:bg-amber-600
+                    transition-all
+                    duration-300">
+
+                    <i class="fa-solid fa-right-to-bracket mr-2"></i>
+
+                    Đăng nhập
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+@endsection
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
     const modal = document.getElementById('loginRequiredModal');
-    modal.classList.remove('flex');
-    modal.classList.add('hidden');
-    document.body.style.overflow = 'auto';
-}
+
+    window.showLoginRequiredModal = function() {
+
+        if (!modal) return;
+
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        document.body.style.overflow = 'hidden';
+    }
+
+    window.closeLoginRequiredModal = function() {
+
+        if (!modal) return;
+
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+
+        document.body.style.overflow = '';
+    }
+
+    modal?.addEventListener('click', function(e) {
+
+        if (e.target === modal) {
+            closeLoginRequiredModal();
+        }
+
+    });
+
+    document.addEventListener('keydown', function(e) {
+
+        if (e.key === 'Escape') {
+            closeLoginRequiredModal();
+        }
+
+    });
+
+});
 </script>
+@endpush

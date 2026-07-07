@@ -44,7 +44,7 @@
 
         <!-- Ảnh nền môn học -->
         <div class="absolute inset-0">
-            <img src="{{ asset('img/subjects/' . $subject->thumbnail) }}" alt="{{ $subject->subject_name }}"
+            <img src="{{ $subject->thumbnail_url }}" alt="{{ $subject->subject_name }}"
                 class="w-full h-full object-cover">
         </div>
 
@@ -54,30 +54,30 @@
         <!-- Nội dung -->
         <div class="relative max-w-7xl mx-auto px-6 py-16">
             <a href="javascript:history.back()" class="inline-flex items-center gap-2
-    px-5 py-2.5
-    rounded-xl
+                px-5 py-2.5
+                rounded-xl
 
-    bg-white
-    border border-amber-300
+                bg-white
+                border border-amber-300
 
-    text-slate-800
-    text-sm
-    font-semibold
+                text-slate-800
+                text-sm
+                font-semibold
 
-    shadow-sm
-    transition-all duration-300
+                shadow-sm
+                transition-all duration-300
 
-    hover:bg-amber-500
-    hover:border-amber-500
-    hover:text-white
+                hover:bg-amber-500
+                hover:border-amber-500
+                hover:text-white
 
-    active:scale-95
+                active:scale-95
 
-    focus:outline-none
-    focus:ring-4
-    focus:ring-amber-200
+                focus:outline-none
+                focus:ring-4
+                focus:ring-amber-200
 
-    mb-8">
+                mb-8">
 
                 <i class="fa-solid fa-arrow-left"></i>
 
@@ -129,16 +129,16 @@
 
                 @if($canUploadDocument)
                 <button type="button" onclick="openSubjectUploadModal()" class="banner-title inline-flex items-center gap-2
-    px-7 py-4
-    rounded-2xl
-    bg-slate-900
-    text-white
-    font-bold
-    shadow-lg
-    transition-all duration-300
-    hover:bg-amber-500
-    hover:-translate-y-0.5
-    hover:shadow-xl">
+                    px-7 py-4
+                    rounded-2xl
+                    bg-slate-900
+                    text-white
+                    font-bold
+                    shadow-lg
+                    transition-all duration-300
+                    hover:bg-amber-500
+                    hover:-translate-y-0.5
+                    hover:shadow-xl">
 
                     <i class="fa-solid fa-cloud-arrow-up"></i>
 
@@ -236,17 +236,17 @@
 
                         <input type="text" id="documentSearch" onkeyup="searchDocuments()"
                             placeholder="Tìm kiếm môn học..." class="w-full
-        rounded-2xl
-        border
-        border-slate-200
-        py-4
-        pl-14
-        pr-5
-        text-slate-700
-        placeholder:text-slate-400
-        focus:border-amber-400
-        focus:ring-4
-        focus:ring-amber-100">
+                            rounded-2xl
+                            border
+                            border-slate-200
+                            py-4
+                            pl-14
+                            pr-5
+                            text-slate-700
+                            placeholder:text-slate-400
+                            focus:border-amber-400
+                            focus:ring-4
+                            focus:ring-amber-100">
 
                     </div>
 
@@ -482,48 +482,45 @@
 
                 @empty
 
+                <div class="col-span-full py-16 text-center">
 
-                <div id="emptyDocumentResult"
-                    class="rounded-3xl border border-slate-200 bg-white px-10 py-20 text-center shadow-sm">
+                    <div class="w-20 h-20 mx-auto rounded-full bg-amber-50 flex items-center justify-center">
 
-                    <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
-
-                        <i class="fa-solid fa-folder-open text-3xl text-slate-500"></i>
+                        <i class="fa-solid fa-book-open text-3xl text-amber-500"></i>
 
                     </div>
 
-                    <h3 class="mt-6 text-2xl font-bold text-slate-900">
-
-                        Không tìm thấy tài liệu
-
-                    </h3>
-
-                    <p class="mt-3 text-slate-500 leading-7">
-
-                        Không có tài liệu nào phù hợp với điều kiện tìm kiếm.
-
+                    <p class="mt-5 text-slate-500 font-bold">
+                        Môn học này chưa có tài liệu nào.
                     </p>
-
-                    <a href="{{ route('documents.index') }}"
-                        class="mt-8 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800 transition">
-
-                        <i class="fa-solid fa-rotate-left"></i>
-
-                        Xem tất cả tài liệu
-
-                    </a>
 
                 </div>
 
+
                 @endforelse
-                <!-- EMPTY -->
+
+            </div>
+            <!-- EMPTY -->
+
+            <div id="emptyDocumentResult" class="hidden col-span-full py-16 text-center">
+
+                <div class="w-20 h-20 mx-auto rounded-full bg-red-50 flex items-center justify-center">
+                    <i class="fa-solid fa-magnifying-glass text-3xl text-red-500"></i>
+                </div>
+
+                <h3 class="mt-5 text-xl font-black text-slate-800">
+                    Không tìm thấy tài liệu
+                </h3>
+
+                <p class="mt-2 text-sm text-slate-500">
+                    Không có tài liệu nào phù hợp với từ khóa bạn nhập.
+                </p>
 
             </div>
 
         </div>
 
         <!-- PAGINATION -->
-        @if($documents->hasPages())
         <div class="px-6 py-6 border-t border-slate-200">
 
             <div class="flex items-center justify-center gap-2">
@@ -598,11 +595,9 @@
             </div>
 
         </div>
-        @endif
     </section>
 </main>
 
-<!-- UPLOAD MODAL -->
 <!-- UPLOAD MODAL -->
 <div id="subjectUploadModal"
     class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
@@ -909,16 +904,6 @@
     </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-
 <!-- LOGIN REQUIRED MODAL -->
 <div id="loginRequiredModal"
     class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/50 backdrop-blur-sm px-4">
