@@ -15,7 +15,10 @@ use App\Models\DocumentVersion;
 use App\Models\DownloadHistory;
 use App\Models\User;
 use App\Models\SubjectTeacher;
+use App\Jobs\GeneratePreviewJob;
 use App\Services\DocumentPreviewService;
+use Illuminate\Support\Facades\Log;
+
 class DocumentController extends Controller
 {
     private DocumentPreviewService $previewService;
@@ -696,170 +699,171 @@ public function __construct(DocumentPreviewService $previewService)
         ));
     }
     public function store(Request $request)
-    {
-        $request->validate([
-            'title'            => 'required|string|max:255',
-            'description'      => 'nullable|string',
-            'subject_code'     => 'required|exists:subjects,subject_code',
-            'document_type_id' => 'required|exists:document_types,document_type_id',
-            'file'             => 'required|file|max:51200',
-        ]);
+{
+    $request->validate([
+        'title'            => 'required|string|max:255',
+        'description'      => 'nullable|string',
+        'subject_code'     => 'required|exists:subjects,subject_code',
+        'document_type_id' => 'required|exists:document_types,document_type_id',
+        'file'             => 'required|file|max:51200',
+    ]);
 
-        $user = Auth::user();
+    $user = Auth::user();
 
-        if (!$user instanceof User) {
-            abort(403);
-        }
+    if (!$user instanceof User) {
+        abort(403);
+    }
 
-        $subject = Subject::where(
+    $subject = Subject::where(
+        'subject_code',
+        $request->subject_code
+    )->firstOrFail();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Kiểm tra quyền upload
+    |--------------------------------------------------------------------------
+    */
+
+    $canUpload = $user->role->role_name === 'admin';
+
+    if (!$canUpload && $user->role->role_name === 'lecturer') {
+
+        $canUpload = SubjectTeacher::where(
+            'user_id',
+            $user->user_id
+        )
+        ->where(
             'subject_code',
-            $request->subject_code
-        )->firstOrFail();
+            $subject->subject_code
+        )
+        ->exists();
+    }
+
+    if (!$canUpload) {
+        abort(403, 'Bạn không có quyền upload tài liệu cho môn học này.');
+    }
+
+    DB::beginTransaction();
+
+    try {
 
         /*
         |--------------------------------------------------------------------------
-        | Kiểm tra quyền upload
+        | Upload file
         |--------------------------------------------------------------------------
         */
 
-        $canUpload = $user->role->role_name === 'admin';
+        $file = $request->file('file');
 
-        if (!$canUpload && $user->role->role_name === 'lecturer') {
+        $extension = strtolower(
+            $file->getClientOriginalExtension()
+        );
 
-            $canUpload = SubjectTeacher::where(
-                'user_id',
-                $user->user_id
-            )
-            ->where(
-                'subject_code',
-                $subject->subject_code
-            )
-            ->exists();
-        }
+        $storedName =
+            time() . '_' .
+            Str::random(10) .
+            '.' . $extension;
 
-        if (!$canUpload) {
-            abort(403, 'Bạn không có quyền upload tài liệu cho môn học này.');
-        }
+        $filePath = $file->storeAs(
+            'documents',
+            $storedName,
+            'public'
+        );
 
-        DB::beginTransaction();
+        /*
+        |--------------------------------------------------------------------------
+        | PDF và ảnh xem trực tiếp
+        |--------------------------------------------------------------------------
+        */
 
-        try {
+        $previewFile = null;
 
-            /*
-            |--------------------------------------------------------------------------
-            | Upload file
-            |--------------------------------------------------------------------------
-            */
-
-            $file = $request->file('file');
-
-            $extension = strtolower(
-                $file->getClientOriginalExtension()
-            );
-
-            $storedName =
-                time() . '_' .
-                Str::random(10) .
-                '.' . $extension;
-
-            $filePath = $file->storeAs(
-                'documents',
-                $storedName,
-                'public'
-            );
-
-            /*
-            |--------------------------------------------------------------------------
-            | Chỉ PDF và ảnh mới xem trực tiếp
-            |--------------------------------------------------------------------------
-            */
-            $previewFile = null;
-
-            // PDF dùng luôn
-            if ($extension === 'pdf') {
-
-                $previewFile = $filePath;
-
-            }
-
-            // Ảnh dùng luôn
-            elseif (in_array($extension, [
+        if (
+            $extension === 'pdf' ||
+            in_array($extension, [
                 'jpg',
                 'jpeg',
                 'png',
                 'gif',
                 'webp'
-            ])) {
+            ])
+        ) {
+            $previewFile = $filePath;
+        }
 
-                $previewFile = $filePath;
+        /*
+        |--------------------------------------------------------------------------
+        | Tạo tài liệu
+        |--------------------------------------------------------------------------
+        */
 
-            }
+        $document = Document::create([
 
-            // Office -> Convert sang PDF
-            elseif (in_array($extension, [
-                'doc',
-                'docx',
-                'xls',
-                'xlsx',
-                'ppt',
-                'pptx',
-            ])) {
-
-                $previewFile = $this->previewService
-                    ->convertToPdf($filePath);
-
-            }
-            /*
-            |--------------------------------------------------------------------------
-            | Tạo tài liệu
-            |--------------------------------------------------------------------------
-            */
-
-            $document = Document::create([
-
-                'title'            => $request->title,
-                'slug'             => Str::slug($request->title) . '-' . Str::random(6),
-                'description'      => $request->description,
-                'subject_code'     => $subject->subject_code,
-                'document_type_id' => $request->document_type_id,
-                'uploaded_by'      => $user->user_id,
-                'is_active'        => true,
-
-            ]);
-
-            /*
-            |--------------------------------------------------------------------------
-            | Phiên bản đầu tiên
-            |--------------------------------------------------------------------------
-            */
-
-            DocumentVersion::create([
-
-            'document_id'       => $document->document_id,
-            'version_name'      => '1.0',
-            'version_note'      => 'Initial version',
-
-            'original_file_name'=> $file->getClientOriginalName(),
-            'stored_file_name'  => $storedName,
-
-            'file_path'         => $filePath,
-            'preview_file'      => $previewFile,
-
-            'file_extension'    => $extension,
-            'file_size'         => $file->getSize(),
-
-            'uploaded_by'       => $user->user_id,
-            'is_current'        => true,
+            'title'            => $request->title,
+            'slug'             => Str::slug($request->title) . '-' . Str::random(6),
+            'description'      => $request->description,
+            'subject_code'     => $subject->subject_code,
+            'document_type_id' => $request->document_type_id,
+            'uploaded_by'      => $user->user_id,
+            'is_active'        => true,
 
         ]);
 
-            DB::commit();
+        /*
+        |--------------------------------------------------------------------------
+        | Phiên bản đầu tiên
+        |--------------------------------------------------------------------------
+        */
 
-            return redirect()
-                ->route('subjects.show', $subject->subject_code)
-                ->with('success', 'Upload tài liệu thành công.');
+        $version = DocumentVersion::create([
 
-        } catch (\Exception $e) {
+            'document_id'        => $document->document_id,
+            'version_name'       => '1.0',
+            'version_note'       => 'Initial version',
+
+            'original_file_name' => $file->getClientOriginalName(),
+            'stored_file_name'   => $storedName,
+
+            'file_path'          => $filePath,
+            'preview_file'       => $previewFile,
+
+            'file_extension'     => $extension,
+            'file_size'          => $file->getSize(),
+
+            'uploaded_by'        => $user->user_id,
+            'is_current'         => true,
+
+        ]);
+
+        DB::commit();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Convert Office sang PDF bằng Queue
+        |--------------------------------------------------------------------------
+        */
+
+        if (in_array($extension, [
+            'doc',
+            'docx',
+            'xls',
+            'xlsx',
+            'ppt',
+            'pptx'
+        ])) {
+
+            GeneratePreviewJob::dispatch(
+                $version->version_id
+            );
+
+        }
+
+        return redirect()
+            ->route('subjects.show', $subject->subject_code)
+            ->with('success', 'Đăng tải tài liệu thành công.');
+
+    } catch (\Throwable $e) {
 
         DB::rollBack();
 
@@ -867,10 +871,17 @@ public function __construct(DocumentPreviewService $previewService)
             Storage::disk('public')->delete($filePath);
         }
 
-        dd($e->getMessage());
+        Log::error('Upload document failed', [
+            'message' => $e->getMessage(),
+            'trace'   => $e->getTraceAsString(),
+        ]);
 
-        }
+        return back()
+            ->withInput()
+            ->with('error', 'Đã xảy ra lỗi khi đăng tải tài liệu.');
+
     }
+}
     public function uploadVersion(Request $request, $id)
     {
         $request->validate([

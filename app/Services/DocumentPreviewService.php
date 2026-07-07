@@ -39,7 +39,13 @@ class DocumentPreviewService
             ' --outdir "' . $outputDir . '"' .
             ' "' . $input . '"';
 
-        exec($command, $output, $returnCode);
+    exec($command . " 2>&1", $output, $returnCode);
+
+    Log::info('LibreOffice', [
+        'command' => $command,
+        'output' => $output,
+        'returnCode' => $returnCode,
+    ]);
 
         if ($returnCode !== 0) {
             Log::error('LibreOffice convert failed', [
