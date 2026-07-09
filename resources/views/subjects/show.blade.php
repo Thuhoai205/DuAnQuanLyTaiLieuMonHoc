@@ -963,21 +963,19 @@
 @push('scripts')
 <script>
 function showLoginRequiredModal() {
-
     const modal = document.getElementById('loginRequiredModal');
+    if (!modal) return;
 
     modal.classList.remove('hidden');
     modal.classList.add('flex');
-
 }
 
 function closeLoginRequiredModal() {
-
     const modal = document.getElementById('loginRequiredModal');
+    if (!modal) return;
 
     modal.classList.remove('flex');
     modal.classList.add('hidden');
-
 }
 
 function removeVietnameseTones(str) {
@@ -991,12 +989,13 @@ function removeVietnameseTones(str) {
         .trim()
         .toLowerCase();
 }
+
 let currentFilter = 'all';
 
 function searchDocuments() {
 
     const keyword = removeVietnameseTones(
-        document.getElementById('documentSearch').value.trim()
+        document.getElementById('documentSearch').value
     );
 
     const cards = document.querySelectorAll('.document-item');
@@ -1010,58 +1009,58 @@ function searchDocuments() {
             card.querySelector('.document-title').innerText
         );
 
-        const owner = card.dataset.owner === '1';
+        const owner = card.dataset.owner === "1";
 
         const matchKeyword = title.includes(keyword);
 
         const matchFilter =
-            currentFilter === 'all' ?
+            currentFilter === "all" ?
             true :
             owner;
 
         if (matchKeyword && matchFilter) {
-
-            card.style.display = 'flex';
+            card.style.display = "flex";
             hasVisible = true;
-
         } else {
-
-            card.style.display = 'none';
-
+            card.style.display = "none";
         }
 
     });
 
-    empty.classList.toggle('hidden', hasVisible);
-
+    if (empty) {
+        empty.classList.toggle("hidden", hasVisible);
+    }
 }
 
 function filterDocuments(type) {
 
     currentFilter = type;
 
-    document.getElementById('btnAllDocuments').className =
-        type === 'all' ?
-        'px-5 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-bold transition-all duration-300 hover:bg-amber-500' :
-        'px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-amber-600 text-sm font-bold transition-all duration-300';
+    const btnAll = document.getElementById('btnAllDocuments');
+    const btnMine = document.getElementById('btnMyDocuments');
 
-    document.getElementById('btnMyDocuments').className =
-        type === 'mine' ?
-        'px-5 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-bold transition-all duration-300 hover:bg-amber-500' :
-        'px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-amber-600 text-sm font-bold transition-all duration-300';
+    if (btnAll) {
+        btnAll.className =
+            type === 'all' ?
+            'px-5 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-bold transition-all duration-300 hover:bg-amber-500' :
+            'px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-amber-600 text-sm font-bold transition-all duration-300';
+    }
+
+    if (btnMine) {
+        btnMine.className =
+            type === 'mine' ?
+            'px-5 py-2.5 rounded-xl bg-slate-900 text-white text-sm font-bold transition-all duration-300 hover:bg-amber-500' :
+            'px-5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-amber-600 text-sm font-bold transition-all duration-300';
+    }
 
     searchDocuments();
-
 }
 
 function openSubjectUploadModal() {
 
     const modal = document.getElementById('subjectUploadModal');
 
-    if (!modal) {
-        console.log('Không tìm thấy modal');
-        return;
-    }
+    if (!modal) return;
 
     modal.classList.remove('hidden');
     modal.classList.add('flex');
@@ -1072,6 +1071,8 @@ function openSubjectUploadModal() {
 function closeSubjectUploadModal() {
 
     const modal = document.getElementById('subjectUploadModal');
+
+    if (!modal) return;
 
     modal.classList.remove('flex');
     modal.classList.add('hidden');
@@ -1084,6 +1085,8 @@ function updateSubjectFileName(input) {
     const prompt = document.getElementById('subjectUploadPrompt');
     const hint = document.getElementById('subjectFileTypesHint');
     const icon = document.getElementById('uploadIcon');
+
+    if (!prompt || !hint || !icon) return;
 
     if (input.files.length === 0) {
 
@@ -1102,7 +1105,6 @@ function updateSubjectFileName(input) {
     }
 
     const file = input.files[0];
-
     const size = (file.size / 1024 / 1024).toFixed(2);
 
     prompt.innerHTML = `
@@ -1119,7 +1121,10 @@ function updateSubjectFileName(input) {
 
     icon.classList.remove("bg-slate-900");
     icon.classList.add("bg-emerald-500");
-
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    searchDocuments();
+});
 </script>
 @endpush

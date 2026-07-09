@@ -118,11 +118,14 @@ font-['Roboto',_sans-serif]">
                     Trang chủ
                 </a>
                 @auth
-                {{-- Chỉ hiện khi đã đăng nhập --}}
+
+                @if(auth()->user()->role->role_name === 'admin')
                 <a href="{{ $facultyUrl }}"
                     class="ml-2 {{ $menuClass }} {{ request()->is('faculties*') || request()->is('khoa*') ? 'text-slate-900 font-medium after:scale-x-100' : '' }}">
                     Khoa
                 </a>
+
+                @endif
                 <a href="{{ $subjectUrl }}"
                     class="ml-2 {{ $menuClass }} {{ request()->is('subjects*') || request()->is('mon-hoc*') ? 'text-slate-900 font-medium after:scale-x-100' : '' }}">
                     Môn học
@@ -260,7 +263,7 @@ font-['Roboto',_sans-serif]">
 
                         </a>
 
-                        <!-- MY DOCUMENT -->
+                        <!-- 
                         @if($canUploadDocument && Route::has('documents.my-documents'))
 
                         <a href="{{ route('documents.my-documents') }}"
@@ -273,8 +276,8 @@ font-['Roboto',_sans-serif]">
                         </a>
 
                         @endif
-
-                        <!-- ADMIN -->
+MY DOCUMENT -->
+                        <!-- 
                         @if($roleId == 1)
 
                         <a href="{{ route('admin.dashboard') }}"
@@ -287,7 +290,7 @@ font-['Roboto',_sans-serif]">
                         </a>
 
                         @endif
-
+ADMIN -->
                         <div class="border-t border-slate-100"></div>
 
                         <!-- LOGOUT -->

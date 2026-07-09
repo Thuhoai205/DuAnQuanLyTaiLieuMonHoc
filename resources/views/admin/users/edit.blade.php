@@ -408,6 +408,58 @@
                             @enderror
 
                         </div>
+                        @if(in_array($user->role->role_name, ['lecturer', 'student']))
+
+                        <!-- FACULTY -->
+                        <div>
+
+                            <label class="block mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                                Khoa
+                            </label>
+
+                            <select name="faculty_id" class="w-full h-12
+        rounded-xl
+        border
+        bg-white
+        px-4
+        text-sm
+        font-medium
+        text-slate-700
+        outline-none
+        transition-all
+        focus:border-amber-400
+        focus:ring-4
+        focus:ring-amber-100
+        @error('faculty_id')
+            border-red-400
+        @else
+            border-slate-300
+        @enderror">
+
+                                <option value="">-- Chọn khoa --</option>
+
+                                @foreach($faculties as $faculty)
+
+                                <option value="{{ $faculty->faculty_id }}" @selected(old('faculty_id', $user->
+                                    faculty_id) == $faculty->faculty_id)>
+
+                                    {{ $faculty->faculty_name }}
+
+                                </option>
+
+                                @endforeach
+
+                            </select>
+
+                            @error('faculty_id')
+                            <p class="mt-2 text-xs font-medium text-red-500">
+                                {{ $message }}
+                            </p>
+                            @enderror
+
+                        </div>
+
+                        @endif
                         <!-- PASSWORD -->
                         <div class="md:col-span-2">
 

@@ -209,16 +209,16 @@
 
                             <input type="text" name="full_name" value="{{ old('full_name') }}"
                                 placeholder="Ví dụ: Nguyễn Văn A" class="w-full h-12 px-4 rounded-xl
-        bg-white
-        border
-        outline-none
-        text-sm
-        font-medium
-        placeholder:text-slate-400
-        focus:ring-4
-        focus:ring-amber-100
-        focus:border-amber-500
-        @error('full_name') border-red-400 @else border-slate-300 @enderror">
+                        bg-white
+                        border
+                        outline-none
+                        text-sm
+                        font-medium
+                        placeholder:text-slate-400
+                        focus:ring-4
+                        focus:ring-amber-100
+                        focus:border-amber-500
+                        @error('full_name') border-red-400 @else border-slate-300 @enderror">
 
                             @error('full_name')
                             <p class="mt-2 text-xs font-semibold text-red-500">
@@ -235,16 +235,16 @@
 
                             <input type="text" name="username" value="{{ old('username') }}"
                                 placeholder="Ví dụ: nguyenvana" class="w-full h-12 px-4 rounded-xl
-        bg-white
-        border
-        outline-none
-        text-sm
-        font-medium
-        placeholder:text-slate-400
-        focus:ring-4
-        focus:ring-amber-100
-        focus:border-amber-500
-        @error('username') border-red-400 @else border-slate-300 @enderror">
+                            bg-white
+                            border
+                            outline-none
+                            text-sm
+                            font-medium
+                            placeholder:text-slate-400
+                            focus:ring-4
+                            focus:ring-amber-100
+                            focus:border-amber-500
+                            @error('username') border-red-400 @else border-slate-300 @enderror">
 
                             @error('username')
                             <p class="mt-2 text-xs font-semibold text-red-500">
@@ -261,16 +261,16 @@
 
                             <input type="email" name="email" value="{{ old('email') }}" placeholder="example@gmail.com"
                                 class="w-full h-12 px-4 rounded-xl
-        bg-white
-        border
-        outline-none
-        text-sm
-        font-medium
-        placeholder:text-slate-400
-        focus:ring-4
-        focus:ring-amber-100
-        focus:border-amber-500
-        @error('email') border-red-400 @else border-slate-300 @enderror">
+                            bg-white
+                            border
+                            outline-none
+                            text-sm
+                            font-medium
+                            placeholder:text-slate-400
+                            focus:ring-4
+                            focus:ring-amber-100
+                            focus:border-amber-500
+                            @error('email') border-red-400 @else border-slate-300 @enderror">
 
                             @error('email')
                             <p class="mt-2 text-xs font-semibold text-red-500">
@@ -286,16 +286,16 @@
                             </label>
 
                             <input type="password" name="password" placeholder="Tối thiểu 6 ký tự" class="w-full h-12 px-4 rounded-xl
-        bg-white
-        border
-        outline-none
-        text-sm
-        font-medium
-        placeholder:text-slate-400
-        focus:ring-4
-        focus:ring-amber-100
-        focus:border-amber-500
-        @error('password') border-red-400 @else border-slate-300 @enderror">
+                            bg-white
+                            border
+                            outline-none
+                            text-sm
+                            font-medium
+                            placeholder:text-slate-400
+                            focus:ring-4
+                            focus:ring-amber-100
+                            focus:border-amber-500
+                            @error('password') border-red-400 @else border-slate-300 @enderror">
 
                             @error('password')
                             <p class="mt-2 text-xs font-semibold text-red-500">
@@ -311,15 +311,15 @@
                             </label>
 
                             <select name="role_id" class="w-full h-12 px-4 rounded-xl
-        bg-white
-        border
-        outline-none
-        text-sm
-        font-medium
-        focus:ring-4
-        focus:ring-amber-100
-        focus:border-amber-500
-        @error('role_id') border-red-400 @else border-slate-300 @enderror">
+                            bg-white
+                            border
+                            outline-none
+                            text-sm
+                            font-medium
+                            focus:ring-4
+                            focus:ring-amber-100
+                            focus:border-amber-500
+                            @error('role_id') border-red-400 @else border-slate-300 @enderror">
 
                                 <option value="">
                                     Chọn vai trò hệ thống
@@ -352,9 +352,9 @@
                             </label>
 
                             <div class="h-12 px-4 rounded-xl
-        bg-amber-50
-        border border-amber-200
-        flex items-center">
+                            bg-amber-50
+                            border border-amber-200
+                            flex items-center">
 
                                 <label class="inline-flex items-center cursor-pointer">
 
@@ -374,6 +374,40 @@
                             </div>
 
                         </div>
+                        <!-- KHOA -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                Khoa
+                            </label>
+
+                            <select name="faculty_id" class="w-full h-12 px-4 rounded-xl
+        bg-white
+        border border-slate-300
+        outline-none
+        text-sm
+        font-medium
+        focus:ring-4
+        focus:ring-amber-100
+        focus:border-amber-500
+        @error('faculty_id') border-red-400 @enderror">
+
+                                <option value="">-- Chọn khoa --</option>
+
+                                @foreach($faculties as $faculty)
+                                <option value="{{ $faculty->faculty_id }}" @selected(old('faculty_id')==$faculty->
+                                    faculty_id)>
+                                    {{ $faculty->faculty_name }}
+                                </option>
+                                @endforeach
+
+                            </select>
+
+                            @error('faculty_id')
+                            <p class="mt-2 text-xs font-semibold text-red-500">
+                                {{ $message }}
+                            </p>
+                            @enderror
+                        </div>
                         <!-- AVATAR -->
                         <div class="sm:col-span-2">
 
@@ -382,22 +416,22 @@
                             </label>
 
                             <input type="file" name="avatar" accept="image/*" onchange="previewAvatar(this)" class="w-full
-        rounded-xl
-        border
-        border-slate-300
-        bg-white
-        text-sm
-        text-slate-600
+                            rounded-xl
+                            border
+                            border-slate-300
+                            bg-white
+                            text-sm
+                            text-slate-600
 
-        file:mr-4
-        file:py-3
-        file:px-5
-        file:rounded-xl
-        file:border-0
-        file:bg-amber-50
-        file:text-amber-600
-        file:font-semibold
-        hover:file:bg-amber-100">
+                            file:mr-4
+                            file:py-3
+                            file:px-5
+                            file:rounded-xl
+                            file:border-0
+                            file:bg-amber-50
+                            file:text-amber-600
+                            file:font-semibold
+                            hover:file:bg-amber-100">
 
                             <p class="mt-2 text-xs font-medium text-slate-500">
 
@@ -423,31 +457,31 @@
 
                     <!-- FOOTER -->
                     <div class="pt-8
-    border-t
-    border-slate-200
-    flex
-    flex-col
-    sm:flex-row
-    sm:justify-end
-    gap-3">
+                        border-t
+                        border-slate-200
+                        flex
+                        flex-col
+                        sm:flex-row
+                        sm:justify-end
+                        gap-3">
 
                         <!-- RESET -->
                         <button type="reset" class="inline-flex
-        items-center
-        justify-center
-        gap-2
-        h-12
-        px-6
-        rounded-xl
-        border
-        border-slate-300
-        bg-white
-        text-slate-700
-        text-sm
-        font-semibold
-        transition-all
-        duration-300
-        hover:bg-slate-100">
+                            items-center
+                            justify-center
+                            gap-2
+                            h-12
+                            px-6
+                            rounded-xl
+                            border
+                            border-slate-300
+                            bg-white
+                            text-slate-700
+                            text-sm
+                            font-semibold
+                            transition-all
+                            duration-300
+                            hover:bg-slate-100">
 
                             <i class="fa-solid fa-rotate-left"></i>
 
@@ -457,20 +491,20 @@
 
                         <!-- SUBMIT -->
                         <button type="submit" class="inline-flex
-        items-center
-        justify-center
-        gap-2
-        h-12
-        px-6
-        rounded-xl
-        bg-slate-900
-        text-white
-        text-sm
-        font-semibold
-        shadow-sm
-        transition-all
-        duration-300
-        hover:bg-amber-500">
+                            items-center
+                            justify-center
+                            gap-2
+                            h-12
+                            px-6
+                            rounded-xl
+                            bg-slate-900
+                            text-white
+                            text-sm
+                            font-semibold
+                            shadow-sm
+                            transition-all
+                            duration-300
+                            hover:bg-amber-500">
 
                             <i class="fa-solid fa-user-plus"></i>
 
@@ -493,12 +527,15 @@
 
 @push('scripts')
 <script>
+// Preview Avatar
 function previewAvatar(input) {
+
     const avatarPreview = document.getElementById('avatarPreview');
 
     if (!avatarPreview) return;
 
     if (input.files && input.files[0]) {
+
         const reader = new FileReader();
 
         reader.onload = function(e) {
@@ -508,5 +545,34 @@ function previewAvatar(input) {
         reader.readAsDataURL(input.files[0]);
     }
 }
+
+// Hiển thị Khoa khi chọn Sinh viên
+document.addEventListener('DOMContentLoaded', function() {
+
+    const roleSelect = document.querySelector('select[name="role_id"]');
+    const facultyGroup = document.getElementById('faculty-group');
+    const facultySelect = document.querySelector('select[name="faculty_id"]');
+
+    function toggleFaculty() {
+
+        if (roleSelect.value == '3') {
+
+            facultyGroup.classList.remove('hidden');
+
+        } else {
+
+            facultyGroup.classList.add('hidden');
+
+            if (facultySelect) {
+                facultySelect.value = '';
+            }
+        }
+    }
+
+    toggleFaculty();
+
+    roleSelect.addEventListener('change', toggleFaculty);
+
+});
 </script>
 @endpush

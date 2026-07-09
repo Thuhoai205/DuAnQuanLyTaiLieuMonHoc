@@ -583,6 +583,21 @@ $lecturerDownloadCount = $isLecturer ? $userDocuments->sum('download_count') : $
                         </h4>
 
                     </div>
+                    @if(in_array($user->role->role_name, ['lecturer', 'student']))
+
+                    <div class="rounded-xl bg-slate-50 border border-slate-200 p-5">
+
+                        <p class="text-xs uppercase tracking-wider font-semibold text-slate-400">
+                            Khoa
+                        </p>
+
+                        <h4 class="mt-2 text-lg font-bold text-slate-900">
+                            {{ $user->faculty?->faculty_name ?? 'Chưa có khoa' }}
+                        </h4>
+
+                    </div>
+
+                    @endif
 
                 </div>
 
@@ -793,6 +808,7 @@ $lecturerDownloadCount = $isLecturer ? $userDocuments->sum('download_count') : $
                         </h3>
 
                     </div>
+
 
                 </div>
 

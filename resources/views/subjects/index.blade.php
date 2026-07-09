@@ -96,12 +96,12 @@
                 <div class="flex items-center gap-4">
 
                     <div class="w-14 h-14 rounded-2xl
-bg-slate-100
-border border-slate-200
-flex items-center justify-center
-transition-all duration-300
-hover:bg-amber-50
-hover:border-amber-300">
+                bg-slate-100
+                border border-slate-200
+                flex items-center justify-center
+                transition-all duration-300
+                hover:bg-amber-50
+                hover:border-amber-300">
 
                         <i class="fa-solid fa-layer-group text-amber-500 text-2xl"></i>
 
@@ -138,17 +138,17 @@ hover:border-amber-300">
 
                     <input type="text" id="subjectSearch" onkeyup="searchSubjects()" placeholder="Tìm kiếm môn học..."
                         class="w-full
-        rounded-2xl
-        border
-        border-slate-200
-        py-4
-        pl-14
-        pr-5
-        text-slate-700
-        placeholder:text-slate-400
-        focus:border-amber-400
-        focus:ring-4
-        focus:ring-amber-100">
+                    rounded-2xl
+                    border
+                    border-slate-200
+                    py-4
+                    pl-14
+                    pr-5
+                    text-slate-700
+                    placeholder:text-slate-400
+                    focus:border-amber-400
+                    focus:ring-4
+                    focus:ring-amber-100">
 
                 </div>
 
@@ -158,18 +158,18 @@ hover:border-amber-300">
 
                 <!-- Filter -->
                 <div class="flex h-14 items-center rounded-2xl
-    border border-slate-200
-    bg-white
-    p-1
-    shadow-sm">
+                border border-slate-200
+                bg-white
+                p-1
+                shadow-sm">
 
                     <!-- Tất cả -->
                     <button id="btnAll" onclick="filterSubjects('all')" class="rounded-xl px-5 py-2
-        text-sm font-semibold
-        bg-slate-900
-        text-white
-        transition-all duration-300
-        hover:bg-amber-500">
+                    text-sm font-semibold
+                    bg-slate-900
+                    text-white
+                    transition-all duration-300
+                    hover:bg-amber-500">
 
                         Tất cả
 
@@ -181,11 +181,11 @@ hover:border-amber-300">
 
                     <!-- Phụ trách -->
                     <button id="btnAssigned" onclick="filterSubjects('assigned')" class="rounded-xl px-5 py-2
-        text-sm font-semibold
-        text-slate-600
-        hover:bg-slate-100
-        hover:text-amber-600
-        transition-all duration-300">
+                    text-sm font-semibold
+                    text-slate-600
+                    hover:bg-slate-100
+                    hover:text-amber-600
+                    transition-all duration-300">
 
                         Phụ trách
 

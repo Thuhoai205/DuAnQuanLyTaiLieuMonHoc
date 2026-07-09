@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Faculty;
 
 class AuthController extends Controller
 {
@@ -132,39 +133,44 @@ class AuthController extends Controller
     }
 
     // ================= PROFILE =================
+public function profile()
+{
+    $faculties = Faculty::where('is_active', true)
+        ->orderBy('faculty_name')
+        ->get();
 
-    public function profile()
-    {
-        return view('auth.profile', [
-            'user' => Auth::user()
-        ]);
-    }
-
+    return view('auth.profile', [
+        'user' => Auth::user(),
+        'faculties' => $faculties,
+    ]);
+}
     // ================= UPDATE PROFILE =================
 
-    public function updateProfile(Request $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
+   public function updateProfile(Request $request)
+{
+    /** @var User $user */
+    $user = Auth::user();
 
-        $request->validate([
-            'full_name' => 'required|string|max:100',
-            'email' => 'required|email|max:100|unique:users,email,' . $user->user_id . ',user_id',
-        ], [
-            'full_name.required' => 'Vui lòng nhập họ tên.',
-            'email.required' => 'Vui lòng nhập email.',
-            'email.email' => 'Email không hợp lệ.',
-            'email.unique' => 'Email đã tồn tại.',
-        ]);
+    $request->validate([
+        'full_name'  => 'required|string|max:100',
+        'email'      => 'required|email|max:100|unique:users,email,' . $user->user_id . ',user_id',
+        'faculty_id' => 'nullable|exists:faculties,faculty_id',
+    ], [
+        'full_name.required'  => 'Vui lòng nhập họ tên.',
+        'email.required'      => 'Vui lòng nhập email.',
+        'email.email'         => 'Email không hợp lệ.',
+        'email.unique'        => 'Email đã tồn tại.',
+        'faculty_id.exists'   => 'Khoa không tồn tại.',
+    ]);
 
-        $user->update([
-            'full_name' => $request->full_name,
-            'email' => $request->email,
-        ]);
+    $user->update([
+        'full_name'  => $request->full_name,
+        'email'      => $request->email,
+        'faculty_id' => $request->faculty_id,
+    ]);
 
-        return back()->with('success', 'Cập nhật thông tin thành công!');
-    }
-
+    return back()->with('success', 'Cập nhật thông tin thành công!');
+}
     // ================= UPDATE AVATAR =================
 
     public function updateAvatar(Request $request)

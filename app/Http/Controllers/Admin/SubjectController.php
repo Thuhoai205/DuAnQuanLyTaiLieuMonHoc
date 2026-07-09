@@ -115,7 +115,7 @@ class SubjectController extends Controller
 
         return view('admin.subjects.create', [
             'faculties' => Faculty::where('is_active', true)->get(),
-            'teachers' => User::where('role_id', 2)->where('is_active', true)->get(),
+            'teachers' => collect(),
             'subjectImages' => $subjectImages,
         ]);
     }
@@ -166,10 +166,17 @@ class SubjectController extends Controller
         'updated_by' => Auth::id(),
     ]);
 
-    $this->syncLecturers(
-        $subject,
+    $teacherIds = User::whereIn(
+        'user_id',
         $request->teacher_ids ?? []
-    );
+    )
+    ->where('role_id',2)
+    ->where('faculty_id',$request->faculty_id)
+    ->where('is_active',true)
+    ->pluck('user_id')
+    ->toArray();
+
+$this->syncLecturers($subject,$teacherIds);
 
     return redirect()
         ->route('admin.subjects.index')
@@ -186,8 +193,8 @@ class SubjectController extends Controller
         'lecturers',
         'documents.documentType',
         'documents.currentVersion',
-        'documents.uploader'
-    ])
+        'documents.uploader.faculty'
+            ])
     ->withCount(['documents', 'lecturers'])
     ->where('subject_code', $id)
     ->firstOrFail();
@@ -197,7 +204,7 @@ class SubjectController extends Controller
     /* =========================
      * EDIT
      * ========================= */
-   public function edit(string $id)
+  public function edit(string $id)
 {
     $subject = Subject::with(['faculty', 'lecturers'])
         ->withCount(['documents', 'lecturers'])
@@ -212,11 +219,19 @@ class SubjectController extends Controller
         '05' => '05.jpg',
     ];
 
+    $teachers = User::where('role_id', 2)
+        ->where('faculty_id', $subject->faculty_id)
+        ->where('is_active', true)
+        ->orderBy('full_name')
+        ->get();
+
     return view('admin.subjects.edit', [
         'subject' => $subject,
-        'teachers' => User::where('role_id', 2)->where('is_active', true)->get(),
+        'teachers' => $teachers,
         'selectedLecturers' => $subject->lecturers->pluck('user_id')->toArray(),
-        'faculties' => Faculty::where('is_active', true)->get(),
+        'faculties' => Faculty::where('is_active', true)
+            ->orderBy('faculty_name')
+            ->get(),
         'subjectImages' => $subjectImages,
     ]);
 }
@@ -224,78 +239,94 @@ class SubjectController extends Controller
     /* =========================
      * UPDATE
      * ========================= */
-   public function update(Request $request, string $id)
+    public function update(Request $request, string $id)
 {
     $request->validate([
-    'subject_name' => 'required|string|max:150',
-    'faculty_id' => 'required|exists:faculties,faculty_id',
-    'thumbnail_upload' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-]);
-    $subject = Subject::where(
-        'subject_code',
-        $id
-    )->firstOrFail();
+        'subject_name'     => 'required|string|max:150',
+        'faculty_id'       => 'required|exists:faculties,faculty_id',
+        'thumbnail_upload' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
+
+    $subject = Subject::where('subject_code', $id)->firstOrFail();
+
+    // Lưu khoa cũ để kiểm tra có thay đổi không
+    $oldFacultyId = $subject->faculty_id;
+
     $thumbnail = $subject->thumbnail;
 
-if ($request->hasFile('thumbnail_upload')) {
+    // Upload ảnh mới
+    if ($request->hasFile('thumbnail_upload')) {
 
-    if (
-        $subject->thumbnail &&
-        Storage::disk('public')->exists('subjects/' . $subject->thumbnail)
-    ) {
-        Storage::disk('public')->delete(
-            'subjects/' . $subject->thumbnail
+        if (
+            $subject->thumbnail &&
+            Storage::disk('public')->exists('subjects/' . $subject->thumbnail)
+        ) {
+            Storage::disk('public')->delete(
+                'subjects/' . $subject->thumbnail
+            );
+        }
+
+        $file = $request->file('thumbnail_upload');
+
+        $filename =
+            time() . '_' .
+            Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
+            . '.' .
+            $file->getClientOriginalExtension();
+
+        $file->storeAs(
+            'subjects',
+            $filename,
+            'public'
         );
+
+        $thumbnail = $filename;
+    }
+    // Chọn ảnh mặc định
+    elseif ($request->filled('thumbnail')) {
+
+        $thumbnail = $request->thumbnail;
     }
 
-    $file = $request->file('thumbnail_upload');
+    // Cập nhật môn học
+    $subject->update([
+        'subject_name' => $request->subject_name,
+        'slug'         => Str::slug($request->subject_name),
+        'description'  => $request->description,
+        'thumbnail'    => $thumbnail,
+        'icon'         => $request->icon ?? $subject->icon,
+        'color'        => $request->color ?? $subject->color,
+        'status'       => $request->status,
+        'faculty_id'   => $request->faculty_id,
+        'updated_by'   => Auth::id(),
+    ]);
 
-    $filename = time().'_'.
-        Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME))
-        .'.'.$file->getClientOriginalExtension();
+    // Đồng bộ trạng thái tài liệu
+    Document::where(
+        'subject_code',
+        $subject->subject_code
+    )->update([
+        'is_active' => $subject->status === 'active'
+    ]);
 
-    $file->storeAs(
-        'subjects',
-        $filename,
-        'public'
-    );
+    // Nếu đổi khoa thì xóa toàn bộ giảng viên cũ
+    if ($oldFacultyId != $request->faculty_id) {
+        $subject->lecturers()->detach();
+    }
 
-    $thumbnail = $filename;
+    // Chỉ lấy giảng viên thuộc đúng khoa
+    $teacherIds = User::whereIn(
+            'user_id',
+            $request->teacher_ids ?? []
+        )
+        ->where('role_id', 2)
+        ->where('faculty_id', $request->faculty_id)
+        ->where('is_active', true)
+        ->pluck('user_id')
+        ->toArray();
 
-}
-elseif ($request->filled('thumbnail')) {
-
-    $thumbnail = $request->thumbnail;
-
-}
-$subject->update([
-    'subject_name' => $request->subject_name,
-    'slug' => Str::slug($request->subject_name),
-    'description' => $request->description,
-    'thumbnail' => $thumbnail,
-    'icon' => $request->icon ?? $subject->icon,
-    'color' => $request->color ?? $subject->color,
-    'status' => $request->status,
-    'faculty_id' => $request->faculty_id,
-    'updated_by' => Auth::id(),
-]);
-
-$subject->refresh();
-
-Document::where(
-    'subject_code',
-    $subject->subject_code
-)->update([
-    'is_active' => $subject->status === 'active'
-]);
-
-
-    // Đồng bộ trạng thái tài liệu theo môn học
-  
-    $this->syncLecturers(
-        $subject,
-        $request->teacher_ids ?? []
-    );
+    // Đồng bộ giảng viên
+    $this->syncLecturers($subject, $teacherIds);
 
     return redirect()
         ->route('admin.subjects.index')
@@ -540,5 +571,19 @@ public function restoreMultiple(Request $request)
         ]);
 
     }
+}
+public function getTeachersByFaculty($facultyId)
+{
+    $teachers = User::where('role_id',2)
+        ->where('faculty_id',$facultyId)
+        ->where('is_active',true)
+        ->orderBy('full_name')
+        ->get([
+            'user_id',
+            'full_name',
+            'email'
+        ]);
+
+    return response()->json($teachers);
 }
 }

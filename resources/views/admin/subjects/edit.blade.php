@@ -313,22 +313,23 @@ $icons = [
 
                             </label>
 
-                            <select name="faculty_id" class="w-full
-                                mt-2
-                                h-12
-                                px-4
-                                rounded-xl
-                                border border-slate-200
-                                bg-slate-50
-                                text-sm
-                                font-medium
-                                text-slate-700
-                                outline-none
-                                transition-all duration-300
-                                focus:bg-white
-                                focus:border-amber-500
-                                focus:ring-4
-                                focus:ring-amber-100">
+                            <select id="faculty_id" name="faculty_id" class="w-full
+    mt-2
+    h-12
+    px-4
+    rounded-xl
+    border border-slate-200
+    bg-slate-50
+    text-sm
+    font-medium
+    text-slate-700
+    outline-none
+    transition-all
+    duration-300
+    focus:bg-white
+    focus:border-amber-500
+    focus:ring-4
+    focus:ring-amber-100">
 
                                 <option value="">
 
@@ -667,31 +668,6 @@ $icons = [
                         </div>
 
                     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     <!-- GIẢNG VIÊN -->
                     <div>
 
@@ -731,13 +707,12 @@ $icons = [
                         </div>
 
                         <!-- LIST -->
-                        <div class="mt-4
-                            max-h-64
-                            overflow-y-auto
-                            rounded-2xl
-                            border border-slate-200
-                            bg-white">
-
+                        <div id="teacher-list" class="mt-4
+    max-h-64
+    overflow-y-auto
+    rounded-2xl
+    border border-slate-200
+    bg-white">
                             @foreach($teachers as $lecturer)
 
                             <label class="teacher-item
@@ -843,87 +818,151 @@ $icons = [
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
+    // ==========================
+    // TÌM KIẾM GIẢNG VIÊN
+    // ==========================
     const search = document.getElementById('teacher-search');
 
-    if (!search) return;
+    if (search) {
 
-    search.addEventListener('input', function() {
+        search.addEventListener('input', function() {
 
-        const keyword = this.value.toLowerCase().trim();
+            const keyword = this.value.toLowerCase().trim();
 
-        document.querySelectorAll('.teacher-item').forEach(function(item) {
+            document.querySelectorAll('.teacher-item').forEach(function(item) {
 
-            const text = item.textContent.toLowerCase();
+                const text = item.textContent.toLowerCase();
 
-            if (text.includes(keyword)) {
+                item.style.display = text.includes(keyword) ? 'flex' : 'none';
 
-                item.style.display = 'flex';
-
-            } else {
-
-                item.style.display = 'none';
-
-            }
+            });
 
         });
 
-    });
+    }
 
-});
-document.addEventListener('DOMContentLoaded', function() {
-
+    // ==========================
+    // PREVIEW ẢNH
+    // ==========================
     const uploadInput = document.getElementById('thumbnail_upload');
     const preview = document.getElementById('thumbnail-preview');
+    const defaultImages = document.querySelectorAll('input[name="thumbnail"]');
 
-    // Radio ảnh mặc định
-    const defaultImages = document.querySelectorAll(
-        'input[name="thumbnail"]'
-    );
+    if (uploadInput) {
 
-    // ==========================
-    // Upload ảnh mới
-    // ==========================
-    uploadInput.addEventListener('change', function() {
+        uploadInput.addEventListener('change', function() {
 
-        if (!this.files.length) return;
+            if (!this.files.length) return;
 
-        const file = this.files[0];
+            defaultImages.forEach(function(radio) {
+                radio.checked = false;
+            });
 
-        // Bỏ chọn ảnh mặc định
-        defaultImages.forEach(function(radio) {
-            radio.checked = false;
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            };
+
+            reader.readAsDataURL(this.files[0]);
+
         });
 
-        // Hiển thị preview
-        const reader = new FileReader();
+    }
 
-        reader.onload = function(e) {
-
-            preview.src = e.target.result;
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
-
-    // ==========================
-    // Chọn ảnh mặc định
-    // ==========================
     defaultImages.forEach(function(radio) {
 
         radio.addEventListener('change', function() {
 
             if (!this.checked) return;
 
-            // Xóa file upload
-            uploadInput.value = "";
+            if (uploadInput) {
+                uploadInput.value = "";
+            }
 
             preview.src = "{{ asset('img/subjects') }}/" + this.value;
 
         });
 
     });
+
+    // ==========================
+    // LOAD GIẢNG VIÊN THEO KHOA
+    // ==========================
+    const facultySelect = document.getElementById('faculty_id');
+    const teacherList = document.getElementById('teacher-list');
+
+    if (facultySelect && teacherList) {
+
+        facultySelect.addEventListener('change', function() {
+
+            const facultyId = this.value;
+
+            if (!facultyId) {
+
+                teacherList.innerHTML = `
+                    <div class="p-4 text-center text-slate-500">
+                        Vui lòng chọn khoa.
+                    </div>
+                `;
+
+                return;
+            }
+
+            fetch(`/admin/faculties/${facultyId}/teachers`)
+                .then(response => response.json())
+                .then(data => {
+
+                    teacherList.innerHTML = '';
+
+                    if (data.length === 0) {
+
+                        teacherList.innerHTML = `
+                            <div class="p-4 text-center text-slate-500">
+                                Không có giảng viên thuộc khoa này.
+                            </div>
+                        `;
+
+                        return;
+                    }
+
+                    data.forEach(function(teacher) {
+
+                        teacherList.innerHTML += `
+                            <label class="teacher-item flex items-center gap-3 px-4 py-3 border-b hover:bg-amber-50 cursor-pointer">
+
+                                <input
+                                    type="checkbox"
+                                    name="teacher_ids[]"
+                                    value="${teacher.user_id}"
+                                    class="w-4 h-4 accent-amber-500">
+
+                                <div class="min-w-0">
+
+                                    <p class="text-sm font-bold text-slate-800">
+
+                                        ${teacher.full_name}
+
+                                    </p>
+
+                                    <p class="text-xs text-slate-500">
+
+                                        ${teacher.email}
+
+                                    </p>
+
+                                </div>
+
+                            </label>
+                        `;
+
+                    });
+
+                });
+
+        });
+
+    }
 
 });
 </script>

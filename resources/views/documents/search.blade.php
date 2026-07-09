@@ -128,7 +128,7 @@
                     </div>
 
                     <!-- Môn học -->
-                    <div class="lg:col-span-2">
+                    <div class="lg:col-span-3">
 
                         <select name="subject_code" class="w-full h-14 px-5 rounded-2xl
                         bg-white
@@ -187,38 +187,9 @@
 
                     </div>
 
-                    <!-- Khoa -->
-                    <div class="lg:col-span-2">
-
-                        <select name="faculty_id" class="w-full h-14 px-5 rounded-2xl
-                        bg-white
-                        border border-slate-200
-                        text-slate-700
-                        font-semibold
-                        focus:outline-none
-                        focus:border-amber-400
-                        focus:ring-4
-                        focus:ring-amber-100">
-
-                            <option value="">Tất cả khoa</option>
-
-                            @foreach($faculties as $faculty)
-
-                            <option value="{{ $faculty->faculty_id }}"
-                                {{ request('faculty_id') == $faculty->faculty_id ? 'selected' : '' }}>
-
-                                {{ $faculty->faculty_name }}
-
-                            </option>
-
-                            @endforeach
-
-                        </select>
-
-                    </div>
 
                     <!-- Button -->
-                    <div class="lg:col-span-2">
+                    <div class="lg:col-span-3">
 
                         <button type="submit" class="w-full h-14
                             rounded-2xl

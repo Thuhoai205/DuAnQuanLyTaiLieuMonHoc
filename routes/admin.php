@@ -92,7 +92,11 @@ Route::middleware('auth')
 
         Route::delete('/faculties/{faculty}', [FacultyController::class, 'destroy'])
             ->name('faculties.destroy');
-        
+ 
+        Route::get(
+    '/faculties/{faculty}/teachers',
+    [SubjectController::class, 'getTeachersByFaculty']
+)->name('faculties.teachers');
         /*
         |--------------------------
         | SUBJECTS

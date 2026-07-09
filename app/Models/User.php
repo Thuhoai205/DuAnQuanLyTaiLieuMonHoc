@@ -25,8 +25,12 @@ class User extends Authenticatable
         'email',
         'avatar',
         'role_id',
+        'faculty_id',
         'is_active',
         'remember_token',
+        'created_by',
+        'updated_by',
+        'deleted_by',
     ];
 
     protected $hidden = [
@@ -42,38 +46,53 @@ class User extends Authenticatable
         'deleted_at' => 'datetime',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Relationships
+    |--------------------------------------------------------------------------
+    */
+
     public function role()
     {
         return $this->belongsTo(Role::class, 'role_id', 'role_id');
     }
-public function subjects()
+
+    public function faculty()
 {
-    return $this->belongsToMany(
-        Subject::class,
-        'subject_teachers',
-        'user_id',
-        'subject_code',
-        'user_id',
-        'subject_code'
-    )
-    ->withPivot('assigned_at')
-    ->withTimestamps();
+    return $this->belongsTo(
+        Faculty::class,
+        'faculty_id',
+        'faculty_id'
+    );
 }
+    public function subjects()
+    {
+        return $this->belongsToMany(
+            Subject::class,
+            'subject_teachers',
+            'user_id',
+            'subject_code',
+            'user_id',
+            'subject_code'
+        )
+        ->withPivot('assigned_at')
+        ->withTimestamps();
+    }
 
     public function subjectTeachers()
     {
         return $this->hasMany(SubjectTeacher::class, 'user_id', 'user_id');
     }
 
-  public function documents()
-{
-    return $this->hasMany(Document::class, 'uploaded_by', 'user_id');
-}
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'uploaded_by', 'user_id');
+    }
 
-public function uploadedDocuments()
-{
-    return $this->hasMany(Document::class, 'uploaded_by', 'user_id');
-}
+    public function uploadedDocuments()
+    {
+        return $this->hasMany(Document::class, 'uploaded_by', 'user_id');
+    }
 
     public function updatedDocuments()
     {

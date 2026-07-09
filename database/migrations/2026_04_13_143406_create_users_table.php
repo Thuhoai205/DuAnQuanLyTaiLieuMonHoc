@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-       Schema::create('users', function (Blueprint $table) {
+     Schema::create('users', function (Blueprint $table) {
 
     $table->id('user_id');
 
@@ -25,6 +25,12 @@ return new class extends Migration
     $table->foreignId('role_id')
         ->constrained('roles', 'role_id')
         ->restrictOnDelete();
+
+    // Thêm khoa
+    $table->foreignId('faculty_id')
+        ->nullable()
+        ->constrained('faculties', 'faculty_id')
+        ->nullOnDelete();
 
     $table->boolean('is_active')->default(true);
 
@@ -50,6 +56,7 @@ return new class extends Migration
     $table->softDeletes();
 
     $table->index('role_id');
+    $table->index('faculty_id'); // Thêm index
     $table->index('is_active');
     $table->index('created_by');
     $table->index('updated_by');

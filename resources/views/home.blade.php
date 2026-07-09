@@ -131,12 +131,12 @@
                 <!-- ================= SEARCH ================= -->
 
                 <form action="{{ route('documents.search') }}" method="GET" class="mt-10
-        rounded-[32px]
-        border border-white/20
-        bg-white/10
-        backdrop-blur-2xl
-        p-6
-        shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
+                    rounded-[32px]
+                    border border-white/20
+                    bg-white/10
+                    backdrop-blur-2xl
+                    p-6
+                    shadow-[0_20px_60px_rgba(0,0,0,0.25)]">
 
                     <!-- SEARCH BOX -->
                     <div class="relative">
@@ -149,21 +149,21 @@
 
                         <input type="text" name="keyword" value="{{ request('keyword') }}"
                             placeholder="Tìm tên tài liệu hoặc từ khóa..." class="w-full
-                h-16
-                rounded-2xl
-                border border-white/20
-                bg-white/10
-                backdrop-blur-md
-                pl-14
-                pr-5
-                text-base
-                text-white
-                placeholder:text-white/60
-                focus:outline-none
-                focus:ring-2
-                focus:ring-cyan-300
-                focus:border-cyan-300
-                transition">
+                            h-16
+                            rounded-2xl
+                            border border-white/20
+                            bg-white/10
+                            backdrop-blur-md
+                            pl-14
+                            pr-5
+                            text-base
+                            text-white
+                            placeholder:text-white/60
+                            focus:outline-none
+                            focus:ring-2
+                            focus:ring-cyan-300
+                            focus:border-cyan-300
+                            transition">
 
                     </div>
 
@@ -227,36 +227,6 @@
                             @endforeach
 
                         </select>
-
-                        <!-- FACULTY -->
-                        <select name="faculty_id" class="h-14
-                rounded-xl
-                border border-white/20
-                bg-white/10
-                backdrop-blur-md
-                px-4
-                text-white
-                focus:ring-2
-                focus:ring-cyan-300
-                focus:border-cyan-300">
-
-                            <option value="" class="text-slate-700">
-                                Tất cả khoa
-                            </option>
-
-                            @foreach($faculties as $faculty)
-
-                            <option value="{{ $faculty->faculty_id }}" class="text-slate-700"
-                                {{ request('faculty_id')==$faculty->faculty_id ? 'selected' : '' }}>
-
-                                {{ $faculty->faculty_name }}
-
-                            </option>
-
-                            @endforeach
-
-                        </select>
-
                         <button type="submit" class="group h-14 w-full rounded-xl
                                 bg-gradient-to-r
                                 from-slate-700
@@ -291,8 +261,7 @@
             <div class="hidden lg:block lg:col-span-2 self-center">
                 <!-- CONTAINER NGOÀI CÙNG CHỨA HIỆU ỨNG VIỀN KHÔNG GIAN -->
                 <div
-                    class="relative p-[1px] rounded-[32px] overflow-hidden group/main shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-
+                    class="relative overflow-hidden rounded-[31px] bg-slate-700/35 backdrop-blur-3xl p-6 z-10 border border-white/15 shadow-[0_20px_40px_rgba(15,23,42,0.15)]">
                     <!-- 1. HIỆU ỨNG VIỀN PHÁT SÁNG CHẠY VÒNG SIÊU MỊN -->
                     <div
                         class="absolute inset-0 bg-gradient-to-r from-sky-500/50 via-amber-500/50 to-emerald-500/50 rounded-[32px] animate-[spin_8s_linear_infinite] opacity-70 group-hover/main:opacity-100 transition-opacity duration-500">

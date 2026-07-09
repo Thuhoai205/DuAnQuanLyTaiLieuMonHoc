@@ -219,7 +219,7 @@
                     <div class="flex items-center gap-3">
 
 
-                        <a href="{{ route('documents.index') }}" class="inline-flex items-center gap-2
+                        <button type="button" id="resetButton" class="inline-flex items-center gap-2
                     rounded-xl
                     border border-slate-300
                     bg-white
@@ -230,12 +230,11 @@
                     transition-all duration-300
                     hover:border-slate-400
                     hover:bg-slate-100">
-
                             <i class="fa-solid fa-rotate-left text-sm"></i>
 
                             Đặt lại
 
-                        </a>
+                        </button>
 
 
                         <button type="submit" class="inline-flex items-center gap-2
@@ -713,7 +712,6 @@
 document.addEventListener("DOMContentLoaded", function() {
 
     const form = document.getElementById("searchForm");
-    const resetBtn = document.getElementById("resetBtn");
 
     // Hàm tải danh sách tài liệu
     function loadDocuments(url = null) {
@@ -764,18 +762,15 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Nút Làm mới
-    if (resetBtn) {
+    document.getElementById('resetButton')?.addEventListener('click', function(e) {
 
-        resetBtn.addEventListener("click", function() {
+        e.preventDefault();
 
-            form.reset();
+        form.reset();
 
-            loadDocuments();
+        loadDocuments("{{ route('documents.index') }}");
 
-        });
-
-    }
-
+    });
     // Phân trang AJAX
     document.addEventListener("click", function(e) {
 

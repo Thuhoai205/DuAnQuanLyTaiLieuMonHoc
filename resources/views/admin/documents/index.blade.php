@@ -76,17 +76,17 @@
 
                 <!-- ADD -->
                 <a href="{{ route('admin.documents.create') }}" class="inline-flex
-                items-center
-                gap-2
-                h-11
-                px-5
-                rounded-xl
-                bg-sky-500
-                text-white
-                text-sm
-                font-bold
-                hover:bg-sky-600
-                transition-all duration-300">
+                    items-center
+                    gap-2
+                    h-11
+                    px-5
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    text-sm
+                    font-bold
+                    hover:bg-amber-600
+                    transition-all duration-300">
 
                     <i class="fa-solid fa-plus"></i>
 
@@ -262,16 +262,13 @@
             <div class="md:col-span-2 flex gap-3">
 
                 <button type="submit" class="flex-1
-        h-11
-        rounded-xl
-        bg-sky-500
-        text-white
-        text-sm
-        font-bold
-        hover:bg-sky-600
-        transition-all duration-300">
-
-                    <i class="fa-solid fa-filter mr-2"></i>
+                    rounded-xl
+                    bg-amber-500
+                    text-white
+                    text-sm
+                    font-bold
+                    hover:bg-amber-600
+                    transition-all duration-300">
 
                     Lọc
 
