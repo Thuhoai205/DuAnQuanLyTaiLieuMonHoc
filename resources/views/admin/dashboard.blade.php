@@ -611,17 +611,20 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                 </div>
 
                 <!-- XEM -->
+                @php
+                $version = $document->currentVersion;
+                @endphp
+
                 <div class="col-span-1 flex justify-center">
 
-                    <a href="{{ route('admin.documents.show', $document->document_id) }}" class="w-9 h-9 rounded-lg
-                  bg-sky-50 text-sky-600
-                  hover:bg-sky-100
-                  transition
-                  flex items-center justify-center">
+                    <a href="{{ asset('storage/'.$version->preview_file) }}" target="_blank"
+                        class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-sm font-bold hover:bg-sky-600">
 
                         <i class="fa-solid fa-eye"></i>
+                        Xem
 
                     </a>
+
 
                 </div>
 
