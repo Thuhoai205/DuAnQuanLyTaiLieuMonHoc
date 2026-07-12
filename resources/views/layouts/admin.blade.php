@@ -203,13 +203,19 @@
                 </a>
 
                 <div class="menu-title flex items-center gap-2">
-                    <i class="fa-solid fa-chart-column text-[10px] text-amber-500"></i>
-                    <span>Thống kê & Báo cáo</span>
+                    <i class="fa-solid fa-chart-line text-[10px] text-amber-500"></i>
+                    <span>Phân tích dữ liệu</span>
                 </div>
+
+                <a href="{{ route('admin.statistics.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.statistics.*') ? 'active' : '' }}">
+                    <i class="nav-icon fa-solid fa-chart-column"></i>
+                    <span>Thống kê</span>
+                </a>
 
                 <a href="{{ route('admin.logs.index') }}"
                     class="nav-link {{ request()->routeIs('admin.logs.*') ? 'active' : '' }}">
-                    <i class="nav-icon fa-solid fa-clock-rotate-left"></i>
+                    <i class="nav-icon fa-solid fa-right-to-bracket"></i>
                     <span>Nhật ký</span>
 
                     @if($todayLogCount > 0)
