@@ -617,6 +617,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 
                 <div class="col-span-1 flex justify-center">
 
+                    @if($version)
                     <a href="{{ asset('storage/'.$version->preview_file) }}" target="_blank"
                         class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-sky-500 text-white text-sm font-bold hover:bg-sky-600">
 
@@ -624,6 +625,13 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
                         Xem
 
                     </a>
+                    @else
+                    <span
+                        class="inline-flex items-center gap-2 h-11 px-4 rounded-md bg-gray-400 text-white text-sm font-bold cursor-not-allowed">
+                        <i class="fa-solid fa-eye-slash"></i>
+                        Chưa có file
+                    </span>
+                    @endif
 
 
                 </div>
