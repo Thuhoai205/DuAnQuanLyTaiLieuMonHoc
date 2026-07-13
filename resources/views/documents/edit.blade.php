@@ -403,59 +403,37 @@
                                 $version = $document->currentVersion;
                                 @endphp
 
+                                @if($version)
+
                                 @if($version->preview_file)
 
-                                <a href="{{ asset('storage/'.$version->preview_file) }}" target="_blank" class="inline-flex
-    items-center
-    gap-2
-    h-11
-    px-5
-    rounded-xl
-    border
-    border-slate-200
-    bg-white
-    text-slate-700
-    text-sm
-    font-bold
-    shadow-sm
-    transition-all
-    duration-300
-    hover:border-amber-300
-    hover:bg-amber-50
-    hover:text-amber-600
-    hover:shadow-md">
+                                <a href="{{ asset('storage/'.$version->preview_file) }}" target="_blank"
+                                    class="inline-flex items-center gap-2 h-11 px-5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-bold shadow-sm transition-all duration-300 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-600 hover:shadow-md">
 
                                     <i class="fa-solid fa-eye"></i>
-
                                     Xem tài liệu
 
                                 </a>
 
                                 @else
 
-                                <a href="{{ asset('storage/'.$version->file_path) }}" target="_blank" class="inline-flex
-    items-center
-    gap-2
-    h-11
-    px-5
-    rounded-xl
-    border
-    border-slate-200
-    bg-white
-    text-slate-700
-    text-sm
-    font-bold
-    shadow-sm
-    transition-all
-    duration-300
-    hover:border-amber-300
-    hover:bg-amber-50
-    hover:text-amber-600
-    hover:shadow-md">
+                                <a href="{{ asset('storage/'.$version->file_path) }}" target="_blank"
+                                    class="inline-flex items-center gap-2 h-11 px-5 rounded-xl border border-slate-200 bg-white text-slate-700 text-sm font-bold shadow-sm transition-all duration-300 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-600 hover:shadow-md">
+
                                     <i class="fa-solid fa-file"></i>
                                     Mở file
 
                                 </a>
+
+                                @endif
+
+                                @else
+
+                                <span
+                                    class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-gray-200 text-gray-500 font-semibold">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    Chưa có phiên bản tài liệu
+                                </span>
 
                                 @endif
 
