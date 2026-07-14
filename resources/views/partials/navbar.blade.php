@@ -332,6 +332,7 @@ MY DOCUMENT -->
     transition-all duration-300">
                     Đăng nhập
                 </a>
+                <!-- 
 
                 @if(Route::has('register'))
 
@@ -350,7 +351,7 @@ MY DOCUMENT -->
                 </a>
 
                 @endif
-
+ -->
                 @endguest
 
             </div>
