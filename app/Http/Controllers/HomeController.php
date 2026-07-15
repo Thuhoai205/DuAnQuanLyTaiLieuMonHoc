@@ -7,7 +7,9 @@ use App\Models\Subject;
 use App\Models\Document;
 use App\Models\DownloadHistory;
 use App\Models\DocumentType;
+use App\Models\SearchHistory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -153,6 +155,16 @@ class HomeController extends Controller
         $faculties = Faculty::where('is_active', true)
             ->orderBy('faculty_name')
             ->get();
+        $topKeywords = SearchHistory::select(
+        'keyword',
+        DB::raw('COUNT(*) as total')
+        )
+        ->whereNotNull('keyword')
+        ->where('keyword', '<>', '')
+        ->groupBy('keyword')
+        ->orderByDesc('total')
+        ->take(4)
+        ->get();
 
         /*
         |--------------------------------------------------------------------------
@@ -170,7 +182,8 @@ class HomeController extends Controller
             'totalDocuments',
             'totalDownloads',
             'totalSubjects',
-            'totalFaculties'
+            'totalFaculties',
+            'topKeywords'
         ));
     }
 }

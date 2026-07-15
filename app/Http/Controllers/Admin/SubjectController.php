@@ -12,6 +12,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SubjectAssignedMail;
+use App\Mail\SubjectUnassignedMail;
 class SubjectController extends Controller
 {
     /* =========================
@@ -517,59 +520,81 @@ public function restoreMultiple(Request $request)
     /* =========================
      * SYNC LECTURERS + NOTIFICATION
      * ========================= */
-   private function syncLecturers(Subject $subject, array $teacherIds): void
+    private function syncLecturers(Subject $subject, array $teacherIds): void
 {
-    // Danh sách giảng viên cũ
+    // Danh sách giảng viên trước khi cập nhật
     $oldTeacherIds = $subject->lecturers()
         ->pluck('users.user_id')
         ->toArray();
 
-    // Cập nhật phân công
+    // Đồng bộ phân công
     $subject->lecturers()->sync($teacherIds);
 
     /*
     |--------------------------------------------------------------------------
-    | Thông báo phân công mới
+    | Giảng viên được phân công mới
     |--------------------------------------------------------------------------
     */
     foreach ($teacherIds as $teacherId) {
 
         if (!in_array($teacherId, $oldTeacherIds)) {
 
+            $teacher = User::find($teacherId);
+
+            // Thông báo trong hệ thống
             Notification::create([
-                'user_id' => $teacherId,
-                'title' => 'Bạn được phân công môn học',
-                'content' => 'Bạn được phân công giảng dạy môn "' .
-                    $subject->subject_name . '".',
-                'type' => 'subject_assignment',
+                'user_id'      => $teacherId,
+                'title'        => 'Bạn được phân công môn học',
+                'content'      => 'Bạn được phân công giảng dạy môn "' . $subject->subject_name . '".',
+                'type'         => 'subject_assignment',
                 'related_type' => 'subject',
-                'related_id' => $subject->subject_code,
-                'is_read' => false,
+                'related_id'   => $subject->subject_code,
+                'is_read'      => false,
             ]);
 
+            // Gửi Email
+            if ($teacher && !empty($teacher->email)) {
+
+                Mail::to($teacher->email)
+                    ->send(new SubjectAssignedMail(
+                        $teacher,
+                        $subject
+                    ));
+            }
         }
     }
 
     /*
     |--------------------------------------------------------------------------
-    | Thông báo hủy phân công
+    | Giảng viên bị hủy phân công
     |--------------------------------------------------------------------------
     */
     $removedTeacherIds = array_diff($oldTeacherIds, $teacherIds);
 
     foreach ($removedTeacherIds as $teacherId) {
 
+        $teacher = User::find($teacherId);
+
+        // Thông báo trong hệ thống
         Notification::create([
-            'user_id' => $teacherId,
-            'title' => 'Hủy phân công môn học',
-            'content' => 'Bạn không còn phụ trách môn "' .
-                $subject->subject_name . '".',
-            'type' => 'subject_removed',
+            'user_id'      => $teacherId,
+            'title'        => 'Hủy phân công môn học',
+            'content'      => 'Bạn không còn phụ trách môn "' . $subject->subject_name . '".',
+            'type'         => 'subject_removed',
             'related_type' => 'subject',
-            'related_id' => $subject->subject_code,
-            'is_read' => false,
+            'related_id'   => $subject->subject_code,
+            'is_read'      => false,
         ]);
 
+        // Gửi Email
+        if ($teacher && !empty($teacher->email)) {
+
+            Mail::to($teacher->email)
+                ->send(new SubjectUnassignedMail(
+                    $teacher,
+                    $subject
+                ));
+        }
     }
 }
 public function getTeachersByFaculty($facultyId)

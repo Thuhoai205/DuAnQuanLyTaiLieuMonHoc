@@ -12,14 +12,15 @@ class SearchHistory extends Model
 
     public $timestamps = false;
 
-    protected $fillable = [
-        'user_id',
-        'keyword',
-        'subject_code',
-        'document_type_id',
-        'result_count',
-        'searched_at',
-    ];
+   protected $fillable = [
+    'user_id',
+    'faculty_id',
+    'keyword',
+    'subject_code',
+    'document_type_id',
+    'result_count',
+    'searched_at',
+];
 
     protected $casts = [
         'result_count' => 'integer',

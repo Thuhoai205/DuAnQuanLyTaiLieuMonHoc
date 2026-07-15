@@ -256,6 +256,67 @@
                     </div>
 
                 </form>
+                {{-- ================= TOP KEYWORDS ================= --}}
+                @if(isset($topKeywords) && $topKeywords->count())
+
+                <div class="mt-6">
+
+                    <div class="flex items-center gap-2 mb-3">
+
+                        <i class="fa-solid fa-fire text-orange-400"></i>
+
+                        <span class="text-sm font-semibold text-white">
+
+                            Từ khóa được tìm kiếm nhiều
+
+                        </span>
+
+                    </div>
+
+                    <div class="flex flex-wrap gap-3">
+
+                        @foreach($topKeywords as $item)
+
+                        <a href="{{ route('documents.search',[
+    'keyword' => $item->keyword
+]) }}" class="group inline-flex items-center gap-2
+                rounded-full
+                border border-white/20
+                bg-white/10
+                backdrop-blur-md
+                px-4
+                py-2
+                text-sm
+                text-white
+                transition-all
+                duration-300
+                hover:bg-amber-500
+                hover:border-amber-500
+                hover:scale-105">
+
+                            <i class="fa-solid fa-fire text-xs text-orange-300 group-hover:text-white"></i>
+
+                            {{ $item->keyword }}
+
+                            <span class="rounded-full
+                bg-white/20
+                px-2
+                py-0.5
+                text-xs">
+
+                                {{ $item->total }}
+
+                            </span>
+
+                        </a>
+
+                        @endforeach
+
+                    </div>
+
+                </div>
+
+                @endif
 
             </div>
             <div class="hidden lg:block lg:col-span-2 self-center">
