@@ -332,7 +332,7 @@ MY DOCUMENT -->
     transition-all duration-300">
                     Đăng nhập
                 </a>
-
+                <!-- 
                 @if(Route::has('register'))
 
                 <a href="{{ route('register') }}" class="hidden sm:inline-flex
@@ -350,7 +350,7 @@ MY DOCUMENT -->
                 </a>
 
                 @endif
-
+LOGOUT -->
                 @endguest
 
             </div>

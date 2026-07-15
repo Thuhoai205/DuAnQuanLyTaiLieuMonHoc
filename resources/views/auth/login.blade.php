@@ -463,7 +463,7 @@ leading-7
                             </button>
                         </form>
 
-                        <!-- REGISTER -->
+                        <!-- 
                         <div class="mt-5 text-center">
 
                             <p class="text-sm text-slate-500">
@@ -483,7 +483,7 @@ leading-7
                             </p>
 
                         </div>
-
+REGISTER -->
                         <!-- DIVIDER -->
                         <div class="relative my-5">
 

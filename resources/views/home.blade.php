@@ -1421,7 +1421,7 @@ setInterval(() => {
 
                     </a>
 
-                    <!-- REGISTER -->
+                    <!-- 
 
                     <a href="{{ route('register') }}" class="inline-flex
                     items-center
@@ -1448,7 +1448,7 @@ setInterval(() => {
                         Tạo tài khoản
 
                     </a>
-
+REGISTER -->
                 </div>
 
                 <!-- ================= STATISTICS ================= -->
