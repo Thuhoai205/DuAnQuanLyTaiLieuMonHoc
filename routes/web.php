@@ -9,6 +9,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SubjectTeacherController;
 use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\DownloadController;
+use App\Http\Controllers\FavoriteController;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
@@ -144,6 +146,21 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/subject-teachers/{id}', [SubjectTeacherController::class, 'remove'])
         ->name('subject-teachers.remove');
+    Route::get(
+        '/my-downloads',
+        [DownloadController::class, 'history']
+    )->name('downloads.history');
+    Route::get(
+        '/my-favorites',
+        [FavoriteController::class,'index']
+    )->name('favorites.index');
+
+    Route::post(
+        '/favorites/{document}',
+        [FavoriteController::class,'toggle']
+    )->name('favorites.toggle');
+
+
 
 
 

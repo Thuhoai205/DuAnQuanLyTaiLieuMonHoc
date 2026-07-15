@@ -65,4 +65,12 @@ class DocumentType extends Model
             'user_id'
         );
     }
+    public function favorites()
+{
+    return $this->hasMany(
+        Favorite::class,
+        'document_id',
+        'document_id'
+    );
+}
 }

@@ -262,6 +262,25 @@ font-['Roboto',_sans-serif]">
                             Hồ sơ cá nhân
 
                         </a>
+                        <!-- DOWNLOAD HISTORY -->
+                        <a href="{{ route('downloads.history') }}"
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">
+
+                            <i class="fa-solid fa-clock-rotate-left w-5 text-slate-600 text-base"></i>
+
+                            Lịch sử tải
+
+                        </a>
+                        <a href="{{ route('favorites.index') }}"
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">
+
+                            <i class="fa-solid fa-heart w-5 text-red-500 text-base"></i>
+
+                            Tài liệu yêu thích
+
+                        </a>
+
+
 
                         <!-- 
                         @if($canUploadDocument && Route::has('documents.my-documents'))

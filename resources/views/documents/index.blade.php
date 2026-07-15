@@ -291,10 +291,15 @@
                         class="group flex items-center justify-between gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-md">
 
                         <!-- LEFT -->
-                        <a href="{{ route('documents.show',$document->document_id) }}"
+                        @auth
+                        <a href="{{ route('documents.show', $document->document_id) }}"
                             class="flex flex-1 items-center gap-5 min-w-0">
+                            @endauth
 
-                            <div class="flex h-14 w-14 items-center justify-center
+                            @guest
+                            <a href="javascript:void(0)" class="flex flex-1 items-center gap-5 min-w-0 cursor-default">
+                                @endguest
+                                <div class="flex h-14 w-14 items-center justify-center
                             rounded-2xl
                             border border-slate-200
                             bg-slate-100
@@ -304,98 +309,116 @@
                             group-hover:bg-amber-50
                             group-hover:text-amber-500">
 
-                                <i class="fa-solid fa-folder-open text-xl"></i>
+                                    <i class="fa-solid fa-folder-open text-xl"></i>
 
-                            </div>
-                            <!-- CONTENT -->
-                            <div class="min-w-0 flex-1">
+                                </div>
+                                <!-- CONTENT -->
+                                <div class="min-w-0 flex-1">
 
-                                <h3 class="truncate
-                        text-lg
-                        font-semibold
-                        text-slate-800
-                        transition-colors
-                        group-hover:text-amber-500">
+                                    <h3 class="truncate
+                                        text-lg
+                                        font-semibold
+                                        text-slate-800
+                                        transition-colors
+                                        group-hover:text-amber-500">
 
-                                    {{ $document->title }}
+                                        @php
+                                        $title = e($document->title);
 
-                                </h3>
+                                        if(request()->filled('keyword')) {
 
-                                <div class="mt-3 flex flex-wrap gap-2">
+                                        foreach(explode(' ', trim(request('keyword'))) as $word) {
 
-                                    <span class="rounded-full
-                            bg-slate-100
-                            px-3
-                            py-1
-                            text-xs
-                            text-slate-700">
+                                        if($word === '') continue;
 
-                                        <i class="fa-solid fa-book mr-1 text-slate-500"></i>
+                                        $title = preg_replace(
+                                        '/(' . preg_quote($word, '/') . ')/i',
+                                        '<mark class="bg-yellow-300 text-red-600 font-bold px-1 rounded">$1</mark>',
+                                        $title
+                                        );
+                                        }
+                                        }
+                                        @endphp
 
-                                        {{ $document->subject?->subject_name }}
+                                        {!! $title !!}
 
-                                    </span>
-                                    <span class="rounded-full
-                            bg-slate-100
-                            px-3
-                            py-1
-                            text-xs
-                            text-slate-700">
+                                    </h3>
 
-                                        <i class="fa-solid fa-user-tie mr-1 text-slate-500"></i>
+                                    <div class="mt-3 flex flex-wrap gap-2">
 
-                                        {{ $document->uploader?->full_name ?? 'Không xác định' }}
+                                        <span class="rounded-full
+                                                bg-slate-100
+                                                px-3
+                                                py-1
+                                                text-xs
+                                                text-slate-700">
 
-                                    </span>
-                                    <span class="rounded-full
-                            bg-amber-50
-                            px-3
-                            py-1
-                            text-xs
-                            text-amber-700">
+                                            <i class="fa-solid fa-book mr-1 text-slate-500"></i>
 
-                                        <i class="fa-solid fa-download mr-1"></i>
+                                            {{ $document->subject?->subject_name }}
 
-                                        {{ number_format($document->download_count) }}
+                                        </span>
+                                        <span class="rounded-full
+                                                bg-slate-100
+                                                px-3
+                                                py-1
+                                                text-xs
+                                                text-slate-700">
 
-                                    </span>
+                                            <i class="fa-solid fa-user-tie mr-1 text-slate-500"></i>
 
-                                    <span class="rounded-full
-                            bg-slate-100
-                            px-3
-                            py-1
-                            text-xs
-                            text-slate-700">
+                                            {{ $document->uploader?->full_name ?? 'Không xác định' }}
 
-                                        <i class="fa-solid fa-calendar mr-1 text-slate-500"></i>
+                                        </span>
+                                        <span class="rounded-full
+                                                bg-amber-50
+                                                px-3
+                                                py-1
+                                                text-xs
+                                                text-amber-700">
 
-                                        {{ $document->created_at->format('d/m/Y') }}
+                                            <i class="fa-solid fa-download mr-1"></i>
 
-                                    </span>
+                                            {{ number_format($document->download_count) }}
+
+                                        </span>
+
+                                        <span class="rounded-full
+                                                bg-slate-100
+                                                px-3
+                                                py-1
+                                                text-xs
+                                                text-slate-700">
+
+                                            <i class="fa-solid fa-calendar mr-1 text-slate-500"></i>
+
+                                            {{ $document->created_at->format('d/m/Y') }}
+
+                                        </span>
+
+                                    </div>
 
                                 </div>
 
-                            </div>
-
-                        </a>
-
-                        <!-- ACTION -->
-                        <div class="flex items-center gap-2 flex-wrap justify-end">
-
-
-                            @auth
-
-                            {{-- ADMIN --}}
-                            @if(Auth::user()->role_id == 1)
-
-
-                            <a href="{{ route('documents.show',$document->document_id) }}"
-                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
-
-                                Chi tiết
-
                             </a>
-                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+
+                            <!-- ACTION -->
+                            <div class="flex items-center gap-2 flex-wrap justify-end">
+
+
+                                @auth
+
+                                {{-- ADMIN --}}
+                                @if(Auth::user()->role_id == 1)
+
+
+                                <a href="{{ route('documents.show',$document->document_id) }}"
+                                    class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+
+                                    Chi tiết
+
+                                </a>
+                                <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
                                 rounded-xl
                                 bg-slate-900
                                 px-4 py-2
@@ -404,27 +427,27 @@
                                 transition
                                 hover:bg-amber-500">
 
-                                <i class="fa-solid fa-download"></i>
+                                    <i class="fa-solid fa-download"></i>
 
-                                Tải
+                                    Tải
 
-                            </a>
+                                </a>
 
-                            {{-- GIẢNG VIÊN --}}
-                            @elseif(Auth::user()->role_id == 2)
+                                {{-- GIẢNG VIÊN --}}
+                                @elseif(Auth::user()->role_id == 2)
 
-                            @if($document->uploaded_by == Auth::id())
+                                @if($document->uploaded_by == Auth::id())
 
-                            <a href="{{ route('documents.show',$document->document_id) }}"
-                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+                                <a href="{{ route('documents.show',$document->document_id) }}"
+                                    class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
 
-                                Chi tiết
+                                    Chi tiết
 
-                            </a>
+                                </a>
 
-                            @endif
+                                @endif
 
-                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
                                 rounded-xl
                                 bg-slate-900
                                 px-4 py-2
@@ -433,15 +456,15 @@
                                 transition
                                 hover:bg-amber-500">
 
-                                <i class="fa-solid fa-download"></i>
+                                    <i class="fa-solid fa-download"></i>
 
-                                Tải
+                                    Tải
 
-                            </a>
-                            {{-- SINH VIÊN --}}
-                            @else
+                                </a>
+                                {{-- SINH VIÊN --}}
+                                @else
 
-                            <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
+                                <a href="{{ route('documents.download',$document) }}" class="inline-flex items-center gap-2
                                 rounded-xl
                                 bg-slate-900
                                 px-4 py-2
@@ -450,16 +473,16 @@
                                 transition
                                 hover:bg-amber-500">
 
-                                <i class="fa-solid fa-download"></i>
+                                    <i class="fa-solid fa-download"></i>
 
-                                Tải
+                                    Tải
 
-                            </a>
-                            @endif
+                                </a>
+                                @endif
 
-                            @else
+                                @else
 
-                            <a onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
+                                <a onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
                                 rounded-xl
                                 border border-slate-300
                                 bg-white
@@ -471,13 +494,13 @@
                                 hover:bg-yellow-50
                                 hover:text-yellow-700
                                 shadow-sm">
-                                <i class="fa-solid fa-lock text-xs"></i>
-                                Đăng nhập để tải
-                            </a>
+                                    <i class="fa-solid fa-lock text-xs"></i>
+                                    Đăng nhập để tải
+                                </a>
 
-                            @endauth
+                                @endauth
 
-                        </div>
+                            </div>
 
                     </div>
 

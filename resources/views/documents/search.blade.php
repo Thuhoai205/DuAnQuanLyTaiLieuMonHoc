@@ -377,17 +377,37 @@
 
                         </div>
                         <!-- CONTENT -->
-                        <!-- CONTENT -->
                         <div class="min-w-0 flex-1">
 
                             <h3 class="truncate
-                        text-lg
-                        font-semibold
-                        text-slate-800
-                        transition-colors
-                        group-hover:text-amber-500">
+    text-lg
+    font-semibold
+    text-slate-800
+    transition-colors
+    group-hover:text-amber-500">
 
-                                {{ $document->title }}
+                                @php
+                                $title = $document->title;
+
+                                if(request('keyword')){
+                                $title = preg_replace(
+                                '/(' . preg_quote(request('keyword'), '/') . ')/i',
+                                '<mark class="bg-yellow-300 text-red-600 font-bold px-1 rounded">$1</mark>',
+                                e($title)
+                                );
+                                }else{
+                                $title = e($title);
+                                }
+                                @endphp
+
+                                @auth
+                                <a href="{{ route('documents.show', $document->document_id) }}"
+                                    class="hover:text-amber-500 transition-colors">
+                                    {!! $title !!}
+                                </a>
+                                @else
+                                {!! $title !!}
+                                @endauth
 
                             </h3>
 
