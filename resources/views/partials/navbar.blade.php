@@ -10,6 +10,7 @@ default => 'Người dùng',
 };
 
 $canUploadDocument = in_array($roleId, [1, 2]);
+$canMyDocument = in_array($roleId, [2]);
 
 $facultyUrl = \Illuminate\Support\Facades\Route::has('faculties.index')
 ? route('faculties.index')
@@ -283,7 +284,7 @@ font-['Roboto',_sans-serif]">
 
 
                         <!-- MY DOCUMENT -->
-                        @if($canUploadDocument && Route::has('documents.my-documents'))
+                        @if($canMyDocument && Route::has('documents.my-documents'))
 
                         <a href="{{ route('documents.my-documents') }}"
                             class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">

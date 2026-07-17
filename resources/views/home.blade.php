@@ -1816,7 +1816,7 @@ REGISTER -->
 
                 <span class="text-amber-500">
 
-                    nhanh
+                    nhanh để khám phá
 
                 </span>
 
@@ -1847,7 +1847,7 @@ REGISTER -->
             <!-- FACULTY -->
             <!-- ========================= -->
 
-            <a href="{{ route('faculties.index') }}" class="group
+            <a href="#" class="group
             quick-card
             relative
             overflow-hidden
@@ -1927,21 +1927,7 @@ REGISTER -->
 
                         </span>
 
-                        <div class="w-11
-                        h-11
-                        rounded-full
-                        bg-slate-100
-                        flex
-                        items-center
-                        justify-center
-                        transition-all
-                        duration-300
-                        group-hover:bg-amber-500
-                        group-hover:text-white">
 
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </div>
 
                     </div>
 
@@ -1953,7 +1939,7 @@ REGISTER -->
             <!-- SUBJECT -->
             <!-- ========================= -->
 
-            <a href="{{ route('subjects.index') }}" class="group
+            <a href="#" class="group
             quick-card
             relative
             overflow-hidden
@@ -2034,21 +2020,6 @@ REGISTER -->
 
                         </span>
 
-                        <div class="w-11
-                        h-11
-                        rounded-full
-                        bg-slate-100
-                        flex
-                        items-center
-                        justify-center
-                        transition-all
-                        duration-300
-                        group-hover:bg-amber-500
-                        group-hover:text-white">
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </div>
 
                     </div>
 
@@ -2059,7 +2030,7 @@ REGISTER -->
             <!-- DOCUMENT -->
             <!-- ========================= -->
 
-            <a href="{{ route('documents.index') }}" class="group
+            <a href="#" class="group
             quick-card
             relative
             overflow-hidden
@@ -2143,21 +2114,7 @@ REGISTER -->
 
                         </span>
 
-                        <div class="w-11
-                        h-11
-                        rounded-full
-                        bg-slate-100
-                        flex
-                        items-center
-                        justify-center
-                        transition-all
-                        duration-300
-                        group-hover:bg-amber-500
-                        group-hover:text-white">
 
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </div>
 
                     </div>
 
