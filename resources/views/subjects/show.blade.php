@@ -413,7 +413,13 @@
                         {{-- GIẢNG VIÊN --}}
                         @elseif(Auth::user()->role_id == 2)
 
-                        @if($document->uploaded_by == Auth::id())
+                        @php
+                        $canManage = \App\Models\SubjectTeacher::where('user_id', Auth::id())
+                        ->where('subject_code', $document->subject_code)
+                        ->exists();
+                        @endphp
+
+                        @if($document->uploaded_by == Auth::id() && $canManage)
 
                         <a href="{{ route('documents.show',$document->document_id) }}"
                             class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">

@@ -52,6 +52,30 @@ class HomeController extends Controller
 
             $subjects = $topSubjects;
         }
+        /*
+|--------------------------------------------------------------------------
+| Danh sách tất cả môn học của khoa
+|--------------------------------------------------------------------------
+*/
+
+$subjects = Subject::where('status', 'active');
+
+if (Auth::check()) {
+
+    $user = Auth::user();
+
+    if (in_array($user->role->role_name, ['lecturer', 'student'])) {
+
+        $subjects->where('faculty_id', $user->faculty_id);
+
+    }
+
+}
+
+$subjects = $subjects
+    ->orderBy('subject_name')
+    ->get();
+        
 
         /*
         |--------------------------------------------------------------------------
@@ -110,6 +134,7 @@ class HomeController extends Controller
         $myDocuments = collect();
 
         $topDocument = null;
+        $topViewedDocument = null;
 
         /*
         |--------------------------------------------------------------------------
@@ -129,7 +154,7 @@ class HomeController extends Controller
                     $query->where('status', 'active');
                 })
                 ->latest()
-                ->take(3)
+                ->take(4)
                 ->get();
 
             // Tài liệu nổi bật của giảng viên
@@ -141,6 +166,14 @@ class HomeController extends Controller
                 ->where('is_active', true)
                 ->orderByDesc('download_count')
                 ->first();
+            $topViewedDocument = Document::with([
+        'subject',
+        'currentVersion'
+    ])
+    ->where('uploaded_by', Auth::id())
+    ->where('is_active', true)
+    ->orderByDesc('view_count')
+    ->first();
         }
 
         /*
@@ -171,19 +204,21 @@ class HomeController extends Controller
         | View
         |--------------------------------------------------------------------------
         */
-        return view('home', compact(
-            'subjects',
-            'latestDocuments',
-            'topDocuments',
-            'myDocuments',
-            'topDocument',
-            'documentTypes',
-            'faculties',
-            'totalDocuments',
-            'totalDownloads',
-            'totalSubjects',
-            'totalFaculties',
-            'topKeywords'
-        ));
+       return view('home', compact(
+    'topSubjects',
+    'subjects',
+    'latestDocuments',
+    'topDocuments',
+    'topViewedDocument',
+    'myDocuments',
+    'topDocument',
+    'documentTypes',
+    'faculties',
+    'totalDocuments',
+    'totalDownloads',
+    'totalSubjects',
+    'totalFaculties',
+    'topKeywords'
+));
     }
 }

@@ -46,368 +46,374 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
 @endphp
 
 <div class="space-y-6">
+    <!-- =========================
+     TOP SUMMARY
+========================= -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-6">
 
-    <!-- TOP SUMMARY -->
-    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-5 items-stretch">
-
-        <!-- USERS -->
+        <!-- ================= USERS ================= -->
         <a href="{{ $usersUrl }}"
-            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+            class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            <!-- Top Border -->
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-sky-500 to-cyan-500"></div>
 
             <div class="flex items-center justify-between">
 
                 <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
+
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">
+
                         Người dùng
+
                     </p>
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                    <h3 class="mt-4 text-4xl font-black text-slate-800">
+
                         {{ number_format($totalUsers) }}
+
                     </h3>
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Quản lý tài khoản hệ thống
+                    <p class="mt-2 text-sm text-slate-500">
+
+                        Tổng tài khoản trong hệ thống
+
                     </p>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-sky-500 text-white flex items-center justify-center shadow-sm">
-                    <i class="fa-solid fa-users"></i>
+                <div class="flex h-16 w-16 items-center justify-center rounded-2xl
+                       bg-gradient-to-br from-sky-500 to-cyan-500
+                       text-white shadow-lg shadow-sky-500/25">
+
+                    <i class="fa-solid fa-users text-2xl"></i>
+
                 </div>
 
             </div>
+
         </a>
 
-        <!-- SUBJECTS -->
+        <!-- ================= SUBJECTS ================= -->
         <a href="{{ $subjectsUrl }}"
-            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+            class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-emerald-500 to-green-500"></div>
 
             <div class="flex items-center justify-between">
 
                 <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
+
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">
+
                         Môn học
+
                     </p>
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                    <h3 class="mt-4 text-4xl font-black text-slate-800">
+
                         {{ number_format($totalSubjects) }}
+
                     </h3>
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Quản lý môn học
+                    <p class="mt-2 text-sm text-slate-500">
+
+                        Tổng số môn học hiện có
+
                     </p>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-emerald-500 text-white flex items-center justify-center shadow-sm">
-                    <i class="fa-solid fa-book-open"></i>
+                <div class="flex h-16 w-16 items-center justify-center rounded-2xl
+                       bg-gradient-to-br from-emerald-500 to-green-500
+                       text-white shadow-lg shadow-emerald-500/25">
+
+                    <i class="fa-solid fa-book-open text-2xl"></i>
+
                 </div>
 
             </div>
-        </a>
 
-        <!-- DOCUMENTS -->
+        </a>
+        <!-- ================= DOCUMENTS ================= -->
         <div
-            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+            class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-violet-500 to-fuchsia-500"></div>
 
             <div class="flex items-center justify-between">
 
                 <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
+
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">
+
                         Tài liệu
+
                     </p>
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                    <h3 class="mt-4 text-4xl font-black text-slate-800">
+
                         {{ number_format($totalDocuments) }}
+
                     </h3>
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Quản lý tài liệu
+                    <p class="mt-2 text-sm text-slate-500">
+
+                        Tổng tài liệu đang lưu trữ
+
                     </p>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-purple-500 text-white flex items-center justify-center shadow-sm">
-                    <i class="fa-solid fa-file-lines"></i>
+                <div class="flex h-16 w-16 items-center justify-center rounded-2xl
+                       bg-gradient-to-br from-violet-500 to-fuchsia-500
+                       text-white shadow-lg shadow-violet-500/25">
+
+                    <i class="fa-solid fa-file-lines text-2xl"></i>
+
                 </div>
 
             </div>
+
         </div>
 
-        <!-- DOCUMENT TYPES -->
+        <!-- ================= DOCUMENT TYPES ================= -->
         <a href="{{ $documentTypesUrl }}"
-            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+            class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-amber-500 to-orange-500"></div>
 
             <div class="flex items-center justify-between">
 
                 <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
+
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">
+
                         Loại tài liệu
+
                     </p>
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                    <h3 class="mt-4 text-4xl font-black text-slate-800">
+
                         {{ number_format($totalDocumentTypes) }}
+
                     </h3>
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Phân loại tài liệu
+                    <p class="mt-2 text-sm text-slate-500">
+
+                        Danh mục loại tài liệu
+
                     </p>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-amber-500 text-white flex items-center justify-center shadow-sm">
-                    <i class="fa-solid fa-layer-group"></i>
+                <div class="flex h-16 w-16 items-center justify-center rounded-2xl
+                       bg-gradient-to-br from-amber-500 to-orange-500
+                       text-white shadow-lg shadow-amber-500/25">
+
+                    <i class="fa-solid fa-layer-group text-2xl"></i>
+
                 </div>
 
             </div>
-        </a>
 
-        <!-- DOWNLOADS -->
+        </a>
+        <!-- ================= DOWNLOADS ================= -->
         <div
-            class="h-full flex flex-col justify-between bg-white border border-slate-200 rounded-md shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+            class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            <!-- Top Border -->
+            <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rose-500 to-pink-500"></div>
 
             <div class="flex items-center justify-between">
 
                 <div>
-                    <p class="text-xs font-bold uppercase text-slate-400">
+
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">
+
                         Lượt tải
+
                     </p>
 
-                    <h3 class="text-2xl font-black text-slate-700 mt-2">
+                    <h3 class="mt-4 text-4xl font-black text-slate-800">
+
                         {{ number_format($totalDownloads) }}
+
                     </h3>
 
-                    <p class="text-xs font-semibold text-slate-400 mt-1">
-                        Thống kê tải xuống
+                    <p class="mt-2 text-sm text-slate-500">
+
+                        Tổng lượt tải tài liệu
+
                     </p>
+
                 </div>
 
-                <div class="w-11 h-11 rounded-md bg-rose-500 text-white flex items-center justify-center shadow-sm">
-                    <i class="fa-solid fa-download"></i>
+                <div class="flex h-16 w-16 items-center justify-center rounded-2xl
+                       bg-gradient-to-br from-rose-500 to-pink-500
+                       text-white shadow-lg shadow-rose-500/25">
+
+                    <i class="fa-solid fa-download text-2xl"></i>
+
                 </div>
 
             </div>
+
         </div>
 
     </div>
-    <!-- MAIN CONTENT -->
-    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-        <!-- BIỂU ĐỒ -->
-        <div class="xl:col-span-8 bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden self-start">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-6 py-4 border-b border-slate-200">
+    <!-- ================= END TOP SUMMARY ================= -->
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+
+        <!-- ================= TOP LECTURERS ================= -->
+        <div class="xl:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+            <div class="flex items-center justify-between px-6 py-5 border-b border-slate-200">
 
                 <div>
 
-                    <h2 class="text-base font-bold text-slate-800">
-                        Thống kê tăng trưởng
+                    <h2 class="text-lg font-bold text-slate-800">
+
+                        Giảng viên đăng nhiều tài liệu
+
                     </h2>
 
-                    <p class="mt-1 text-xs text-slate-400">
-                        Người dùng, môn học và loại tài liệu mới theo tháng
+                    <p class="mt-1 text-sm text-slate-500">
+
+                        Top 3 giảng viên có nhiều tài liệu nhất
+
                     </p>
 
                 </div>
 
-                <span class="px-3 py-1 rounded-lg bg-slate-100 text-slate-600 text-xs font-semibold">
+                <div class="w-11 h-11 rounded-xl bg-sky-500 text-white flex items-center justify-center">
 
-                    Năm {{ now()->year }}
+                    <i class="fa-solid fa-user-graduate"></i>
 
-                </span>
+                </div>
 
             </div>
 
-            <!-- Chart -->
-            <div class="p-5">
+            <div class="divide-y divide-slate-100">
 
-                <div class="h-[280px]">
+                @foreach($topLecturers as $lecturer)
 
-                    <canvas id="adminGrowthChart"></canvas>
+                <div class="flex items-center justify-between px-6 py-4">
+
+                    <div>
+
+                        <p class="font-semibold text-slate-800">
+
+                            {{ $lecturer->full_name }}
+
+                        </p>
+
+                        <p class="text-xs text-slate-400">
+                            {{ $lecturer->email }}
+
+
+
+                        </p>
+
+                    </div>
+
+                    <span class="rounded-full bg-sky-100 px-3 py-1 text-sm font-bold text-sky-700">
+
+                        {{ $lecturer->documents_count }} tài liệu
+
+                    </span>
 
                 </div>
+
+                @endforeach
 
             </div>
 
         </div>
+        <!-- ================= TOP SUBJECTS ================= -->
+        <div class="xl:col-span-6 bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
 
-        <!-- TỔNG QUAN -->
-        <div class="xl:col-span-4 space-y-5 self-start">
-            <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
-                <!-- Header -->
-                <div class="px-6 py-4 border-b border-slate-200">
+            <div class="flex items-center justify-between px-6 py-5 border-b border-slate-200">
 
-                    <h2 class="text-base font-bold text-slate-800">
+                <div>
 
-                        Tổng quan hoạt động
+                    <h2 class="text-lg font-bold text-slate-800">
+
+                        Môn học có nhiều tài liệu nhất
 
                     </h2>
 
-                    <p class="mt-1 text-xs text-slate-400">
+                    <p class="mt-1 text-sm text-slate-500">
 
-                        Theo dõi nhanh trạng thái quản trị
+                        Top 3 môn học có nhiều tài liệu nhất
 
                     </p>
 
                 </div>
 
-                <!-- Body -->
-                <div class="p-4 space-y-3">
+                <div class="w-11 h-11 rounded-xl bg-emerald-500 text-white flex items-center justify-center">
 
-                    <!-- Nhật ký -->
-                    <div
-                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-sky-300 hover:shadow-sm transition">
-
-                        <div class="flex items-center gap-3">
-
-                            <div class="w-9 h-9 rounded-lg bg-sky-500 text-white flex items-center justify-center">
-
-                                <i class="fa-solid fa-clock-rotate-left"></i>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-sm font-bold text-slate-700">
-
-                                    Nhật ký hôm nay
-
-                                </p>
-
-                                <p class="text-xs text-slate-400">
-
-                                    Đăng ký / đăng nhập / đăng xuất
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <span class="text-base font-bold text-slate-700">
-
-                            {{ number_format($todayLogs) }}
-
-                        </span>
-
-                    </div>
-
-                    <!-- Login -->
-                    <div
-                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-emerald-300 hover:shadow-sm transition">
-
-                        <div class="flex items-center gap-3">
-
-                            <div class="w-9 h-9 rounded-lg bg-emerald-500 text-white flex items-center justify-center">
-
-                                <i class="fa-solid fa-right-to-bracket"></i>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-sm font-bold text-slate-700">
-
-                                    Lượt đăng nhập
-
-                                </p>
-
-                                <p class="text-xs text-slate-400">
-
-                                    Tổng lượt đăng nhập
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <span class="text-base font-bold text-slate-700">
-
-                            {{ number_format($totalLoginLogs) }}
-
-                        </span>
-
-                    </div>
-
-                    <!-- Logout -->
-                    <div
-                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-orange-300 hover:shadow-sm transition">
-
-                        <div class="flex items-center gap-3">
-
-                            <div class="w-9 h-9 rounded-lg bg-orange-500 text-white flex items-center justify-center">
-
-                                <i class="fa-solid fa-right-from-bracket"></i>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-sm font-bold text-slate-700">
-
-                                    Lượt đăng xuất
-
-                                </p>
-
-                                <p class="text-xs text-slate-400">
-
-                                    Tổng lượt đăng xuất
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <span class="text-base font-bold text-slate-700">
-
-                            {{ number_format($totalLogoutLogs) }}
-
-                        </span>
-
-                    </div>
-
-                    <!-- Status -->
-                    <div
-                        class="flex items-center justify-between rounded-xl border border-slate-200 px-4 py-3 hover:border-green-300 hover:shadow-sm transition">
-
-                        <div class="flex items-center gap-3">
-
-                            <div class="w-9 h-9 rounded-lg bg-green-500 text-white flex items-center justify-center">
-
-                                <i class="fa-solid fa-circle-check"></i>
-
-                            </div>
-
-                            <div>
-
-                                <p class="text-sm font-bold text-slate-700">
-
-                                    Trạng thái
-
-                                </p>
-
-                                <p class="text-xs text-slate-400">
-
-                                    Hệ thống đang vận hành
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                        <span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 text-xs font-bold">
-
-                            Online
-
-                        </span>
-
-                    </div>
+                    <i class="fa-solid fa-book-open"></i>
 
                 </div>
+
+            </div>
+
+            <div class="divide-y divide-slate-100">
+
+                @foreach($topSubjects as $subject)
+
+                <div class="flex items-center justify-between px-6 py-4 hover:bg-slate-50 transition">
+
+                    <div>
+
+                        <p class="font-semibold text-slate-800">
+
+                            {{ $subject->subject_name }}
+
+                        </p>
+
+                        <p class="text-xs text-slate-400">
+
+                            {{ $subject->subject_code }}
+
+                        </p>
+
+                    </div>
+
+                    <span class="rounded-full bg-emerald-100 px-3 py-1 text-sm font-bold text-emerald-700">
+
+                        {{ $subject->documents_count }} tài liệu
+
+                    </span>
+
+                </div>
+
+                @endforeach
 
             </div>
 
         </div>
 
     </div>
+    <!-- ================= END MAIN CONTENT ================= -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden">
 
@@ -653,7 +659,11 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
             @endforelse
 
         </div>
+
+
+
     </div>
+
     <!-- RECENT ACTIVITIES -->
     <div class="bg-white border border-slate-200 rounded-md shadow-sm overflow-hidden self-start h-fit">
         <div class="px-5 py-4 border-b border-slate-200 flex items-center justify-between">
@@ -734,6 +744,7 @@ $logsUrl = \Illuminate\Support\Facades\Route::has('admin.logs.index')
             </div>
         </div>
     </div>
+
 
 </div>
 @endsection

@@ -1,31 +1,121 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 
 <head>
     <meta charset="UTF-8">
+    <title>Thông báo phân công môn học</title>
 </head>
 
-<body>
+<body style="
+    margin:0;
+    padding:30px;
+    background:#f8fafc;
+    font-family:Arial, Helvetica, sans-serif;
+">
 
-    <h2>Thông báo phân công môn học</h2>
+    <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
 
-    <p>Xin chào <strong>{{ $teacher->full_name }}</strong>,</p>
+                <table width="620" cellpadding="0" cellspacing="0" style="
+                        background:#ffffff;
+                        border-radius:12px;
+                        overflow:hidden;
+                        border:1px solid #e5e7eb;
+                    ">
 
-    <p>Bạn vừa được phân công phụ trách môn học:</p>
+                    <!-- HEADER -->
+                    <tr>
+                        <td style="
+                                background:#2563eb;
+                                color:#ffffff;
+                                text-align:center;
+                                padding:24px;
+                            ">
 
-    <ul>
-        <li><strong>Mã môn:</strong> {{ $courseSubject->subject_code }}</li>
-        <li><strong>Tên môn:</strong> {{ $courseSubject->subject_name }}</li>
-    </ul>
+                            <h2 style="margin:0;">
+                                📚 Thông báo phân công môn học
+                            </h2>
 
-    <p>
-        Vui lòng đăng nhập hệ thống để quản lý tài liệu của môn học này.
-    </p>
+                        </td>
+                    </tr>
 
-    <p>
-        Trân trọng,<br>
-        Website Quản lý Tài liệu Môn học
-    </p>
+                    <!-- CONTENT -->
+                    <tr>
+                        <td style="padding:30px; color:#334155;">
+
+                            <p style="margin-top:0;">
+                                Xin chào
+                                <strong>{{ $teacher->full_name }}</strong>,
+                            </p>
+
+                            <p>
+                                Bạn đã được <strong>phân công phụ trách</strong>
+                                môn học sau:
+                            </p>
+
+                            <table width="100%" cellpadding="10" cellspacing="0" style="
+                                    margin:20px 0;
+                                    border:1px solid #dbeafe;
+                                    border-radius:8px;
+                                    background:#eff6ff;
+                                ">
+
+                                <tr>
+                                    <td width="140">
+                                        <strong>Mã môn học</strong>
+                                    </td>
+
+                                    <td>
+                                        {{ $courseSubject->subject_code }}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <strong>Tên môn học</strong>
+                                    </td>
+
+                                    <td>
+                                        {{ $courseSubject->subject_name }}
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <p>
+                                Bạn có thể đăng nhập vào hệ thống để quản lý,
+                                cập nhật và đăng tải tài liệu cho môn học này.
+                            </p>
+
+                            <p>
+                                Xin cảm ơn sự hợp tác của bạn.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- FOOTER -->
+                    <tr>
+                        <td style="
+                                background:#f8fafc;
+                                padding:20px;
+                                text-align:center;
+                                color:#64748b;
+                                font-size:13px;
+                                border-top:1px solid #e5e7eb;
+                            ">
+
+                            Website Quản lý Tài liệu Môn học
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
 
 </body>
 

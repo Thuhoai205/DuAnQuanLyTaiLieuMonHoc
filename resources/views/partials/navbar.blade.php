@@ -282,7 +282,7 @@ font-['Roboto',_sans-serif]">
 
 
 
-                        <!-- 
+                        <!-- MY DOCUMENT -->
                         @if($canUploadDocument && Route::has('documents.my-documents'))
 
                         <a href="{{ route('documents.my-documents') }}"
@@ -295,7 +295,7 @@ font-['Roboto',_sans-serif]">
                         </a>
 
                         @endif
-MY DOCUMENT -->
+
                         <!-- ADMIN -->
                         @if($roleId == 1)
 

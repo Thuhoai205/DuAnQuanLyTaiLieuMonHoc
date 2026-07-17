@@ -159,7 +159,7 @@ class DocumentController extends Controller
         }
 
         $documents = $query
-            ->paginate(5)
+            ->paginate(10)
             ->withQueryString();
         /*
         |--------------------------------------------------------------------------
@@ -342,6 +342,17 @@ class DocumentController extends Controller
                 )->update([
                     'is_current' => false
                 ]);
+                $subject = Subject::with('faculty')
+                ->where('subject_code', $request->subject_code)
+                ->firstOrFail();
+
+                $facultyFolder = Str::slug($subject->faculty->faculty_name);
+
+                $subjectFolder = Str::slug($subject->subject_name);
+
+                $documentFolder = 'document_' . $document->document_id;
+
+                $folder = "documents/{$facultyFolder}/{$subjectFolder}/{$documentFolder}";
 
                 $file = $request->file('file');
 
@@ -349,13 +360,17 @@ class DocumentController extends Controller
                     $file->getClientOriginalExtension()
                 );
 
-                $storedName =
-                    time().'_'.
-                    Str::random(10).
-                    '.'.$extension;
+               $latestVersion = DocumentVersion::where(
+                    'document_id',
+                    $document->document_id
+                )->count();
+
+                $versionName = ($latestVersion + 1);
+
+                $storedName = "version_{$versionName}.{$extension}";
 
                 $filePath = $file->storeAs(
-                    'documents',
+                    $folder,
                     $storedName,
                     'public'
                 );
@@ -802,80 +817,184 @@ class DocumentController extends Controller
             )
         );
     }
-    public function myDocuments(Request $request)
-    {
-        $user = Auth::user();
+   public function myDocuments(Request $request)
+{
+    $user = Auth::user();
 
-        $query = Document::with([
-            'subject',
-            'documentType',
-            'currentVersion'
-        ])
-        ->where('uploaded_by', $user->user_id)
-        ->where('is_active', true);
+    /*
+    |--------------------------------------------------------------------------
+    | Query
+    |--------------------------------------------------------------------------
+    */
 
-        // Tìm kiếm
-        if ($request->filled('keyword')) {
-            $query->where('title', 'like', '%' . $request->keyword . '%');
-        }
+    $query = Document::with([
+        'subject',
+        'documentType',
+        'currentVersion',
+        'documentVersions',
+    ])
+    ->where('uploaded_by', $user->user_id)
+    ->where('is_active', true);
 
-        // Môn học
-        if ($request->filled('subject_code')) {
-            $query->where('subject_code', $request->subject_code);
-        }
+    /*
+    |--------------------------------------------------------------------------
+    | Keyword
+    |--------------------------------------------------------------------------
+    */
 
-        // Loại tài liệu
-        if ($request->filled('document_type_id')) {
-            $query->where('document_type_id', $request->document_type_id);
-        }
+    if ($request->filled('keyword')) {
 
-        $myDocuments = $query
-            ->latest()
-            ->paginate(10)
-            ->withQueryString();
+        $keyword = trim($request->keyword);
 
-        // Danh sách môn học
-        $subjects = Subject::where('status', 'active')
-            ->orderBy('subject_name')
-            ->get();
+        $query->where(function ($q) use ($keyword) {
 
-        // Danh sách loại tài liệu
-        $documentTypes = DocumentType::where('is_active', true)
-            ->orderBy('type_name')
-            ->get();
+            $q->where('title', 'like', "%{$keyword}%")
+              ->orWhere('description', 'like', "%{$keyword}%");
 
-        // Thống kê
-        $totalDocuments = Document::where('uploaded_by', $user->user_id)
-            ->where('is_active', true)
-            ->count();
+        });
 
-        $totalSubjects = SubjectTeacher::where('user_id', $user->user_id)
-            ->count();
-
-        $totalDownloads = Document::where('uploaded_by', $user->user_id)
-            ->sum('download_count');
-
-        // Nếu là Ajax chỉ trả về bảng
-        if ($request->ajax()) {
-            return view(
-                'documents.partials.table',
-                compact('myDocuments')
-            );
-        }
-
-        return view(
-            'documents.my-documents',
-            compact(
-                'myDocuments',
-                'subjects',
-                'documentTypes',
-                'totalDocuments',
-                'totalSubjects',
-                'totalDownloads',
-                 'topKeywords'
-            )
-        );
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Subject
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->filled('subject_code')) {
+
+        $query->where(
+            'subject_code',
+            $request->subject_code
+        );
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Document Type
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->filled('document_type_id')) {
+
+        $query->where(
+            'document_type_id',
+            $request->document_type_id
+        );
+
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Documents
+    |--------------------------------------------------------------------------
+    */
+
+    $documents = $query
+        ->latest()
+        ->paginate(10)
+        ->withQueryString();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Subjects
+    |--------------------------------------------------------------------------
+    */
+
+    $subjects = Subject::where('status', 'active');
+
+    if ($user->role->role_name === 'lecturer') {
+
+        $subjects->where(
+            'faculty_id',
+            $user->faculty_id
+        );
+
+    }
+
+    $subjects = $subjects
+        ->orderBy('subject_name')
+        ->get();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Document Types
+    |--------------------------------------------------------------------------
+    */
+
+    $documentTypes = DocumentType::where('is_active', true)
+        ->orderBy('type_name')
+        ->get();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Statistics
+    |--------------------------------------------------------------------------
+    */
+
+    $totalDocuments = Document::where(
+        'uploaded_by',
+        $user->user_id
+    )
+    ->where('is_active', true)
+    ->count();
+
+    $totalViews = Document::where(
+        'uploaded_by',
+        $user->user_id
+    )
+    ->where('is_active', true)
+    ->sum('view_count');
+
+    $totalDownloads = Document::where(
+        'uploaded_by',
+        $user->user_id
+    )
+    ->where('is_active', true)
+    ->sum('download_count');
+
+    $totalSubjects = SubjectTeacher::where(
+        'user_id',
+        $user->user_id
+    )->count();
+
+    /*
+    |--------------------------------------------------------------------------
+    | View
+    |--------------------------------------------------------------------------
+    */
+
+    if ($request->ajax()) {
+
+    return response()->view(
+        'documents.my-documents',
+        compact(
+            'documents',
+            'subjects',
+            'documentTypes',
+            'totalDocuments',
+            'totalViews',
+            'totalDownloads',
+            'totalSubjects'
+        )
+    );
+
+}
+
+return view(
+    'documents.my-documents',
+    compact(
+        'documents',
+        'subjects',
+        'documentTypes',
+        'totalDocuments',
+        'totalViews',
+        'totalDownloads',
+        'totalSubjects'
+    )
+);
+}
     public function view(Document $document)
     {
         /*
@@ -1000,6 +1119,22 @@ class DocumentController extends Controller
 
         /*
         |--------------------------------------------------------------------------
+        | Tăng lượt xem (chỉ tính 1 lần mỗi phiên)
+        |--------------------------------------------------------------------------
+        */
+
+        $sessionKey = 'viewed_document_' . $document->document_id;
+
+        if (!session()->has($sessionKey)) {
+
+            $document->increment('view_count');
+
+            session()->put($sessionKey, true);
+
+        }
+
+        /*
+        |--------------------------------------------------------------------------
         | Tài liệu liên quan
         |--------------------------------------------------------------------------
         */
@@ -1021,8 +1156,8 @@ class DocumentController extends Controller
             'document',
             'relatedDocuments'
         ));
-    }
-   public function create()
+    }   
+    public function create()
     {
         $user = Auth::user();
 
@@ -1065,213 +1200,299 @@ class DocumentController extends Controller
     }
     public function store(Request $request)
     {
-        $request->validate([
-            'title'            => 'required|string|max:255',
-            'description'      => 'nullable|string',
-            'subject_code'     => 'required|exists:subjects,subject_code',
-            'document_type_id' => 'required|exists:document_types,document_type_id',
-            'file'             => 'required|file|max:51200',
-        ]);
+            $request->validate([
+        'title'            => 'required|string|max:255',
+        'description'      => 'nullable|string',
+        'subject_code'     => 'required|exists:subjects,subject_code',
+        'document_type_id' => 'required|exists:document_types,document_type_id',
+        'file'             => 'required|file|max:51200',
+    ]);
 
-        $user = Auth::user();
+    $user = Auth::user();
 
-        if (!$user instanceof User) {
-            abort(403);
+    if (!$user instanceof User) {
+        abort(403);
+    }
+
+    $subject = Subject::with('faculty')
+        ->where('subject_code', $request->subject_code)
+        ->firstOrFail();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Kiểm tra quyền upload
+    |--------------------------------------------------------------------------
+    */
+
+    $canUpload = false;
+
+    // Admin
+    if ($user->role->role_name === 'admin') {
+
+        $canUpload = true;
+
+    }
+
+    // Giảng viên
+    elseif ($user->role->role_name === 'lecturer') {
+
+        // Không được upload sang khoa khác
+        if ($subject->faculty_id != $user->faculty_id) {
+
+            abort(403, 'Bạn không thuộc khoa quản lý môn học này.');
+
         }
 
-        $subject = Subject::where(
-            'subject_code',
-            $request->subject_code
-        )->firstOrFail();
+        // Chỉ được upload khi được phân công môn học
+        $canUpload = SubjectTeacher::where(
+                'user_id',
+                $user->user_id
+            )
+            ->where(
+                'subject_code',
+                $subject->subject_code
+            )
+            ->exists();
 
-            /*
+    }
+
+    // Sinh viên
+    else {
+
+        abort(403);
+
+    }
+
+    if (!$canUpload) {
+
+        abort(403, 'Bạn chưa được phân công giảng dạy môn học này.');
+
+    }
+
+    DB::beginTransaction();
+
+    try {
+        /*
+|--------------------------------------------------------------------------
+| Tạo Document trước để lấy document_id
+|--------------------------------------------------------------------------
+*/
+
+$document = Document::create([
+
+    'title'            => $request->title,
+
+    'slug'             => Str::slug($request->title).'-'.Str::random(6),
+
+    'description'      => $request->description,
+
+    'subject_code'     => $subject->subject_code,
+
+    'document_type_id' => $request->document_type_id,
+
+    'uploaded_by'      => $user->user_id,
+
+    'is_active'        => true,
+
+]);
+
+/*
+|--------------------------------------------------------------------------
+| Tạo thư mục lưu file
+|--------------------------------------------------------------------------
+*/
+
+$facultyFolder = Str::slug($subject->faculty->faculty_name);
+
+$subjectFolder = Str::slug($subject->subject_name);
+
+$documentFolder = 'document_'.$document->document_id;
+
+$folder = "documents/{$facultyFolder}/{$subjectFolder}/{$documentFolder}";
+
+/*
+|--------------------------------------------------------------------------
+| Upload file
+|--------------------------------------------------------------------------
+*/
+
+$file = $request->file('file');
+
+$extension = strtolower(
+    $file->getClientOriginalExtension()
+);
+
+/*
+|--------------------------------------------------------------------------
+| Phiên bản đầu tiên
+|--------------------------------------------------------------------------
+*/
+
+$storedName = "version_1.{$extension}";
+
+/*
+|--------------------------------------------------------------------------
+| Lưu file vào đúng thư mục
+|--------------------------------------------------------------------------
+*/
+
+$filePath = $file->storeAs(
+    $folder,
+    $storedName,
+    'public'
+);
+
+/*
+|--------------------------------------------------------------------------
+| PDF và ảnh xem trực tiếp
+|--------------------------------------------------------------------------
+*/
+
+$previewFile = null;
+
+if (
+    $extension === 'pdf' ||
+    in_array($extension, [
+        'jpg',
+        'jpeg',
+        'png',
+        'gif',
+        'webp',
+    ])
+) {
+
+    $previewFile = $filePath;
+
+}
+/*
+|--------------------------------------------------------------------------
+| Tạo Preview cho Office
+|--------------------------------------------------------------------------
+*/
+
+if (in_array($extension, [
+    'doc',
+    'docx',
+    'xls',
+    'xlsx',
+    'ppt',
+    'pptx'
+])) {
+
+    // Sẽ được GeneratePreviewJob chuyển sang PDF
+    $previewFile = null;
+
+}
+
+/*
+|--------------------------------------------------------------------------
+| Lưu phiên bản đầu tiên
+|--------------------------------------------------------------------------
+*/
+
+$version = DocumentVersion::create([
+
+    'document_id'        => $document->document_id,
+
+    'version_name'       => '1.0',
+
+    'version_note'       => 'Initial version',
+
+    'original_file_name' => $file->getClientOriginalName(),
+
+    'stored_file_name'   => $storedName,
+
+    'file_path'          => $filePath,
+
+    'preview_file'       => $previewFile,
+
+    'file_extension'     => $extension,
+
+    'file_size'          => $file->getSize(),
+
+    'uploaded_by'        => $user->user_id,
+
+    'is_current'         => true,
+
+]);
+        /*
         |--------------------------------------------------------------------------
-        | Kiểm tra quyền upload
+        | Commit
         |--------------------------------------------------------------------------
         */
 
-        $canUpload = false;
+        DB::commit();
 
-        // Admin
-        if ($user->role->role_name === 'admin') {
+        /*
+        |--------------------------------------------------------------------------
+        | Generate Preview (Office)
+        |--------------------------------------------------------------------------
+        */
 
-            $canUpload = true;
+        if (in_array($extension, [
+            'doc',
+            'docx',
+            'xls',
+            'xlsx',
+            'ppt',
+            'pptx'
+        ])) {
 
-        }
-
-        // Giảng viên
-        elseif ($user->role->role_name === 'lecturer') {
-
-            // Không được upload sang khoa khác
-            if ($subject->faculty_id != $user->faculty_id) {
-
-                abort(403, 'Bạn không thuộc khoa quản lý môn học này.');
-
-            }
-
-            // Chỉ được upload khi được phân công môn học
-            $canUpload = SubjectTeacher::where(
-                    'user_id',
-                    $user->user_id
-                )
-                ->where(
-                    'subject_code',
-                    $subject->subject_code
-                )
-                ->exists();
+            GeneratePreviewJob::dispatch(
+                $version->version_id
+            );
 
         }
 
-        // Sinh viên
-        else {
+        return redirect()
+            ->route('subjects.show', $subject->subject_code)
+            ->with('success', 'Đăng tải tài liệu thành công.');
 
-            abort(403);
+    } catch (\Throwable $e) {
+
+        DB::rollBack();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Xóa file nếu upload lỗi
+        |--------------------------------------------------------------------------
+        */
+
+        if (isset($filePath)) {
+
+            Storage::disk('public')->delete($filePath);
 
         }
 
-        if (!$canUpload) {
+        /*
+        |--------------------------------------------------------------------------
+        | Xóa document nếu đã tạo
+        |--------------------------------------------------------------------------
+        */
 
-            abort(403, 'Bạn chưa được phân công giảng dạy môn học này.');
+        if (isset($document)) {
+
+            $document->forceDelete();
 
         }
 
-                DB::beginTransaction();
+        Log::error('Upload document failed', [
 
-                try {
+            'message' => $e->getMessage(),
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Upload file
-                    |--------------------------------------------------------------------------
-                    */
+            'trace'   => $e->getTraceAsString(),
 
-                    $file = $request->file('file');
+        ]);
 
-                    $extension = strtolower(
-                        $file->getClientOriginalExtension()
-                    );
+        return back()
+            ->withInput()
+            ->with('error', 'Đã xảy ra lỗi khi đăng tải tài liệu.');
 
-                    $storedName =
-                        time() . '_' .
-                        Str::random(10) .
-                        '.' . $extension;
+    }
 
-                    $filePath = $file->storeAs(
-                        'documents',
-                        $storedName,
-                        'public'
-                    );
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | PDF và ảnh xem trực tiếp
-                    |--------------------------------------------------------------------------
-                    */
 
-                    $previewFile = null;
 
-                    if (
-                        $extension === 'pdf' ||
-                        in_array($extension, [
-                            'jpg',
-                            'jpeg',
-                            'png',
-                            'gif',
-                            'webp'
-                        ])
-                    ) {
-                        $previewFile = $filePath;
-                    }
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Tạo tài liệu
-                    |--------------------------------------------------------------------------
-                    */
-
-                    $document = Document::create([
-
-                        'title'            => $request->title,
-                        'slug'             => Str::slug($request->title) . '-' . Str::random(6),
-                        'description'      => $request->description,
-                        'subject_code'     => $subject->subject_code,
-                        'document_type_id' => $request->document_type_id,
-                        'uploaded_by'      => $user->user_id,
-                        'is_active'        => true,
-
-                    ]);
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Phiên bản đầu tiên
-                    |--------------------------------------------------------------------------
-                    */
-
-                    $version = DocumentVersion::create([
-
-                        'document_id'        => $document->document_id,
-                        'version_name'       => '1.0',
-                        'version_note'       => 'Initial version',
-
-                        'original_file_name' => $file->getClientOriginalName(),
-                        'stored_file_name'   => $storedName,
-
-                        'file_path'          => $filePath,
-                        'preview_file'       => $previewFile,
-
-                        'file_extension'     => $extension,
-                        'file_size'          => $file->getSize(),
-
-                        'uploaded_by'        => $user->user_id,
-                        'is_current'         => true,
-
-                    ]);
-
-                    DB::commit();
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Convert Office sang PDF bằng Queue
-                    |--------------------------------------------------------------------------
-                    */
-
-                    if (in_array($extension, [
-                        'doc',
-                        'docx',
-                        'xls',
-                        'xlsx',
-                        'ppt',
-                        'pptx'
-                    ])) {
-
-                        GeneratePreviewJob::dispatch(
-                            $version->version_id
-                        );
-
-                    }
-
-                    return redirect()
-                        ->route('subjects.show', $subject->subject_code)
-                        ->with('success', 'Đăng tải tài liệu thành công.');
-
-                } catch (\Throwable $e) {
-
-                    DB::rollBack();
-
-                    if (isset($filePath)) {
-                        Storage::disk('public')->delete($filePath);
-                    }
-
-                    Log::error('Upload document failed', [
-                        'message' => $e->getMessage(),
-                        'trace'   => $e->getTraceAsString(),
-                    ]);
-
-                    return back()
-                        ->withInput()
-                        ->with('error', 'Đã xảy ra lỗi khi đăng tải tài liệu.');
-
-                }
     }
     public function uploadVersion(Request $request, $id)
     {

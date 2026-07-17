@@ -49,7 +49,7 @@ if ($user->role->role_name === 'lecturer') {
 
         $subjects = $query
             ->orderBy('subject_name')
-            ->paginate(8);
+            ->paginate(9);
 
         $faculties = Faculty::where('is_active', true)
             ->orderBy('faculty_name')

@@ -161,8 +161,8 @@
                             placeholder:text-white/60
                             focus:outline-none
                             focus:ring-2
-                            focus:ring-cyan-300
-                            focus:border-cyan-300
+                            focus:ring-slate-300
+                            focus:border-slate-300
                             transition">
 
                     </div>
@@ -179,24 +179,21 @@
                             px-4
                             text-white
                             focus:ring-2
-                            focus:ring-cyan-300
-                            focus:border-cyan-300">
+                            focus:ring-slate-300
+                            focus:border-slate-300">
 
-                            <option value="" class="text-slate-700">
-                                Tất cả môn học
-                            </option>
+                            <option value="" class="text-slate-700">Tất cả môn học</option>
 
                             @foreach($subjects as $subject)
 
-                            <option value="{{ $subject->subject_code }}" class="text-slate-700"
-                                {{ request('subject_code')==$subject->subject_code ? 'selected' : '' }}>
+                            <option value="{{$subject->subject_code }} " class="text-slate-700"
+                                {{ request('subject_code') == $subject->subject_code ? 'selected' : '' }}>
 
-                                {{ $subject->subject_name }}
+                                {{$subject->subject_name }}
 
                             </option>
 
                             @endforeach
-
                         </select>
 
                         <!-- TYPE -->
@@ -208,8 +205,8 @@
                                         px-4
                                         text-white
                                         focus:ring-2
-                                        focus:ring-cyan-300
-                                        focus:border-cyan-300">
+                                        focus:ring-slate-300
+                                        focus:border-slate-300">
 
                             <option value="" class="text-slate-700">
                                 Loại tài liệu
@@ -278,8 +275,8 @@
                         @foreach($topKeywords as $item)
 
                         <a href="{{ route('documents.search',[
-    'keyword' => $item->keyword
-]) }}" class="group inline-flex items-center gap-2
+                            'keyword' => $item->keyword
+                        ]) }}" class="group inline-flex items-center gap-2
                 rounded-full
                 border border-white/20
                 bg-white/10
@@ -2217,7 +2214,7 @@ REGISTER -->
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-            @foreach($subjects as $subject)
+            @foreach($topSubjects as $subject)
 
             <a href="{{ route('subjects.show',$subject->subject_code) }}" class="group flex flex-col overflow-hidden
         rounded-3xl
@@ -3068,17 +3065,17 @@ REGISTER -->
 
                     <!-- TOP DOCUMENT -->
                     <a href="{{ route('documents.show',$topDocuments->first()->document_id) }}" class="col-span-2
-                block
-                rounded-2xl
-                border
-                border-slate-200
-                bg-white
-                p-5
-                transition-all
-                duration-300
-                hover:-translate-y-1
-                hover:border-amber-300
-                hover:shadow-lg">
+                        block
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        p-5
+                        transition-all
+                        duration-300
+                        hover:-translate-y-1
+                        hover:border-amber-300
+                        hover:shadow-lg">
 
                         <div class="flex items-center justify-between gap-4">
 
@@ -3124,6 +3121,95 @@ REGISTER -->
                             text-amber-700">
 
                                     Top 1
+
+                                </span>
+
+                                <div class="flex
+                            h-10
+                            w-10
+                            items-center
+                            justify-center
+                            rounded-full
+                            border
+                            border-slate-200
+                            bg-slate-100
+                            text-slate-600
+                            transition-all
+                            duration-300
+                            group-hover:border-amber-300
+                            group-hover:bg-amber-500
+                            group-hover:text-white">
+
+                                    <i class="fa-solid fa-arrow-right text-xs"></i>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                    @endif
+                    @if($topViewedDocument)
+
+                    <a href="{{ route('documents.show',$topViewedDocument->document_id) }}" class="col-span-2
+    block
+    rounded-2xl
+    border
+    border-slate-200
+    bg-white
+    p-5
+    transition-all
+    duration-300
+    hover:-translate-y-1
+    hover:border-sky-300
+    hover:shadow-lg">
+
+                        <div class="flex items-center justify-between gap-4">
+
+                            <div class="min-w-0 flex-1">
+
+                                <p class="text-xs
+                font-bold
+                uppercase
+                tracking-[0.2em]
+                text-sky-500">
+
+                                    Tài liệu xem nhiều nhất
+
+                                </p>
+
+                                <h4 class="mt-2
+                truncate
+                text-base
+                font-bold
+                text-slate-900">
+
+                                    {{ $topViewedDocument->title }}
+
+                                </h4>
+
+                                <p class="mt-2 text-sm text-slate-500">
+
+                                    {{ number_format($topViewedDocument->view_count) }}
+                                    lượt xem
+
+                                </p>
+
+                            </div>
+
+                            <div class="flex items-center gap-3">
+
+                                <span class="rounded-full
+                bg-sky-50
+                px-3
+                py-1
+                text-sm
+                font-semibold
+                text-sky-700">
+
+                                    Top View
 
                                 </span>
 

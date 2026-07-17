@@ -100,6 +100,16 @@
                             {{ number_format($document->download_count) }} lượt tải
 
                         </span>
+                        <span class="text-slate-300">•</span>
+
+                        <span class="inline-flex items-center gap-1">
+
+                            <i class="fa-solid fa-eye text-amber-500"></i>
+
+                            {{ number_format($document->view_count) }} lượt xem
+
+
+                        </span>
 
                     </p>
 
@@ -113,14 +123,14 @@
                 @auth
 
                 <a href="{{ route('documents.download',$document->document_id) }}" class="inline-flex items-center gap-2
-                px-6 py-3
-                rounded-2xl
-                bg-slate-900
-                hover:bg-amber-500
-                text-white
-                font-bold
-                shadow-lg
-                transition-all duration-300">
+        px-6 py-3
+        rounded-2xl
+        bg-slate-900
+        hover:bg-amber-500
+        text-white
+        font-bold
+        shadow-lg
+        transition-all duration-300">
 
                     <i class="fa-solid fa-cloud-arrow-down"></i>
 
@@ -131,17 +141,17 @@
                 @else
 
                 <button type="button" onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
-                    rounded-xl
-                    border border-slate-300
-                    bg-white
-                    px-4 py-2
-                    text-sm font-semibold
-                    text-slate-700
-                    transition-all duration-300
-                    hover:border-yellow-600
-                    hover:bg-yellow-50
-                    hover:text-yellow-700
-                    shadow-sm">
+        rounded-xl
+        border border-slate-300
+        bg-white
+        px-4 py-2
+        text-sm font-semibold
+        text-slate-700
+        transition-all duration-300
+        hover:border-yellow-600
+        hover:bg-yellow-50
+        hover:text-yellow-700
+        shadow-sm">
 
                     <i class="fa-solid fa-lock text-xs"></i>
 
@@ -152,42 +162,69 @@
                 @endauth
 
 
-                {{-- Edit/Delete --}}
                 @auth
 
-                @if($isAdmin || $isOwner)
+                @php
+
+                $isAdmin = Auth::user()->role->role_name === 'admin';
+
+                $isOwner = $document->uploaded_by == Auth::id();
+
+                $isAssigned = false;
+
+                if (Auth::user()->role->role_name === 'lecturer') {
+
+                $isAssigned = \App\Models\SubjectTeacher::where(
+                'user_id',
+                Auth::id()
+                )
+                ->where(
+                'subject_code',
+                $document->subject_code
+                )
+                ->exists();
+
+                }
+
+                $canManage = $isAdmin || ($isOwner && $isAssigned);
+
+                @endphp
+
+
+                {{-- Edit/Delete --}}
+                @if($canManage)
 
                 <!-- Edit -->
                 <a href="{{ route('documents.edit',$document->document_id) }}" class="w-12 h-12
-                rounded-2xl
-                border border-slate-200
-                bg-white
-                text-slate-600
-                hover:border-amber-300
-                hover:bg-amber-50
-                hover:text-amber-600
-                flex items-center justify-center
-                transition-all duration-300">
+        rounded-2xl
+        border border-slate-200
+        bg-white
+        text-slate-600
+        hover:border-amber-300
+        hover:bg-amber-50
+        hover:text-amber-600
+        flex items-center justify-center
+        transition-all duration-300">
 
                     <i class="fa-solid fa-pen"></i>
 
                 </a>
 
                 <!-- Delete -->
-                <form action="{{ route('documents.destroy', $document->document_id) }}" method="POST"
+                <form action="{{ route('documents.destroy',$document->document_id) }}" method="POST"
                     onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
 
                     @csrf
                     @method('DELETE')
 
                     <button type="submit" class="w-12 h-12
-                        rounded-2xl
-                        border border-red-200
-                        bg-white
-                        text-red-500
-                        hover:bg-red-500
-                        hover:text-white
-                        transition-all duration-300">
+            rounded-2xl
+            border border-red-200
+            bg-white
+            text-red-500
+            hover:bg-red-500
+            hover:text-white
+            transition-all duration-300">
 
                         <i class="fa-solid fa-trash"></i>
 
@@ -195,23 +232,23 @@
 
                 </form>
 
-
                 @endif
 
-                @endauth
-                @auth
 
+                {{-- Favorite --}}
                 @php
+
                 $isFavorite = $document->favorites()
                 ->where('user_id', auth()->id())
                 ->exists();
+
                 @endphp
 
                 <button id="favoriteBtn" data-url="{{ route('favorites.toggle',$document) }}" class="inline-flex items-center gap-2 rounded-2xl px-5 py-3 border transition-all duration-300
-    {{ $isFavorite
-        ? 'bg-red-500 border-red-500 text-white'
-        : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-500 hover:text-white'
-    }}">
+        {{ $isFavorite
+            ? 'bg-red-500 border-red-500 text-white'
+            : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-500 hover:text-white'
+        }}">
 
                     @if($isFavorite)
 
@@ -222,6 +259,7 @@
                     @else
 
                     <i class="fa-solid fa-bookmark"></i>
+
                     <span>Yêu thích</span>
 
                     @endif
@@ -229,6 +267,7 @@
                 </button>
 
                 @endauth
+
             </div>
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
@@ -679,6 +718,13 @@
                             {{ $related->created_at->format('d/m/Y') }}
 
                         </span>
+                        <div class="flex items-center gap-2 text-slate-500">
+
+                            <i class="fa-solid fa-eye text-sky-500"></i>
+
+                            <span>{{ number_format($related->view_count) }} lượt xem</span>
+
+                        </div>
 
                     </div>
 

@@ -18,18 +18,20 @@ class Document extends Model
 
     protected $keyType = 'int';
 
-    protected $fillable = [
-        'title',
-        'slug',
-        'description',
-        'thumbnail',
-        'download_count',
-        'subject_code',
-        'document_type_id',
-        'uploaded_by',
-        'updated_by',
-        'is_active',
-    ];
+   protected $fillable = [
+    'title',
+    'slug',
+    'description',
+    'thumbnail',
+    'download_count',
+    'view_count',
+    'subject_code',
+    'document_type_id',
+    'uploaded_by',
+    'updated_by',
+    'deleted_by',
+    'is_active',
+];
 
     protected $casts = [
         'download_count' => 'integer',

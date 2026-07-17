@@ -84,16 +84,7 @@
 
             </p>
 
-            <div style="margin-top:35px;text-align:center;">
 
-                <a href="{{ url('/login') }}"
-                    style="display:inline-block;background:#0f172a;color:#ffffff;padding:14px 28px;text-decoration:none;border-radius:8px;font-weight:bold;">
-
-                    Đăng nhập hệ thống
-
-                </a>
-
-            </div>
 
         </div>
 

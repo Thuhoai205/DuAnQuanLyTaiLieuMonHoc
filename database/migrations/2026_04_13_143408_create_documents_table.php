@@ -20,7 +20,7 @@ return new class extends Migration
     $table->string('thumbnail', 255)->nullable();
 
     $table->unsignedInteger('download_count')->default(0);
-
+    $table->unsignedInteger('view_count')->default(0);
     $table->string('subject_code', 20);
 
     $table->foreign('subject_code')
