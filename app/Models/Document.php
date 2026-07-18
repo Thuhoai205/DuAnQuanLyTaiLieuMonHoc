@@ -77,14 +77,14 @@ class Document extends Model
         );
     }
 
-    public function documentVersions()
-    {
-        return $this->hasMany(
-            DocumentVersion::class,
-            'document_id',
-            'document_id'
-        );
-    }
+public function documentVersions()
+{
+    return $this->hasMany(
+        DocumentVersion::class,
+        'document_id',
+        'document_id'
+    )->orderByDesc('created_at');
+}
 
     public function currentVersion()
     {

@@ -83,6 +83,15 @@ Route::delete('/documents/{document}', [DocumentController::class, 'destroy'])
     ->name('documents.destroy');
 Route::get('/documents/{document}', [DocumentController::class, 'show'])
     ->name('documents.show');
+Route::get('/tai-lieu-cua-toi/thung-rac', [DocumentController::class, 'trash'])
+        ->name('documents.trash');
+
+    Route::patch('/tai-lieu/{document}/restore', [DocumentController::class, 'restore'])
+        ->name('documents.restore');
+
+    Route::delete('/tai-lieu/{document}/force-delete', [DocumentController::class, 'forceDelete'])
+        ->name('documents.forceDelete');
+
 /*
 |--------------------------------------------------------------------------
 | Faculties

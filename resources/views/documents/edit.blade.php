@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Chỉnh sửa tài liệu')
-
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 @section('content')
-
 <main class="min-h-screen">
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
@@ -469,7 +468,7 @@
 
                             <label class="mb-3 block text-sm font-bold text-slate-700">
 
-                                Thay thế tệp mới
+                                Tải lên phiên bản mới
 
                             </label>
 
@@ -617,121 +616,149 @@
             <!-- RIGHT INFO -->
             <aside class="space-y-6">
 
-                <!-- PREVIEW -->
+                <!-- DOCUMENT VERSIONS -->
                 <div class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
                     <!-- HEADER -->
                     <div class="border-b border-slate-200 bg-slate-50 px-6 py-5">
 
                         <h3 class="text-xl font-black text-slate-800">
-
-                            Xem nhanh
-
+                            Lịch sử phiên bản
                         </h3>
 
                         <p class="mt-1 text-sm text-slate-500">
-
-                            Thông tin hiển thị của tài liệu hiện tại.
-
+                            Danh sách các phiên bản đã được lưu.
                         </p>
 
                     </div>
 
-                    @php
-                    $version = $document->currentVersion;
-                    $extension = strtolower($version?->file_extension ?? '');
-                    @endphp
-
                     <div class="p-6">
 
-                        <div class="rounded-3xl border-2 border-dashed border-slate-200 bg-slate-50 p-8 text-center">
+                        @if($document->documentVersions->count())
 
-                            @switch($extension)
+                        <div x-data="{ showAll: false }" class="space-y-4">
 
-                            @case('pdf')
+                            @foreach($document->documentVersions->values() as $index => $version)
+                            <div x-show="showAll || {{ $index }} < 3" x-transition
+                                class="rounded-2xl border border-slate-200 p-4 transition hover:border-amber-300 hover:bg-amber-50">
 
-                            <div
-                                class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-red-50 text-red-500">
+                                <div class="flex items-start justify-between gap-4">
 
-                                <i class="fa-solid fa-file-pdf text-5xl"></i>
+                                    <div class="flex-1 min-w-0">
+
+                                        <div class="flex flex-wrap items-center gap-2">
+
+                                            <span
+                                                class="rounded-lg bg-blue-100 px-3 py-1 text-xs font-bold text-blue-700">
+
+                                                {{ $version->version_name }}
+
+                                            </span>
+
+                                            @if($version->is_current)
+
+                                            <span
+                                                class="rounded-lg bg-green-100 px-3 py-1 text-xs font-bold text-green-700">
+
+                                                Hiện tại
+
+                                            </span>
+
+                                            @endif
+
+                                        </div>
+
+                                        <h4 class="mt-3 line-clamp-2 text-sm font-bold text-slate-800"
+                                            title="{{ $version->original_file_name }}">
+
+                                            {{ $version->original_file_name }}
+
+                                        </h4>
+
+                                        @if($version->version_note)
+
+                                        <p class="mt-2 text-sm text-slate-500">
+
+                                            {{ $version->version_note }}
+
+                                        </p>
+
+                                        @endif
+
+                                        <div class="mt-3 flex flex-wrap gap-4 text-xs text-slate-500">
+
+                                            <span>
+                                                <i class="fa-solid fa-calendar mr-1"></i>
+                                                {{ $version->created_at->format('d/m/Y') }}
+                                            </span>
+
+                                            <span>
+                                                <i class="fa-solid fa-hard-drive mr-1"></i>
+                                                {{ number_format($version->file_size / 1024 / 1024, 2) }} MB
+                                            </span>
+
+                                        </div>
+
+                                    </div>
+
+                                    <a href="{{ Storage::url($version->file_path) }}" target="_blank"
+                                        class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-4 py-2 text-sm font-bold text-white transition hover:bg-amber-600">
+
+                                        <i class="fa-solid fa-eye"></i>
+
+                                        Xem
+
+                                    </a>
+
+                                </div>
 
                             </div>
 
-                            @break
+                            @endforeach
 
-                            @case('doc')
-                            @case('docx')
+                            @if($document->documentVersions->count() > 3)
 
-                            <div
-                                class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-blue-50 text-blue-600">
+                            <div class="pt-2 text-center">
 
-                                <i class="fa-solid fa-file-word text-5xl"></i>
+                                <button x-show="!showAll" @click="showAll = true"
+                                    class="inline-flex items-center gap-2 rounded-xl border border-amber-500 px-4 py-2 text-sm font-semibold text-amber-600 transition hover:bg-amber-50">
 
-                            </div>
+                                    <i class="fa-solid fa-chevron-down"></i>
 
-                            @break
+                                    Xem tất cả ({{ $document->documentVersions->count() }} phiên bản)
 
-                            @case('xls')
-                            @case('xlsx')
+                                </button>
 
-                            <div
-                                class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-emerald-50 text-emerald-600">
+                                <button x-show="showAll" @click="showAll = false"
+                                    class="inline-flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100">
 
-                                <i class="fa-solid fa-file-excel text-5xl"></i>
+                                    <i class="fa-solid fa-chevron-up"></i>
 
-                            </div>
+                                    Thu gọn
 
-                            @break
-
-                            @case('ppt')
-                            @case('pptx')
-
-                            <div
-                                class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-orange-50 text-orange-500">
-
-                                <i class="fa-solid fa-file-powerpoint text-5xl"></i>
+                                </button>
 
                             </div>
-
-                            @break
-
-                            @default
-
-                            <div
-                                class="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-slate-100 text-slate-500">
-
-                                <i class="fa-solid fa-file text-5xl"></i>
-
-                            </div>
-
-                            @endswitch
-
-                            <h4 class="text-lg font-black text-slate-800 break-words">
-
-                                {{ $document->title }}
-
-                            </h4>
-
-                            <p class="mt-2 break-all text-sm font-medium text-slate-500">
-
-                                {{ $version?->original_file_name ?? 'Chưa có tệp' }}
-
-                            </p>
-
-                            @if($version)
-
-                            <a href="{{ route('documents.download',$document) }}"
-                                class="mt-6 inline-flex items-center gap-2 rounded-xl bg-amber-500 px-5 py-3 text-sm font-bold text-white transition-all duration-300 hover:bg-amber-600 hover:shadow-lg">
-
-                                <i class="fa-solid fa-download"></i>
-
-                                Tải xuống
-
-                            </a>
 
                             @endif
 
                         </div>
+
+                        @else
+
+                        <div class="rounded-2xl border border-dashed border-slate-200 py-10 text-center">
+
+                            <i class="fa-solid fa-code-branch text-4xl text-slate-300"></i>
+
+                            <p class="mt-4 text-slate-500">
+
+                                Chưa có phiên bản nào.
+
+                            </p>
+
+                        </div>
+
+                        @endif
 
                     </div>
 
@@ -928,96 +955,6 @@
                     </div>
 
                 </div>
-                <!-- DANGER ZONE -->
-                <div class="overflow-hidden rounded-3xl border border-red-200 bg-white shadow-sm">
-
-                    <!-- HEADER -->
-                    <div class="border-b border-red-100 bg-gradient-to-r from-red-50 to-white px-6 py-5">
-
-                        <div class="flex items-center gap-4">
-
-                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-100 text-red-500">
-
-                                <i class="fa-solid fa-triangle-exclamation text-lg"></i>
-
-                            </div>
-
-                            <div>
-
-                                <h3 class="text-xl font-black text-red-600">
-
-                                    Vùng nguy hiểm
-
-                                </h3>
-
-                                <p class="mt-1 text-sm text-slate-500">
-
-                                    Thao tác dưới đây có thể làm mất dữ liệu.
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <!-- CONTENT -->
-                    <div class="p-6">
-
-                        <div class="rounded-2xl border border-red-100 bg-red-50 p-5">
-
-                            <div class="flex items-start gap-4">
-
-                                <div
-                                    class="mt-1 flex h-10 w-10 items-center justify-center rounded-xl bg-white text-red-500">
-
-                                    <i class="fa-solid fa-trash-can"></i>
-
-                                </div>
-
-                                <div>
-
-                                    <h4 class="font-black text-slate-800">
-
-                                        Xóa tài liệu
-
-                                    </h4>
-
-                                    <p class="mt-2 text-sm leading-6 text-slate-600">
-
-                                        Sau khi xóa, tài liệu sẽ không còn hiển thị trong hệ thống.
-                                        Nếu tài liệu đang được người dùng sử dụng, hãy cân nhắc trước khi thực hiện.
-
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <form action="{{ route('documents.destroy', $document) }}" method="POST" class="mt-6"
-                            onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?');">
-
-                            @csrf
-                            @method('DELETE')
-
-                            <button type="submit"
-                                class="flex w-full items-center justify-center gap-2 rounded-2xl bg-red-500 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-red-200 transition-all duration-300 hover:-translate-y-0.5 hover:bg-red-600 active:scale-95">
-
-                                <i class="fa-solid fa-trash"></i>
-
-                                Xóa tài liệu
-
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                </div>
-
             </aside>
 
         </section>

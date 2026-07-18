@@ -123,14 +123,14 @@
                 @auth
 
                 <a href="{{ route('documents.download',$document->document_id) }}" class="inline-flex items-center gap-2
-        px-6 py-3
-        rounded-2xl
-        bg-slate-900
-        hover:bg-amber-500
-        text-white
-        font-bold
-        shadow-lg
-        transition-all duration-300">
+                        px-6 py-3
+                        rounded-2xl
+                        bg-slate-900
+                        hover:bg-amber-500
+                        text-white
+                        font-bold
+                        shadow-lg
+                        transition-all duration-300">
 
                     <i class="fa-solid fa-cloud-arrow-down"></i>
 
@@ -141,17 +141,17 @@
                 @else
 
                 <button type="button" onclick="showLoginRequiredModal()" class="inline-flex items-center gap-2
-        rounded-xl
-        border border-slate-300
-        bg-white
-        px-4 py-2
-        text-sm font-semibold
-        text-slate-700
-        transition-all duration-300
-        hover:border-yellow-600
-        hover:bg-yellow-50
-        hover:text-yellow-700
-        shadow-sm">
+                            rounded-xl
+                            border border-slate-300
+                            bg-white
+                            px-4 py-2
+                            text-sm font-semibold
+                            text-slate-700
+                            transition-all duration-300
+                            hover:border-yellow-600
+                            hover:bg-yellow-50
+                            hover:text-yellow-700
+                            shadow-sm">
 
                     <i class="fa-solid fa-lock text-xs"></i>
 
@@ -196,15 +196,15 @@
 
                 <!-- Edit -->
                 <a href="{{ route('documents.edit',$document->document_id) }}" class="w-12 h-12
-        rounded-2xl
-        border border-slate-200
-        bg-white
-        text-slate-600
-        hover:border-amber-300
-        hover:bg-amber-50
-        hover:text-amber-600
-        flex items-center justify-center
-        transition-all duration-300">
+                            rounded-2xl
+                            border border-slate-200
+                            bg-white
+                            text-slate-600
+                            hover:border-amber-300
+                            hover:bg-amber-50
+                            hover:text-amber-600
+                            flex items-center justify-center
+                            transition-all duration-300">
 
                     <i class="fa-solid fa-pen"></i>
 
@@ -218,13 +218,13 @@
                     @method('DELETE')
 
                     <button type="submit" class="w-12 h-12
-            rounded-2xl
-            border border-red-200
-            bg-white
-            text-red-500
-            hover:bg-red-500
-            hover:text-white
-            transition-all duration-300">
+                                rounded-2xl
+                                border border-red-200
+                                bg-white
+                                text-red-500
+                                hover:bg-red-500
+                                hover:text-white
+                                transition-all duration-300">
 
                         <i class="fa-solid fa-trash"></i>
 
@@ -245,10 +245,10 @@
                 @endphp
 
                 <button id="favoriteBtn" data-url="{{ route('favorites.toggle',$document) }}" class="inline-flex items-center gap-2 rounded-2xl px-5 py-3 border transition-all duration-300
-        {{ $isFavorite
-            ? 'bg-red-500 border-red-500 text-white'
-            : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-500 hover:text-white'
-        }}">
+                            {{ $isFavorite
+                                ? 'bg-red-500 border-red-500 text-white'
+                                : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-500 hover:text-white'
+                            }}">
 
                     @if($isFavorite)
 
@@ -564,6 +564,127 @@
                                 </span>
 
                             </div>
+                            <hr class="border-slate-100">
+
+                            <!-- Phiên bản -->
+                            <div class="flex items-start justify-between gap-4">
+
+                                <span class="text-sm font-semibold text-slate-500">
+                                    Phiên bản
+                                </span>
+
+                                <span
+                                    class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+
+                                    {{ $document->currentVersion?->version_name ?? '1.0' }}
+
+                                </span>
+
+                            </div>
+
+                            <hr class="border-slate-100">
+
+                            <!-- LỊCH SỬ PHIÊN BẢN -->
+                            <div class="mt-6">
+
+                                <div class="mb-4 flex items-center justify-between">
+
+                                    <div>
+
+                                        <h3 class="text-sm font-bold text-slate-800">
+                                            Lịch sử phiên bản
+                                        </h3>
+
+                                        <p class="text-xs text-slate-500">
+                                            Có {{ $document->documentVersions->count() }} phiên bản
+                                        </p>
+
+                                    </div>
+
+                                    <div class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+
+                                        {{ $document->documentVersions->count() }}
+
+                                    </div>
+
+                                </div>
+
+                                <div class="space-y-3">
+
+                                    @foreach($document->documentVersions->sortByDesc('created_at')->take(3) as $version)
+
+                                    <div
+                                        class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-amber-300 hover:shadow-md">
+
+                                        <div class="flex items-start justify-between">
+
+                                            <div class="flex-1">
+
+                                                <div class="flex items-center gap-2">
+
+                                                    <span
+                                                        class="rounded-lg bg-blue-100 px-2.5 py-1 text-xs font-bold text-blue-700">
+
+                                                        v{{ $version->version_name }}
+
+                                                    </span>
+
+                                                    @if($version->is_current)
+
+                                                    <span
+                                                        class="rounded-lg bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-700">
+
+                                                        Hiện tại
+
+                                                    </span>
+
+                                                    @endif
+
+                                                </div>
+
+                                                <span
+                                                    class="mt-3 block max-w-[220px] truncate text-sm font-semibold text-slate-800"
+                                                    title="{{ $version->original_file_name }}">
+
+                                                    {{ $version->original_file_name }}
+
+                                                </span>
+
+                                                @if($version->version_note)
+
+                                                <p class="mt-1 text-xs text-slate-500">
+
+                                                    {{ $version->version_note }}
+
+                                                </p>
+
+                                                @endif
+
+                                                <div class="mt-3 flex flex-wrap gap-4 text-xs text-slate-500">
+
+                                                    <span>
+                                                        <i class="fa-regular fa-calendar mr-1"></i>
+                                                        {{ $version->created_at->format('d/m/Y') }}
+                                                    </span>
+
+                                                    <span>
+                                                        <i class="fa-solid fa-hard-drive mr-1"></i>
+                                                        {{ number_format($version->file_size / 1024 / 1024,2) }} MB
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                    @endforeach
+
+                                </div>
+
+                            </div>
 
                         </div>
 
@@ -593,7 +714,9 @@
 
                     </div>
 
+
                 </div>
+
 
             </div>
         </div>
@@ -762,6 +885,7 @@
                 @endforelse
 
             </div>
+
 
         </section>
     </div>

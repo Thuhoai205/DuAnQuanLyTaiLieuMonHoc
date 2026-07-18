@@ -980,20 +980,42 @@ class DocumentController extends Controller
         )
     );
 
-}
+    }
 
-return view(
-    'documents.my-documents',
-    compact(
-        'documents',
-        'subjects',
-        'documentTypes',
-        'totalDocuments',
-        'totalViews',
-        'totalDownloads',
-        'totalSubjects'
-    )
-);
+    return view(
+        'documents.my-documents',
+        compact(
+            'documents',
+            'subjects',
+            'documentTypes',
+            'totalDocuments',
+            'totalViews',
+            'totalDownloads',
+            'totalSubjects'
+        )
+    );
+}
+public function trash()
+{
+    $documents = Document::onlyTrashed()
+        ->where('uploaded_by', Auth::id())
+        ->latest()
+        ->paginate(10);
+
+    return view('documents.trash', compact('documents'));
+}
+public function restore($document)
+{
+    $document = Document::onlyTrashed()
+        ->where('document_id', $document)
+        ->where('uploaded_by', Auth::id())
+        ->firstOrFail();
+
+    $document->restore();
+
+    return redirect()
+        ->route('documents.trash')
+        ->with('success', 'Khôi phục tài liệu thành công.');
 }
     public function view(Document $document)
     {

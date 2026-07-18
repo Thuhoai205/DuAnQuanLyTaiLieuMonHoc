@@ -496,7 +496,7 @@ py-8">
                                 </div>
 
                             </div>
-                            @if(Auth::user()->role->role_name === 'student')
+                            @if(Auth::user()->role->role_name !=='1')
                             <div>
                                 <label class="block mb-2 text-xs uppercase tracking-wider font-bold text-slate-500">
                                     Khoa
@@ -505,26 +505,26 @@ py-8">
                                 <div class="relative">
 
                                     <i class="fa-solid fa-building-columns
-            absolute
-            left-5
-            top-1/2
-            -translate-y-1/2
-            text-slate-400"></i>
+                                                absolute
+                                                left-5
+                                                top-1/2
+                                                -translate-y-1/2
+                                                text-slate-400"></i>
 
                                     <input type="text"
                                         value="{{ Auth::user()->faculty?->faculty_name ?? 'Chưa có khoa' }}" readonly
                                         disabled class="w-full
-                h-12
-                rounded-xl
-                border
-                border-slate-200
-                bg-slate-100
-                pl-12
-                pr-4
-                text-sm
-                font-medium
-                text-slate-700
-                cursor-not-allowed">
+                                    h-12
+                                    rounded-xl
+                                    border
+                                    border-slate-200
+                                    bg-slate-100
+                                    pl-12
+                                    pr-4
+                                    text-sm
+                                    font-medium
+                                    text-slate-700
+                                    cursor-not-allowed">
                                 </div>
                             </div>
                             @endif

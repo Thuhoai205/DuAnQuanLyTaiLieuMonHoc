@@ -8,49 +8,49 @@
 
 
     <!-- ================= HEADER ================= -->
-    <section class=" from-slate-900 via-slate-800 to-slate-900">
-        <!-- HEADER -->
-        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-8">
+    <section class="from-slate-900 via-slate-800 to-slate-900">
+
+        <div class="flex flex-col gap-6 mb-8 lg:flex-row lg:items-center lg:justify-between">
 
             <div>
 
-
                 <h1 class="mt-4 text-4xl font-black tracking-tight text-slate-900">
-
                     Tài liệu của tôi
-
                 </h1>
 
-                <p class="mt-3 text-slate-500 max-w-2xl leading-7">
-
+                <p class="mt-3 max-w-2xl leading-7 text-slate-500">
                     Hiển thị danh sách những tài liệu của bạn.
-
                 </p>
 
             </div>
 
-            <a href="{{ route('documents.create') }}" class="inline-flex items-center gap-2
-                    rounded-xl
-                    bg-amber-500
-                    hover:bg-amber-600
-                    px-6
-                    py-3
-                    text-white
-                    font-bold
-                    transition">
+            <div class="flex items-center gap-3">
 
-                <i class="fa-solid fa-upload"></i>
+                <!-- Thùng rác -->
+                <a href="{{ route('documents.trash') }}"
+                    class="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3 font-semibold text-slate-700 transition hover:border-red-500 hover:bg-red-50 hover:text-red-600">
 
-                Đăng tải tài liệu
+                    <i class="fa-solid fa-trash-can"></i>
 
-            </a>
+                    Thùng rác
+
+                </a>
+
+                <!-- Đăng tải -->
+                <a href="{{ route('documents.create') }}"
+                    class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3 font-bold text-white transition hover:bg-amber-600">
+
+                    <i class="fa-solid fa-upload"></i>
+
+                    Đăng tải tài liệu
+
+                </a>
+
+            </div>
 
         </div>
 
-
     </section>
-
-
     <!-- ================= CONTENT ================= -->
     <div class="max-w-7xl mx-auto px-6 py-5">
 
@@ -888,17 +888,98 @@
 
             </div>
 
-            {{-- Pagination --}}
-            @if($documents->hasPages())
+            @if ($documents->hasPages())
 
-            <div class="px-6 py-5 border-t border-slate-200 bg-slate-50">
+            <div class="border-t border-slate-200 bg-slate-50 px-6 py-5">
 
-                {{ $documents->links() }}
+                <div class="flex items-center justify-between">
+
+                    <p class="text-sm text-slate-500">
+                        Hiển thị
+                        <span class="font-semibold text-slate-700">{{ $documents->firstItem() }}</span>
+                        -
+                        <span class="font-semibold text-slate-700">{{ $documents->lastItem() }}</span>
+                        trong tổng số
+                        <span class="font-semibold text-slate-700">{{ $documents->total() }}</span>
+                        tài liệu
+                    </p>
+
+                    <div class="flex items-center gap-2">
+
+                        {{-- Previous --}}
+                        @if ($documents->onFirstPage())
+
+                        <span
+                            class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-300">
+
+                            <i class="fa-solid fa-chevron-left"></i>
+
+                        </span>
+
+                        @else
+
+                        <a href="{{ $documents->previousPageUrl() }}"
+                            class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-amber-500 hover:bg-amber-500 hover:text-white">
+
+                            <i class="fa-solid fa-chevron-left"></i>
+
+                        </a>
+
+                        @endif
+
+                        {{-- Page Numbers --}}
+                        @foreach ($documents->getUrlRange(1, $documents->lastPage()) as $page => $url)
+
+                        @if ($page == $documents->currentPage())
+
+                        <span
+                            class="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500 font-bold text-white">
+
+                            {{ $page }}
+
+                        </span>
+
+                        @else
+
+                        <a href="{{ $url }}"
+                            class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white font-medium text-slate-700 transition hover:border-amber-500 hover:bg-amber-50">
+
+                            {{ $page }}
+
+                        </a>
+
+                        @endif
+
+                        @endforeach
+
+                        {{-- Next --}}
+                        @if ($documents->hasMorePages())
+
+                        <a href="{{ $documents->nextPageUrl() }}"
+                            class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:border-amber-500 hover:bg-amber-500 hover:text-white">
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </a>
+
+                        @else
+
+                        <span
+                            class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-300">
+
+                            <i class="fa-solid fa-chevron-right"></i>
+
+                        </span>
+
+                        @endif
+
+                    </div>
+
+                </div>
 
             </div>
 
             @endif
-
         </div>
 
     </div>
