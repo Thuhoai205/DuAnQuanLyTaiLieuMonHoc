@@ -277,29 +277,29 @@
                         <a href="{{ route('documents.search',[
                             'keyword' => $item->keyword
                         ]) }}" class="group inline-flex items-center gap-2
-                rounded-full
-                border border-white/20
-                bg-white/10
-                backdrop-blur-md
-                px-4
-                py-2
-                text-sm
-                text-white
-                transition-all
-                duration-300
-                hover:bg-amber-500
-                hover:border-amber-500
-                hover:scale-105">
+                            rounded-full
+                            border border-white/20
+                            bg-white/10
+                            backdrop-blur-md
+                            px-4
+                            py-2
+                            text-sm
+                            text-white
+                            transition-all
+                            duration-300
+                            hover:bg-amber-500
+                            hover:border-amber-500
+                            hover:scale-105">
 
                             <i class="fa-solid fa-fire text-xs text-orange-300 group-hover:text-white"></i>
 
                             {{ $item->keyword }}
 
                             <span class="rounded-full
-                bg-white/20
-                px-2
-                py-0.5
-                text-xs">
+                            bg-white/20
+                            px-2
+                            py-0.5
+                            text-xs">
 
                                 {{ $item->total }}
 
@@ -2344,6 +2344,170 @@ REGISTER -->
 
         </div>
     </div>
+    <!-- ================= TÀI LIỆU NỔI BẬT ================= -->
+    <section class="py-14">
+
+        <div class="mb-8">
+
+            <div class="flex items-center justify-between">
+
+                <div>
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100">
+
+                            <i class="fa-solid fa-star text-xl text-amber-500"></i>
+
+                        </div>
+
+                        <div>
+
+                            <h2 class="text-3xl font-bold text-slate-900">
+                                Tài liệu nổi bật
+                            </h2>
+
+                            <p class="mt-1 text-sm text-slate-500">
+                                Những tài liệu được tải nhiều và được quan tâm nhất.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <a href="{{ route('documents.index') }}"
+                    class="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-50">
+
+                    Xem tất cả
+
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+
+                </a>
+
+            </div>
+
+            <div class="mt-5 h-px bg-slate-200"></div>
+
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+            @foreach($featuredDocuments as $document)
+
+            <a href="{{ route('documents.show',$document->document_id) }}"
+                class="group flex flex-col rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl">
+
+
+                <!-- Icon + Badge -->
+                <div class="mt-6 flex items-start justify-between">
+
+                    <!-- File Icon -->
+                    <div
+                        class="flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100 text-slate-500 transition-all duration-300 group-hover:bg-amber-100 group-hover:text-amber-500">
+
+                        <i class="fa-solid fa-file-lines text-3xl"></i>
+
+                    </div>
+
+                    <!-- Badge -->
+                    <span
+                        class="inline-flex items-center gap-2 rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-600">
+
+                        <i class="fa-solid fa-star text-[10px]"></i>
+
+                        Nổi bật
+
+                    </span>
+
+                </div>
+                <!-- Title -->
+                <h3 class="mt-5 truncate text-lg font-bold text-slate-900 transition-colors duration-300 group-hover:text-amber-500"
+                    title="{{ $document->title }}">
+
+                    {{ $document->title }}
+
+                </h3>
+
+                <!-- Subject -->
+                <div class="mt-4">
+
+                    <span
+                        class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+
+                        <i class="fa-solid fa-book text-amber-500"></i>
+
+                        {{ $document->subject->subject_name }}
+
+                    </span>
+
+                </div>
+
+                <!-- Document Type -->
+                <div class="mt-3">
+
+                    <span
+                        class="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-600">
+
+                        <i class="fa-solid fa-folder-open"></i>
+
+                        {{ $document->documentType->type_name }}
+
+                    </span>
+
+                </div>
+
+                <!-- Footer -->
+                <div class="mt-auto pt-6">
+
+                    <div class="border-t border-slate-100 pt-4">
+
+                        <div class="flex items-center justify-between">
+
+                            <div class="space-y-2">
+
+                                <div class="flex items-center gap-2 text-sm font-medium text-slate-600">
+
+                                    <i class="fa-solid fa-download text-amber-500"></i>
+
+                                    {{ number_format($document->download_count) }} lượt tải
+
+                                </div>
+
+                                <div class="flex items-center gap-2 text-sm text-slate-500">
+
+                                    <i class="fa-solid fa-calendar text-amber-500"></i>
+
+                                    {{ $document->created_at->format('d/m/Y') }}
+
+                                </div>
+
+                            </div>
+
+                            <span
+                                class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition-all duration-300 group-hover:bg-amber-500">
+
+                                Xem
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+            @endforeach
+
+        </div>
+
+    </section>
+
+
+
     <!-- Phần Tài liệu sẽ chia quyền sinh viên -->
     @if(auth()->user()->role_id !=2)
     <!-- ========================= -->
@@ -2359,23 +2523,24 @@ REGISTER -->
 
                 <div class="flex items-center gap-4">
 
-
                     <div>
-
-
 
                         <h1 class="text-3xl font-bold text-slate-900">
                             Tài liệu mới nhất
-
                         </h1>
 
                         <p class="mt-2 text-sm leading-6 text-slate-500">
-
                             Những tài liệu vừa được cập nhật trong hệ thống.
-
                         </p>
 
                     </div>
+
+                </div>
+
+                <!-- Icon -->
+                <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
+
+                    <i class="fa-solid fa-clock-rotate-left text-2xl"></i>
 
                 </div>
 
@@ -2541,105 +2706,62 @@ REGISTER -->
 
                 <div class="flex items-center gap-4">
 
-
-
                     <div>
 
-
                         <h1 class="text-3xl font-bold text-slate-900">
-
-                            Tài liệu tải nhiều
-
+                            Tài liệu truy cập nhiều
                         </h1>
 
                         <p class="mt-2 text-sm leading-6 text-slate-500">
-
-                            Những tài liệu được tải xuống nhiều nhất.
-
+                            Những tài liệu được người dùng truy cập và xem nhiều nhất.
                         </p>
 
                     </div>
 
                 </div>
 
+                <!-- Icon -->
+                <div
+                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-violet-100 text-violet-600 shadow-sm">
+
+                    <i class="fa-solid fa-eye text-2xl"></i>
+
+                </div>
+
             </div>
 
             <!-- CARD -->
-            <div class="rounded-3xl
-            border
-            border-slate-200
-            bg-white
-            p-5
-            shadow-sm">
+            <div class="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm">
 
                 <div class="space-y-4">
 
-                    @foreach($topDocuments as $index => $document)
+                    @foreach($topViewedDocuments as $index => $document)
 
-                    <a href="{{ route('documents.show',$document->document_id) }}" class="group
-                    flex
-                    items-center
-                    gap-4
-                    rounded-2xl
-                    border
-                    border-slate-200
-                    bg-white
-                    p-4
-                    transition-all
-                    duration-300
-                    hover:-translate-y-1
-                    hover:border-amber-300
-                    hover:shadow-lg">
+                    <a href="{{ route('documents.show', $document->document_id) }}"
+                        class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:border-violet-300 hover:shadow-lg">
 
                         <!-- RANK -->
                         <div class="shrink-0">
 
-                            @if($index==0)
+                            @if($index == 0)
 
-                            <div class="flex
-                            h-12
-                            w-12
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-amber-500
-                            text-white
-                            font-bold">
-
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-amber-500 text-white font-bold">
                                 #1
-
                             </div>
 
-                            @elseif($index==1)
+                            @elseif($index == 1)
 
-                            <div class="flex
-                            h-12
-                            w-12
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-slate-500
-                            text-white
-                            font-bold">
-
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-500 text-white font-bold">
                                 #2
-
                             </div>
 
                             @else
 
-                            <div class="flex
-                            h-12
-                            w-12
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-slate-700
-                            text-white
-                            font-bold">
-
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 text-white font-bold">
                                 #3
-
                             </div>
 
                             @endif
@@ -2649,12 +2771,8 @@ REGISTER -->
                         <!-- CONTENT -->
                         <div class="flex-1 min-w-0">
 
-                            <h3 class="truncate
-                            text-base
-                            font-bold
-                            text-slate-900
-                            transition-colors
-                            group-hover:text-amber-500">
+                            <h3 class="truncate text-base font-bold text-slate-900 transition-colors duration-300 group-hover:text-violet-600"
+                                title="{{ $document->title }}">
 
                                 {{ $document->title }}
 
@@ -2662,17 +2780,10 @@ REGISTER -->
 
                             <div class="mt-2">
 
-                                <span class="inline-flex
-                                items-center
-                                rounded-full
-                                bg-slate-100
-                                px-3
-                                py-1
-                                text-xs
-                                font-medium
-                                text-slate-700">
+                                <span
+                                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
 
-                                    <i class="fa-solid fa-book mr-1 text-amber-500"></i>
+                                    <i class="fa-solid fa-book mr-2 text-violet-500"></i>
 
                                     {{ $document->subject?->subject_name }}
 
@@ -2682,11 +2793,11 @@ REGISTER -->
 
                             <div class="mt-3 flex items-center justify-between">
 
-                                <span class="text-sm font-semibold text-amber-500">
+                                <span class="text-sm font-semibold text-violet-600">
 
-                                    <i class="fa-solid fa-download mr-1"></i>
+                                    <i class="fa-solid fa-eye mr-1"></i>
 
-                                    {{ number_format($document->download_count) }}
+                                    {{ number_format($document->view_count) }} lượt xem
 
                                 </span>
 
@@ -2701,21 +2812,8 @@ REGISTER -->
                         </div>
 
                         <!-- ARROW -->
-                        <div class="flex
-                        h-10
-                        w-10
-                        items-center
-                        justify-center
-                        rounded-full
-                        border
-                        border-slate-200
-                        bg-slate-100
-                        text-slate-600
-                        transition-all
-                        duration-300
-                        group-hover:border-amber-300
-                        group-hover:bg-amber-500
-                        group-hover:text-white">
+                        <div
+                            class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-100 text-slate-600 transition-all duration-300 group-hover:border-violet-300 group-hover:bg-violet-500 group-hover:text-white">
 
                             <i class="fa-solid fa-arrow-right text-xs"></i>
 
@@ -2730,7 +2828,6 @@ REGISTER -->
             </div>
 
         </div>
-
     </div>
     @endif
     <!-- Phần Tài liệu sẽ chia quyền  giảng viên -->
@@ -3061,10 +3158,10 @@ REGISTER -->
 
                     </div>
 
-                    @if($topDocuments->count())
+                    @if($topDocument->count())
 
                     <!-- TOP DOCUMENT -->
-                    <a href="{{ route('documents.show',$topDocuments->first()->document_id) }}" class="col-span-2
+                    <a href="{{ route('documents.show',$topDocument->first()->document_id) }}" class="col-span-2
                         block
                         rounded-2xl
                         border
@@ -3097,13 +3194,13 @@ REGISTER -->
                             font-bold
                             text-slate-900">
 
-                                    {{ $topDocuments->first()->title }}
+                                    {{ $topDocument->first()->title }}
 
                                 </h4>
 
                                 <p class="mt-2 text-sm text-slate-500">
 
-                                    {{ number_format($topDocuments->first()->download_count) }}
+                                    {{ number_format($topDocument->first()->download_count) }}
                                     lượt tải
 
                                 </p>
@@ -3151,48 +3248,48 @@ REGISTER -->
                     </a>
 
                     @endif
-                    @if($topViewedDocument)
+                    @if($topViewedDocuments)
 
-                    <a href="{{ route('documents.show',$topViewedDocument->document_id) }}" class="col-span-2
-    block
-    rounded-2xl
-    border
-    border-slate-200
-    bg-white
-    p-5
-    transition-all
-    duration-300
-    hover:-translate-y-1
-    hover:border-sky-300
-    hover:shadow-lg">
+                    <a href="{{ route('documents.show',$topViewedDocuments->document_id) }}" class="col-span-2
+                        block
+                        rounded-2xl
+                        border
+                        border-slate-200
+                        bg-white
+                        p-5
+                        transition-all
+                        duration-300
+                        hover:-translate-y-1
+                        hover:border-sky-300
+                        hover:shadow-lg">
 
                         <div class="flex items-center justify-between gap-4">
 
                             <div class="min-w-0 flex-1">
 
                                 <p class="text-xs
-                font-bold
-                uppercase
-                tracking-[0.2em]
-                text-sky-500">
+                                font-bold
+                                uppercase
+                                tracking-[0.2em]
+                                text-sky-500">
 
                                     Tài liệu xem nhiều nhất
 
                                 </p>
 
                                 <h4 class="mt-2
-                truncate
-                text-base
-                font-bold
-                text-slate-900">
+                                truncate
+                                text-base
+                                font-bold
+                                text-slate-900">
 
-                                    {{ $topViewedDocument->title }}
+                                    {{ $topViewedDocuments->title }}
 
                                 </h4>
 
                                 <p class="mt-2 text-sm text-slate-500">
 
-                                    {{ number_format($topViewedDocument->view_count) }}
+                                    {{ number_format($topViewedDocuments->view_count) }}
                                     lượt xem
 
                                 </p>
@@ -3202,12 +3299,12 @@ REGISTER -->
                             <div class="flex items-center gap-3">
 
                                 <span class="rounded-full
-                bg-sky-50
-                px-3
-                py-1
-                text-sm
-                font-semibold
-                text-sky-700">
+                                bg-sky-50
+                                px-3
+                                py-1
+                                text-sm
+                                font-semibold
+                                text-sky-700">
 
                                     Top View
 

@@ -547,19 +547,19 @@
 
                             <hr class="border-slate-100">
 
-                            <!-- Lượt tải -->
+                            <!-- Lượt thích -->
                             <div class="flex items-start justify-between gap-4">
 
                                 <span class="text-sm font-semibold text-slate-500">
-                                    Lượt tải
+                                    Lượt thích
                                 </span>
 
                                 <span
-                                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                                    class="inline-flex items-center rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600">
 
-                                    <i class="fa-solid fa-download text-amber-500 mr-1"></i>
+                                    <i class="fa-solid fa-heart mr-1"></i>
 
-                                    {{ number_format($document->download_count) }}
+                                    {{ number_format($document->favorites_count) }}
 
                                 </span>
 
@@ -729,7 +729,8 @@
 
                     <h2 class="text-2xl font-bold text-slate-900">
 
-                        Tài liệu liên quan
+                        Đề xuất tài liệu liên quan
+
 
                     </h2>
 

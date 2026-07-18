@@ -112,7 +112,23 @@ $subjects = $subjects
             ->orderByDesc('download_count')
             ->take(3)
             ->get();
-
+/*
+|--------------------------------------------------------------------------
+| 4 tài liệu nổi bật
+|--------------------------------------------------------------------------
+*/
+$featuredDocuments = Document::with([
+        'subject',
+        'currentVersion'
+    ])
+    ->where('is_active', true)
+    ->whereHas('subject', function ($query) {
+        $query->where('status', 'active');
+    })
+    ->whereHas('currentVersion')
+    ->orderByDesc('download_count')
+    ->take(4)
+    ->get();
         /*
         |--------------------------------------------------------------------------
         | Thống kê toàn hệ thống
@@ -135,6 +151,8 @@ $subjects = $subjects
 
         $topDocument = null;
         $topViewedDocument = null;
+        
+       
 
         /*
         |--------------------------------------------------------------------------
@@ -198,6 +216,15 @@ $subjects = $subjects
         ->orderByDesc('total')
         ->take(4)
         ->get();
+      $topViewedDocuments = Document::with([
+    'subject',
+    'currentVersion'
+])
+->where('is_active', true)
+->whereHas('currentVersion')
+->orderByDesc('view_count')
+->take(3)
+->get();
 
         /*
         |--------------------------------------------------------------------------
@@ -207,9 +234,10 @@ $subjects = $subjects
        return view('home', compact(
     'topSubjects',
     'subjects',
+    'featuredDocuments',
     'latestDocuments',
-    'topDocuments',
     'topViewedDocument',
+    'topViewedDocuments',
     'myDocuments',
     'topDocument',
     'documentTypes',

@@ -523,6 +523,45 @@ class DocumentController extends Controller
 
         }
     }
+    public function destroyMyDocument(Document $document)
+{
+    $user = Auth::user();
+
+    if (
+        $user->role->role_name !== 'lecturer' ||
+        $document->uploaded_by != $user->user_id
+    ) {
+        abort(403);
+    }
+
+    DB::beginTransaction();
+
+    try {
+
+        $document->update([
+            'is_active'  => false,
+            'deleted_by' => $user->user_id,
+            'updated_by' => $user->user_id,
+        ]);
+
+        $document->delete();
+
+        DB::commit();
+
+        return redirect()
+            ->route('documents.my-documents')
+            ->with('success', 'Đã chuyển tài liệu vào thùng rác.');
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->with(
+            'error',
+            'Không thể xóa tài liệu: ' . $e->getMessage()
+        );
+    }
+}
     public function search(Request $request)
     {
         /*
@@ -817,206 +856,206 @@ class DocumentController extends Controller
             )
         );
     }
-   public function myDocuments(Request $request)
-{
-    $user = Auth::user();
+    public function myDocuments(Request $request)
+    {
+        $user = Auth::user();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Query
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Query
+        |--------------------------------------------------------------------------
+        */
 
-    $query = Document::with([
-        'subject',
-        'documentType',
-        'currentVersion',
-        'documentVersions',
-    ])
-    ->where('uploaded_by', $user->user_id)
-    ->where('is_active', true);
+        $query = Document::with([
+            'subject',
+            'documentType',
+            'currentVersion',
+            'documentVersions',
+        ])
+        ->where('uploaded_by', $user->user_id)
+        ->where('is_active', true);
 
-    /*
-    |--------------------------------------------------------------------------
-    | Keyword
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Keyword
+        |--------------------------------------------------------------------------
+        */
 
-    if ($request->filled('keyword')) {
+        if ($request->filled('keyword')) {
 
-        $keyword = trim($request->keyword);
+            $keyword = trim($request->keyword);
 
-        $query->where(function ($q) use ($keyword) {
+            $query->where(function ($q) use ($keyword) {
 
-            $q->where('title', 'like', "%{$keyword}%")
-              ->orWhere('description', 'like', "%{$keyword}%");
+                $q->where('title', 'like', "%{$keyword}%")
+                ->orWhere('description', 'like', "%{$keyword}%");
 
-        });
+            });
 
-    }
+        }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Subject
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Subject
+        |--------------------------------------------------------------------------
+        */
 
-    if ($request->filled('subject_code')) {
+        if ($request->filled('subject_code')) {
 
-        $query->where(
-            'subject_code',
-            $request->subject_code
-        );
+            $query->where(
+                'subject_code',
+                $request->subject_code
+            );
 
-    }
+        }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Document Type
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Document Type
+        |--------------------------------------------------------------------------
+        */
 
-    if ($request->filled('document_type_id')) {
+        if ($request->filled('document_type_id')) {
 
-        $query->where(
-            'document_type_id',
-            $request->document_type_id
-        );
+            $query->where(
+                'document_type_id',
+                $request->document_type_id
+            );
 
-    }
+        }
 
-    /*
-    |--------------------------------------------------------------------------
-    | Documents
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Documents
+        |--------------------------------------------------------------------------
+        */
 
-    $documents = $query
-        ->latest()
-        ->paginate(10)
-        ->withQueryString();
+        $documents = $query
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Subjects
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Subjects
+        |--------------------------------------------------------------------------
+        */
 
-    $subjects = Subject::where('status', 'active');
+        $subjects = Subject::where('status', 'active');
 
-    if ($user->role->role_name === 'lecturer') {
+        if ($user->role->role_name === 'lecturer') {
 
-        $subjects->where(
-            'faculty_id',
-            $user->faculty_id
-        );
+            $subjects->where(
+                'faculty_id',
+                $user->faculty_id
+            );
 
-    }
+        }
 
-    $subjects = $subjects
-        ->orderBy('subject_name')
-        ->get();
+        $subjects = $subjects
+            ->orderBy('subject_name')
+            ->get();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Document Types
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Document Types
+        |--------------------------------------------------------------------------
+        */
 
-    $documentTypes = DocumentType::where('is_active', true)
-        ->orderBy('type_name')
-        ->get();
+        $documentTypes = DocumentType::where('is_active', true)
+            ->orderBy('type_name')
+            ->get();
 
-    /*
-    |--------------------------------------------------------------------------
-    | Statistics
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Statistics
+        |--------------------------------------------------------------------------
+        */
 
-    $totalDocuments = Document::where(
-        'uploaded_by',
-        $user->user_id
-    )
-    ->where('is_active', true)
-    ->count();
-
-    $totalViews = Document::where(
-        'uploaded_by',
-        $user->user_id
-    )
-    ->where('is_active', true)
-    ->sum('view_count');
-
-    $totalDownloads = Document::where(
-        'uploaded_by',
-        $user->user_id
-    )
-    ->where('is_active', true)
-    ->sum('download_count');
-
-    $totalSubjects = SubjectTeacher::where(
-        'user_id',
-        $user->user_id
-    )->count();
-
-    /*
-    |--------------------------------------------------------------------------
-    | View
-    |--------------------------------------------------------------------------
-    */
-
-    if ($request->ajax()) {
-
-    return response()->view(
-        'documents.my-documents',
-        compact(
-            'documents',
-            'subjects',
-            'documentTypes',
-            'totalDocuments',
-            'totalViews',
-            'totalDownloads',
-            'totalSubjects'
+        $totalDocuments = Document::where(
+            'uploaded_by',
+            $user->user_id
         )
-    );
+        ->where('is_active', true)
+        ->count();
 
-    }
-
-    return view(
-        'documents.my-documents',
-        compact(
-            'documents',
-            'subjects',
-            'documentTypes',
-            'totalDocuments',
-            'totalViews',
-            'totalDownloads',
-            'totalSubjects'
+        $totalViews = Document::where(
+            'uploaded_by',
+            $user->user_id
         )
-    );
-}
-public function trash()
-{
-    $documents = Document::onlyTrashed()
-        ->where('uploaded_by', Auth::id())
-        ->latest()
-        ->paginate(10);
+        ->where('is_active', true)
+        ->sum('view_count');
 
-    return view('documents.trash', compact('documents'));
-}
-public function restore($document)
-{
-    $document = Document::onlyTrashed()
-        ->where('document_id', $document)
-        ->where('uploaded_by', Auth::id())
-        ->firstOrFail();
+        $totalDownloads = Document::where(
+            'uploaded_by',
+            $user->user_id
+        )
+        ->where('is_active', true)
+        ->sum('download_count');
 
-    $document->restore();
+        $totalSubjects = SubjectTeacher::where(
+            'user_id',
+            $user->user_id
+        )->count();
 
-    return redirect()
-        ->route('documents.trash')
-        ->with('success', 'Khôi phục tài liệu thành công.');
-}
+        /*
+        |--------------------------------------------------------------------------
+        | View
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->ajax()) {
+
+        return response()->view(
+            'documents.my-documents',
+            compact(
+                'documents',
+                'subjects',
+                'documentTypes',
+                'totalDocuments',
+                'totalViews',
+                'totalDownloads',
+                'totalSubjects'
+            )
+        );
+
+        }
+
+        return view(
+            'documents.my-documents',
+            compact(
+                'documents',
+                'subjects',
+                'documentTypes',
+                'totalDocuments',
+                'totalViews',
+                'totalDownloads',
+                'totalSubjects'
+            )
+        );
+    }
+    public function trash()
+    {
+        $documents = Document::onlyTrashed()
+            ->where('uploaded_by', Auth::id())
+            ->latest()
+            ->paginate(10);
+
+        return view('documents.trash', compact('documents'));
+    }
+    public function restore($document)
+    {
+        $document = Document::onlyTrashed()
+            ->where('document_id', $document)
+            ->where('uploaded_by', Auth::id())
+            ->firstOrFail();
+
+        $document->restore();
+
+        return redirect()
+            ->route('documents.trash')
+            ->with('success', 'Khôi phục tài liệu thành công.');
+    }
     public function view(Document $document)
     {
         /*
@@ -1085,14 +1124,15 @@ public function restore($document)
         return response()->file($path);
     }
     public function show($id)
-    {
-        $document = Document::with([
-            'subject.faculty',
-            'documentType',
-            'uploader',
-            'currentVersion',
-            'documentVersions'
-        ])->findOrFail($id);
+    {$document = Document::with([
+        'subject.faculty',
+        'documentType',
+        'uploader',
+        'currentVersion',
+        'documentVersions'
+    ])
+    ->withCount('favorites')
+    ->findOrFail($id);
 
         /*
         |--------------------------------------------------------------------------

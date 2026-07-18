@@ -793,8 +793,8 @@
                             <div class="border-t border-slate-100"></div>
 
                             <!-- Xóa -->
-                            <form action="{{ route('documents.destroy',$document->document_id) }}" method="POST"
-                                onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
+                            <form action="{{ route('documents.destroyMyDocument',$document->document_id) }}"
+                                method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa tài liệu này?')">
 
                                 @csrf
                                 @method('DELETE')

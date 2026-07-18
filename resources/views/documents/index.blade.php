@@ -210,26 +210,75 @@
                 </div>
 
                 <!-- ACTION -->
-                <div class="mt-6 flex items-center justify-between flex-wrap gap-4">
+                <div class="mt-6 flex items-center justify-between gap-6">
+                    {{-- ================= TOP KEYWORDS ================= --}}
+                    @if(isset($topKeywords) && $topKeywords->count())
 
-                    <p class="text-sm text-slate-500">
-                        Nhập từ khóa hoặc sử dụng bộ lọc để tìm tài liệu.
-                    </p>
+                    <div class="flex items-center gap-4 flex-1">
+
+                        <div class="flex items-center gap-2 whitespace-nowrap">
+
+                            <div class="flex h-9 w-9 items-center justify-center rounded-full bg-amber-100">
+                                <i class="fa-solid fa-fire text-amber-500"></i>
+                            </div>
+
+                            <span class="font-semibold text-slate-700">
+                                Từ khóa hot
+                            </span>
+
+                        </div>
+
+                        <div class="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+
+                            @foreach($topKeywords->take(8) as $item)
+
+                            <button type="button" class="keyword-btn group inline-flex items-center gap-2
+    rounded-full
+    border border-amber-200
+    bg-amber-50
+    px-4 py-2
+    text-slate-700
+    transition-all
+    hover:bg-amber-500
+    hover:border-amber-500
+    hover:text-white" data-keyword="{{ $item->keyword }}">
+
+                                <i class="fa-solid fa-fire text-amber-500 group-hover:text-white"></i>
+
+                                <span class="group-hover:text-white">
+                                    {{ $item->keyword }}
+                                </span>
+
+                                <span class="rounded-full bg-white px-2 py-0.5 text-xs text-slate-600
+        group-hover:bg-white/20 group-hover:text-white">
+                                    {{ $item->total }}
+                                </span>
+
+                            </button>
+
+                            @endforeach
+
+                        </div>
+
+                    </div>
+
+                    @endif
+
 
                     <div class="flex items-center gap-3">
 
 
                         <button type="button" id="resetButton" class="inline-flex items-center gap-2
-                    rounded-xl
-                    border border-slate-300
-                    bg-white
-                    px-5 py-3
-                    text-sm
-                    font-medium
-                    text-slate-700
-                    transition-all duration-300
-                    hover:border-slate-400
-                    hover:bg-slate-100">
+                            rounded-xl
+                            border border-slate-300
+                            bg-white
+                            px-5 py-3
+                            text-sm
+                            font-medium
+                            text-slate-700
+                            transition-all duration-300
+                            hover:border-slate-400
+                            hover:bg-slate-100">
                             <i class="fa-solid fa-rotate-left text-sm"></i>
 
                             Đặt lại
@@ -238,16 +287,16 @@
 
 
                         <button type="submit" class="inline-flex items-center gap-2
-                        rounded-xl
-                        bg-slate-900
-                        px-6 py-3
-                        text-sm
-                        font-semibold
-                        text-white
-                        transition-all duration-300
-                        hover:-translate-y-0.5
-                        hover:bg-amber-500
-                        hover:shadow-lg">
+                                rounded-xl
+                                bg-slate-900
+                                px-6 py-3
+                                text-sm
+                                font-semibold
+                                text-white
+                                transition-all duration-300
+                                hover:-translate-y-0.5
+                                hover:bg-amber-500
+                                hover:shadow-lg">
 
                             <i class="fa-solid fa-magnifying-glass"></i>
 
@@ -792,6 +841,20 @@ document.addEventListener("DOMContentLoaded", function() {
         form.reset();
 
         loadDocuments("{{ route('documents.index') }}");
+
+    });
+    // Click từ khóa hot
+    document.querySelectorAll('.keyword-btn').forEach(button => {
+
+        button.addEventListener('click', function() {
+
+            // Gán từ khóa vào ô tìm kiếm
+            form.querySelector('input[name="keyword"]').value = this.dataset.keyword;
+
+            // Load lại danh sách bằng AJAX
+            loadDocuments();
+
+        });
 
     });
     // Phân trang AJAX
