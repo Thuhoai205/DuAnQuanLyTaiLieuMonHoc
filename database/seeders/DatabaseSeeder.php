@@ -22,7 +22,6 @@ class DatabaseSeeder extends Seeder
             DocumentVersionSeeder::class,
             DownloadHistorySeeder::class,
 
-            NotificationSeeder::class,
             ActivityLogSeeder::class,
         ]);
     }

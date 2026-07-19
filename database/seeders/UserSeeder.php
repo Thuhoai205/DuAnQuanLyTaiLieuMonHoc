@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
             // Giảng viên
             [
                 'username'   => 'thuhoai',
-                'email'      => 'hoaihoai@gmail.com',
+                'email'      => 'nguyenthithuhoai2526@gmail.com',
                 'full_name'  => 'Nguyễn Thị Thu Hoài',
                 'role_id'    => $lecturerRoleId,
                 'faculty_id' => $itFacultyId,
@@ -95,8 +95,8 @@ class UserSeeder extends Seeder
             ],
             [
                 'username'   => 'phamthidung',
-                'email'      => 'phamthidung@gmail.com',
-                'full_name'  => 'Phạm Thị Dung',
+                'email'      => 'hoaicosy2005@gmail.com',
+                'full_name'  => 'Hoài Nguyễn',
                 'role_id'    => $studentRoleId,
                 'faculty_id' => $businessFacultyId,
             ],

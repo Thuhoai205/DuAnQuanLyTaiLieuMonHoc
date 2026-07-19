@@ -12,7 +12,7 @@ class DocumentSeeder extends Seeder
     public function run(): void
     {
         $lecturerAId = DB::table('users')
-            ->where('email', 'hoaihoai@gmail.com')
+            ->where('email', 'nguyenthithuhoai2526@gmail.com')
             ->value('user_id');
 
         $lecturerBId = DB::table('users')

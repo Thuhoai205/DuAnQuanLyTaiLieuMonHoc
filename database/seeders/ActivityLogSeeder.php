@@ -14,7 +14,7 @@ class ActivityLogSeeder extends Seeder
             ->value('user_id');
 
         $lecturerId = DB::table('users')
-            ->where('email', 'hoaihoai@gmail.com')
+            ->where('email', 'nguyenthithuhoai2526@gmail.com')
             ->value('user_id');
 
         DB::table('activity_logs')->insert([
