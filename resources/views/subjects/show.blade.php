@@ -127,26 +127,94 @@
 
                 </div>
 
-                @if($canUploadDocument)
-                <button type="button" onclick="openSubjectUploadModal()" class="banner-title inline-flex items-center gap-2
-                    px-7 py-4
-                    rounded-2xl
-                    bg-slate-900
-                    text-white
-                    font-bold
-                    shadow-lg
-                    transition-all duration-300
-                    hover:bg-amber-500
-                    hover:-translate-y-0.5
-                    hover:shadow-xl">
+                <div class="flex items-center gap-3">
 
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    {{-- Theo dõi môn học (chỉ sinh viên) --}}
+                    @auth
+                    @if(auth()->user()->role->role_name == 'student')
 
-                    Đăng tài liệu
+                    @php
+                    $isFollowing = $subject->followers()
+                    ->where('user_id', auth()->id())
+                    ->exists();
+                    @endphp
 
-                </button>
-                @endif
+                    @if($isFollowing)
 
+                    <form action="{{ route('subjects.unfollow', $subject->subject_code) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+
+                        <button class="banner-title inline-flex items-center gap-2
+    px-7 py-4
+    rounded-2xl
+    bg-slate-700
+    text-white
+    font-bold
+    shadow-lg
+    transition-all duration-300
+    hover:bg-slate-800
+    hover:-translate-y-0.5
+    hover:shadow-xl">
+
+                            <i class="fa-solid fa-bell-slash"></i>
+
+                            Bỏ theo dõi
+
+                        </button>
+
+                    </form>
+
+                    @else
+
+                    <form action="{{ route('subjects.follow', $subject->subject_code) }}" method="POST">
+                        @csrf
+
+                        <button class="banner-title inline-flex items-center gap-2
+        px-7 py-4
+        rounded-2xl
+        bg-blue-600
+        text-white
+        font-bold
+        shadow-lg
+        transition-all duration-300
+        hover:bg-blue-700
+        hover:-translate-y-0.5
+        hover:shadow-xl">
+
+                            <i class="fa-solid fa-bell"></i>
+
+                            Theo dõi
+
+                        </button>
+                    </form>
+                    @endif
+
+                    @endif
+                    @endauth
+
+                    {{-- Đăng tài liệu --}}
+                    @if($canUploadDocument)
+                    <button type="button" onclick="openSubjectUploadModal()" class="banner-title inline-flex items-center gap-2
+            px-7 py-4
+            rounded-2xl
+            bg-slate-900
+            text-white
+            font-bold
+            shadow-lg
+            transition-all duration-300
+            hover:bg-amber-500
+            hover:-translate-y-0.5
+            hover:shadow-xl">
+
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                        Đăng tài liệu
+
+                    </button>
+                    @endif
+
+                </div>
             </div>
 
         </div>

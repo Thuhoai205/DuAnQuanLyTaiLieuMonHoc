@@ -11,7 +11,8 @@ use App\Http\Controllers\FacultyController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FavoriteController;
-
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SubjectFollowController;
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
@@ -42,9 +43,24 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/subjects', [SubjectController::class, 'index'])
     ->name('subjects.index');
 
+// Danh sách môn học theo dõi
+Route::get('/subjects/following', [SubjectFollowController::class, 'index'])
+    ->middleware('auth')
+    ->name('subjects.following');
+
+// Theo dõi môn học
+Route::post('/subjects/{subject_code}/follow', [SubjectFollowController::class, 'store'])
+    ->middleware('auth')
+    ->name('subjects.follow');
+
+// Bỏ theo dõi môn học
+Route::delete('/subjects/{subject_code}/follow', [SubjectFollowController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('subjects.unfollow');
+
+// Chi tiết môn học (đặt cuối cùng)
 Route::get('/subjects/{subject_code}', [SubjectController::class, 'show'])
     ->name('subjects.show');
-
 /*
 |--------------------------------------------------------------------------
 | Documents
@@ -140,9 +156,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])
         ->name('notifications.index');
 
-    Route::post('/notifications/{id}/read', [NotificationController::class, 'read'])
-        ->name('notifications.read');
-
+   Route::get('/notifications/{id}/read', [NotificationController::class, 'read'])
+    ->name('notifications.read');
+    
     Route::post('/notifications/read-all', [NotificationController::class, 'readAll'])
         ->name('notifications.readAll');
 
@@ -170,6 +186,24 @@ Route::middleware('auth')->group(function () {
         '/favorites/{document}',
         [FavoriteController::class,'toggle']
     )->name('favorites.toggle');
+
+
+
+
+        Route::post(
+        '/tai-lieu/{document}/binh-luan',
+        [CommentController::class, 'store']
+    )->name('comments.store');
+
+    Route::delete(
+        '/binh-luan/{comment}',
+        [CommentController::class, 'destroy']
+    )->name('comments.destroy');
+
+Route::post(
+    '/comments/{comment}/reply',
+    [CommentController::class,'reply']
+)->name('comments.reply');
 
 
 

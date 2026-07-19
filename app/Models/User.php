@@ -125,6 +125,14 @@ class User extends Authenticatable
             'document_id'
         );
     }
+    public function comments()
+{
+    return $this->hasMany(
+        Comment::class,
+        'user_id',
+        'user_id'
+    );
+}
 
     public function userNotifications()
     {
@@ -140,4 +148,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(ActivityLog::class, 'user_id', 'user_id');
     }
+    public function subjectFollows()
+{
+    return $this->hasMany(SubjectFollow::class, 'user_id', 'user_id');
+}
 }

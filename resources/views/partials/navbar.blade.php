@@ -174,7 +174,6 @@ font-['Roboto',_sans-serif]">
 
 
                 {{-- THÔNG BÁO --}}
-                @if(auth()->user()->role->role_name === 'lecturer')
 
                 <a href="{{ route('notifications.index') }}" class="relative flex items-center justify-center
     w-11 h-11
@@ -200,7 +199,7 @@ font-['Roboto',_sans-serif]">
 
                 </a>
 
-                @endif
+
 
 
                 {{-- USER --}}
@@ -277,6 +276,14 @@ font-['Roboto',_sans-serif]">
                             <i class="fa-solid fa-heart w-5 text-red-500 text-base"></i>
 
                             Tài liệu yêu thích
+
+                        </a>
+                        <a href="{{ route('subjects.following') }}"
+                            class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">
+
+                            <i class="fa-solid fa-bell w-5 text-amber-500 text-base"></i>
+
+                            Môn học theo dõi
 
                         </a>
 

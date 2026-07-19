@@ -120,4 +120,19 @@ public function documentVersions()
             }
         });
     }
+    public function comments()
+{
+    return $this->hasMany(
+        Comment::class,
+        'document_id',
+        'document_id'
+    )
+    ->whereNull('parent_id')
+    ->where('is_active', true)
+    ->with([
+        'user',
+        'replies.user'
+    ])
+    ->latest();
+}
 }

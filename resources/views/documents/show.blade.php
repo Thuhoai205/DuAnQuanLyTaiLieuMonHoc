@@ -720,6 +720,405 @@
 
             </div>
         </div>
+
+        <!-- ================= COMMENTS ================= -->
+        <div class="mt-10">
+
+            <div class="bg-white rounded-[30px] border border-slate-200 shadow-sm overflow-hidden">
+
+                <!-- Header -->
+                <div class="px-6 py-5 border-b border-slate-200 bg-slate-50">
+
+                    <div class="flex items-center justify-between">
+
+                        <h2 class="text-xl font-bold text-slate-900">
+
+                            <i class="fa-regular fa-comments text-amber-500 mr-2"></i>
+
+                            Bình luận
+
+                        </h2>
+
+                        <span
+                            class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">
+
+                            {{ $document->comments_count }} bình luận
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="p-6">
+
+                    @auth
+                    <div class="mb-8 rounded-3xl border border-slate-200 bg-gradient-to-r from-white to-slate-50 p-6">
+
+                        <div class="flex gap-4">
+
+                            {{-- Avatar --}}
+                            <div
+                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
+
+                                {{ strtoupper(substr(Auth::user()->full_name,0,1)) }}
+
+                            </div>
+
+                            <div class="flex-1">
+
+                                <form action="{{ route('comments.store',$document) }}" method="POST">
+
+                                    @csrf
+
+                                    <textarea name="content" rows="4"
+                                        class="w-full rounded-2xl border border-slate-300 bg-white px-5 py-4 leading-7 placeholder:text-slate-400 focus:border-amber-500 focus:ring-amber-500"
+                                        placeholder="Chia sẻ cảm nhận hoặc đặt câu hỏi về tài liệu này...">{{ old('content') }}</textarea>
+
+                                    @error('content')
+                                    <p class="mt-2 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="mt-4 flex items-center justify-between">
+
+                                        <span class="text-xs text-slate-400">
+                                            Bình luận sẽ hiển thị công khai.
+                                        </span>
+
+                                        <button
+                                            class="inline-flex items-center gap-2 rounded-xl bg-amber-500 px-6 py-3 font-semibold text-white transition hover:bg-amber-600">
+
+                                            <i class="fa-solid fa-paper-plane"></i>
+
+                                            Gửi bình luận
+
+                                        </button>
+
+                                    </div>
+
+                                </form>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    @endauth
+
+                    {{-- Danh sách bình luận --}}
+                    <div class="mt-8 space-y-6">
+
+                        @forelse($document->comments as $comment)
+
+                        <div
+                            class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+                            <div class="flex gap-4">
+
+                                {{-- Avatar --}}
+                                <div
+                                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
+
+                                    {{ strtoupper(substr($comment->user->full_name,0,1)) }}
+
+                                </div>
+
+                                <div class="flex-1">
+
+                                    {{-- Header --}}
+                                    <div class="flex flex-wrap items-start justify-between gap-3">
+
+                                        <div>
+
+                                            <div class="flex flex-wrap items-center gap-2">
+
+                                                <h4 class="font-semibold text-slate-800">
+
+                                                    {{ $comment->user->full_name }}
+
+                                                </h4>
+
+                                                @if($comment->user->role->role_name=='lecturer')
+
+                                                <span
+                                                    class="rounded-full bg-blue-100 px-2 py-0.5 text-[11px] font-semibold text-blue-700">
+
+                                                    <i class="fa-solid fa-user-tie mr-1"></i>
+
+                                                    Giảng viên
+
+                                                </span>
+
+                                                @elseif($comment->user->role->role_name=='admin')
+
+                                                <span
+                                                    class="rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-semibold text-red-700">
+
+                                                    <i class="fa-solid fa-shield-halved mr-1"></i>
+
+                                                    Quản trị viên
+
+                                                </span>
+
+                                                @endif
+
+                                            </div>
+
+                                            <p class="mt-1 text-xs text-slate-500">
+
+                                                <i class="fa-regular fa-clock mr-1"></i>
+
+                                                {{ $comment->created_at->diffForHumans() }}
+
+                                            </p>
+
+                                        </div>
+
+                                        @auth
+
+                                        <div class="flex items-center gap-5">
+
+                                            {{-- Trả lời --}}
+                                            @if(
+                                            Auth::user()->role->role_name=='admin'
+                                            ||
+                                            (
+                                            Auth::user()->role->role_name=='lecturer'
+                                            &&
+                                            $document->uploaded_by==Auth::id()
+                                            )
+                                            )
+
+                                            <button type="button" data-comment-id="{{ $comment->comment_id }}"
+                                                onclick="toggleReply(this.dataset.commentId)"
+                                                class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-blue-600 transition hover:bg-blue-50">
+
+                                                <i class="fa-solid fa-reply mr-1"></i>
+
+                                                Trả lời
+
+                                            </button>
+
+                                            @endif
+
+                                            {{-- Xóa --}}
+                                            @if(
+                                            Auth::user()->role->role_name=='admin'
+                                            ||
+                                            Auth::id()==$comment->user_id
+                                            ||
+                                            (
+                                            Auth::user()->role->role_name=='lecturer'
+                                            &&
+                                            $document->uploaded_by==Auth::id()
+                                            )
+                                            )
+
+                                            <form action="{{ route('comments.destroy',$comment) }}" method="POST">
+
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <button onclick="return confirm('Xóa bình luận này?')"
+                                                    class="inline-flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium text-red-500 transition hover:bg-red-50">
+
+                                                    <i class="fa-solid fa-trash mr-1"></i>
+
+                                                    Xóa
+
+                                                </button>
+
+                                            </form>
+
+                                            @endif
+
+                                        </div>
+
+                                        @endauth
+
+                                    </div>
+
+                                    {{-- Nội dung --}}
+                                    <div class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+
+                                        <p class="leading-7 text-slate-700 whitespace-pre-line">
+
+                                            {{ $comment->content }}
+
+                                        </p>
+
+                                    </div>
+
+                                    {{-- Form trả lời --}}
+                                    <div id="reply-form-{{ $comment->comment_id }}" class="hidden mt-4 ml-10">
+
+                                        <form action="{{ route('comments.reply',$comment) }}" method="POST">
+
+                                            @csrf
+
+                                            <textarea name="content" rows="3"
+                                                class="w-full rounded-xl border border-slate-300 p-3 focus:border-amber-500 focus:ring-amber-500"
+                                                placeholder="Nhập phản hồi..."></textarea>
+
+                                            <div class="mt-3 text-right">
+
+                                                <button
+                                                    class="rounded-xl bg-amber-500 px-5 py-2 text-sm font-semibold text-white hover:bg-amber-600">
+
+                                                    <i class="fa-solid fa-paper-plane mr-2"></i>
+
+                                                    Gửi phản hồi
+
+                                                </button>
+
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                    {{-- Danh sách phản hồi --}}
+                                    @if($comment->replies->count())
+
+                                    <div class="mt-5 ml-10 space-y-4 border-l-2 border-amber-200 pl-6">
+
+                                        @foreach($comment->replies as $reply)
+
+                                        <div class="rounded-2xl border border-blue-100 bg-blue-50 p-4">
+
+                                            <div class="flex items-start gap-3">
+
+                                                <div
+                                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-700">
+
+                                                    {{ strtoupper(substr($reply->user->full_name,0,1)) }}
+
+                                                </div>
+
+                                                <div class="flex-1">
+
+                                                    <div class="flex items-start justify-between">
+
+                                                        <div>
+
+                                                            <div class="flex flex-wrap items-center gap-2">
+
+                                                                <strong>
+                                                                    {{ $reply->user->full_name }}
+                                                                </strong>
+
+                                                                @if($reply->user->role->role_name=='admin')
+
+                                                                <span
+                                                                    class="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-semibold text-red-700">
+                                                                    Admin
+                                                                </span>
+
+                                                                @else
+
+                                                                <span
+                                                                    class="rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-semibold text-blue-700">
+                                                                    Giảng viên
+                                                                </span>
+
+                                                                @endif
+
+                                                            </div>
+
+                                                            <span class="text-xs text-slate-500">
+                                                                {{ $reply->created_at->diffForHumans() }}
+                                                            </span>
+
+                                                        </div>
+
+                                                        @auth
+
+                                                        @if(
+                                                        Auth::user()->role->role_name == 'admin'
+                                                        || Auth::id() == $reply->user_id
+                                                        || (
+                                                        Auth::user()->role->role_name == 'lecturer'
+                                                        && $document->uploaded_by == Auth::id()
+                                                        )
+                                                        )
+
+                                                        <form action="{{ route('comments.destroy', $reply) }}"
+                                                            method="POST">
+
+                                                            @csrf
+                                                            @method('DELETE')
+
+                                                            <button type="submit"
+                                                                onclick="return confirm('Xóa phản hồi này?')"
+                                                                class="inline-flex items-center gap-1 rounded-lg px-2 py-1 text-sm text-red-500 hover:bg-red-50 hover:text-red-700">
+
+                                                                <i class="fa-solid fa-trash"></i>
+
+                                                                Xóa
+
+                                                            </button>
+
+                                                        </form>
+
+                                                        @endif
+
+                                                        @endauth
+
+                                                    </div>
+
+                                                    <p class="mt-3 leading-7 text-slate-700">
+
+                                                        {{ $reply->content }}
+
+                                                    </p>
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                        @endforeach
+
+                                    </div>
+
+                                    @endif
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        @empty
+
+                        <div class="rounded-3xl border border-dashed border-slate-300 py-14 text-center">
+
+                            <i class="fa-regular fa-comments text-5xl text-slate-300"></i>
+
+                            <h3 class="mt-4 text-lg font-semibold text-slate-700">
+
+                                Chưa có bình luận
+
+                            </h3>
+
+                            <p class="mt-2 text-slate-500">
+
+                                Hãy là người đầu tiên chia sẻ ý kiến về tài liệu này.
+
+                            </p>
+
+                        </div>
+
+                        @endforelse
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
         <!-- RELATED -->
         <section class="mt-10">
 
@@ -1114,6 +1513,14 @@ if (btn) {
             });
 
     });
+
+}
+
+function toggleReply(id) {
+
+    const form = document.getElementById('reply-form-' + id);
+
+    form.classList.toggle('hidden');
 
 }
 </script>

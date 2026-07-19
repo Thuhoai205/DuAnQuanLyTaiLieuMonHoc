@@ -156,7 +156,8 @@
             bg-white
             shadow-sm">
 
-            @forelse($notifications as $notification) <div class="flex
+            @forelse($notifications as $notification)
+            <a href="{{ route('notifications.read',$notification->notification_id) }}" class="flex
                 items-start
                 justify-between
                 gap-6
@@ -237,36 +238,9 @@
 
                 </div>
 
-                <!-- BUTTON -->
-                @if(!$notification->is_read)
 
-                <form action="{{ route('notifications.read',$notification->notification_id) }}" method="POST">
 
-                    @csrf
-
-                    <button class="rounded-xl
-                        border
-                        border-slate-200
-                        px-4
-                        py-2
-                        text-sm
-                        font-semibold
-                        text-slate-700
-                        transition-all
-                        duration-300
-                        hover:border-amber-300
-                        hover:bg-amber-50
-                        hover:text-amber-600">
-
-                        Đã đọc
-
-                    </button>
-
-                </form>
-
-                @endif
-
-            </div>
+            </a>
 
             @empty <div class="py-20 text-center">
 

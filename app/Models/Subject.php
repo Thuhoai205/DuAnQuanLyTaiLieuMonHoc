@@ -137,4 +137,8 @@ class Subject extends Model
     // Nếu là ảnh mặc định trong public/img/subjects
     return asset('img/subjects/' . $this->thumbnail);
 }
+public function followers()
+{
+    return $this->hasMany(SubjectFollow::class, 'subject_code', 'subject_code');
+}
 }

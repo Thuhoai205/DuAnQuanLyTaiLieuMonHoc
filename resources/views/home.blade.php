@@ -3248,9 +3248,9 @@ REGISTER -->
                     </a>
 
                     @endif
-                    @if($topViewedDocuments)
+                    @if($topViewedDocument)
 
-                    <a href="{{ route('documents.show',$topViewedDocuments->document_id) }}" class="col-span-2
+                    <a href="{{ route('documents.show',$topViewedDocument->document_id) }}" class="col-span-2
                         block
                         rounded-2xl
                         border
@@ -3283,13 +3283,13 @@ REGISTER -->
                                 font-bold
                                 text-slate-900">
 
-                                    {{ $topViewedDocuments->title }}
+                                    {{ $topViewedDocument->title }}
 
                                 </h4>
 
                                 <p class="mt-2 text-sm text-slate-500">
 
-                                    {{ number_format($topViewedDocuments->view_count) }}
+                                    {{ number_format($topViewedDocument->view_count) }}
                                     lượt xem
 
                                 </p>

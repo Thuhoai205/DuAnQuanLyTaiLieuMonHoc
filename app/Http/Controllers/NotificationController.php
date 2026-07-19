@@ -26,20 +26,37 @@ class NotificationController extends Controller
     | Đánh dấu một thông báo đã đọc
     |--------------------------------------------------------------------------
     */
-    public function read($id)
-    {
-        $notification = Notification::where('notification_id', $id)
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+   public function read($id)
+{
+    $notification = Notification::where('notification_id', $id)
+        ->where('user_id', Auth::id())
+        ->firstOrFail();
 
-        if (!$notification->is_read) {
-            $notification->update([
-                'is_read' => true,
-            ]);
-        }
-
-        return redirect()->route('notifications.index');
+    if (!$notification->is_read) {
+        $notification->update([
+            'is_read' => true,
+        ]);
     }
+
+    switch ($notification->related_type) {
+
+        case 'document':
+            return redirect()->route(
+                'documents.show',
+                $notification->related_id
+            );
+
+        case 'subject':
+            // Thay bằng route xem môn học thực tế của bạn
+            return redirect()->route(
+                'lecturer.subjects.show',
+                $notification->related_id
+            );
+
+        default:
+            return redirect()->route('notifications.index');
+    }
+}
 
     /*
     |--------------------------------------------------------------------------
