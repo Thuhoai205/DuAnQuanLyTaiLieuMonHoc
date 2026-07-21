@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\StatisticsController;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\FacultyController;
+use App\Http\Controllers\Admin\CommentController;
 /*
 |--------------------------------------------------------------------------
 | ADMIN ROUTES
@@ -188,4 +189,8 @@ Route::resource('documents', DocumentController::class);
 
         Route::post('/logs/read-all', [LogController::class, 'markAllAsRead'])
             ->name('logs.readAll');
+            Route::resource('comments', CommentController::class);
+
+Route::patch('comments/{comment}/status', [CommentController::class, 'toggleStatus'])->name('comments.status');
+Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });

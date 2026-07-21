@@ -46,12 +46,11 @@ class NotificationController extends Controller
                 $notification->related_id
             );
 
-        case 'subject':
-            // Thay bằng route xem môn học thực tế của bạn
-            return redirect()->route(
-                'lecturer.subjects.show',
-                $notification->related_id
-            );
+       case 'subject':
+    return redirect()->route(
+        'subjects.show',
+        $notification->related_id
+    );
 
         default:
             return redirect()->route('notifications.index');

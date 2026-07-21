@@ -201,7 +201,13 @@
 
 
                 </a>
+                <a href="{{ route('admin.comments.index') }}"
+                    class="nav-link {{ request()->routeIs('admin.comments.*') ? 'active' : '' }}">
+                    <i class="nav-icon fa-solid fa-comment"></i>
+                    <span>Bình luận</span>
 
+
+                </a>
                 <div class="menu-title flex items-center gap-2">
                     <i class="fa-solid fa-chart-line text-[10px] text-amber-500"></i>
                     <span>Phân tích dữ liệu</span>
@@ -217,12 +223,6 @@
                     class="nav-link {{ request()->routeIs('admin.logs.*') ? 'active' : '' }}">
                     <i class="nav-icon fa-solid fa-right-to-bracket"></i>
                     <span>Nhật ký</span>
-
-                    @if($todayLogCount > 0)
-                    <span class="ml-auto text-[10px] px-2 py-0.5 rounded bg-pink-500 text-white font-black">
-                        {{ $todayLogCount > 10 ? '10+' : $todayLogCount }}
-                    </span>
-                    @endif
                 </a>
                 <div class="menu-title flex items-center gap-2">
                     <i class="fa-solid fa-gear text-[10px] text-amber-500"></i>
@@ -260,10 +260,7 @@
                 </div>
                 <!-- RIGHT -->
                 <div class="ml-auto flex items-center gap-2">
-                    <!-- NOTIFICATION -->
-                    <div class="relative">
-                        @includeIf('admin.partials.notifications')
-                    </div>
+
                     <!-- DATE -->
                     <div
                         class="hidden lg:flex items-center gap-2 px-3 py-2 rounded-xl text-slate-500 text-[13px] font-bold">

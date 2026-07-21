@@ -49,12 +49,12 @@ Route::get('/subjects/following', [SubjectFollowController::class, 'index'])
     ->name('subjects.following');
 
 // Theo dõi môn học
-Route::post('/subjects/{subject_code}/follow', [SubjectFollowController::class, 'store'])
+Route::post('/subjects/{subject_code}/following', [SubjectFollowController::class, 'store'])
     ->middleware('auth')
     ->name('subjects.follow');
 
 // Bỏ theo dõi môn học
-Route::delete('/subjects/{subject_code}/follow', [SubjectFollowController::class, 'destroy'])
+Route::delete('/subjects/{subject_code}/following', [SubjectFollowController::class, 'destroy'])
     ->middleware('auth')
     ->name('subjects.unfollow');
 

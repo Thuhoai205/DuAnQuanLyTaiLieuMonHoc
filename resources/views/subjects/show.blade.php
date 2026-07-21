@@ -146,16 +146,16 @@
                         @method('DELETE')
 
                         <button class="banner-title inline-flex items-center gap-2
-    px-7 py-4
-    rounded-2xl
-    bg-slate-700
-    text-white
-    font-bold
-    shadow-lg
-    transition-all duration-300
-    hover:bg-slate-800
-    hover:-translate-y-0.5
-    hover:shadow-xl">
+                            px-7 py-4
+                            rounded-2xl
+                            bg-slate-700
+                            text-white
+                            font-bold
+                            shadow-lg
+                            transition-all duration-300
+                            hover:bg-slate-800
+                            hover:-translate-y-0.5
+                            hover:shadow-xl">
 
                             <i class="fa-solid fa-bell-slash"></i>
 
@@ -223,7 +223,6 @@
 
     <!-- CONTENT -->
     <section class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-12">
-
         <!-- STATS -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 -mt-24 relative z-10 mb-10">
 
@@ -572,23 +571,6 @@
 
 
                 @endforelse
-
-            </div>
-            <!-- EMPTY -->
-
-            <div id="emptyDocumentResult" class="hidden col-span-full py-16 text-center">
-
-                <div class="w-20 h-20 mx-auto rounded-full bg-red-50 flex items-center justify-center">
-                    <i class="fa-solid fa-magnifying-glass text-3xl text-red-500"></i>
-                </div>
-
-                <h3 class="mt-5 text-xl font-black text-slate-800">
-                    Không tìm thấy tài liệu
-                </h3>
-
-                <p class="mt-2 text-sm text-slate-500">
-                    Không có tài liệu nào phù hợp với từ khóa bạn nhập.
-                </p>
 
             </div>
 

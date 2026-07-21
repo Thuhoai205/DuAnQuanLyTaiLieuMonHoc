@@ -278,6 +278,7 @@ font-['Roboto',_sans-serif]">
                             Tài liệu yêu thích
 
                         </a>
+                        @if($roleId == 3)
                         <a href="{{ route('subjects.following') }}"
                             class="flex items-center gap-3 px-5 py-3 hover:bg-slate-50 font-medium text-slate-700 text-sm transition">
 
@@ -288,8 +289,9 @@ font-['Roboto',_sans-serif]">
                         </a>
 
 
-
+                        @endif
                         <!-- MY DOCUMENT -->
+                        @if($roleId == 2)
                         @if($canUploadDocument && Route::has('documents.my-documents'))
 
                         <a href="{{ route('documents.my-documents') }}"
@@ -302,7 +304,7 @@ font-['Roboto',_sans-serif]">
                         </a>
 
                         @endif
-
+                        @endif
                         <!-- ADMIN -->
                         @if($roleId == 1)
 

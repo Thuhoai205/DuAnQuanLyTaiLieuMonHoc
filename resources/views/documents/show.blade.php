@@ -758,12 +758,11 @@
                         <div class="flex gap-4">
 
                             {{-- Avatar --}}
-                            <div
-                                class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
-
-                                {{ strtoupper(substr(Auth::user()->full_name,0,1)) }}
-
-                            </div>
+                            <img src="{{ Auth::user()->avatar
+        ? asset('storage/' . Auth::user()->avatar)
+        : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->full_name) . '&background=1e293b&color=fbbf24' }}"
+                                alt="{{ Auth::user()->full_name }}"
+                                class="h-12 w-12 shrink-0 rounded-full object-cover border border-slate-200">
 
                             <div class="flex-1">
 
@@ -815,12 +814,11 @@
                             <div class="flex gap-4">
 
                                 {{-- Avatar --}}
-                                <div
-                                    class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg font-bold text-amber-600">
-
-                                    {{ strtoupper(substr($comment->user->full_name,0,1)) }}
-
-                                </div>
+                                <img src="{{ $comment->user->avatar
+        ? asset('storage/' . $comment->user->avatar)
+        : 'https://ui-avatars.com/api/?name=' . urlencode($comment->user->full_name) }}"
+                                    alt="{{ $comment->user->full_name }}"
+                                    class="h-12 w-12 shrink-0 rounded-full object-cover border border-slate-200">
 
                                 <div class="flex-1">
 
@@ -987,13 +985,11 @@
 
                                             <div class="flex items-start gap-3">
 
-                                                <div
-                                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100 font-bold text-blue-700">
-
-                                                    {{ strtoupper(substr($reply->user->full_name,0,1)) }}
-
-                                                </div>
-
+                                                <img src="{{ $reply->user->avatar
+        ? asset('storage/' . $reply->user->avatar)
+        : 'https://ui-avatars.com/api/?name=' . urlencode($reply->user->full_name) . '&background=1d4ed8&color=ffffff' }}"
+                                                    alt="{{ $reply->user->full_name }}"
+                                                    class="h-10 w-10 shrink-0 rounded-full object-cover border border-slate-200">
                                                 <div class="flex-1">
 
                                                     <div class="flex items-start justify-between">

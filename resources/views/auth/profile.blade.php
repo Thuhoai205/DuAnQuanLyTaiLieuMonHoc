@@ -496,7 +496,7 @@ py-8">
                                 </div>
 
                             </div>
-                            @if(Auth::user()->role->role_name !=='1')
+                            @if(Auth::user()->role->role_name !=='admin')
                             <div>
                                 <label class="block mb-2 text-xs uppercase tracking-wider font-bold text-slate-500">
                                     Khoa

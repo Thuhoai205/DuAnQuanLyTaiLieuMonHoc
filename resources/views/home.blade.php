@@ -1847,7 +1847,7 @@ REGISTER -->
             <!-- FACULTY -->
             <!-- ========================= -->
 
-            <a href="{{ route('faculties.index') }}" class="group
+            <a href="#" class="group
             quick-card
             relative
             overflow-hidden
@@ -1927,21 +1927,6 @@ REGISTER -->
 
                         </span>
 
-                        <div class="w-11
-                        h-11
-                        rounded-full
-                        bg-slate-100
-                        flex
-                        items-center
-                        justify-center
-                        transition-all
-                        duration-300
-                        group-hover:bg-amber-500
-                        group-hover:text-white">
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </div>
 
                     </div>
 
@@ -1953,7 +1938,7 @@ REGISTER -->
             <!-- SUBJECT -->
             <!-- ========================= -->
 
-            <a href="{{ route('subjects.index') }}" class="group
+            <a href="#" class="group
             quick-card
             relative
             overflow-hidden
@@ -2034,21 +2019,7 @@ REGISTER -->
 
                         </span>
 
-                        <div class="w-11
-                        h-11
-                        rounded-full
-                        bg-slate-100
-                        flex
-                        items-center
-                        justify-center
-                        transition-all
-                        duration-300
-                        group-hover:bg-amber-500
-                        group-hover:text-white">
 
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </div>
 
                     </div>
 
@@ -2059,7 +2030,7 @@ REGISTER -->
             <!-- DOCUMENT -->
             <!-- ========================= -->
 
-            <a href="{{ route('documents.index') }}" class="group
+            <a href="#" class="group
             quick-card
             relative
             overflow-hidden
@@ -2143,21 +2114,6 @@ REGISTER -->
 
                         </span>
 
-                        <div class="w-11
-                        h-11
-                        rounded-full
-                        bg-slate-100
-                        flex
-                        items-center
-                        justify-center
-                        transition-all
-                        duration-300
-                        group-hover:bg-amber-500
-                        group-hover:text-white">
-
-                            <i class="fa-solid fa-arrow-right"></i>
-
-                        </div>
 
                     </div>
 
@@ -2838,7 +2794,6 @@ REGISTER -->
     <div class="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-8 mt-14 items-start">
 
         <!-- ================= LEFT ================= -->
-        <!-- ================= LEFT ================= -->
         <div class="flex flex-col h-full">
 
             <!-- HEADER -->
@@ -2907,15 +2862,10 @@ REGISTER -->
                         <!-- INFO -->
                         <div class="min-w-0 flex-1">
 
-                            <h3 class="truncate
-                        text-lg
-                        font-semibold
-                        text-slate-800
-                        transition-colors
-                        group-hover:text-amber-500">
-
+                            <h3 class="block w-full overflow-hidden text-ellipsis whitespace-nowrap
+    text-lg font-semibold text-slate-800
+    transition-colors group-hover:text-amber-500" title="{{ $document->title }}">
                                 {{ $document->title }}
-
                             </h3>
 
                             <div class="mt-3 flex flex-wrap gap-2">
@@ -3158,7 +3108,7 @@ REGISTER -->
 
                     </div>
 
-                    @if($topDocument->count())
+                    @if($topDocument)
 
                     <!-- TOP DOCUMENT -->
                     <a href="{{ route('documents.show',$topDocument->first()->document_id) }}" class="col-span-2
