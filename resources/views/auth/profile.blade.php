@@ -400,134 +400,110 @@ py-8">
                         @csrf
                         @method('PUT')
 
-                        <div class="grid
-                            grid-cols-1
-                            md:grid-cols-2
-                            gap-5">
+                        <div class="grid md:grid-cols-2 gap-5">
 
                             <!-- Họ tên -->
-
                             <div>
 
-                                <label class="block
-                                    mb-2
-                                    text-xs
-                                    uppercase
-                                    tracking-wider
-                                    font-bold
-                                    text-slate-500">
-
+                                <label class="block mb-2 text-xs uppercase tracking-wider font-bold text-slate-500">
                                     Họ và tên
-
                                 </label>
 
                                 <div class="relative">
 
-                                    <i class="fa-solid fa-user
-                                        absolute
-                                        left-5
-                                        top-1/2
-                                        -translate-y-1/2
-                                        text-slate-400">
-                                    </i>
+                                    <div
+                                        class="absolute left-0 top-0 h-12 w-12 flex items-center justify-center text-slate-400">
+                                        <i class="fa-solid fa-user"></i>
+                                    </div>
 
                                     <input type="text" name="full_name" value="{{ Auth::user()->full_name }}" class="w-full
-                                        h-12
-                                        rounded-xl
-                                        border
-                                        border-slate-200
-                                        bg-slate-50
-                                        pl-12
-                                        pr-4
-                                        text-sm
-                                        font-medium
-                                        text-slate-700
-                                        focus:outline-none
-                                        focus:border-amber-400
-                                        focus:ring-4
-                                        focus:ring-amber-100">
+                h-12
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-50
+                pl-12
+                pr-4
+                text-sm
+                font-medium
+                text-slate-700
+                focus:outline-none
+                focus:border-amber-400
+                focus:ring-4
+                focus:ring-amber-100">
 
                                 </div>
 
                             </div>
 
                             <!-- Email -->
-
                             <div>
 
-                                <label class="block
-                                    mb-2
-                                    text-xs
-                                    uppercase
-                                    tracking-wider
-                                    font-bold
-                                    text-slate-500">
-
+                                <label class="block mb-2 text-xs uppercase tracking-wider font-bold text-slate-500">
                                     Email
-
                                 </label>
 
                                 <div class="relative">
 
-                                    <i class="fa-solid fa-envelope
-                                        absolute
-                                        left-5
-                                        top-1/2
-                                        -translate-y-1/2
-                                        text-slate-400">
-                                    </i>
+                                    <div
+                                        class="absolute left-0 top-0 h-12 w-12 flex items-center justify-center text-slate-400">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </div>
 
                                     <input type="email" name="email" value="{{ Auth::user()->email }}" class="w-full
-                                        h-12
-                                        rounded-xl
-                                        border
-                                        border-slate-200
-                                        bg-slate-50
-                                        pl-12
-                                        pr-4
-                                        text-sm
-                                        font-medium
-                                        text-slate-700
-                                        focus:outline-none
-                                        focus:border-amber-400
-                                        focus:ring-4
-                                        focus:ring-amber-100">
+                h-12
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-50
+                pl-12
+                pr-4
+                text-sm
+                font-medium
+                text-slate-700
+                focus:outline-none
+                focus:border-amber-400
+                focus:ring-4
+                focus:ring-amber-100">
 
                                 </div>
 
                             </div>
-                            @if(Auth::user()->role->role_name !=='admin')
+
+                            @if(Auth::user()->role->role_name !== 'admin')
                             <div>
+
                                 <label class="block mb-2 text-xs uppercase tracking-wider font-bold text-slate-500">
                                     Khoa
                                 </label>
 
                                 <div class="relative">
 
-                                    <i class="fa-solid fa-building-columns
-                                                absolute
-                                                left-5
-                                                top-1/2
-                                                -translate-y-1/2
-                                                text-slate-400"></i>
+                                    <div
+                                        class="absolute left-0 top-0 h-12 w-12 flex items-center justify-center text-slate-400">
+                                        <i class="fa-solid fa-building-columns"></i>
+                                    </div>
 
                                     <input type="text"
                                         value="{{ Auth::user()->faculty?->faculty_name ?? 'Chưa có khoa' }}" readonly
                                         disabled class="w-full
-                                    h-12
-                                    rounded-xl
-                                    border
-                                    border-slate-200
-                                    bg-slate-100
-                                    pl-12
-                                    pr-4
-                                    text-sm
-                                    font-medium
-                                    text-slate-700
-                                    cursor-not-allowed">
+                h-12
+                rounded-xl
+                border
+                border-slate-200
+                bg-slate-100
+                pl-12
+                pr-4
+                text-sm
+                font-medium
+                text-slate-700
+                cursor-not-allowed">
+
                                 </div>
+
                             </div>
                             @endif
+
                         </div>
 
                         <div class="flex justify-end">

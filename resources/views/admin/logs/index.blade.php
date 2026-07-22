@@ -92,21 +92,11 @@
                 <option value="">Tất cả hoạt động</option>
 
                 <option value="login" @selected(request('action')=='login' )>
-
                     Đăng nhập
-
                 </option>
 
                 <option value="logout" @selected(request('action')=='logout' )>
-
                     Đăng xuất
-
-                </option>
-
-                <option value="register" @selected(request('action')=='register' )>
-
-                    Đăng ký
-
                 </option>
 
             </select>
@@ -214,20 +204,15 @@
 
                     $name = $user->full_name ?? 'Hệ thống';
 
-                    if($log->login_at && !$log->logout_at){
+                    if ($log->login_at) {
 
-                    $action='Đăng nhập';
-                    $badge='bg-emerald-50 text-emerald-600 border border-emerald-100';
+                    $action = 'Đăng nhập';
+                    $badge = 'bg-emerald-50 text-emerald-600 border border-emerald-100';
 
-                    }elseif($log->logout_at){
+                    } else {
 
-                    $action='Đăng xuất';
-                    $badge='bg-orange-50 text-orange-600 border border-orange-100';
-
-                    }else{
-
-                    $action='Đăng ký';
-                    $badge='bg-sky-50 text-sky-600 border border-sky-100';
+                    $action = 'Đăng xuất';
+                    $badge = 'bg-orange-50 text-orange-600 border border-orange-100';
 
                     }
 
@@ -574,6 +559,8 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
+    const baseUrl = "{{ route('admin.logs.index') }}"; // không dùng form.action nữa
+
     const form = document.getElementById('logsFilterForm');
     const keyword = document.getElementById('keywordInput');
     const action = document.getElementById('actionSelect');
@@ -599,7 +586,7 @@ document.addEventListener('DOMContentLoaded', function() {
             params.append('page', page);
         }
 
-        return form.action + (params.toString() ? '?' + params.toString() : '');
+        return baseUrl + (params.toString() ? '?' + params.toString() : '');
 
     }
 
@@ -630,6 +617,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     history.pushState({}, '', url);
 
                 }
+
+            })
+            .catch(err => {
+
+                console.error('Lỗi tải nhật ký:', err);
 
             })
             .finally(() => {
@@ -682,7 +674,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         form.reset();
 
-        load(form.action);
+        load(baseUrl);
 
     });
 

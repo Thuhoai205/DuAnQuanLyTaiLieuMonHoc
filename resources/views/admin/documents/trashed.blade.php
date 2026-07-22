@@ -199,21 +199,7 @@
 
                             </form>
 
-                            <!-- Force Delete -->
-                            <form action="{{ route('admin.documents.forceDelete',$document->document_id) }}"
-                                method="POST">
 
-                                @csrf
-                                @method('DELETE')
-
-                                <button onclick="return confirm('Bạn có chắc muốn xóa vĩnh viễn tài liệu này?')"
-                                    class="h-9 px-3 rounded-md bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition">
-
-                                    <i class="fa-solid fa-trash"></i>
-
-                                </button>
-
-                            </form>
 
                         </div>
 

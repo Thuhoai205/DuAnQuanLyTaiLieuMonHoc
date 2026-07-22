@@ -180,7 +180,7 @@ public function store(Request $request)
             'Đã xóa vĩnh viễn khoa.'
         );
     }
-    public function destroy($id)
+  public function destroy($id)
 {
     $faculty = Faculty::findOrFail($id);
 
@@ -188,54 +188,37 @@ public function store(Request $request)
         ->where('status', 'active')
         ->exists();
 
+    // Còn môn học hoạt động -> không xóa được, chuyển sang khóa
     if ($hasActiveSubject) {
+
+        $faculty->update(['is_active' => false]);
+
         return response()->json([
-            'success' => false,
-            'message' => 'Không thể xóa khoa vì vẫn còn môn học đang hoạt động.'
-        ], 422);
+            'success' => true,
+            'action'  => 'archived',
+            'message' => 'Khoa vẫn còn môn học đang hoạt động nên không thể xóa. Hệ thống đã khóa khoa thay thế.',
+        ]);
     }
 
     $faculty->delete();
 
     return response()->json([
-        'success'       => true,
-        'message'       => 'Đã chuyển khoa vào thùng rác.',
-        'trashedCount'  => Faculty::onlyTrashed()->count(),
+        'success'      => true,
+        'action'       => 'deleted',
+        'message'      => 'Đã chuyển khoa vào thùng rác.',
+        'trashedCount' => Faculty::onlyTrashed()->count(),
     ]);
 }
 public function toggleStatus($id)
 {
     $faculty = Faculty::findOrFail($id);
 
-    // Đang hoạt động -> muốn khóa
-    if ($faculty->is_active) {
-
-        $hasActiveSubject = $faculty->subjects()
-            ->whereNull('deleted_at')
-            ->where('status', 'active')
-            ->exists();
-
-        if ($hasActiveSubject) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Không thể khóa khoa vì vẫn còn môn học đang hoạt động.'
-            ], 422);
-        }
-
-        $faculty->is_active = false;
-    }
-
-    // Đang khóa -> mở khóa
-    else {
-
-        $faculty->is_active = true;
-    }
-
+    $faculty->is_active = !$faculty->is_active;
     $faculty->save();
 
     return response()->json([
         'success' => true,
-        'status' => $faculty->is_active
+        'status'  => $faculty->is_active,
     ]);
 }
 }

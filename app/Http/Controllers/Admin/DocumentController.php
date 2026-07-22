@@ -81,11 +81,9 @@ class DocumentController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        $subjects = Subject::where(
-            'status',
-            'active'
-        )->get();
-
+       $subjects = Subject::where('status', 'active')
+    ->orderBy('subject_name')
+    ->get();
         $documentTypes = DocumentType::where(
             'is_active',
             true

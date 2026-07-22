@@ -296,32 +296,7 @@
 
                             </form>
 
-                            <!-- XÓA VĨNH VIỄN -->
-                            <form action="{{ route('admin.document-types.forceDelete', $type->document_type_id) }}"
-                                method="POST" class="force-delete-form">
 
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit"
-                                    onclick="return confirm('Bạn có chắc muốn xóa vĩnh viễn loại tài liệu này?')" class="inline-flex
-                items-center
-                justify-center
-                w-10
-                h-10
-                rounded-xl
-                bg-red-50
-                text-red-600
-                hover:bg-red-500
-                hover:text-white
-                transition-all
-                duration-300">
-
-                                    <i class="fa-solid fa-trash"></i>
-
-                                </button>
-
-                            </form>
 
                         </div>
 

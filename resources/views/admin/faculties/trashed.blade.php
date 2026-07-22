@@ -241,30 +241,7 @@
 
                             </form>
 
-                            <!-- Xóa vĩnh viễn -->
-                            <form action="{{ route('admin.faculties.forceDelete', $faculty->faculty_id) }}"
-                                method="POST">
 
-                                @csrf
-                                @method('DELETE')
-
-                                <button type="submit"
-                                    onclick="return confirm('Bạn có chắc muốn xóa vĩnh viễn khoa này?')" class="w-10 h-10
-                                    rounded-xl
-                                    border border-red-200
-                                    bg-red-50
-                                    text-red-600
-                                    hover:bg-red-500
-                                    hover:text-white
-                                    hover:border-red-500
-                                    transition-all duration-300
-                                    flex items-center justify-center">
-
-                                    <i class="fa-solid fa-trash"></i>
-
-                                </button>
-
-                            </form>
 
                         </div>
 

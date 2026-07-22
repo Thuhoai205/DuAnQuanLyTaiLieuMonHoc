@@ -12,6 +12,11 @@ class LogController extends Controller
     public function index(Request $request)
 {
     $query = ActivityLog::with('user')
+        ->where(function ($q) {
+            // Chỉ lấy log đăng nhập hoặc đăng xuất, bỏ hẳn log đăng ký
+            $q->whereNotNull('login_at')
+              ->orWhereNotNull('logout_at');
+        })
         ->orderByDesc('created_at');
 
     // ======================
@@ -32,25 +37,18 @@ class LogController extends Controller
     }
 
     // ======================
-    // FILTER ACTION (FIX CHUẨN)
+    // FILTER ACTION
     // ======================
     if ($request->filled('action')) {
 
         switch ($request->action) {
 
             case 'login':
-                $query->whereNotNull('login_at')
-                      ->whereNull('logout_at');
+                $query->whereNotNull('login_at');
                 break;
 
             case 'logout':
                 $query->whereNotNull('logout_at');
-                break;
-
-            case 'register':
-                $query->whereNull('login_at')
-                      ->whereNull('logout_at')
-                      ->whereNull('user_id'); // thêm chặt hơn (system register fix)
                 break;
         }
     }
@@ -62,13 +60,14 @@ class LogController extends Controller
 
     return view('admin.logs.index', [
         'logs' => $logs,
-        'totalLogs' => ActivityLog::count(),
+        'totalLogs' => ActivityLog::where(function ($q) {
+            $q->whereNotNull('login_at')->orWhereNotNull('logout_at');
+        })->count(),
         'totalLoginLogs' => ActivityLog::whereNotNull('login_at')->count(),
         'totalLogoutLogs' => ActivityLog::whereNotNull('logout_at')->count(),
         'unreadLogsCount' => 0,
     ]);
 }
-
     public function markAllAsRead()
     {
         // Bảng activity_logs hiện tại không có cột is_read

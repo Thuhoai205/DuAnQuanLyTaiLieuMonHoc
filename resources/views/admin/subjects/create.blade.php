@@ -307,7 +307,7 @@ $previewColor = $colorMap[old('color', 'blue')] ?? 'sky';
 
                             </label>
 
-                            <select name="faculty_id" class="w-full
+                            <select id="facultySelect" name="faculty_id" class="w-full 
             mt-2
             h-12
             px-4
@@ -825,6 +825,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /*
     |--------------------------------------------------------------------------
+    | SHARED ELEMENTS
+    |--------------------------------------------------------------------------
+    */
+
+    const facultySelect = document.getElementById('facultySelect');
+    const teacherList = document.getElementById('teacher-list');
+
+    /*
+    |--------------------------------------------------------------------------
     | ICON PREVIEW
     |--------------------------------------------------------------------------
     */
@@ -849,12 +858,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /*
     |--------------------------------------------------------------------------
-    | TEACHER SEARCH
+    | TEACHER SEARCH + COUNT (delegation vì list bị thay động)
     |--------------------------------------------------------------------------
     */
 
     const searchInput = document.getElementById('teacher-search');
-    const items = document.querySelectorAll('.teacher-item');
+    const selectedTeacherCard = document.getElementById('selectedTeacherCard');
 
     function removeVietnameseTones(str) {
 
@@ -867,13 +876,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
+    function updateSelectedCount() {
+
+        if (!selectedTeacherCard) return;
+
+        const count = document.querySelectorAll('input[name="teacher_ids[]"]:checked').length;
+
+        selectedTeacherCard.textContent = count;
+
+    }
+
     if (searchInput) {
 
         searchInput.addEventListener('input', function() {
 
             const keyword = removeVietnameseTones(this.value);
 
-            items.forEach(item => {
+            document.querySelectorAll('.teacher-item').forEach(item => {
 
                 const name = removeVietnameseTones(
                     item.querySelector('.teacher-name').textContent
@@ -884,15 +903,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 );
 
                 item.style.display =
-                    (name.includes(keyword) || email.includes(keyword)) ?
-                    'flex' :
-                    'none';
+                    (name.includes(keyword) || email.includes(keyword)) ? 'flex' : 'none';
 
             });
 
         });
 
     }
+
+    // Delegation cho checkbox - list bị thay động nên gắn vào container cha ổn định
+    if (teacherList) {
+
+        teacherList.addEventListener('change', function(e) {
+
+            if (e.target.matches('input[name="teacher_ids[]"]')) {
+
+                updateSelectedCount();
+
+            }
+
+        });
+
+    }
+
+    updateSelectedCount(); // tính số lượng ban đầu (trường hợp có old() khi validate lỗi)
 
     /*
     |--------------------------------------------------------------------------
@@ -937,6 +971,106 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     });
+
+    /*
+    |--------------------------------------------------------------------------
+    | FILTER TEACHERS BY FACULTY (AJAX)
+    |--------------------------------------------------------------------------
+    */
+
+    function renderTeacherList(teachers) {
+
+        teacherList.innerHTML = '';
+
+        if (!teachers.length) {
+
+            teacherList.innerHTML = `
+                <p class="px-4 py-6 text-sm text-center text-slate-400">
+                    Khoa này chưa có giảng viên nào.
+                </p>
+            `;
+
+            return;
+
+        }
+
+        teachers.forEach(function(t) {
+
+            const label = document.createElement('label');
+
+            label.className =
+                'teacher-item flex items-center gap-3 px-4 py-3 border-b last:border-b-0 hover:bg-amber-50 cursor-pointer transition-all';
+
+            label.innerHTML = `
+                <input type="checkbox" name="teacher_ids[]" value="${t.user_id}" class="w-4 h-4 accent-amber-500">
+                <div class="min-w-0">
+                    <p class="teacher-name text-sm font-bold text-slate-800 truncate">${t.full_name}</p>
+                    <p class="teacher-email text-xs text-slate-500 truncate">${t.email}</p>
+                </div>
+            `;
+
+            teacherList.appendChild(label);
+
+        });
+
+    }
+
+    if (facultySelect && teacherList) {
+
+        facultySelect.addEventListener('change', function() {
+
+            const facultyId = this.value;
+
+            if (!facultyId) {
+
+                teacherList.innerHTML = `
+                    <p class="px-4 py-6 text-sm text-center text-slate-400">
+                        Vui lòng chọn khoa để xem danh sách giảng viên.
+                    </p>
+                `;
+
+                if (selectedTeacherCard) selectedTeacherCard.textContent = 0;
+
+                return;
+
+            }
+
+            teacherList.innerHTML = `
+                <p class="px-4 py-6 text-sm text-center text-slate-400">
+                    Đang tải danh sách giảng viên...
+                </p>
+            `;
+
+            fetch(`{{ url('/admin/faculties') }}/${facultyId}/teachers`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(res => res.json())
+                .then(teachers => {
+
+                    renderTeacherList(teachers);
+
+                    if (searchInput) searchInput.value = '';
+
+                    updateSelectedCount();
+
+                })
+                .catch(err => {
+
+                    console.error(err);
+
+                    teacherList.innerHTML = `
+                        <p class="px-4 py-6 text-sm text-center text-red-400">
+                            Không thể tải danh sách giảng viên.
+                        </p>
+                    `;
+
+                });
+
+        });
+
+    }
 
 });
 </script>

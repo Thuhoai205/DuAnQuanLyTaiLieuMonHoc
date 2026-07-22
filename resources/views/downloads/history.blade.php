@@ -162,7 +162,7 @@
 
                                     <i class="fa-solid fa-download"></i>
 
-                                    Tải lại
+                                    Tải
 
                                 </a>
 

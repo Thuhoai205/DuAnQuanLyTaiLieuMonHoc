@@ -166,7 +166,7 @@
 
                     <option value="">Tất cả môn học</option>
 
-                    @foreach($documents as $subject)
+                    @foreach($subjects as $subject)
 
                     <option value="{{ $subject->subject_code }}" @selected(request('subject_code')==$subject->
                         subject_code)>
@@ -999,11 +999,13 @@
 @endsection
 @push('scripts')
 <script>
-const form = document.getElementById('filter-form');
+function getForm() {
+    return document.getElementById('filter-form');
+}
 
 async function load(url = null) {
 
-    const params = new URLSearchParams(new FormData(form));
+    const params = new URLSearchParams(new FormData(getForm()));
 
     const requestUrl = url ??
         "{{ route('admin.documents.index') }}?" + params.toString();
@@ -1038,30 +1040,6 @@ async function load(url = null) {
     }
 
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    const resetBtn = document.getElementById('btnReset');
-
-    form.addEventListener('submit', function(e) {
-
-        e.preventDefault();
-
-        load();
-
-    });
-
-    resetBtn.addEventListener('click', function(e) {
-
-        e.preventDefault();
-
-        form.reset();
-
-        load("{{ route('admin.documents.index') }}");
-
-    });
-
-});
 
 async function deleteDocument(id, btn) {
 
@@ -1137,17 +1115,66 @@ async function toggleStatus(id, btn) {
     }
 
 }
+
+/*
+|--------------------------------------------------------------------------
+| EVENT DELEGATION
+| Gắn 1 lần duy nhất vào document, không bị mất khi #documents-area
+| bị thay innerHTML sau mỗi lần load().
+|--------------------------------------------------------------------------
+*/
+
 document.addEventListener('DOMContentLoaded', function() {
 
-    const buttons = document.querySelectorAll('.action-btn');
+    // Submit filter form (delegation vì form cũng bị thay thế sau mỗi load)
+    document.addEventListener('submit', function(e) {
 
-    buttons.forEach(button => {
+        if (e.target.id === 'filter-form') {
 
-        button.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            load();
+
+        }
+
+    });
+
+    // Reset filter
+    document.addEventListener('click', function(e) {
+
+        if (e.target.id === 'btnReset') {
+
+            e.preventDefault();
+
+            getForm().reset();
+
+            load("{{ route('admin.documents.index') }}");
+
+            return;
+
+        }
+
+        // Pagination (ajax-subject-page)
+        const pageLink = e.target.closest('.ajax-subject-page');
+
+        if (pageLink) {
+
+            e.preventDefault();
+
+            load(pageLink.href);
+
+            return;
+
+        }
+
+        // Toggle action menu (nút ba chấm)
+        const actionBtn = e.target.closest('.action-btn');
+
+        if (actionBtn) {
 
             e.stopPropagation();
 
-            const id = this.dataset.id;
+            const id = actionBtn.dataset.id;
 
             document.querySelectorAll('[id^="action-menu-"]').forEach(menu => {
 
@@ -1161,12 +1188,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 .getElementById('action-menu-' + id)
                 .classList.toggle('hidden');
 
-        });
+            return;
 
-    });
+        }
 
-    document.addEventListener('click', function() {
-
+        // Click ra ngoài -> đóng hết menu đang mở
         document.querySelectorAll('[id^="action-menu-"]').forEach(menu => {
 
             menu.classList.add('hidden');

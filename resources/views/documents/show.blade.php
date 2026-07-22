@@ -7,7 +7,7 @@
 <main class="min-h-screen  py-12">
 
     <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-        <a href="javascript:history.back()" class="inline-flex items-center gap-2
+        <a href="{{ route('documents.index') }}" class="inline-flex items-center gap-2
             px-5 py-2.5
             rounded-xl
 

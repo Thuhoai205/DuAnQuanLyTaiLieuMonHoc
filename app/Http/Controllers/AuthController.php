@@ -152,21 +152,18 @@ public function profile()
     $user = Auth::user();
 
     $request->validate([
-        'full_name'  => 'required|string|max:100',
-        'email'      => 'required|email|max:100|unique:users,email,' . $user->user_id . ',user_id',
-        'faculty_id' => 'nullable|exists:faculties,faculty_id',
+        'full_name' => 'required|string|max:100',
+        'email'     => 'required|email|max:100|unique:users,email,' . $user->user_id . ',user_id',
     ], [
-        'full_name.required'  => 'Vui lòng nhập họ tên.',
-        'email.required'      => 'Vui lòng nhập email.',
-        'email.email'         => 'Email không hợp lệ.',
-        'email.unique'        => 'Email đã tồn tại.',
-        'faculty_id.exists'   => 'Khoa không tồn tại.',
+        'full_name.required' => 'Vui lòng nhập họ tên.',
+        'email.required'     => 'Vui lòng nhập email.',
+        'email.email'        => 'Email không hợp lệ.',
+        'email.unique'       => 'Email đã tồn tại.',
     ]);
 
     $user->update([
-        'full_name'  => $request->full_name,
-        'email'      => $request->email,
-        'faculty_id' => $request->faculty_id,
+        'full_name' => $request->full_name,
+        'email'     => $request->email,
     ]);
 
     return back()->with('success', 'Cập nhật thông tin thành công!');

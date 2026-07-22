@@ -791,50 +791,39 @@ async function deleteFaculty(id) {
     try {
 
         const response = await fetch(`/admin/faculties/${id}`, {
-
             method: "DELETE",
-
             headers: {
-
                 "X-CSRF-TOKEN": "{{ csrf_token() }}",
-
                 "X-Requested-With": "XMLHttpRequest",
-
                 "Accept": "application/json"
-
             }
-
         });
-
-        if (!response.ok) {
-            throw new Error("Delete failed");
-        }
 
         const data = await response.json();
 
-        if (!data.success) {
+        if (!response.ok || !data.success) {
 
-            alert(data.message);
+            alert(data.message ?? "Không thể xóa khoa.");
 
             return;
 
         }
 
+        // Luôn load lại danh sách, vì dù archived hay deleted, dữ liệu đều đã thay đổi
         loadFaculties(window.location.href);
 
-        const badge = document.getElementById("trash-count");
+        // Thông báo rõ hành động thực tế đã xảy ra
+        alert(data.message);
 
-        if (badge) {
+        if (data.action === 'deleted') {
 
-            badge.textContent = data.trashedCount;
+            const badge = document.getElementById("trash-count");
 
-            if (data.trashedCount > 0) {
+            if (badge) {
 
-                badge.classList.remove("hidden");
+                badge.textContent = data.trashedCount;
 
-            } else {
-
-                badge.classList.add("hidden");
+                badge.classList.toggle("hidden", data.trashedCount <= 0);
 
             }
 
@@ -849,8 +838,6 @@ async function deleteFaculty(id) {
     }
 
 }
-
-
 
 // =====================================================
 // TOGGLE STATUS
